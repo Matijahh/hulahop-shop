@@ -9,7 +9,7 @@ import indexRoutes from "./routes";
 import ErrorBoundary from "./boundaries/GlobalErrorBoundary";
 import "./assets/sass/style.scss";
 import "react-toastify/dist/ReactToastify.css";
-import NotFound from "./views/NotFound/index";
+import NotFound from "./views/NotFound";
 import i18next from "i18next";
 import { axiosInstance } from "./utils/axiosInstance";
 import { get } from "lodash";
