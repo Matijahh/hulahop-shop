@@ -68,8 +68,7 @@ const AboutPlatForm = () => {
             <div className="row">
               <div className="col-12">
                 <div className="hero-section">
-                  {/* <h3 className="banner-head m-0">{t("More About Hulahop")}</h3> */}
-                  <h3 className="banner-head m-0">{"Hulahop"}</h3>
+                  <h3 className="banner-head m-0">{t("More About Hulahop")}</h3>
                 </div>
               </div>
               <div className="col-12">
