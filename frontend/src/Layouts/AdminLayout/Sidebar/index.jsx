@@ -7,7 +7,7 @@ import cx from "classnames";
 import { SidebarContainer } from "./styled";
 import { SidebarTabList } from "./mock";
 
-import Logo from "../../../assets/Images/logo.png";
+import Logo from "../../../assets/images/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { handlePublicRedirection } from "../../../utils/commonFunctions";
 import { ROUTE_MAIN } from "../../../routes/routes";
