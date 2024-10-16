@@ -13,7 +13,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import { Container, SignInContainer } from "./styled";
 import { FlexBox } from "../../../components/Sections";
 import logo from "../../../assets/images/logo.png";
-import { commonAddUpdateQuery } from "../../../Utils/axiosInstance";
+import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
 import { SuccessTaster } from "../../../components/Toast";
 // import Toast from "../../../components/Toast";
 

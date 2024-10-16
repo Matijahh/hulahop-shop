@@ -19,7 +19,7 @@ import { SignInContainer } from "./styled";
 import { ROUTE_MAIN, ROUTE_SIGN_IN } from "../../../routes/routes";
 
 import logo from "../../../assets/images/logo.png";
-import { commonAddUpdateQuery } from "../../../Utils/axiosInstance";
+import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
 import { SuccessTaster } from "../../../components/Toast";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";

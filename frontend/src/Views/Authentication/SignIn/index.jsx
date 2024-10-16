@@ -14,7 +14,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import { SignInContainer } from "./styled";
 import { FlexBox } from "../../../components/Sections";
 import { ROUTE_MAIN, ROUTE_SIGN_UP } from "../../../routes/routes";
-import { commonAddUpdateQuery } from "../../../Utils/axiosInstance";
+import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
 import { SuccessTaster } from "../../../components/Toast";
 import {
   handleRedirection,

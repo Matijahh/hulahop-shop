@@ -17,7 +17,7 @@ import {
 } from "../../../routes/routes";
 import { NestedDropdown } from "mui-nested-menu";
 import { connect } from "react-redux";
-import * as Action from "../../../Redux/actions";
+import * as Action from "../../../redux/actions";
 import { isEmpty, size } from "lodash";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { menuAboutProductData, menuItemsData } from "./mock";

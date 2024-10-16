@@ -14,7 +14,7 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
-import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../Utils/constant";
+import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import axios from "axios";
 import { Loader } from "../../../components/Loader";
 

@@ -6,7 +6,7 @@ import Header from "./Header";
 import {
   getUserType,
   handlePublicRedirection,
-} from "../../Utils/commonFunctions";
+} from "../../utils/commonFunctions";
 
 const PrivateLayout = ({ children }) => {
   return (

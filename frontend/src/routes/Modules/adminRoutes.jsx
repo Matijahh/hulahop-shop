@@ -39,47 +39,47 @@ import {
   ROUTE_ADMIN_APPEARANCE_BLOG_SLIDER_EDIT,
 } from "../routes";
 
-import AdminLayout from "../../Layouts/AdminLayout";
-import SignIn from "../../Views/Admin/Authentication/signIn";
+import AdminLayout from "../../layouts/AdminLayout";
+import SignIn from "../../views/Admin/Authentication/signIn";
 
-import Appearance from "../../Views/Admin/Appearance";
-import ShopSliderForm from "../../Views/Admin/Appearance/ShopSliderForm";
-import AboutSliderForm from "../../Views/Admin/Appearance/AboutSliderForm";
+import Appearance from "../../views/Admin/Appearance";
+import ShopSliderForm from "../../views/Admin/Appearance/ShopSliderForm";
+import AboutSliderForm from "../../views/Admin/Appearance/AboutSliderForm";
 
-import Associates from "../../Views/Admin/Associates";
+import Associates from "../../views/Admin/Associates";
 
-import Blog from "../../Views/Admin/Blog";
-import BlogForm from "../../Views/Admin/Blog/BlogForm";
+import Blog from "../../views/Admin/Blog";
+import BlogForm from "../../views/Admin/Blog/BlogForm";
 
-import Categories from "../../Views/Admin/Categories";
-import CategoriesForm from "../../Views/Admin/Categories/CategoriesForm";
+import Categories from "../../views/Admin/Categories";
+import CategoriesForm from "../../views/Admin/Categories/CategoriesForm";
 
-import Colors from "../../Views/Admin/Colors";
-import ColorsForm from "../../Views/Admin/Colors/ColorsForm";
+import Colors from "../../views/Admin/Colors";
+import ColorsForm from "../../views/Admin/Colors/ColorsForm";
 
-import Contact from "../../Views/Admin/Contact";
-import Dashboard from "../../Views/Admin/Dashboard";
-import Orders from "../../Views/Admin/Orders";
+import Contact from "../../views/Admin/Contact";
+import Dashboard from "../../views/Admin/Dashboard";
+import Orders from "../../views/Admin/Orders";
 
-import Products from "../../Views/Admin/Products";
-import ProductForm from "../../Views/Admin/Products/ProductForm";
+import Products from "../../views/Admin/Products";
+import ProductForm from "../../views/Admin/Products/ProductForm";
 
-import AssociateProducts from "../../Views/Admin/AssociatesProducts";
-import ViewProduct from "../../Views/Admin/AssociatesProducts/ViewProduct";
+import AssociateProducts from "../../views/Admin/AssociatesProducts";
+import ViewProduct from "../../views/Admin/AssociatesProducts/ViewProduct";
 
-import Reviews from "../../Views/Admin/Reviews";
-import RreturnedProducts from "../../Views/Admin/RreturnedProducts";
-import Users from "../../Views/Admin/Users";
-import Withdrawn from "../../Views/Admin/Withdrawn";
+import Reviews from "../../views/Admin/Reviews";
+import RreturnedProducts from "../../views/Admin/RreturnedProducts";
+import Users from "../../views/Admin/Users";
+import Withdrawn from "../../views/Admin/Withdrawn";
 
-import AboutProduct from "../../Views/Admin/AboutProduct";
-import AboutProductForm from "../../Views/Admin/AboutProduct/AboutProductForm";
+import AboutProduct from "../../views/Admin/AboutProduct";
+import AboutProductForm from "../../views/Admin/AboutProduct/AboutProductForm";
 
-import Announcements from "../../Views/Admin/Announcements";
-import AnnouncementsForm from "../../Views/Admin/Announcements/AnnouncementsForm";
-import Translation from "../../Views/Admin/Translation";
-import EditProduct from "../../Views/Admin/AssociatesProducts/EditProduct";
-import BlogSliderForm from "../../Views/Admin/Appearance/BlogSliderForm";
+import Announcements from "../../views/Admin/Announcements";
+import AnnouncementsForm from "../../views/Admin/Announcements/AnnouncementsForm";
+import Translation from "../../views/Admin/Translation";
+import EditProduct from "../../views/Admin/AssociatesProducts/EditProduct";
+import BlogSliderForm from "../../views/Admin/Appearance/BlogSliderForm";
 const routes = [
   {
     name: "Dashboard",

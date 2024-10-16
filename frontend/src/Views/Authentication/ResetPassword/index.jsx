@@ -14,7 +14,7 @@ import logo from "../../../assets/images/logo.png";
 import { ROUTE_MAIN, ROUTE_SIGN_IN } from "../../../routes/routes";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { axiosInstance } from "../../../Utils/axiosInstance";
+import { axiosInstance } from "../../../utils/axiosInstance";
 
 const validation = Yup.object().shape({
   password: Yup.string()

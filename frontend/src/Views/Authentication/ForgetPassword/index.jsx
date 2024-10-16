@@ -12,7 +12,7 @@ import { ForgetPasswordContainer } from "./styled";
 import { Col, Row } from "react-bootstrap";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { commonAddUpdateQuery } from "../../../Utils/axiosInstance";
+import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
 
 const validation = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),

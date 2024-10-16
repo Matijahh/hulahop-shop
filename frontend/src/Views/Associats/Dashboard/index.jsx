@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import * as Action from "../../../Redux/actions";
+import * as Action from "../../../redux/actions";
 import LineChartView from "../../../components/Charts/LineChartView";
 import { CommonWhiteBackground } from "../../../components/Sections";
 import { DashboardContainer } from "./styled";
 import { Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { commonGetQuery } from "../../../utils/axiosInstance";
-import { ACCESS_TOKEN } from "../../../Utils/constant";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
 

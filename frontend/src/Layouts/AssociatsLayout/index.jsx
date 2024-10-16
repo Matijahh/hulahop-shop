@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import {
   getUserType,
   handlePublicRedirection,
-} from "../../Utils/commonFunctions";
+} from "../../utils/commonFunctions";
 
 const SuperAdminLayout = (props) => {
   const { children } = props;

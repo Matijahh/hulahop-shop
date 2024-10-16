@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ModalComponent from "../ModalComponent";
-import SignIn from "../../Views/Authentication/SignIn";
+import SignIn from "../../views/Authentication/SignIn";
 import styled from "styled-components";
-import SignUp from "../../Views/Authentication/SignUp";
+import SignUp from "../../views/Authentication/SignUp";
 
 const SignInModalContainer = styled.div`
   .info-text {
@@ -31,11 +31,15 @@ const SignInModal = ({ open, handleClose }) => {
   };
 
   let RedirectUrl = window?.location?.href;
-  
+
   return (
     <ModalComponent handleClose={handleClose} open={open} size={"md"}>
       <SignInModalContainer>
-        {toggleAuth ? <SignIn RedirectUrl={RedirectUrl} maxWidth="465px" /> : <SignUp RedirectUrl={RedirectUrl} maxWidth="465px" />}
+        {toggleAuth ? (
+          <SignIn RedirectUrl={RedirectUrl} maxWidth="465px" />
+        ) : (
+          <SignUp RedirectUrl={RedirectUrl} maxWidth="465px" />
+        )}
         {toggleAuth ? (
           <div className="info-text">
             <span>Don't have an account?</span>

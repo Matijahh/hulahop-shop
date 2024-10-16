@@ -18,22 +18,22 @@ import {
   ROUTE_ASSOCIATE_BLOG_EDIT,
 } from "../routes";
 
-import Dashboard from "../../Views/Associats/Dashboard";
-import AssociatsLayout from "../../Layouts/AssociatsLayout";
-import Products from "../../Views/Associats/Products";
-import Orders from "../../Views/Associats/Orders";
-import ReturnedProducts from "../../Views/Associats/Returned Products";
-import Categories from "../../Views/Associats/Categories";
-import Settings from "../../Views/Associats/Settings";
-import CreateProduct from "../../Views/Associats/Products/CreateProduct";
-import EditProduct from "../../Views/Associats/Products/EditProduct";
-import Reviews from "../../Views/Associats/Reviews";
-import Announcements from "../../Views/Associats/Announcements";
-import Withdrawn from "../../Views/Associats/Withdrawn";
-import StoreLayout from "../../Views/Associats/StoreLayout";
-import OrderPreview from "../../Views/Associats/Orders/orderPreviewPage";
-import AssociateBlog from "../../Views/Associats/Blog";
-import AssociateBlogForm from "../../Views/Associats/Blog/BlogForm";
+import Dashboard from "../../views/Associats/Dashboard";
+import AssociatsLayout from "../../layouts/AssociatsLayout";
+import Products from "../../views/Associats/Products";
+import Orders from "../../views/Associats/Orders";
+import ReturnedProducts from "../../views/Associats/Returned Products";
+import Categories from "../../views/Associats/Categories";
+import Settings from "../../views/Associats/Settings";
+import CreateProduct from "../../views/Associats/Products/CreateProduct";
+import EditProduct from "../../views/Associats/Products/EditProduct";
+import Reviews from "../../views/Associats/Reviews";
+import Announcements from "../../views/Associats/Announcements";
+import Withdrawn from "../../views/Associats/Withdrawn";
+import StoreLayout from "../../views/Associats/StoreLayout";
+import OrderPreview from "../../views/Associats/Orders/orderPreviewPage";
+import AssociateBlog from "../../views/Associats/Blog";
+import AssociateBlogForm from "../../views/Associats/Blog/BlogForm";
 
 const routes = [
   {

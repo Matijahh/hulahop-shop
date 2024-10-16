@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AssociatsStoreLayoutContainer } from "./styled";
 import Header from "./Header";
 import Footer from "../PrivateLayout/Footer";
-import * as Action from "../../Redux/actions";
+import * as Action from "../../redux/actions";
 import { commonGetQuery } from "../../utils/axiosInstance";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";

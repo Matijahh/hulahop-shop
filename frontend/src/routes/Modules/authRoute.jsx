@@ -6,12 +6,12 @@ import {
   ROUTE_SIGN_UP,
 } from "../routes";
 
-import SignIn from "../../Views/Authentication/SignIn";
-import SignUp from "../../Views/Authentication/SignUp";
-import PublicLayout from "../../Layouts/PublicLayout";
-import AdminSignIn from "../../Views/Admin/Authentication/signIn";
-import ForgetPassword from "../../Views/Authentication/ForgetPassword";
-import ResetPassword from "../../Views/Authentication/ResetPassword";
+import SignIn from "../../views/Authentication/SignIn";
+import SignUp from "../../views/Authentication/SignUp";
+import PublicLayout from "../../layouts/PublicLayout";
+import AdminSignIn from "../../views/Admin/Authentication/signIn";
+import ForgetPassword from "../../views/Authentication/ForgetPassword";
+import ResetPassword from "../../views/Authentication/ResetPassword";
 
 const routes = [
   {

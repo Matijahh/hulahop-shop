@@ -4,11 +4,11 @@ import {
   ROUTE_PRIVACY_POLICY,
   ROUTE_RETURN_POLICY,
 } from "../routes";
-import PrivateLayout from "../../Layouts/PrivateLayout";
+import PrivateLayout from "../../layouts/PrivateLayout";
 
-const TermsOfUse = lazy(() => import("../../Views/Users/TermsOfUse"));
-const ReturnPolicy = lazy(() => import("../../Views/Users/ReturnPolicy"));
-const PrivacyPolicy = lazy(() => import("../../Views/Users/PrivacyPolicy"));
+const TermsOfUse = lazy(() => import("../../views/Users/TermsOfUse"));
+const ReturnPolicy = lazy(() => import("../../views/Users/ReturnPolicy"));
+const PrivacyPolicy = lazy(() => import("../../views/Users/PrivacyPolicy"));
 
 const routes = [
   {

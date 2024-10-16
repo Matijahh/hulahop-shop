@@ -9,14 +9,14 @@ import {
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW,
 } from "../routes";
 
-import AssociatsStoreLayout from "../../Layouts/AssociatsStoreLayout";
-import BrandShopHome from "../../Views/Associats/BrandShop/Home";
-import BrandShopCart from "../../Views/Associats/BrandShop/Cart";
-import BrandShop from "../../Views/Associats/BrandShop/Shop";
-import SingleProduct from "../../Views/Users/Shop/SingleProduct";
-import ShopContact from "../../Views/Associats/BrandShop/contact";
-import ShopBlog from "../../Views/Associats/BrandShop/ShopBlog";
-import ShopBlogPage from "../../Views/Associats/BrandShop/ShopBlog/BlogPage";
+import AssociatsStoreLayout from "../../layouts/AssociatsStoreLayout";
+import BrandShopHome from "../../views/Associats/BrandShop/Home";
+import BrandShopCart from "../../views/Associats/BrandShop/Cart";
+import BrandShop from "../../views/Associats/BrandShop/Shop";
+import SingleProduct from "../../views/Users/Shop/SingleProduct";
+import ShopContact from "../../views/Associats/BrandShop/contact";
+import ShopBlog from "../../views/Associats/BrandShop/ShopBlog";
+import ShopBlogPage from "../../views/Associats/BrandShop/ShopBlog/BlogPage";
 
 const routes = [
   {

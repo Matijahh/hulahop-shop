@@ -13,7 +13,7 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import axios from "axios";
-import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../Utils/constant";
+import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import { ErrorTaster } from "../../../components/Toast";
 
 const optionList = [

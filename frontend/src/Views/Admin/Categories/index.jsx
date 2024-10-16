@@ -32,7 +32,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
-import { REST_URL_SERVER } from "../../../Utils/constant";
+import { REST_URL_SERVER } from "../../../utils/constant";
 import { Container } from "./styled";
 import ModalComponent from "../../../components/ModalComponent";
 

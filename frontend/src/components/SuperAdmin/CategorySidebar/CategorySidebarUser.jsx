@@ -14,7 +14,7 @@ import {
   ROUTE_MAIN_SHOP,
 } from "../../../routes/routes";
 import { connect } from "react-redux";
-import * as Action from "../../../Redux/actions";
+import * as Action from "../../../redux/actions";
 import { isEmpty, size } from "lodash";
 import { useTranslation } from "react-i18next";
 

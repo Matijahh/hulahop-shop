@@ -16,7 +16,7 @@ import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { ACCESS_TOKEN } from "../../../Utils/constant";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 import { get, size, debounce } from "lodash";
 import { jwtDecode } from "jwt-decode";
 

@@ -23,7 +23,7 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { Loader } from "../../../components/Loader";
-import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../Utils/constant";
+import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import { jwtDecode } from "jwt-decode";
 import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import { useTranslation } from "react-i18next";

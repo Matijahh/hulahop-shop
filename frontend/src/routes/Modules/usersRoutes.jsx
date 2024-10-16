@@ -19,25 +19,25 @@ import {
   ROUTE_MAIN_INSTRUCTIONS,
 } from "../routes";
 
-import PrivateLayout from "../../Layouts/PrivateLayout";
-import HomePage from "../../Views/Users/HomePage";
-import Shop from "../../Views/Users/Shop";
-import SingleProduct from "../../Views/Users/Shop/SingleProduct";
-import Associates from "../../Views/Users/Associates";
-import AboutPlatForm from "../../Views/Users/AboutPlatForm";
-import DesignItYourSelf from "../../Views/Users/DesignItYourSelf";
-import AboutProducts from "../../Views/Users/AboutProducts";
-import Instructions from "../../Views/Users/Instructions";
-import Blog from "../../Views/Users/Blog";
-import BlogPage from "../../Views/Users/Blog/BlogPage";
-import Contact from "../../Views/Users/Contact";
-import Cart from "../../Views/Users/Cart";
-import CheckOut from "../../Views/Users/CheckOut";
-import Dashboard from "../../Views/Users/Profile/Dashboard";
-import Orders from "../../Views/Users/Profile/Orders";
-import Profile from "../../Views/Users/Profile/Profile";
-import Wishlist from "../../Views/Users/Profile/Wishlist";
-import ChangePassword from "../../Views/Users/Profile/ChangePassword";
+import PrivateLayout from "../../layouts/PrivateLayout";
+import HomePage from "../../views/Users/HomePage";
+import Shop from "../../views/Users/Shop";
+import SingleProduct from "../../views/Users/Shop/SingleProduct";
+import Associates from "../../views/Users/Associates";
+import AboutPlatForm from "../../views/Users/AboutPlatForm";
+import DesignItYourSelf from "../../views/Users/DesignItYourSelf";
+import AboutProducts from "../../views/Users/AboutProducts";
+import Instructions from "../../views/Users/Instructions";
+import Blog from "../../views/Users/Blog";
+import BlogPage from "../../views/Users/Blog/BlogPage";
+import Contact from "../../views/Users/Contact";
+import Cart from "../../views/Users/Cart";
+import CheckOut from "../../views/Users/CheckOut";
+import Dashboard from "../../views/Users/Profile/Dashboard";
+import Orders from "../../views/Users/Profile/Orders";
+import Profile from "../../views/Users/Profile/Profile";
+import Wishlist from "../../views/Users/Profile/Wishlist";
+import ChangePassword from "../../views/Users/Profile/ChangePassword";
 
 const routes = [
   {

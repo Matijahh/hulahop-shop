@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 import * as Yup from "yup";
-import * as Action from "../../../Redux/actions";
+import * as Action from "../../../redux/actions";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import ButtonComponent from "../../../components/ButtonComponent";
@@ -14,7 +14,7 @@ import InputComponent from "../../../components/InputComponent";
 import BoxFileInput from "../../../components/BoxFileInput";
 import { Col, Row } from "react-bootstrap";
 import { useFormik } from "formik";
-import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../Utils/constant";
+import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
