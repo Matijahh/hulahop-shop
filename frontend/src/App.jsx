@@ -28,6 +28,7 @@ const RenderRoutes = () => {
 const App = () => {
   const [jsonData, setJsonData] = useState(null);
   const lang = localStorage.getItem("I18N_LANGUAGE") || "sb";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,6 +36,7 @@ const App = () => {
           method: "GET",
           url: `translations/${lang == "sr" ? "sb" : "en"}`,
         });
+
         if (response) {
           const data = get(response, "data");
           if (data) {

@@ -7,6 +7,10 @@ export const PublicContainer = styled.div`
   overflow: scroll;
   padding: 40px 0;
 
+  @media screen and (max-width: 550px) {
+    padding: 0;
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }

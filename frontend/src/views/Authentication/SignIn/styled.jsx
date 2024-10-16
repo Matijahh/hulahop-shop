@@ -7,10 +7,13 @@ export const SignInContainer = styled.div`
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.05);
   background-color: #fff;
-  width: ${({maxWidth}) => maxWidth || '550px'};
+  width: ${({ maxWidth }) => maxWidth || "550px"};
   @media screen and (max-width: 550px) {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .cursor-pointer {
     cursor: pointer;

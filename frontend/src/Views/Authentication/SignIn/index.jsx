@@ -125,29 +125,6 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
       <form onSubmit={formik.handleSubmit}>
         <Row>
           <Col className="col-12">
-            <p>{t("Select Role")}</p>
-            <FlexBox justifyContent="flex-start ">
-              <FormControlLabel
-                value="USER"
-                control={<Radio />}
-                label={t("User")}
-                checked={formik.values.type === "USER"}
-                onClick={handleCheckboxChange}
-                disabled={loading}
-                name="role"
-              />
-              <FormControlLabel
-                value="ASSOCIATE"
-                control={<Radio />}
-                label={t("Associate")}
-                name="role"
-                onClick={handleCheckboxChange}
-                disabled={loading}
-                checked={formik.values.type === "ASSOCIATE"}
-              />
-            </FlexBox>
-          </Col>
-          <Col className="col-12">
             {formik.values.type === "USER" ? (
               <InputComponent
                 label={t("Email")}
