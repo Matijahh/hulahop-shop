@@ -8,13 +8,12 @@ import { SidebarContainer } from "./styled";
 import { SidebarTabList } from "./mock";
 
 import Logo from "../../../assets/images/logo.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { handlePublicRedirection } from "../../../utils/commonFunctions";
 import { ROUTE_MAIN } from "../../../routes/routes";
 
 const Sidebar = (props) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const PageName = get(location, "pathname") && get(location, "pathname");
   const [toggle, setToggle] = useState(false);
 
@@ -36,14 +35,11 @@ const Sidebar = (props) => {
         )}
       </div>
       <div className={cx("sidebar-container", toggle && "show-sidebar")}>
-        <div
-          className="logo-cover cursor-pointer"
-          onClick={() => {
-            navigate(ROUTE_MAIN);
-          }}
-        >
-          <img src={Logo} />
-        </div>
+        <Link to={ROUTE_MAIN} target="_blank">
+          <div className="logo-cover">
+            <img src={Logo} />
+          </div>
+        </Link>
         <div className="tab-list">
           {map(SidebarTabList, (item, i) => (
             <Link
