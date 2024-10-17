@@ -84,7 +84,8 @@ const Header = ({ storeData }) => {
         </div>
         <div className="top-area-end order-3">
           <div className="flex-box-header">
-            <div className="social-tab d-none d-sm-flex">
+            {/* For now comment it out */}
+            {/* <div className="social-tab d-none d-sm-flex">
               <div className="social-icon">
                 <Link href="#">
                   <FacebookIcon />
@@ -100,7 +101,7 @@ const Header = ({ storeData }) => {
                   <YouTubeIcon />
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="d-flex d-lg-none middle-area-end order-4">
@@ -154,8 +155,8 @@ const Header = ({ storeData }) => {
               {t("Blogs")}
             </Link>
             <Link
-             className={PageName.includes("contact") && "active"}
-             to={ROUTE_ASSOCIATE_BRAND_STORE_CONTACT.replace(":id", id)}
+              className={PageName.includes("contact") && "active"}
+              to={ROUTE_ASSOCIATE_BRAND_STORE_CONTACT.replace(":id", id)}
             >
               {t("Contact")}
             </Link>

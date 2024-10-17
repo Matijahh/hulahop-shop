@@ -164,13 +164,23 @@ const HeaderWrapperStyled = styled.div`
   .middle-area-end {
     display: flex;
     align-items: center;
-    gap: 15px;
     width: 100%;
     max-width: 210px;
     justify-content: end;
+
     .profile-box {
-      padding: 5px;
+      margin-right: 10px;
       cursor: pointer;
+
+      a {
+        text-decoration: none;
+        color: black;
+      }
+
+      p {
+        margin-right: 5px;
+      }
+
       svg {
         color: #071c1f;
         width: 25px;

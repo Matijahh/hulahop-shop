@@ -11,7 +11,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import PersonIcon from "@mui/icons-material/Person";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
+import LocalMallIcon from "@mui/icons-material/ShoppingCart";
 
 import { useTranslation } from "react-i18next";
 import { InputAdornment, TextField } from "@mui/material";
@@ -177,7 +177,8 @@ const Header = () => {
                       </div>
                     </Popover>
                   </div>
-                  <div className="social-tab d-none d-sm-flex">
+                  {/* For now comment it */}
+                  {/* <div className="social-tab d-none d-sm-flex">
                     <div className="social-icon">
                       <Link href="#">
                         <FacebookIcon />
@@ -193,7 +194,7 @@ const Header = () => {
                         <YouTubeIcon />
                       </Link>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="d-flex d-lg-none middle-area-end order-4">
@@ -247,14 +248,14 @@ const Header = () => {
               </div>
 
               <div className="middle-area-end d-none d-lg-flex">
-                <div>
-                  <p>{t("Become Seller")}</p>
-                </div>
                 <div className="profile-box">
                   <NavLink
                     to={ACCESS_TOKEN ? ROUTE_MAIN_PROFILE : ROUTE_SIGN_IN}
                   >
-                    <PersonIcon />
+                    <div className="d-flex justify-content-center align-items-center">
+                      <p>{t("Become Seller")}</p>
+                      <PersonIcon />
+                    </div>
                   </NavLink>
                 </div>
                 <div className="cart-box">
