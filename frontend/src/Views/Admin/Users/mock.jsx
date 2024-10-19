@@ -2,7 +2,9 @@ import { get } from "lodash";
 
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+
 import { Button } from "@mui/material";
+
 export const renderHeader = (
   toggleModal,
   handleOpenToggle,
@@ -57,13 +59,6 @@ export const renderHeader = (
       width: 180,
       align: "left",
     },
-    // {
-    //   field: "address",
-    //   headerName: "Address",
-    //   width: 300,
-    //   align: "left",
-    // },
-
     {
       field: "status",
       headerName: "Status",

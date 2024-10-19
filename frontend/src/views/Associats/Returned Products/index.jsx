@@ -1,14 +1,14 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-
-import Tables from "../../../components/SuperAdmin/Tables";
-import InputComponent from "../../../components/InputComponent";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { useTranslation } from "react-i18next";
 import { map } from "lodash";
 import { renderHeader } from "./mock";
 import { ROUTE_ASSOCIATE_MAIN_ORDER_PREVIEW } from "../../../routes/routes";
+
+import Tables from "../../../components/SuperAdmin/Tables";
+import InputComponent from "../../../components/InputComponent";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Helmet } from "react-helmet";
-import { useTranslation } from "react-i18next";
 
 const ReturnedProducts = () => {
   const navigation = useNavigate();
@@ -28,19 +28,23 @@ const ReturnedProducts = () => {
     date: "02/10/2023",
     status: "Panding",
   }));
+
   return (
     <CommonWhiteBackground>
       <Helmet>
         <title>{t("Return Orders - Associate")}</title>
       </Helmet>
       <FlexBox isWrap className="mb-4">
-        <div className="main-title ">Return Orders</div>
+        <div className="main-title ">{t("Return Orders")}</div>
         <InputComponent type="search" label="Search orders" />
       </FlexBox>
       <Tables
-        onRowClick={(item) => navigation(ROUTE_ASSOCIATE_MAIN_ORDER_PREVIEW)}
+        onRowClick={() => navigation(ROUTE_ASSOCIATE_MAIN_ORDER_PREVIEW)}
         body={renderData}
-        header={renderHeader}
+        header={renderHeader.map((item) => ({
+          ...item,
+          headerName: t(item.headerName),
+        }))}
       />
     </CommonWhiteBackground>
   );

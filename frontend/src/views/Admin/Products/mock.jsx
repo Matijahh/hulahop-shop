@@ -1,9 +1,10 @@
 import { get } from "lodash";
+import { getImageUrlById } from "../../../utils/commonFunctions";
 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { getImageUrlById } from "../../../utils/commonFunctions";
 import PreviewJsonImage from "../../../components/PreviewJsonImage";
+
 export const renderHeader = [
   {
     field: "no",
@@ -25,7 +26,6 @@ export const renderHeader = [
     renderCell: (params) => {
       return (
         <div style={{ width: 200, height: "auto" }}>
-          {/* <img src={getImageUrlById(get(params, "row.product_image"))} /> */}
           <PreviewJsonImage
             previewImageUrl={getImageUrlById(get(params, "row.product_image"))}
             productData={{
@@ -45,46 +45,16 @@ export const renderHeader = [
   },
   {
     field: "product_description",
-    headerName: "Product description",
+    headerName: "Product Description",
     width: 300,
     align: "left",
   },
-  // {
-  //   field: "category",
-  //   headerName: "Category",
-  //   width: 180,
-  //   align: "left",
-  // },
-  // {
-  //   field: "sub_category",
-  //   headerName: "Sub Category",
-  //   width: 180,
-  //   align: "left",
-  // },
-  // {
-  //   field: "colors",
-  //   headerName: "Colors",
-  //   width: 180,
-  //   align: "left",
-  // },
   {
     field: "price",
     headerName: "Price",
     width: 180,
     align: "left",
   },
-  // {
-  //   field: "status",
-  //   headerName: "Status",
-  //   width: 180,
-  //   align: "left",
-  // },
-  // {
-  //   field: "qty",
-  //   headerName: "Quantity",
-  //   width: 180,
-  //   align: "left",
-  // },
   {
     field: "action",
     headerName: "Action",

@@ -1,10 +1,15 @@
-import React from "react";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import muska3 from "../../../assets/images/muska-3.jpg";
-import Tables from "../../../components/SuperAdmin/Tables";
 import { renderHeader } from "./mock";
+import { useTranslation } from "react-i18next";
+import muska3 from "../../../assets/images/muska-3.jpg";
 import map from "lodash/map";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+
+import Tables from "../../../components/SuperAdmin/Tables";
+
 const Reviews = () => {
+  const { t } = useTranslation();
+
   const renderData = map(Array(10), (item, index) => ({
     ...item,
     no: `${index + 1}`,
@@ -16,12 +21,19 @@ const Reviews = () => {
     date: "02/10/2023",
     status: "Show",
   }));
+
   return (
     <CommonWhiteBackground>
       <FlexBox className="mb-4">
-        <div className="main-title ">Reviews</div>
+        <div className="main-title">{t("Reviews")}</div>
       </FlexBox>
-      <Tables body={renderData} header={renderHeader} />
+      <Tables
+        body={renderData}
+        header={renderHeader.map((item) => ({
+          ...item,
+          headerName: t(item.headerName),
+        }))}
+      />
     </CommonWhiteBackground>
   );
 };

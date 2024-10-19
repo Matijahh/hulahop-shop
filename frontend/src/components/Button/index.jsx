@@ -1,9 +1,8 @@
-import React from "react";
-import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const ButtonComponent = (props) => {
-  const { variant, startIcon, text, onClick } = props;
+import { Button } from "@mui/material";
+
+const ButtonComponent = ({ variant, startIcon, text, onClick }) => {
   const { t } = useTranslation();
 
   return (

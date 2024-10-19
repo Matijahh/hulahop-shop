@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
-import Sidebar from "./Sidebar";
-import { SuperAdminLayoutContainer } from "./styled";
-import Cookies from "js-cookie";
+import { useEffect } from "react";
 import {
   getUserType,
   handlePublicRedirection,
 } from "../../utils/commonFunctions";
+
+import Sidebar from "./Sidebar";
+import Cookies from "js-cookie";
+
+import { SuperAdminLayoutContainer } from "./styled";
 
 const SuperAdminLayout = (props) => {
   const { children } = props;
@@ -21,6 +23,7 @@ const SuperAdminLayout = (props) => {
   useEffect(() => {
     checkRedirection();
   }, []);
+
   return (
     <SuperAdminLayoutContainer>
       <Sidebar {...props} />

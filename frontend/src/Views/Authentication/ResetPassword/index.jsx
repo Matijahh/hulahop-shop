@@ -1,35 +1,20 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { useFormik } from "formik";
+import { ResetPasswordContainer } from "./styled";
+import { ROUTE_MAIN, ROUTE_SIGN_IN } from "../../../routes/routes";
+import { axiosInstance } from "../../../utils/axiosInstance";
+import * as Yup from "yup";
+import logo from "../../../assets/images/logo.png";
+
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import { Col, Row } from "react-bootstrap";
-
-import { ResetPasswordContainer } from "./styled";
-
-import logo from "../../../assets/images/logo.png";
-import { ROUTE_MAIN, ROUTE_SIGN_IN } from "../../../routes/routes";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { axiosInstance } from "../../../utils/axiosInstance";
 
-const validation = Yup.object().shape({
-  password: Yup.string()
-    .required("Password is required.")
-    .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-      "Please enter a valid password."
-    ),
-  confirmPassword: Yup.string()
-    .required("Confirm password is required.")
-    .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-      "Please enter a valid confirm password."
-    ),
-});
+import { Col, Row } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 
 export const ResetPassword = () => {
   const { t } = useTranslation();
@@ -39,6 +24,21 @@ export const ResetPassword = () => {
   const [togglePassword, setTogglePassword] = useState(false);
   const [toggleConfirmPassword, setToggleConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const validation = Yup.object().shape({
+    password: Yup.string()
+      .required(t("Password is required."))
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        "Please enter a valid password."
+      ),
+    confirmPassword: Yup.string()
+      .required(t("Confirm password is required."))
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        "Please enter a valid confirm password."
+      ),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +62,7 @@ export const ResetPassword = () => {
   return (
     <ResetPasswordContainer>
       <Helmet>
-        <title>{t("Reset Password - HulaHop")}</title>
+        <title>{`${t("Reset Password")} - HulaHop`}</title>
       </Helmet>
 
       <div className="logo-container">
@@ -77,7 +77,7 @@ export const ResetPassword = () => {
       </div>
 
       <div className="title-container">
-        <div className="title">{t("Reset your password")}</div>
+        <div className="title">{t("Reset Password")}</div>
       </div>
 
       <form onSubmit={formik.handleSubmit}>

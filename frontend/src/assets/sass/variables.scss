@@ -15,6 +15,7 @@ $black-text: "#000";
   font-size: 36px;
   line-height: 44px;
 }
+
 @mixin primary-heading-big {
   color: $primary-color;
   font-style: normal;
@@ -40,7 +41,7 @@ $black-text: "#000";
   line-height: 42px;
 }
 
-@mixin primary-pera {
+@mixin primary-paragraph {
   color: $secondary-text;
   font-style: normal;
   font-weight: 600;

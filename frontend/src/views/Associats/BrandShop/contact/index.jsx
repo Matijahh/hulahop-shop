@@ -1,26 +1,30 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet";
-import get from "lodash/get";
 import { useTranslation } from "react-i18next";
-import { connect } from "react-redux";
-import * as Yup from "yup";
 import { useFormik } from "formik";
-
-import InputComponent from "../../../../components/InputComponent";
-import contactform from "../../../../assets/images/contact-form.jpg";
-import ButtonComponent from "../../../../components/ButtonComponent";
+import { connect } from "react-redux";
 import { commonAddUpdateQuery } from "../../../../utils/axiosInstance";
+import get from "lodash/get";
+import contactform from "../../../../assets/images/contact-form.jpg";
+import * as Yup from "yup";
+
+import { Helmet } from "react-helmet";
 import { SuccessTaster } from "../../../../components/Toast";
 
-const validation = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email("Invalid email!").required("Email is required!"),
-  subject: Yup.string().required("Subject is required!"),
-});
+import InputComponent from "../../../../components/InputComponent";
+import ButtonComponent from "../../../../components/ButtonComponent";
 
 const ShopContact = ({ storeData }) => {
   const [loading, setLoading] = useState();
+
   const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    name: Yup.string().required(t("Name is required!")),
+    email: Yup.string()
+      .email(t("Invalid email!"))
+      .required(t("Email is required!")),
+    subject: Yup.string().required(t("Subject is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -33,13 +37,16 @@ const ShopContact = ({ storeData }) => {
     validationSchema: validation,
     onSubmit: async (values) => {
       setLoading(true);
+
       const response = await commonAddUpdateQuery("/inquiries/associate", {
         ...values,
         associate_id: storeData.user_id,
       });
+
       if (response.status == 200) {
         SuccessTaster("Your message has been sent successfully");
       }
+
       setLoading(false);
       formik.resetForm();
     },
@@ -50,7 +57,7 @@ const ShopContact = ({ storeData }) => {
       <Helmet>
         <title>
           {get(storeData, "name")
-            ? `Contact Us - ${get(storeData, "name")}`
+            ? `${t("Contact Us")} - ${get(storeData, "name")}`
             : t("Associate Shop - HulaHop")}
         </title>
       </Helmet>
@@ -60,7 +67,7 @@ const ShopContact = ({ storeData }) => {
             <div className="col-12">
               <div className="hero-section">
                 <h3 className="banner-head">{t("Contact Us")}</h3>
-                <p className="banner-pera">
+                <p className="banner-paragraph">
                   {t(
                     "Just send us your questions or concerns by sending a proposal and we will give you the help you need."
                   )}
@@ -81,7 +88,7 @@ const ShopContact = ({ storeData }) => {
                         <InputComponent
                           InnerPlaceholder={t("Name")}
                           fullWidth
-                          label={`${t("Name")} *`}
+                          label={`${t("Name")}`}
                           name="name"
                           formik={formik}
                           disabled={loading}
@@ -91,7 +98,7 @@ const ShopContact = ({ storeData }) => {
                         <InputComponent
                           InnerPlaceholder={t("Email")}
                           fullWidth
-                          label={`${t("Email")} *`}
+                          label={`${t("Email")}`}
                           name="email"
                           formik={formik}
                           disabled={loading}

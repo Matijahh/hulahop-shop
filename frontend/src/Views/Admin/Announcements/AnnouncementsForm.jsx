@@ -1,43 +1,47 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import * as Yup from "yup";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
+import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import * as Yup from "yup";
+import { get } from "lodash";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { useNavigate } from "react-router";
-import {
-  ROUTE_ADMIN_ANNOUNCEMENTS,
-  ROUTE_ADMIN_COLORS,
-} from "../../../routes/routes";
-import { get } from "lodash";
+import { ROUTE_ADMIN_ANNOUNCEMENTS } from "../../../routes/routes";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
 import SelectComponent from "../../../components/SelectComponent";
 
-const StatusList = [
-  {
-    id: true,
-    title: "Active",
-  },
-  {
-    id: false,
-    title: "Inactive",
-  },
-];
 export const AnnouncementsFormWrapper = styled.div``;
 
-const validation = Yup.object().shape({
-  title: Yup.string().required("Title is required!"),
-  description: Yup.string().required("Description is required!"),
-});
 const AnnouncementsForm = () => {
+  const [loading, setLoading] = useState();
+
   const navigation = useNavigate();
   const params = useParams();
-  const [loading, setLoading] = useState();
+  const { t } = useTranslation();
+
+  const StatusList = [
+    {
+      id: true,
+      title: t("Active"),
+    },
+    {
+      id: false,
+      title: t("Inactive"),
+    },
+  ];
+
+  const validation = Yup.object().shape({
+    title: Yup.string().required(t("Title is required!")),
+    description: Yup.string().required(t("Description is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -48,18 +52,18 @@ const AnnouncementsForm = () => {
     validationSchema: validation,
     onSubmit: async (values) => {
       let id = get(params, "id");
+
       const URL = id ? `/announcements/${id}` : "/announcements";
       const reqBody = {
         title: values.title,
         description: values.description,
         status: values.status.split(",")[0] === "true" ? true : false,
       };
+
       setLoading(true);
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
+
       setLoading(false);
       navigation(ROUTE_ADMIN_ANNOUNCEMENTS);
     },
@@ -70,6 +74,7 @@ const AnnouncementsForm = () => {
 
     let id = get(params, "id");
     const response = await commonGetQuery(`/announcements/${id}`);
+
     if (response) {
       const { data } = response.data;
       const { title, description, status } = data;
@@ -78,6 +83,7 @@ const AnnouncementsForm = () => {
       formik.setFieldValue("status", status ? "true,Active" : "false,Inactive");
       setLoading(false);
     }
+
     setLoading(false);
   };
   useEffect(() => {
@@ -91,7 +97,7 @@ const AnnouncementsForm = () => {
     <AnnouncementsFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">Announcements</div>
+          <div className="main-title ">{t("Announcements")}</div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -104,20 +110,20 @@ const AnnouncementsForm = () => {
               <div className="row g-4">
                 <div className="col-lg-12">
                   <InputComponent
-                    InnerPlaceholder="Enter title"
+                    InnerPlaceholder={t("Enter title")}
                     name="title"
                     fullWidth
-                    label="Title"
+                    label={t("Title")}
                     formik={formik}
                     disabled={loading}
                   />
                 </div>
                 <div className="col-lg-12">
                   <InputComponent
-                    InnerPlaceholder="Write description"
+                    InnerPlaceholder={t("Write description")}
                     fullWidth
                     name="description"
-                    label="Description"
+                    label={t("Description")}
                     type="textarea"
                     formik={formik}
                     disabled={loading}
@@ -125,12 +131,11 @@ const AnnouncementsForm = () => {
                 </div>
                 <div className="col-lg-12">
                   <SelectComponent
-                    // label="Status"
                     fullWidth
                     name="status"
                     optionList={StatusList}
                     formik={formik}
-                    title="Select Status"
+                    title={t("Select Status")}
                     disabled={loading}
                   />
                 </div>
@@ -138,9 +143,8 @@ const AnnouncementsForm = () => {
                   <FlexBox justifyContent="end" className="mt-3">
                     <ButtonComponent
                       variant="contained"
-                      text="Save"
+                      text={t("Save")}
                       type="submit"
-                      // onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
                     />
                   </FlexBox>
                 </div>

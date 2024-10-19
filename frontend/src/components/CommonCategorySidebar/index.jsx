@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { commonGetQuery } from "../../utils/axiosInstance";
+import { getImageUrlById } from "../../utils/commonFunctions";
 import _size from "lodash/size";
 import _get from "lodash/get";
 import _map from "lodash/map";
-import styled from "styled-components";
-
-import { Loader } from "../Loader";
-import ButtonComponent from "../ButtonComponent";
-import SliderComponent from "../SliderComponent/SliderComponent";
-import { commonGetQuery } from "../../utils/axiosInstance";
-import { getImageUrlById } from "../../utils/commonFunctions";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
   ROUTE_MAIN_SHOP,
 } from "../../routes/routes";
-import { useTranslation } from "react-i18next";
+
+import ButtonComponent from "../ButtonComponent";
+import SliderComponent from "../SliderComponent/SliderComponent";
+
+import { Loader } from "../Loader";
 
 const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
-  const params = useParams();
-  const navigation = useNavigate();
-  const { t } = useTranslation();
   const [categoriesList, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const params = useParams();
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+
   const toggleCategory = (id, subId) => {
     let url;
+
     if (isAssociate) {
       url =
         ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
@@ -35,6 +37,7 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
       url =
         ROUTE_MAIN_SHOP + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
     }
+
     navigation(url);
   };
 
@@ -42,9 +45,9 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
     setLoading(true);
     const response = await commonGetQuery(`/categories`);
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
-
       setCategoriesList(data);
     }
   };
@@ -98,7 +101,7 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
                               {t(_get(item, "name", null))}
                             </p>
                             <ButtonComponent
-                              text="View All"
+                              text={t("View All")}
                               variant=" "
                               className="category-view-btn"
                               onClick={() => toggleCategory(item.id)}
@@ -112,7 +115,7 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
               </>
             ) : (
               <center className="py-5">
-                <b>No Product Found!</b>
+                <b>{t("No Product Found!")}</b>
               </center>
             )}
           </div>

@@ -165,7 +165,7 @@ const Header = () => {
                         horizontal: "right",
                       }}
                     >
-                      <div className="language-popove-body">
+                      <div className="language-popover-body">
                         {map(Object.keys(languages), (key) => (
                           <p
                             onClick={() => changeLanguage(key)}

@@ -47,7 +47,7 @@ export const ImageUploadBoxContainer = styled.div`
         object-fit: contain;
         max-height: 200px;
       }
-      .cancel-ico {
+      .cancel-icon {
         position: absolute;
         top: 20px;
         right: 20px;

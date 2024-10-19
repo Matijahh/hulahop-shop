@@ -1,8 +1,5 @@
 import { get } from "lodash";
 
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-
 export const renderHeader = [
   {
     field: "no",
@@ -22,7 +19,7 @@ export const renderHeader = [
     headerName: "Product Image",
     width: 120,
     align: "left",
-    renderCell: (params) => (
+    renderCell: () => (
       <>
         <img src="https://picsum.photos/seed/picsum/40/40" />
       </>

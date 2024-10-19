@@ -1,8 +1,8 @@
-import React from "react";
-import ButtonComponent from "../ButtonComponent";
 import { useNavigate } from "react-router-dom";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import { useTranslation } from "react-i18next";
+
+import ButtonComponent from "../ButtonComponent";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
 const GobackButton = () => {
   const navigate = useNavigate();

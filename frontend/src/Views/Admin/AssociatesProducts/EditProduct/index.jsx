@@ -1,38 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
-import * as Yup from "yup";
-
-import GobackButton from "../../../../components/GoBackButton";
-import ProductSettingSidebar from "./ProductSettingSidebar";
-// import ImageLibrary from "../../ImageLibrary";
-import NewImageEditor from "./NewImageEditer";
-import { CommonWhiteBackground } from "../../../../components/Sections";
 import { ColorBarList, EditProductContainer } from "./styled";
+import { useTranslation } from "react-i18next";
+import { size } from "lodash";
+import { REST_URL_SERVER } from "../../../../utils/constant";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../../utils/axiosInstance";
+import { ROUTE_ADMIN_ASSOCIATE_PRODUCTS } from "../../../../routes/routes";
+import * as Yup from "yup";
+
+import { Col, Row } from "react-bootstrap";
+import { CommonWhiteBackground } from "../../../../components/Sections";
 import { Loader } from "../../../../components/Loader";
-import { REST_URL_SERVER } from "../../../../utils/constant";
 import { SuccessTaster } from "../../../../components/Toast";
-import {
-  ROUTE_ADMIN_ASSOCIATE_PRODUCTS,
-  ROUTE_ASSOCIATE_MAIN_PRODUCTS,
-} from "../../../../routes/routes";
-import PreviewJsonImage from "../../../../components/PreviewJsonImage";
-import { useTranslation } from "react-i18next";
-import { size } from "lodash";
 import { Helmet } from "react-helmet";
+
+import GobackButton from "../../../../components/GoBackButton";
+import ProductSettingSidebar from "./ProductSettingSidebar";
+import NewImageEditor from "./NewImageEditer";
 import ImageLibrary from "../../../Associats/ImageLibrary";
 
 const EditProduct = () => {
   const [isOpenImageLibrary, setIsOpenImageLibrary] = useState();
-  const { productId } = useParams();
-  const generatedImageRef = useRef();
-  const { t } = useTranslation();
-  const Navigator = useNavigate();
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState({});
@@ -40,19 +32,27 @@ const EditProduct = () => {
   const [selectedId, selectImage] = useState(null);
   const [showFrame, setShowFrame] = useState(true);
   const [activeProductId, setActiveProductId] = useState(null);
+
+  const { productId } = useParams();
+  const generatedImageRef = useRef();
+  const { t } = useTranslation();
+  const Navigator = useNavigate();
+
   const hasColors =
     size(product?.product_variants || []) > 0 &&
     product?.product_variants.some((item) => item.color);
 
   const validation = Yup.object().shape({
-    productName: Yup.string().required("Product name is required!"),
+    productName: Yup.string().required(t("Product name is required!")),
     productDescription: Yup.string().required(
-      "Product description is required!"
+      t("Product description is required!")
     ),
     selectedColorIds: hasColors
-      ? Yup.array().required("Color is required!").min(1, "Color is required!")
+      ? Yup.array()
+          .required(t("Color is required!"))
+          .min(1, t("Color is required!"))
       : Yup.array(),
-    productPrice: Yup.number().required("Product price is required!"),
+    productPrice: Yup.number().required(t("Product price is required!")),
   });
   const formik = useFormik({
     initialValues: {
@@ -74,7 +74,9 @@ const EditProduct = () => {
 
   const handleSubmit = async (base64) => {
     selectImage(null);
+
     const values = formik?.values;
+
     const reqBody = {
       product_id: parseInt(productId),
       name: values.productName,
@@ -89,15 +91,20 @@ const EditProduct = () => {
       price: values.productPrice,
       base64: base64,
     };
+
     const data = new URLSearchParams(window.location.search);
     const pId = data.get("edit");
+
     setFormLoading(true);
+
     const response = await commonAddUpdateQuery(
       pId ? `/associate_products/${pId}` : "/associate_products",
       reqBody,
       pId ? "PATCH" : "POST"
     );
+
     setFormLoading(false);
+
     if (response) {
       const { message } = response.data;
       localStorage.removeItem("canvasState");
@@ -112,8 +119,11 @@ const EditProduct = () => {
 
   const getProductData = async () => {
     setLoading(true);
+
     const response = await commonGetQuery(`/products/${productId}`);
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       setActiveProductId(data?.image_id);
@@ -129,8 +139,10 @@ const EditProduct = () => {
 
   const editedProductData = async (id) => {
     const response = await commonGetQuery(`/associate_products/${id}`);
+
     if (response) {
       const { data } = response.data;
+
       formik.setValues({
         ...formik.values,
         productName: data?.name,
@@ -143,6 +155,7 @@ const EditProduct = () => {
         associateProfit: "",
         customizedJson: data?.image_json,
       });
+
       setActiveProductId(data?.product?.image_id);
       setProduct(data.product);
     }
@@ -151,6 +164,7 @@ const EditProduct = () => {
   useEffect(() => {
     const data = new URLSearchParams(window.location.search);
     const pId = data.get("edit");
+
     if (pId) {
       editedProductData(pId);
     } else {

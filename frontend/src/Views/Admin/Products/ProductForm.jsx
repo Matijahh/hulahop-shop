@@ -1,24 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import * as Yup from "yup";
-import {
-  ErrorMessage,
-  Field,
-  FieldArray,
-  FormikProvider,
-  useFormik,
-} from "formik";
-import { Stage, Layer, Image, Transformer, Rect } from "react-konva";
-import useImage from "use-image";
-
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import SelectComponent from "../../../components/SelectComponent";
-import BoxFileInput from "../../../components/BoxFileInput";
-import ButtonComponent from "../../../components/ButtonComponent";
-import AddIcon from "@mui/icons-material/Add";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { find, get, isEmpty, map, size } from "lodash";
 import {
   getImageUrlById,
@@ -28,10 +9,23 @@ import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import ImageUploadBox from "../../../components/ImageUploadBox";
 import { useNavigate, useParams } from "react-router-dom";
 import { ROUTE_ADMIN_PRODUCTS } from "../../../routes/routes";
+import styled from "styled-components";
+import * as Yup from "yup";
+import useImage from "use-image";
+
+import { ErrorMessage, FieldArray, FormikProvider, useFormik } from "formik";
+import { Stage, Layer, Image, Rect } from "react-konva";
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+
+import InputComponent from "../../../components/InputComponent";
+import SelectComponent from "../../../components/SelectComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import ImageUploadBox from "../../../components/ImageUploadBox";
 
 const subVariantsInitialData = {
   value: "",
@@ -57,11 +51,13 @@ export const ProductFormWrapper = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
     svg {
       width: 35px;
       height: 35px;
     }
   }
+
   .product-variant-box {
     padding: 20px;
     margin: 15px 0;
@@ -69,22 +65,26 @@ export const ProductFormWrapper = styled.div`
   }
 `;
 
-const validation = Yup.object().shape({
-  name: Yup.string().required("Name is required!"),
-  price: Yup.string().required("Price is required!"),
-  category_id: Yup.string().required("Category is required!"),
-  subcategory_id: Yup.string().required("Sub Category is required!"),
-});
 const ProductForm = () => {
-  const params = useParams();
-  const stageRef = useRef();
-  const navigation = useNavigate();
   const [loading, setLoading] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [colorList, setColorList] = useState([]);
   const [productdata, setProductdata] = useState([]);
+
+  const params = useParams();
+  const stageRef = useRef();
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    name: Yup.string().required(t("Name is required!")),
+    price: Yup.string().required(t("Price is required!")),
+    category_id: Yup.string().required(t("Category is required!")),
+    subcategory_id: Yup.string().required(t("Sub Category is required!")),
+  });
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -119,6 +119,7 @@ const ProductForm = () => {
     validationSchema: validation,
     onSubmit: async (values) => {
       let id = get(params, "id");
+
       const URL = id ? `/products/${id}` : "/products";
       let categoryId = getSelectobjectValue(values.category_id);
       let subcategoryId = getSelectobjectValue(values.subcategory_id);
@@ -130,6 +131,7 @@ const ProductForm = () => {
           quantity: values.quantity,
         })),
       }));
+
       const reqBody = {
         name: values.name,
         description: values.description,
@@ -143,12 +145,11 @@ const ProductForm = () => {
         frame_width: values.frame_width,
         frame_height: values.frame_height,
       };
+
       setLoading(true);
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
+
       setLoading(false);
       navigation(ROUTE_ADMIN_PRODUCTS);
     },
@@ -156,8 +157,10 @@ const ProductForm = () => {
 
   const getCategoryList = async () => {
     const response = await commonGetQuery("/categories");
+
     if (response) {
       const { data } = response.data;
+
       if (size(data) > 0) {
         setCategoriesData(data);
         const updatedList =
@@ -167,6 +170,7 @@ const ProductForm = () => {
           });
         setCategoryList(updatedList);
       }
+
       getColorList();
     }
   };
@@ -189,6 +193,7 @@ const ProductForm = () => {
   const handeleSelectChange = (e, name) => {
     const { value } = e.target;
     const SelectObj = getSelectobjectValue(value);
+
     if (name === "category_id") {
       if (size(categoriesData) > 0) {
         const subCategoriesData = getSubCategoriesByCategoryId(
@@ -199,9 +204,12 @@ const ProductForm = () => {
       }
     }
   };
+
   const getColorList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/colors");
+
     if (response) {
       const { data } = response.data;
       const updatedList =
@@ -209,14 +217,19 @@ const ProductForm = () => {
         data.map((item) => {
           return { id: item.id, title: item.name };
         });
+
       setColorList(updatedList);
+
       setLoading(false);
+
       let id = get(params, "id");
+
       if (id) {
         getProductData();
       }
     } else {
       let id = get(params, "id");
+
       if (id) {
         getProductData();
       }
@@ -228,9 +241,12 @@ const ProductForm = () => {
     setLoading(true);
 
     let id = get(params, "id");
+
     const response = await commonGetQuery(`/products/${id}`);
+
     if (response) {
       const { data } = response.data;
+
       const {
         name,
         description,
@@ -244,14 +260,17 @@ const ProductForm = () => {
         frame_width,
         frame_height,
       } = data;
+
       setProductdata(data);
 
       if (size(categoriesData) > 0) {
         const subCategoriesData = getSubCategoriesByCategoryId(
           Number(category.id)
         );
+
         setSubCategoryList(subCategoriesData || []);
       }
+
       const productVariantsValues = product_variants.map((variant) => ({
         color_id: `${get(variant, "color.id", "")},${get(
           variant,
@@ -267,6 +286,7 @@ const ProductForm = () => {
               }))
             : [],
       }));
+
       let quantity = "";
       const productSubVariantsValues = product_variants.map(
         (variant, index) => {
@@ -286,6 +306,7 @@ const ProductForm = () => {
           return SubVariantsValues;
         }
       );
+
       formik.setFieldValue("name", name || "");
       formik.setFieldValue("description", description || "");
       formik.setFieldValue("image_id", image_id || "");
@@ -309,6 +330,7 @@ const ProductForm = () => {
 
       setLoading(false);
     }
+
     setLoading(false);
   };
 
@@ -316,14 +338,12 @@ const ProductForm = () => {
   const MainImage = () => {
     let image_url =
       "https://api.hulahop.shop/images/ff904dee-8d74-4e9a-adbc-bc5b7e739f54";
+
     if (formik.values.image_id) {
       image_url = getImageUrlById(formik.values.image_id);
     }
-    const [mainProductImage, status] = useImage(
-      image_url,
-      "anonymous",
-      "origin"
-    );
+
+    const [mainProductImage] = useImage(image_url, "anonymous", "origin");
 
     return (
       <Image
@@ -356,11 +376,6 @@ const ProductForm = () => {
 
   useEffect(() => {
     getCategoryList();
-    // getColorList();
-    // let id = get(params, "id");
-    // if (id) {
-    //   getProductData();
-    // }
   }, []);
 
   return (
@@ -368,7 +383,7 @@ const ProductForm = () => {
       {loading && <LoaderContainer />}
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">Add Products</div>
+          <div className="main-title">{t("Add Products")}</div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -394,9 +409,9 @@ const ProductForm = () => {
                       <div className="col-lg-6">
                         <InputComponent
                           name="name"
-                          InnerPlaceholder="Product name"
+                          InnerPlaceholder={t("Product name")}
                           fullWidth
-                          label="Product name *"
+                          label={t("Product name")}
                           formik={formik}
                           disabled={loading}
                         />
@@ -404,11 +419,11 @@ const ProductForm = () => {
                       <div className="col-lg-6">
                         <InputComponent
                           name="price"
-                          InnerPlaceholder="Price"
+                          InnerPlaceholder={t("Price")}
                           fullWidth
                           formik={formik}
                           disabled={loading}
-                          label="Price *"
+                          label={t("Price")}
                         />
                       </div>
                       <div className="col-lg-6">
@@ -416,7 +431,7 @@ const ProductForm = () => {
                           fullWidth
                           name="category_id"
                           size="small"
-                          title="Select Categories"
+                          title={t("Select Categories")}
                           onChange={handeleSelectChange}
                           optionList={categoryList}
                           formik={formik}
@@ -434,7 +449,7 @@ const ProductForm = () => {
                           fullWidth
                           name="subcategory_id"
                           size="small"
-                          title="Select Sub Categories"
+                          title={t("Select Sub Categories")}
                           optionList={subCategoryList}
                           formik={formik}
                           disabled={loading}
@@ -447,10 +462,10 @@ const ProductForm = () => {
                       </div>
                       <div className="col-lg-12">
                         <InputComponent
-                          InnerPlaceholder="Write description"
+                          InnerPlaceholder={t("Write description")}
                           fullWidth
                           name="description"
-                          label="Description"
+                          label={t("Description")}
                           type="textarea"
                           formik={formik}
                           disabled={loading}
@@ -459,17 +474,17 @@ const ProductForm = () => {
                       <div className="col-lg-12">
                         <InputComponent
                           name="quantity"
-                          InnerPlaceholder="Quantity"
+                          InnerPlaceholder={t("Quantity")}
                           fullWidth
                           formik={formik}
                           disabled={loading}
-                          label="Quantity *"
+                          label={t("Quantity")}
                         />
                       </div>
                     </div>
                   </div>
                   <div className="col-12">
-                    <h4 className="mb-3"> Product Sub Variant</h4>
+                    <h4 className="mb-3">{t("Product Sub Variant")}</h4>
                     <hr />
 
                     <FieldArray
@@ -480,7 +495,7 @@ const ProductForm = () => {
                             <ButtonComponent
                               variant="contained"
                               startIcon={<AddIcon />}
-                              text="Add Sub Variant"
+                              text={t("Add Sub Variant")}
                               onClick={() => push(subVariantsStartInitialData)}
                             />
                           </div>
@@ -495,7 +510,9 @@ const ProductForm = () => {
                                         <div className="d-flex">
                                           <div>
                                             <InputComponent
-                                              InnerPlaceholder="Sub Varint Value"
+                                              InnerPlaceholder={t(
+                                                "Sub Variant Value"
+                                              )}
                                               fullWidth
                                               inputClassname="mb-0"
                                               name={`sub_variants.${variantIndex}.value`}
@@ -506,7 +523,7 @@ const ProductForm = () => {
                                               }
                                               formik={formik}
                                               isUseCustomeValue
-                                              label="Sub varint name"
+                                              label={t("Sub Variant Value")}
                                             />
                                           </div>
                                           <div className=" ms-3 pb-2 align-self-end">
@@ -529,18 +546,12 @@ const ProductForm = () => {
                   </div>
                   <div className="col-12"></div>
                   <div className="col-12">
-                    <h4 className="mb-3"> Set Frame Postion</h4>
+                    <h4 className="mb-3">{t("Set Frame Position")}</h4>
                     <hr />
                   </div>
                   <div className="col-lg-6">
                     <div className="container-canvas">
-                      <Stage
-                        width={500}
-                        height={500}
-                        // onMouseDown={checkDeselect}
-                        // onTouchStart={checkDeselect}
-                        ref={stageRef}
-                      >
+                      <Stage width={500} height={500} ref={stageRef}>
                         <Layer>
                           <MainImage />
                           <Rect
@@ -561,9 +572,9 @@ const ProductForm = () => {
                       <div className="col-12">
                         <InputComponent
                           name="x_position"
-                          InnerPlaceholder="Enter X Postion"
+                          InnerPlaceholder={t("Enter X Position")}
                           fullWidth
-                          label="X Postion *"
+                          label={t("X Position")}
                           formik={formik}
                           disabled={loading}
                         />
@@ -571,9 +582,9 @@ const ProductForm = () => {
                       <div className="col-12">
                         <InputComponent
                           name="y_position"
-                          InnerPlaceholder="Enter Y Postion"
+                          InnerPlaceholder={t("Enter Y Position")}
                           fullWidth
-                          label="Y Postion *"
+                          label={t("Y Position")}
                           formik={formik}
                           disabled={loading}
                         />
@@ -581,9 +592,9 @@ const ProductForm = () => {
                       <div className="col-12">
                         <InputComponent
                           name="frame_width"
-                          InnerPlaceholder="Enter frame width"
+                          InnerPlaceholder={t("Enter frame width")}
                           fullWidth
-                          label="Frame Width *"
+                          label={t("Frame Width")}
                           formik={formik}
                           disabled={loading}
                         />
@@ -591,9 +602,9 @@ const ProductForm = () => {
                       <div className="col-12">
                         <InputComponent
                           name="frame_height"
-                          InnerPlaceholder="Enter frame hight"
+                          InnerPlaceholder={t("Enter frame height")}
                           fullWidth
-                          label="Frame Hight *"
+                          label={t("Frame Height")}
                           formik={formik}
                           disabled={loading}
                         />
@@ -601,7 +612,7 @@ const ProductForm = () => {
                     </div>
                   </div>
                   <div className="col-12">
-                    <h5 className="">Product Variant</h5>
+                    <h5 className="">{t("Product Variant")}</h5>
                     <hr />
                     <FieldArray
                       name="product_variants"
@@ -611,7 +622,7 @@ const ProductForm = () => {
                             <ButtonComponent
                               variant="contained"
                               startIcon={<AddIcon />}
-                              text="Add Variant"
+                              text={t("Add Variant")}
                               onClick={() => push(productVariantsInitialData)}
                             />
                           </div>
@@ -634,11 +645,10 @@ const ProductForm = () => {
                                           </div>
                                           <div className="my-3">
                                             <SelectComponent
-                                              label="Select Color"
+                                              label={t("Select Color")}
                                               fullWidth
                                               size="small"
                                               name={`product_variants.${variantIndex}.color_id`}
-                                              // title="Select Color"
                                               value={
                                                 formik.values.product_variants[
                                                   variantIndex
@@ -653,7 +663,7 @@ const ProductForm = () => {
                                             <ButtonComponent
                                               width="100%"
                                               variant="outlined"
-                                              text="Remove"
+                                              text={t("Remove")}
                                               disabled={variantIndex == 0}
                                               onClick={
                                                 variantIndex == 0
@@ -675,332 +685,12 @@ const ProductForm = () => {
                       )}
                     />
                   </div>
-                  {/* <div className="col-lg-12">
-                    <h5 className="">Product Variant</h5>
-                    <hr />
-                    <FieldArray
-                      name="product_variants"
-                      render={({ remove, push }) => (
-                        <>
-                          {size(formik.values.product_variants) > 0 &&
-                            map(
-                              formik.values.product_variants,
-                              (item, variantIndex) => {
-                                return (
-                                  <>
-                                    {variantIndex === 0 ? (
-                                      <div className="product-variant-box pt-3">
-                                        <div className="row justify-content-between ">
-                                          <div className="col-lg-4">
-                                            <ImageUploadBox
-                                              name={`product_variants.${variantIndex}.image_id`}
-                                              id={item.image_id}
-                                              formik={formik}
-                                              disabled
-                                            />
-                                          </div>
-                                          <div className="col-lg-8">
-                                            <div className="row">
-                                              <div className="col-lg-6">
-                                                <SelectComponent
-                                                  label="Select Color"
-                                                  fullWidth
-                                                  size="small"
-                                                  name={`product_variants.${variantIndex}.color_id`}
-                                                  // title="Select Color"
-                                                  value={
-                                                    formik.values
-                                                      .product_variants[
-                                                      variantIndex
-                                                    ].color_id
-                                                  }
-                                                  isShowValue
-                                                  optionList={colorList}
-                                                  formik={formik}
-                                                />
-                                              </div>
-                                              <div className="col-12">
-                                                <FieldArray
-                                                  name={`product_variants.${variantIndex}.sub_variants`}
-                                                  render={({
-                                                    remove,
-                                                    push,
-                                                  }) => (
-                                                    <div className="sub-variant-box pt-3">
-                                                      <div className="row g-3">
-                                                        <div className="col-12">
-                                                          <FlexBox className="justify-content-between">
-                                                            <h5 className="">
-                                                              Product Sub
-                                                              Variants
-                                                            </h5>
-                                                            <ButtonComponent
-                                                              variant="contained"
-                                                              startIcon={
-                                                                <AddIcon />
-                                                              }
-                                                              text="Add Sub Variant"
-                                                              onClick={() =>
-                                                                push(
-                                                                  subVariantsInitialData
-                                                                )
-                                                              }
-                                                            />
-                                                          </FlexBox>
-                                                        </div>
-                                                        {map(
-                                                          item.sub_variants,
-                                                          (
-                                                            data,
-                                                            subVariantIndex
-                                                          ) => {
-                                                            return (
-                                                              <div className="col-12">
-                                                                <div className="sub-variant-container">
-                                                                  <div className="row g-3 align-items-center">
-                                                                    <div className="col-lg-5">
-                                                                      <InputComponent
-                                                                        InnerPlaceholder="Sub Varint Value"
-                                                                        fullWidth
-                                                                        inputClassname="mb-0"
-                                                                        name={`product_variants.${variantIndex}.sub_variants.${subVariantIndex}.value`}
-                                                                        value={
-                                                                          formik
-                                                                            .values
-                                                                            .product_variants[
-                                                                            variantIndex
-                                                                          ]
-                                                                            .sub_variants[
-                                                                            subVariantIndex
-                                                                          ]
-                                                                            .value
-                                                                        }
-                                                                        formik={
-                                                                          formik
-                                                                        }
-                                                                        isUseCustomeValue
-                                                                        // label="Price *"
-                                                                      />
-                                                                    </div>
-                                                                    <div className="col-lg-5">
-                                                                      <InputComponent
-                                                                        InnerPlaceholder="Quntity"
-                                                                        fullWidth
-                                                                        inputClassname="mb-0"
-                                                                        name={`product_variants.${variantIndex}.sub_variants.${subVariantIndex}.quantity`}
-                                                                        formik={
-                                                                          formik
-                                                                        }
-                                                                        value={
-                                                                          formik
-                                                                            .values
-                                                                            .product_variants[
-                                                                            variantIndex
-                                                                          ]
-                                                                            .sub_variants[
-                                                                            subVariantIndex
-                                                                          ]
-                                                                            .quantity
-                                                                        }
-                                                                        isUseCustomeValue
-                                                                        // label="Price *"
-                                                                      />
-                                                                    </div>
-                                                                    <div className="col-lg-2">
-                                                                      <DeleteOutlineOutlinedIcon
-                                                                        onClick={() => {
-                                                                          remove(
-                                                                            subVariantIndex
-                                                                          );
-                                                                        }}
-                                                                      />
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            );
-                                                          }
-                                                        )}
-                                                      </div>
-                                                    </div>
-                                                  )}
-                                                />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ) : (
-                                      <div className="product-variant-box pt-3">
-                                        <div className="row justify-content-between ">
-                                          <div className="col-lg-4">
-                                            <ImageUploadBox
-                                              name={`product_variants.${variantIndex}.image_id`}
-                                              id={item.image_id}
-                                              formik={formik}
-                                            />
-                                          </div>
-                                          <div className="col-lg-8">
-                                            <div className="row">
-                                              <div className="col-lg-12 ">
-                                                <FlexBox className="justify-content-end mb-3">
-                                                  <ButtonComponent
-                                                    variant="outlined"
-                                                    text="Remove"
-                                                    onClick={() => {
-                                                      remove(variantIndex);
-                                                    }}
-                                                  />
-                                                </FlexBox>
-                                              </div>
-                                              <div className="col-lg-6">
-                                                <SelectComponent
-                                                  label="Select Color"
-                                                  fullWidth
-                                                  size="small"
-                                                  name={`product_variants.${variantIndex}.color_id`}
-                                                  value={
-                                                    formik.values
-                                                      .product_variants[
-                                                      variantIndex
-                                                    ].color_id
-                                                  }
-                                                  isShowValue
-                                                  optionList={colorList}
-                                                  formik={formik}
-                                                />
-                                              </div>
-                                              <div className="col-12">
-                                                <FieldArray
-                                                  name={`product_variants.${variantIndex}.sub_variants`}
-                                                  render={({
-                                                    remove,
-                                                    push,
-                                                  }) => (
-                                                    <div className="sub-variant-box pt-3">
-                                                      <div className="row g-3">
-                                                        <div className="col-12">
-                                                          <FlexBox className="justify-content-between">
-                                                            <h5 className="">
-                                                              Product Sub
-                                                              Variants
-                                                            </h5>
-                                                            <ButtonComponent
-                                                              variant="contained"
-                                                              startIcon={
-                                                                <AddIcon />
-                                                              }
-                                                              text="Add Sub Variant"
-                                                              onClick={() =>
-                                                                push(
-                                                                  subVariantsInitialData
-                                                                )
-                                                              }
-                                                            />
-                                                          </FlexBox>
-                                                        </div>
-                                                        {map(
-                                                          item.sub_variants,
-                                                          (
-                                                            data,
-                                                            subVariantIndex
-                                                          ) => {
-                                                            return (
-                                                              <div className="col-12">
-                                                                <div className="sub-variant-container">
-                                                                  <div className="row g-3 align-items-center">
-                                                                    <div className="col-lg-5">
-                                                                      <InputComponent
-                                                                        InnerPlaceholder="Sub Varint Value"
-                                                                        fullWidth
-                                                                        inputClassname="mb-0"
-                                                                        name={`product_variants.${variantIndex}.sub_variants.${subVariantIndex}.value`}
-                                                                        value={
-                                                                          formik
-                                                                            .values
-                                                                            .product_variants[
-                                                                            variantIndex
-                                                                          ]
-                                                                            .sub_variants[
-                                                                            subVariantIndex
-                                                                          ]
-                                                                            .value
-                                                                        }
-                                                                        formik={
-                                                                          formik
-                                                                        }
-                                                                        isUseCustomeValue
-                                                                      />
-                                                                    </div>
-                                                                    <div className="col-lg-5">
-                                                                      <InputComponent
-                                                                        InnerPlaceholder="Quntity"
-                                                                        fullWidth
-                                                                        inputClassname="mb-0"
-                                                                        name={`product_variants.${variantIndex}.sub_variants.${subVariantIndex}.quantity`}
-                                                                        formik={
-                                                                          formik
-                                                                        }
-                                                                        value={
-                                                                          formik
-                                                                            .values
-                                                                            .product_variants[
-                                                                            variantIndex
-                                                                          ]
-                                                                            .sub_variants[
-                                                                            subVariantIndex
-                                                                          ]
-                                                                            .quantity
-                                                                        }
-                                                                        isUseCustomeValue
-                                                                      />
-                                                                    </div>
-                                                                    <div className="col-lg-2">
-                                                                      <DeleteOutlineOutlinedIcon
-                                                                        onClick={() => {
-                                                                          remove(
-                                                                            subVariantIndex
-                                                                          );
-                                                                        }}
-                                                                      />
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            );
-                                                          }
-                                                        )}
-                                                      </div>
-                                                    </div>
-                                                  )}
-                                                />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </>
-                                );
-                              }
-                            )}
-                          <div
-                            className="add-product-btn"
-                            onClick={() => push(productVariantsInitialData)}
-                          >
-                            <AddOutlinedIcon />
-                          </div>
-                        </>
-                      )}
-                    />
-                  </div> */}
                   <div className="col-12">
                     <FlexBox justifyContent="end" className="mt-3">
                       <ButtonComponent
                         variant="contained"
-                        text="Save"
+                        text={t("Save")}
                         type="submit"
-                        // onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
                       />
                     </FlexBox>
                   </div>

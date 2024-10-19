@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { getImageUrlById } from "../../utils/commonFunctions";
+import { ACCESS_TOKEN, REST_URL_SERVER } from "../../utils/constant";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
+
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CloseIcon from "@mui/icons-material/Close";
+
 import { ImageUploadBoxContainer } from "./styled";
-import { ACCESS_TOKEN, REST_URL_SERVER } from "../../utils/constant";
-import axios from "axios";
 import { ErrorTaster } from "../Toast";
 import { CircularProgress } from "@mui/material";
-import { getImageUrlById } from "../../utils/commonFunctions";
 
 const ImageUploadBox = (props) => {
   // eslint-disable-next-line react/prop-types, no-unused-vars
@@ -19,11 +22,15 @@ const ImageUploadBox = (props) => {
     disabled = false,
     name,
   } = props;
+
   const [loading, setLoading] = useState(false);
   const [imageId, setImageId] = useState(id);
 
+  const { t } = useTranslation();
+
   const onFileSelect = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       uploadImage(file);
     }
@@ -34,6 +41,7 @@ const ImageUploadBox = (props) => {
       let formData = new FormData();
       formData.append("image", file);
       setLoading(true);
+
       const response = await axios.post(
         `${REST_URL_SERVER}/images/upload`,
         formData,
@@ -44,30 +52,39 @@ const ImageUploadBox = (props) => {
           },
         }
       );
+
       setLoading(false);
+
       if (response.status === 200) {
         const { data } = response.data;
+
         if (formik) {
           formik.setFieldValue(name, data.id);
         }
+
         onUpload(data.id);
         setImageId(data.id);
       }
     } catch (error) {
       setLoading(false);
+
       if (error && error.data) {
         const { message } = error.data;
         return ErrorTaster(message);
       }
     }
   };
+
   const onCancel = () => {
     setImageId("");
+
     if (formik) {
       formik.setFieldValue(name, "");
     }
+
     onDelete();
   };
+
   useEffect(() => {
     if (id) {
       setImageId(id);
@@ -75,6 +92,7 @@ const ImageUploadBox = (props) => {
       setImageId("");
     }
   }, [id]);
+
   return (
     <ImageUploadBoxContainer>
       <div className="image-upload-box">
@@ -86,7 +104,7 @@ const ImageUploadBox = (props) => {
               <div className="image-cover">
                 <img src={getImageUrlById(imageId || id)} />
                 <div
-                  className="cancel-ico"
+                  className="cancel-icon"
                   onClick={disabled ? () => {} : onCancel}
                 >
                   <CloseIcon />
@@ -95,7 +113,7 @@ const ImageUploadBox = (props) => {
             ) : (
               <div className="content">
                 <AddPhotoAlternateIcon />
-                <div className="text">Add Image</div>
+                <div className="text">{t("Add Image")}</div>
               </div>
             )}
             <input

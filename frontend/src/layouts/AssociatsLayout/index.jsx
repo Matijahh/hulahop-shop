@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
-import Sidebar from "./Sidebar";
-import Cookies from "js-cookie";
-import { SuperAdminLayoutContainer } from "./styled";
-import { Button } from "@mui/material";
+import { useEffect } from "react";
 import {
   getUserType,
   handlePublicRedirection,
 } from "../../utils/commonFunctions";
+
+import Sidebar from "./Sidebar";
+import Cookies from "js-cookie";
+
+import { SuperAdminLayoutContainer } from "./styled";
 
 const SuperAdminLayout = (props) => {
   const { children } = props;

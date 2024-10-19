@@ -1,46 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import * as Yup from "yup";
-import { jwtDecode } from "jwt-decode";
-
-import { CommonWhiteBackground } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import { SettingsContainer } from "./styled";
-import ButtonComponent from "../../../components/ButtonComponent";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import axios from "axios";
+import { useTranslation } from "react-i18next";
+import { jwtDecode } from "jwt-decode";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
-import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+import { getUserType } from "../../../utils/commonFunctions";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { getUserType } from "../../../utils/commonFunctions";
-import { Loader } from "../../../components/Loader";
-import { useTranslation } from "react-i18next";
+import axios from "axios";
+import * as Yup from "yup";
 
+import { Col, Row } from "react-bootstrap";
+
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+import { CommonWhiteBackground } from "../../../components/Sections";
+import { SettingsContainer } from "./styled";
+import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+import { Loader } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
 
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  phone: Yup.string()
-    .matches(/^\d{10}$/, "Invalid phone number")
-    .required("Phone number is required"),
-});
-
 const Settings = () => {
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const [togglePassword, setTogglePassword] = useState(false);
   const [toggleNewPassword, setToggleNewPassword] = useState(false);
+
+  const { t } = useTranslation();
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required(t("First Name is required")),
+    lastName: Yup.string().required(t("Last Name is required")),
+    email: Yup.string()
+      .email(t("Invalid email!"))
+      .required(t("Email is required!")),
+    phone: Yup.string()
+      .matches(/^\d{10}$/, t("Invalid phone number"))
+      .required(t("Phone number is required")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -55,7 +57,9 @@ const Settings = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const decoded = jwtDecode(ACCESS_TOKEN);
+
       setLoading(true);
+
       const response = await commonAddUpdateQuery(
         `/users/${decoded.id}`,
         {
@@ -69,7 +73,9 @@ const Settings = () => {
         },
         "PATCH"
       );
+
       setLoading(false);
+
       if (response) {
         const { message } = response.data;
         SuccessTaster(message);
@@ -80,8 +86,10 @@ const Settings = () => {
   const uploadImage = async (file) => {
     let formData = new FormData();
     formData.append("image", file);
+
     try {
       setLoading(true);
+
       const response = await axios.post(
         `${REST_URL_SERVER}/images/upload`,
         formData,
@@ -100,6 +108,7 @@ const Settings = () => {
       }
     } catch (error) {
       setLoading(false);
+
       if (error && error.data) {
         const { message } = error.data;
         return ErrorTaster(message);
@@ -109,6 +118,7 @@ const Settings = () => {
 
   const handleFileChange = (e) => {
     const file = e.target && e.target.files[0];
+
     if (file) {
       uploadImage(file);
     }
@@ -116,9 +126,13 @@ const Settings = () => {
 
   const getUserData = async () => {
     const decoded = jwtDecode(ACCESS_TOKEN);
+
     setLoading(true);
+
     const response = await commonGetQuery(`/users/${decoded.id}`);
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       setUserData(data);
@@ -171,7 +185,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("First name")}
                   fullWidth
-                  InnerPlaceholder="Enter first name"
+                  InnerPlaceholder={t("Enter first name")}
                   name="firstName"
                   formik={formik}
                 />
@@ -180,7 +194,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Last name")}
                   fullWidth
-                  InnerPlaceholder="Enter last name"
+                  InnerPlaceholder={t("Enter last name")}
                   name="lastName"
                   formik={formik}
                 />
@@ -189,7 +203,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Email")}
                   fullWidth
-                  InnerPlaceholder="Enter your email"
+                  InnerPlaceholder={t("Enter email")}
                   name="email"
                   formik={formik}
                 />
@@ -198,7 +212,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Phone")}
                   fullWidth
-                  InnerPlaceholder="Enter your phone no."
+                  InnerPlaceholder={t("Enter phone no.")}
                   name="phone"
                   formik={formik}
                 />
@@ -207,7 +221,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Password")}
                   fullWidth
-                  InnerPlaceholder="Enter password"
+                  InnerPlaceholder={t("Enter password")}
                   name="password"
                   formik={formik}
                   renderIcon={
@@ -225,9 +239,9 @@ const Settings = () => {
               </Col>
               <Col md={6} lg={6} sm={12}>
                 <InputComponent
-                  label={t("Confirm Password ")}
+                  label={t("Confirm Password")}
                   fullWidth
-                  InnerPlaceholder="Enter confirm password"
+                  InnerPlaceholder={t("Enter confirm password")}
                   name="confirmPassword"
                   formik={formik}
                   renderIcon={
@@ -250,14 +264,6 @@ const Settings = () => {
           <Col md={7} lg={7} sm={7} className="mt-4"></Col>
           <Col md={5} lg={5} sm={5} className="mt-4">
             <Row className="g-3">
-              <Col md={6} lg={6} sm={6}>
-                {/* <ButtonComponent
-                  variant="outlined"
-                  size="large"
-                  text="BACK"
-                  width="100%"
-                /> */}
-              </Col>
               <Col md={6} lg={6} sm={6}>
                 <ButtonComponent
                   variant="contained"

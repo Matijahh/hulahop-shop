@@ -1,20 +1,23 @@
-import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import styled from "styled-components";
+
+import { DataGrid } from "@mui/x-data-grid";
 
 const TableWrapper = styled.div`
   .MuiDataGrid-columnSeparator {
     display: none !important;
   }
+
   .MuiDataGrid-columnHeaderTitle {
     white-space: normal !important;
   }
+
   .MuiDataGrid-columnHeaderTitleContainer {
     &:hover,
     &:focus {
       outline: none !important;
     }
   }
+
   .MuiDataGrid-columnHeader,
   .MuiDataGrid-columnHeaderDraggableContainer {
     &:focus {
@@ -22,43 +25,50 @@ const TableWrapper = styled.div`
     }
     outline: none !important;
   }
+
   .MuiDataGrid-cell {
     max-height: 100% !important;
-    /* min-height: 100% !important; */
     overflow: visible !important;
     white-space: normal !important;
     line-height: normal !important;
     height: unset !important;
     padding: 10px 0;
+
     &:focus {
       outline: none !important;
     }
   }
+
   .MuiTablePagination-selectLabel,
   .MuiTablePagination-displayedRows {
     margin: 0 !important;
   }
+
   .MuiDataGrid-cellContent {
     white-space: normal !important;
     line-height: normal !important;
     text-overflow: pre-wrap !important;
   }
+
   .MuiDataGrid-cellContent {
     white-space: normal !important;
     line-height: normal !important;
     overflow: visible;
   }
+
   .MuiDataGrid-row {
     height: auto !important;
-    /* max-height: 500px !important; */
   }
+
   .MuiDataGrid-cell {
     padding: 12px !important;
     align-items: flex-start !important;
+
     &:focus-within {
       outline: none !important;
     }
   }
+
   .css-1m51uxs-MuiDataGrid-root
     .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)
     > .MuiDataGrid-cell {

@@ -1,29 +1,30 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
+import { get } from "lodash";
+
 import { ColorBox, ProductSettingSidebarContainer } from "./styled";
-import { Divider, TextareaAutosize } from "@mui/material";
+import { Divider } from "@mui/material";
+import { Col, Row } from "react-bootstrap";
+
 import ButtonComponent from "../../../../components/ButtonComponent";
 import InputComponent from "../../../../components/InputComponent";
 import SelectComponent from "../../../../components/SelectComponent";
-import CategorySidebar from "../../../../components/SuperAdmin/CategorySidebar";
-import { Col, Row } from "react-bootstrap";
-import { get } from "lodash";
-import { useTranslation } from "react-i18next";
 
 const ProductSettingSidebar = ({
   handleAddDesign,
   formik,
   product,
   loading,
-  generatedImageRef,
   selectImage,
   setShowFrame,
 }) => {
   const { t } = useTranslation();
+
   const onColorChange = (data) => {
     if (formik.values.selectedColorIds.includes(data.id)) {
       const filtered = formik.values.selectedColorIds.filter(
         (item) => item !== data.id
       );
+
       formik.setFieldValue("selectedColorIds", filtered);
     } else {
       formik.setFieldValue("selectedColorIds", [
@@ -42,6 +43,7 @@ const ProductSettingSidebar = ({
           id: item.color_id,
         };
       });
+
     return (
       (colors &&
         colors.filter((color) =>
@@ -50,6 +52,7 @@ const ProductSettingSidebar = ({
       []
     );
   };
+
   return (
     <ProductSettingSidebarContainer>
       <div className="title">{t("Product settings")}</div>
@@ -139,8 +142,8 @@ const ProductSettingSidebar = ({
           <Col>
             <label className="mt-3">{t("Selling Price")}</label>
             <InputComponent
-              helperText="Selling Price (RSD)"
-              InnerPlaceholder="Selling Price (RSD)"
+              helperText={`${t("Selling Price")} (RSD)`}
+              InnerPlaceholder={`${t("Selling Price")} (RSD)`}
               fullWidth
               name="productPrice"
               formik={formik}
@@ -149,8 +152,8 @@ const ProductSettingSidebar = ({
           <Col>
             <label className="mt-3">{t("Base Price")}</label>
             <InputComponent
-              helperText="Base Price (RSD)"
-              InnerPlaceholder="Base Price (RSD)"
+              helperText={`${t("Base Price")} (RSD)`}
+              InnerPlaceholder={`${t("Base Price")} (RSD)`}
               fullWidth
               value={get(product, "price")}
               disabled
@@ -159,12 +162,11 @@ const ProductSettingSidebar = ({
           <Col>
             <label className="mt-3">{t("Earning")}</label>
             <InputComponent
-              helperText="Earning (RSD)"
-              InnerPlaceholder="Earning (RSD)"
+              helperText={`${t("Earning")} (RSD)`}
+              InnerPlaceholder={`${t("Earning")} (RSD)`}
               fullWidth
               name="associateProfit"
               value={formik.values["productPrice"] - get(product, "price")}
-              // formik={formik}
               disabled
             />
           </Col>

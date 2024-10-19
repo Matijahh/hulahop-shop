@@ -1,27 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import Tables from "../../../components/SuperAdmin/Tables";
 import { renderHeader } from "./mock";
-import map from "lodash/map";
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import AddIcon from "@mui/icons-material/Add";
-
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { debounce, size } from "lodash";
-import { LoaderContainer } from "../../../components/Loader";
-import ModalComponent from "../../../components/ModalComponent";
+import * as Yup from "yup";
+import map from "lodash/map";
 
-const validation = Yup.object().shape({
-  en: Yup.string().required("English word is required!"),
-  sb: Yup.string().required("Serabian word is required!"),
-});
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { LoaderContainer } from "../../../components/Loader";
+
+import Tables from "../../../components/SuperAdmin/Tables";
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import AddIcon from "@mui/icons-material/Add";
+import ModalComponent from "../../../components/ModalComponent";
 
 const Translation = () => {
   const [loading, setLoading] = useState(false);
@@ -30,6 +26,14 @@ const Translation = () => {
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    en: Yup.string().required(t("English word is required!")),
+    sb: Yup.string().required(t("Serbian word is required!")),
+  });
+
   const formik = useFormik({
     initialValues: {
       id: null,
@@ -42,14 +46,19 @@ const Translation = () => {
         en: values.en,
         sb: values.sb,
       };
+
       const URL = "/translations";
+
       setLoading(true);
+
       const response = await commonAddUpdateQuery(
         URL,
         reqBody
         // values.id ? "PATCH" : "POST"
       );
+
       setLoading(false);
+
       if (response) {
         handeleClose();
         getWordsList();
@@ -59,12 +68,17 @@ const Translation = () => {
 
   const getWordsList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/translations/sb");
+
     if (response) {
       const data = response.data;
+
       let WordListArray = [];
+
       if (size(data) > 0) {
         let id = 1;
+
         for (const key in data) {
           if (Object.hasOwnProperty.call(data, key)) {
             const value = data[key];
@@ -77,66 +91,40 @@ const Translation = () => {
           }
           id++;
         }
+
         setWordsList(WordListArray);
       }
+
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const handelEdit = (item) => {
     const { en, sb } = item;
+
     formik.setValues({
       id: item.id,
       en: en,
       sb: sb,
     });
+
     setIsOpen(true);
   };
 
   const setTableRenderData = (data) => {
-    // setLoading(true);
     const renderData = map(data, (item, index) => ({
       ...item,
       no: `${index + 1}`,
       en: item.en,
       sb: item.sb,
       id: item.id,
-      // handleDelete,
       handelEdit,
     }));
-    // setLoading(false);
 
     return renderData;
   };
-
-  // const handleDelete = async (id) => {
-  //   setLoading(true);
-  //   const response = await commonAddUpdateQuery(
-  //     `/colors/${id}`,
-  //     null,
-  //     "DELETE"
-  //   );
-  //   if (response) {
-  //     getWordsList();
-  //   }
-  //   setLoading(false);
-  // };
-
-  // const EditWord = (id) => {
-  //   if (id && size(wordsList) > 0) {
-  //     const foundObject = find(wordsList, { id: id });
-  //     if (!isEmpty(foundObject)) {
-  //       setIsOpen(true);
-  //       formik.setValues({
-  //         ...formik.values,
-  //         id: get(foundObject, "id", ""),
-  //         sb: get(foundObject, "sb", ""),
-  //         en: get(foundObject, "en", ""),
-  //       });
-  //     }
-  //   }
-  // };
 
   const AddWord = () => {
     formik.resetForm();
@@ -179,7 +167,6 @@ const Translation = () => {
   };
 
   useEffect(() => {
-    // setWordsList(WordListData);
     getWordsList();
   }, []);
 
@@ -189,18 +176,18 @@ const Translation = () => {
     <>
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
-          <div className="main-title ">Translations</div>
+          <div className="main-title ">{t("Translations")}</div>
           <FlexBox>
             <InputComponent
               type="search"
-              label="Search"
+              label={t("Search")}
               value={searchText}
               onChange={handleChange}
             />
             <ButtonComponent
               variant="contained"
               startIcon={<AddIcon />}
-              text="Add Word"
+              text={t("Add Word")}
               onClick={() => AddWord()}
             />
           </FlexBox>
@@ -216,29 +203,32 @@ const Translation = () => {
               ? setTableRenderData(wordsList)
               : []
           }
-          header={renderHeader}
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
         />
       </CommonWhiteBackground>
       <ModalComponent
         open={isOpen}
-        title={formik && formik.values.id ? "Edit Word" : "Add Word"}
+        title={formik && formik.values.id ? t("Edit Word") : t("Add Word")}
         handleClose={handeleClose}
         size="m"
       >
         <form onSubmit={formik.handleSubmit}>
           <InputComponent
-            label="English Word"
+            label={t("English Word")}
             fullWidth
-            InnerPlaceholder="Enter English Word"
+            InnerPlaceholder={t("Enter English Word")}
             name="en"
             formik={formik}
             className="mt-3"
             disabled={loading}
           />
           <InputComponent
-            label="Serabian Word"
+            label={t("Serbian Word")}
             fullWidth
-            InnerPlaceholder="Enter Serabian Word"
+            InnerPlaceholder={t("Enter Serbian Word")}
             name="sb"
             formik={formik}
             className="mt-3"
@@ -250,15 +240,16 @@ const Translation = () => {
                 className=""
                 variant="outlined"
                 fullWidth
-                text="Cancel"
+                text={t("Cancel")}
                 onClick={handeleClose}
               />
               <ButtonComponent
                 variant="contained"
                 fullWidth
-                text={formik && formik.values.id ? "Update Word" : "Add Word"}
+                text={
+                  formik && formik.values.id ? t("Update Word") : t("Add Word")
+                }
                 type="submit"
-                // loading={loading}
               />
             </FlexBox>
           </>

@@ -1,46 +1,46 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
-import { Col, Row } from "react-bootstrap";
-import { Checkbox, FormControlLabel, Radio } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import * as Yup from "yup";
-
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import { SignInContainer } from "./styled";
-import { FlexBox } from "../../../components/Sections";
 import { ROUTE_MAIN, ROUTE_SIGN_UP } from "../../../routes/routes";
 import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
-import { SuccessTaster } from "../../../components/Toast";
+import * as Yup from "yup";
 import {
   handleRedirection,
   setTokenAfterLogin,
 } from "../../../utils/commonFunctions";
-
 import logo from "../../../assets/images/logo.png";
-import { useTranslation } from "react-i18next";
+
+import { Col, Row } from "react-bootstrap";
+import { Checkbox } from "@mui/material";
+import { SignInContainer } from "./styled";
+import { FlexBox } from "../../../components/Sections";
+import { SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
 
-const validation = Yup.object().shape({
-  id: Yup.string().required("This filed is required!"),
-  password: Yup.string()
-    .required("Password is required.")
-    .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-      "Please enter a valid password."
-    ),
-});
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
 
 const SignIn = ({ maxWidth, RedirectUrl }) => {
   const [loading, setLoading] = useState(false);
   const [togglePassword, setTogglePassword] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("ASSOCIATE");
+
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    id: Yup.string().required(t("This field is required!")),
+    password: Yup.string()
+      .required(t("Password is required."))
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        "Please enter a valid password."
+      ),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -96,16 +96,12 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
     );
   };
 
-  const handleCheckboxChange = (e) => {
-    const value = e.target && e.target.value;
-    formik.setFieldValue("type", value);
-  };
-
   return (
     <SignInContainer maxWidth={maxWidth}>
       <Helmet>
         <title>{t("Sign In - HulaHop")}</title>
       </Helmet>
+
       <div className="logo-container">
         <div
           className="cover cursor-po2inter"
@@ -116,12 +112,14 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
           <img src={logo} />
         </div>
       </div>
+
       <div className="title-container">
         <div className="title">{t("Sign In")}</div>
         <div className="description">
           {t("Please sign in to your account.")}
         </div>
       </div>
+
       <form onSubmit={formik.handleSubmit}>
         <Row>
           <Col className="col-12">
@@ -158,6 +156,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
               />
             )}
           </Col>
+
           <Col className="col-12">
             <InputComponent
               label={t("Password")}
@@ -179,6 +178,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
               type={togglePassword ? "text" : "password"}
             />
           </Col>
+
           <Col className="col-12 ">
             <FlexBox>
               <FlexBox justifyContent="flex-start remember-me">
@@ -193,6 +193,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
               </Link>
             </FlexBox>
           </Col>
+
           <Col className="col-12 buttons ">
             <ButtonComponent
               type="submit"
@@ -203,6 +204,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
               disabled={loading}
             />
           </Col>
+
           {!maxWidth && (
             <Col className="col-12">
               <div className="info-text">

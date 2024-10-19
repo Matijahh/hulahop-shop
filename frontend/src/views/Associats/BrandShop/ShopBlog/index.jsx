@@ -1,40 +1,44 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
 import { connect } from "react-redux";
-import { Helmet } from "react-helmet";
 import { get, map, size } from "lodash";
-
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID,
   ROUTE_MAIN_BLOG_SINGLE,
 } from "../../../../routes/routes";
 import { getImageUrlById } from "../../../../utils/commonFunctions";
 import { commonGetQuery } from "../../../../utils/axiosInstance";
-import SliderSecction from "../Home/SliderSecction";
+import parse from "html-react-parser";
+import moment from "moment";
+
+import { Helmet } from "react-helmet";
 import { HomeContainer } from "../Home/styled";
 
-const ShopBlog = ({ isAssociateProduct, storeData }) => {
-  const navigate = useNavigate();
-  const params = useParams();
+import SliderSection from "../Home/SliderSection";
+
+const ShopBlog = ({ storeData }) => {
   const [loading, setLoading] = useState(false);
   const [blogList, setBlogList] = useState([]);
   const [blogSlider, setBlogSlider] = useState([]);
+
+  const navigate = useNavigate();
+  const params = useParams();
   const { t } = useTranslation();
 
   const getBlogList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery(
       `/associate_blogs/store/${storeData?.id ?? 0}`
     );
+
     if (response) {
       const { data } = response.data;
       setBlogList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
@@ -60,7 +64,7 @@ const ShopBlog = ({ isAssociateProduct, storeData }) => {
         <title>{t("Blogs - HulaHop")}</title>
       </Helmet>
 
-      <SliderSecction data={storeData} />
+      <SliderSection data={storeData} />
 
       <div className="blog-listing-section">
         <div className="container">

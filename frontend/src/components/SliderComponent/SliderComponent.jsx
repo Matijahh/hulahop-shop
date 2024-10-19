@@ -1,23 +1,20 @@
-import React from "react";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const SliderComponent = (props) => {
-  const {
-    dots = true,
-    arrows = false,
-    infinite = true,
-    speed = 500,
-    autoplay = true,
-    slidesToShow = 3,
-    slidesToScroll = 1,
-    centerMode = false,
-    centerPadding,
-    children,
-  } = props;
-
+const SliderComponent = ({
+  dots = true,
+  arrows = false,
+  infinite = true,
+  speed = 500,
+  autoplay = true,
+  slidesToShow = 3,
+  slidesToScroll = 1,
+  centerMode = false,
+  centerPadding,
+  children,
+}) => {
   const settings_slider = {
     dots: dots,
     arrows: arrows,
@@ -28,7 +25,6 @@ const SliderComponent = (props) => {
     slidesToScroll: slidesToScroll,
     centerMode: centerMode,
     centerPadding: centerPadding,
-    // nextArrow,
     responsive: [
       {
         breakpoint: 1400,

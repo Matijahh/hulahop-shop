@@ -13,6 +13,7 @@ export const SuperAdminLayoutContainer = styled.div`
       margin-left: 0px;
     }
   }
+
   a {
     text-decoration: none !important;
     color: inherit !important;

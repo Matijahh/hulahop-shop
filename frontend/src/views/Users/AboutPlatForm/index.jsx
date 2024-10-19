@@ -1,32 +1,38 @@
-import React, { useEffect, useState } from "react";
-import SliderComponent from "../../../components/SliderComponent/SliderComponent";
-
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { get, map, size } from "lodash";
 import { getImageUrlById } from "../../../utils/commonFunctions";
+
+import SliderComponent from "../../../components/SliderComponent/SliderComponent";
+
 import { LoaderContainer } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
 
 const AboutPlatForm = () => {
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [aboutSliderList, setAboutSliderList] = useState([]);
 
+  const { t } = useTranslation();
+
   const getAboutSliderList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/about_page_slider");
+
     if (response) {
       const { data } = response.data;
       setAboutSliderList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
     getAboutSliderList();
   }, []);
+
   return (
     <>
       {loading && <LoaderContainer />}
@@ -38,7 +44,7 @@ const AboutPlatForm = () => {
           <div className="about-slider">
             <SliderComponent dots={false} arrows={true} slidesToShow={1}>
               {size(aboutSliderList) > 0 &&
-                map(aboutSliderList, (item, index) => {
+                map(aboutSliderList, (item) => {
                   return (
                     <div className="about-platform-slide">
                       <div
@@ -51,11 +57,9 @@ const AboutPlatForm = () => {
                       >
                         <div className="about-slider-wrapper">
                           <div className="description-box">
-                            {/* <p>Textiles</p> */}
                             <h5>{t(get(item, "description", ""))} </h5>
                           </div>
                         </div>
-                        {/* <img src={associate1} alt="" /> */}
                       </div>
                     </div>
                   );

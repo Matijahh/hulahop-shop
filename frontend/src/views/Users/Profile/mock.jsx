@@ -1,10 +1,9 @@
 import { get } from "lodash";
+import { getImageUrlById } from "../../../utils/commonFunctions";
 
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-
-import { getImageUrlById } from "../../../utils/commonFunctions";
 
 export const renderHeader = [
   {
@@ -27,22 +26,6 @@ export const renderHeader = [
     renderCell: ({ row }) => (
       <>
         <img src={getImageUrlById(row.image)} />
-        {/* <PreviewJsonImage
-          previewImageUrl={getImageUrlById(row.image)}
-          json={
-            get(row, "orderDetail.associate_product.image_json.imageObj", "")
-              ? JSON.parse(
-                  get(
-                    row,
-                    "orderDetail.associate_product.image_json.imageObj",
-                    ""
-                  )
-                )
-              : null
-          }
-          maxHeight="120px"
-          productData={get(row, "orderDetail.associate_product")}
-        /> */}
       </>
     ),
     sortable: false,
@@ -50,13 +33,13 @@ export const renderHeader = [
 
   {
     field: "id",
-    headerName: "order Id",
+    headerName: "Order ID",
     width: 180,
     align: "left",
   },
   {
     field: "date",
-    headerName: "order Date",
+    headerName: "Order Date",
     width: 180,
     align: "left",
   },
@@ -89,6 +72,7 @@ export const renderHeader = [
     ),
   },
 ];
+
 export const WishListHeader = [
   {
     field: "no",

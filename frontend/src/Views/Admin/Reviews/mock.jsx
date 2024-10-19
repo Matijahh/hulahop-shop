@@ -22,7 +22,7 @@ export const renderHeader = [
   },
   {
     field: "product_name",
-    headerName: "Product Name",
+    headerName: "Product name",
     width: 180,
     align: "left",
   },
@@ -47,7 +47,7 @@ export const renderHeader = [
 
   {
     field: "date",
-    headerName: "order Date",
+    headerName: "Order Date",
     width: 180,
     align: "left",
   },
@@ -69,7 +69,7 @@ export const renderHeader = [
     headerName: "Action",
     width: 150,
     align: "left",
-    renderCell: (params) => (
+    renderCell: () => (
       <>
         <DeleteOutlineOutlinedIcon />
       </>

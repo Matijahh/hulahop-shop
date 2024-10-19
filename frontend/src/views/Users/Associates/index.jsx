@@ -1,30 +1,23 @@
-import React, { useEffect, useState } from "react";
-
-import associate1 from "../../../assets/images/associate1.jpg";
-import associate2 from "../../../assets/images/associate2.jpg";
-import associate3 from "../../../assets/images/associate3.jpg";
-import associate4 from "../../../assets/images/associate4.jpg";
-import associate5 from "../../../assets/images/associate5.jpg";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { commonGetQuery } from "../../../utils/axiosInstance";
-import { get, isEmpty, map, size } from "lodash";
+import { get, map, size } from "lodash";
 import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
-import {
-  ROUTE_ASSOCIATE_BRAND_STORE,
-  ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW,
-} from "../../../routes/routes";
+import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
+
 import { Helmet } from "react-helmet";
+import { LoaderContainer } from "../../../components/Loader";
 
 const Associates = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [associatesList, setAssociatesList] = useState([]);
   const { t } = useTranslation();
 
   const getAssociatesList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/associates");
+
     if (response) {
       const { data } = response.data;
       const filteredData = data.filter(
@@ -33,17 +26,22 @@ const Associates = () => {
       setAssociatesList(filteredData);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
     getAssociatesList();
   }, []);
+
   return (
     <div className="page-wrapper associates-page">
       <Helmet>
         <title>{t("Associates List - HulaHop")}</title>
       </Helmet>
+
+      {loading && <LoaderContainer />}
+
       <div className="associates-list-section">
         <div className="container">
           <div className="row">
@@ -53,13 +51,12 @@ const Associates = () => {
               </div>
             </div>
           </div>
+
           <div className="row g-5">
             {size(associatesList) > 0 &&
               map(associatesList, (item, index) => {
                 return (
                   <>
-                    {/* {!isEmpty(get(item, "store_layout_details", [])) &&
-                  size(get(item, "store_layout_details", [])) > 0 ? ( */}
                     <div className="col-12 col-md-6 col-lg-4" key={index}>
                       <div
                         className="assosiate-box"
@@ -120,7 +117,6 @@ const Associates = () => {
                         </div>
                       </div>
                     </div>
-                    {/* ) : null} */}
                   </>
                 );
               })}

@@ -1,11 +1,12 @@
+/* eslint-disable react/display-name */
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Stage, Layer, Image, Transformer, Rect, Group } from "react-konva";
-import { get } from "lodash";
 import useImage from "use-image";
+import { get } from "lodash";
+
+import { Stage, Layer, Image, Transformer, Rect, Group } from "react-konva";
 import { ImageContainer } from "../styled";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 const ImageComponent = ({
   imageProps,
@@ -14,9 +15,11 @@ const ImageComponent = ({
   onChange,
   dragBoundFunc,
 }) => {
+  const [image] = useImage(imageProps.image, "anonymous", "origin");
+
   const imageRef = useRef();
   const trRef = useRef();
-  const [image] = useImage(imageProps.image, "anonymous", "origin");
+
   useEffect(() => {
     if (isSelected) {
       trRef.current.nodes([imageRef.current]);
@@ -112,7 +115,9 @@ const NewImageEditor = ({
 
   useEffect(() => {
     setLoading(true);
+
     const savedState = localStorage.getItem("canvasState");
+
     if (pickImageUrl !== images[0]?.image) {
       setImages([
         {
@@ -129,6 +134,7 @@ const NewImageEditor = ({
     }
 
     const mainProductImage = new window.Image();
+
     mainProductImage.src = imgURL;
     mainProductImage.onload = () => {
       setLoading(false);
@@ -179,10 +185,12 @@ const NewImageEditor = ({
     const stage = stageRef.current.getStage();
     selectImage(null);
     setShowFrame(false);
+
     const dataURL = await stage.toDataURL({
       mimeType: "image/png",
       quality: 1.0,
     });
+
     handleSubmit(dataURL);
   };
 
@@ -210,11 +218,14 @@ const NewImageEditor = ({
           <div className="list-item">
             <DeleteIcon onClick={removeImage} />
           </div>
-          <div className="item" onClick={() => SaveImage()} ref={imageRef}>
-            {/* <SaveOutlinedIcon /> */}
-          </div>
+          <div
+            className="item"
+            onClick={() => SaveImage()}
+            ref={imageRef}
+          ></div>
         </div>
       </div>
+
       <div className="container-canvas">
         <Stage width={500} height={500} ref={stageRef}>
           <Layer>

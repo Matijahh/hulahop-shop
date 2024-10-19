@@ -1,18 +1,19 @@
-import React from "react";
-import * as Yup from "yup";
-import ModalComponent from "../../../components/ModalComponent";
-import { RequestWithdrawalContainer } from "./styled";
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import { Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
 import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
-import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 import { jwtDecode } from "jwt-decode";
-import { useTranslation } from "react-i18next";
+import * as Yup from "yup";
 
-const RequestWithdrawal = ({ isOpen, toggle, userData, refresh, wallet }) => {
+import ModalComponent from "../../../components/ModalComponent";
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+
+import { RequestWithdrawalContainer } from "./styled";
+import { Col, Row } from "react-bootstrap";
+import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+
+const RequestWithdrawal = ({ isOpen, toggle, refresh, wallet }) => {
   const { t } = useTranslation();
 
   const formik = useFormik({
@@ -22,16 +23,19 @@ const RequestWithdrawal = ({ isOpen, toggle, userData, refresh, wallet }) => {
     },
     validationSchema: Yup.object({
       withdrawalAmount: Yup.number()
-        .min(1, "Withdrawal amount must be greater than 0")
+        .min(1, t("Withdrawal amount must be greater than 0"))
         .required("Please enter the withdrawal amount"),
     }),
     onSubmit: async (values) => {
       if (parseInt(wallet) <= 0) {
-        ErrorTaster("Transaction is not allowed!");
+        ErrorTaster(t("Transaction is not allowed!"));
         return;
       }
+
       const decoded = jwtDecode(ACCESS_TOKEN);
+
       formik.setFieldValue("loading", true);
+
       const response = await commonAddUpdateQuery(
         "associate_withdrawn_request",
         {
@@ -40,7 +44,9 @@ const RequestWithdrawal = ({ isOpen, toggle, userData, refresh, wallet }) => {
           status: false,
         }
       );
+
       formik.setFieldValue("loading", false);
+
       if (response) {
         const { message } = response.data;
         SuccessTaster(message);
@@ -58,9 +64,9 @@ const RequestWithdrawal = ({ isOpen, toggle, userData, refresh, wallet }) => {
       </RequestWithdrawalContainer>
       <form onSubmit={formik.handleSubmit} className="form mt-4">
         <InputComponent
-          label="Enter withdrawal amount"
+          label={t("Enter withdrawal amount")}
           fullWidth
-          InnerPlaceholder="Enter value"
+          InnerPlaceholder={t("Enter value")}
           name="withdrawalAmount"
           formik={formik}
           disabled={formik.values.loading}

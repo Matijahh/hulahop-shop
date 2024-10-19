@@ -5,10 +5,12 @@ export const EditProductContainer = styled.div`
   .left-col {
     padding: 15px 30px;
   }
+
   .main-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
+
     img {
       width: 100%;
       height: 100%;
@@ -34,18 +36,22 @@ export const ProductSettingSidebarContainer = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+
   .info-form {
     padding: 15px;
     height: calc(100vh - 200px);
     overflow: scroll;
     padding-bottom: 80px;
+
     &::-webkit-scrollbar {
       display: none;
     }
   }
+
   label {
     margin-bottom: 9px;
   }
+
   .fix-footer {
     display: flex;
     justify-content: space-between;
@@ -59,8 +65,10 @@ export const ProductSettingSidebarContainer = styled.div`
     background-color: #fff;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
+
   .color-row {
     gap: 15px 0px;
+
     .color-col {
       display: flex;
       justify-content: center;
@@ -78,6 +86,7 @@ export const ColorBox = styled.div`
   justify-content: center;
   align-items: center;
   border: 3px solid transparent;
+
   &.active {
     border: 3px solid rgba(0, 0, 0, 0.3);
     padding: 0px;
@@ -85,6 +94,7 @@ export const ColorBox = styled.div`
     height: 30px;
     border-radius: 50%;
   }
+
   .dot {
     width: 20px;
     height: 20px;
@@ -93,6 +103,7 @@ export const ColorBox = styled.div`
     background-color: ${({ color }) => color};
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
   }
+
   .error-msg {
     font-size: 0.9rem;
     font-weight: 400;
@@ -102,6 +113,7 @@ export const ColorBox = styled.div`
 `;
 export const ImageContainer = styled.div`
   position: relative;
+
   .file-input {
     opacity: 0;
     position: absolute;
@@ -112,10 +124,12 @@ export const ImageContainer = styled.div`
     z-index: 999;
     cursor: pointer;
   }
+
   .image-action-buttons {
     position: absolute;
     top: 20px;
   }
+
   .button-list {
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 6px;
@@ -126,9 +140,11 @@ export const ImageContainer = styled.div`
       position: relative;
       overflow: hidden;
       cursor: pointer;
+
       &:nth-child(1) {
         border-top: none !important;
       }
+
       &:hover {
         cursor: pointer;
         background-color: rgb(241, 103, 109);
@@ -139,12 +155,14 @@ export const ImageContainer = styled.div`
       }
     }
   }
+
   .btn-container {
     position: absolute;
     bottom: 45px;
     padding-top: 8px;
     width: 53%;
   }
+
   .container-canvas {
     display: flex;
     justify-content: center;
@@ -159,6 +177,7 @@ export const ColorBarList = styled.div`
   align-items: center;
   margin-top: 50px;
   gap: 0 20px;
+
   .color-item {
     width: 22px;
     height: 22px;
@@ -168,6 +187,7 @@ export const ColorBarList = styled.div`
     padding: 3px;
     border: 2px solid transparent;
   }
+
   .active {
     border: 2px solid #000 !important;
   }

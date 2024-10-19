@@ -35,7 +35,7 @@ export const renderHeader = [
 
   {
     field: "color_name",
-    headerName: "Color Name",
+    headerName: "Color name",
     width: 180,
     align: "left",
   },

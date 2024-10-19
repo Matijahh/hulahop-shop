@@ -1,30 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import * as Yup from "yup";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
-
-import ReactQuillEditor from "../../../components/ReactQuillEditor";
-import styled from "styled-components";
-import InputComponent from "../../../components/InputComponent";
-import ImageUploadBox from "../../../components/ImageUploadBox";
-import ButtonComponent from "../../../components/ButtonComponent";
+import { useTranslation } from "react-i18next";
 import { ROUTE_ADMIN_BLOG } from "../../../routes/routes";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { get } from "lodash";
+import * as Yup from "yup";
+import styled from "styled-components";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+
+import ReactQuillEditor from "../../../components/ReactQuillEditor";
+import InputComponent from "../../../components/InputComponent";
+import ImageUploadBox from "../../../components/ImageUploadBox";
+import ButtonComponent from "../../../components/ButtonComponent";
 
 const BlogFormWrapper = styled.div``;
-const validation = Yup.object().shape({
-  heading: Yup.string().required("Heading is required!"),
-  content: Yup.string().required("Content is required!"),
-});
+
 const BlogForm = () => {
+  const [loading, setLoading] = useState();
+
   const navigation = useNavigate();
   const params = useParams();
-  const [loading, setLoading] = useState();
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    heading: Yup.string().required(t("Heading is required!")),
+    content: Yup.string().required(t("Content is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -36,19 +42,20 @@ const BlogForm = () => {
     validationSchema: validation,
     onSubmit: async (values) => {
       let id = get(params, "id");
+
       const URL = id ? `/blogs/${id}` : "/blogs";
+
       const reqBody = {
         heading: values.heading,
         category_name: values.category_name,
         content: values.content,
         image_id: values.image_id,
       };
+
       setLoading(true);
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
+
       setLoading(false);
       navigation(ROUTE_ADMIN_BLOG);
     },
@@ -63,6 +70,7 @@ const BlogForm = () => {
 
     let id = get(params, "id");
     const response = await commonGetQuery(`/blogs/${id}`);
+
     if (response) {
       const { data } = response.data;
       const { image_id, heading, category_name, content } = data;
@@ -72,10 +80,13 @@ const BlogForm = () => {
       formik.setFieldValue("content", content);
       setLoading(false);
     }
+
     setLoading(false);
   };
+
   useEffect(() => {
     let id = get(params, "id");
+
     if (id) {
       getBlogData();
     }
@@ -85,7 +96,7 @@ const BlogForm = () => {
     <BlogFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">Add Blog</div>
+          <div className="main-title ">{t("Add Blog")}</div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -103,14 +114,12 @@ const BlogForm = () => {
                     formik={formik}
                   />
                 </div>
-                {/* <div className="col-lg-7">
-                  <div className="row g-4"> */}
                 <div className="col-lg-12">
                   <InputComponent
                     name="heading"
-                    InnerPlaceholder="Blog Heading"
+                    InnerPlaceholder={t("Blog Heading")}
                     fullWidth
-                    label="Blog Heading *"
+                    label={t("Blog Heading")}
                     formik={formik}
                     disabled={loading}
                   />
@@ -118,11 +127,11 @@ const BlogForm = () => {
                 <div className="col-lg-12">
                   <InputComponent
                     name="category_name"
-                    InnerPlaceholder="Blog Category"
+                    InnerPlaceholder={t("Blog Category")}
                     fullWidth
                     formik={formik}
                     disabled={loading}
-                    label="Blog Category"
+                    label={t("Blog Category")}
                   />
                 </div>
                 <div className="col-lg-12">
@@ -130,17 +139,16 @@ const BlogForm = () => {
                     handleChange={(e) => handleChangeTextArea("content", e)}
                     name="content"
                     value={formik.values.content}
-                    label="Blog Content"
+                    label={t("Blog Content")}
                   />
                 </div>
                 <div className="col-12">
                   <FlexBox justifyContent="end" className="mt-3">
                     <ButtonComponent
                       variant="contained"
-                      text="Save"
+                      text={t("Save")}
                       type="submit"
                       disabled={loading}
-                      // onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
                     />
                   </FlexBox>
                 </div>

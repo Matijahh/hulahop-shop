@@ -1,25 +1,12 @@
-import React from "react";
-import Slider from "react-slick";
+import { useTranslation } from "react-i18next";
+
+import SliderComponent from "../../../components/SliderComponent/SliderComponent";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useTranslation } from "react-i18next";
-import SliderComponent from "../../../components/SliderComponent/SliderComponent";
 
-const SliderSecction = () => {
+const SliderSection = () => {
   const { t } = useTranslation();
-
-  const settings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    centerMode: true,
-    centerPadding: 0,
-  };
 
   return (
     <SliderComponent arrows={true} centerMode={true} centerPadding={0}>
@@ -89,4 +76,4 @@ const SliderSecction = () => {
   );
 };
 
-export default SliderSecction;
+export default SliderSection;

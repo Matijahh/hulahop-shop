@@ -1,6 +1,9 @@
-import React, { Component } from "react";
 import styled from "styled-components";
+
+import { Component } from "react";
+
 import ReactQuill from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
 
 const ReactQuillContainer = styled.div`

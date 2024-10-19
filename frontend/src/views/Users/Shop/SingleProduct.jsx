@@ -1,68 +1,50 @@
-import React, { useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import { GiReceiveMoney } from "react-icons/gi";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import { Col, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { useNavigate, useParams } from "react-router-dom";
-import * as Yup from "yup";
+import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { get, map, size } from "lodash";
-import cx from "classnames";
-import parse from "html-react-parser";
-
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { BiLogoFacebook, BiLogoPinterest } from "react-icons/bi";
-import { FaXTwitter } from "react-icons/fa6";
-
-import Textiles from "../../../assets/images/Textiles.jpg";
-import NotebooksPencils from "../../../assets/images/NotebooksPencils.jpg";
-import Umbrellas from "../../../assets/images/Umbrellas.jpg";
-import Paintings from "../../../assets/images/Paintings.jpg";
-import Cups from "../../../assets/images/Cups.jpg";
-import Bags from "../../../assets/images/Bags.jpg";
-
-import ButtonComponent from "../../../components/ButtonComponent";
-import SliderComponent from "../../../components/SliderComponent/SliderComponent";
-import Category from "../../../components/Category/Category";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { getImageUrlById } from "../../../utils/commonFunctions";
-import GobackButton from "../../../components/GoBackButton";
-import { ColorBox } from "../../Associats/Products/EditProduct/styled";
-import { Loader } from "../../../components/Loader";
-import PreviewJsonImage from "../../../components/PreviewJsonImage";
-import { useTabContext } from "@mui/lab";
-import { useTranslation } from "react-i18next";
-import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
-import CommonCategorySidebar from "../../../components/CommonCategorySidebar";
 import { ACCESS_TOKEN } from "../../../utils/constant";
-import AuthModal from "../../../components/AuthenticationModal";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
   ROUTE_MAIN_SHOP,
 } from "../../../routes/routes";
-import { Helmet } from "react-helmet";
-import { FacebookShareButton, InstapaperShareButton } from "react-share";
+import * as Yup from "yup";
+import cx from "classnames";
+import parse from "html-react-parser";
 
-const validation = Yup.object().shape({
-  // product_variant_id: Yup.string().required("Color is required!"),
-  // product_sub_variant_id: Yup.string().required("Size is required!"),
-  quantity: Yup.string().required("Quantity is required!"),
-});
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { BiLogoFacebook } from "react-icons/bi";
+import ButtonComponent from "../../../components/ButtonComponent";
+import SliderComponent from "../../../components/SliderComponent/SliderComponent";
+import GobackButton from "../../../components/GoBackButton";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
+import CommonCategorySidebar from "../../../components/CommonCategorySidebar";
+import AuthModal from "../../../components/AuthenticationModal";
+
+import { GiReceiveMoney } from "react-icons/gi";
+import { Col, Row } from "react-bootstrap";
+import { ColorBox } from "../../Associats/Products/EditProduct/styled";
+import { Loader } from "../../../components/Loader";
+import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+import { Helmet } from "react-helmet";
+import { FacebookShareButton } from "react-share";
 
 const SingleProduct = (props) => {
   const { isAssociateProduct } = props;
-  const params = useParams();
-  const navigation = useNavigate();
+
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation();
   const [productData, setProductData] = useState([]);
   const [prieviewProduct, setPrieviewProduct] = useState({});
   const [aboutProductsData, setAboutProductsData] = useState();
@@ -70,16 +52,27 @@ const SingleProduct = (props) => {
   const [associateProductColors, setAssociateProductColors] = useState([]);
   const [wishListData, setWishListData] = useState([]);
 
+  const params = useParams();
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    quantity: Yup.string().required(t("Quantity is required!")),
+  });
+
   const getWishListData = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/wishlist");
+
     if (response) {
       const { data } = response.data;
       setWishListData(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
+
   const getAboutProductsData = async (sub_categoryId) => {
     let url = "about-product-data";
 
@@ -88,11 +81,13 @@ const SingleProduct = (props) => {
     }
 
     const response = await commonGetQuery(url);
+
     if (response) {
       const { data } = response.data;
       setAboutProductsData(data);
     }
   };
+
   const formik = useFormik({
     initialValues: {
       product_variant_id: "",
@@ -108,29 +103,36 @@ const SingleProduct = (props) => {
         quantity: values.quantity,
         action_type: "add_to_cart",
       };
+
       const URL = "/cart_products/add-to-cart";
+
       setLoading(true);
-      const response = await commonAddUpdateQuery(URL, reqBody, "POST");
-      SuccessTaster("Added to cart sucessfully");
+
+      await commonAddUpdateQuery(URL, reqBody, "POST");
+      SuccessTaster(t("Added to cart sucessfully"));
       setLoading(false);
-      // if (generatedImageRef.current) {
-      //   generatedImageRef.current.click();
-      // }
     },
   });
 
   const getAssociateProduct = async () => {
     setLoading(true);
+
     let id = get(params, "id")?.split("-")?.[1];
+
     const response = await commonGetQuery(`/associate_products/${id}`);
+
     if (response) {
       const { data } = response.data;
+
       setProductData(data);
+
       if (size(get(data, "product.product_variants")) > 0) {
         const findCoverImage = [
           ...get(data, "product.product_variants"),
         ].filter((item) => item.color_id === get(data, "cover_image_color_id"));
+
         setPrieviewProduct(findCoverImage[0]);
+
         formik.setFieldValue(
           "product_variant_id",
           get(data, "product.product_variants.0.id", "")
@@ -139,43 +141,53 @@ const SingleProduct = (props) => {
         let associatePData = [...data?.associate_product_colors].map(
           (item) => item?.color_id
         );
+
         const filteredData = get(data, "product.product_variants").filter(
           (item) => associatePData.includes(item.color_id)
         );
+
         setAssociateProductColors(filteredData);
         getAboutProductsData(get(data, "product.sub_category.id"));
       }
+
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const handelChangeViewProduct = (id) => {
     formik.setFieldValue("product_variant_id", id);
     formik.setFieldValue("product_sub_variant_id", "");
+
     let currentProduct = get(productData, "product.product_variants").find(
       (item) => item.id === id
     );
+
     setPrieviewProduct(currentProduct);
   };
 
   const addRemoveWishList = async (id) => {
     if (!ACCESS_TOKEN) {
-      ErrorTaster("Please login first");
+      ErrorTaster(t("Please login first"));
       return;
     }
+
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/wishlist`,
       { associate_product_id: id },
       "POST"
     );
+
     if (response) {
       if (ACCESS_TOKEN) {
         getWishListData();
       }
-      SuccessTaster("Product added to WishList Sucessfully");
+      SuccessTaster(t("Product added to WishList Sucessfully"));
     }
+
     setLoading(false);
   };
 
@@ -201,6 +213,7 @@ const SingleProduct = (props) => {
     "product.category_id",
     0
   )}`;
+
   let SubCetegoryUrl = `${ShopUrl}?categoryId=${get(
     productData,
     "product.category_id",
@@ -244,8 +257,8 @@ const SingleProduct = (props) => {
                     />
                   </div>
                 </div>
-                <div className="product-img-silder-box">
-                  <div className="product-img-silder">
+                <div className="product-img-slider-box">
+                  <div className="product-img-slider">
                     <SliderComponent
                       dots={false}
                       slidesToShow={
@@ -258,7 +271,7 @@ const SingleProduct = (props) => {
                       {size(associateProductColors) > 0 &&
                         map(associateProductColors, (item, key) => {
                           return (
-                            <div className="product-img-silde" key={key}>
+                            <div className="product-img-slide" key={key}>
                               <div
                                 className="silde-img-box"
                                 onClick={() => handelChangeViewProduct(item.id)}
@@ -287,7 +300,7 @@ const SingleProduct = (props) => {
                         {get(productData, "name", "")}
                       </h3>
                       <h5 className="product-price">
-                        {get(productData, "price", "")} DIN
+                        {get(productData, "price", "")} RSD
                       </h5>
                       <p className="about-product">
                         {get(productData, "description", "")}
@@ -396,7 +409,6 @@ const SingleProduct = (props) => {
                         <p>{formik.errors.product_variant_id}</p>
                       )}
                     </div>
-                    {/* <div className="product-hr-line"></div> */}
                     {get(prieviewProduct, "sub_variants") &&
                       size(get(prieviewProduct, "sub_variants")) > 0 && (
                         <>
@@ -497,13 +509,6 @@ const SingleProduct = (props) => {
                             }
                           />
                         </div>
-                        {/* <div className="buy-now-btn">
-                          <ButtonComponent
-                            text="Buy it now"
-                            variant="outlined"
-                            className="buy-btn"
-                          />
-                        </div> */}
                       </div>
                     </div>
                     <div className="wishlist-box">
@@ -543,20 +548,8 @@ const SingleProduct = (props) => {
                                 <BiLogoFacebook />
                               </FacebookShareButton>
                             </p>
-                            <p>Facebook </p>
+                            <p>Facebook</p>
                           </div>
-                          {/* <div className="social-box">
-                            <p className="social-icon">
-                              <FaXTwitter />
-                            </p>
-                            <p>Twitter</p>
-                          </div>
-                          <div className="social-box">
-                            <p className="social-icon">
-                              <BiLogoPinterest />
-                            </p>
-                            <p>Pinterest </p>
-                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -569,10 +562,6 @@ const SingleProduct = (props) => {
       </div>
       <div className="after-purchase-section">
         <div className="container">
-          {/* <div className="product-description">
-            <div className="p-d-title">Product Description</div>
-            <div className="content">{get(productData, "description")}</div>
-          </div> */}
           {size(aboutProductsData) > 0 && (
             <div className="about-product-section">
               <div className="container">
@@ -580,11 +569,6 @@ const SingleProduct = (props) => {
                   <div className="col-12">
                     <div>
                       <h3 className="banner-head">{t("About Our Product")}</h3>
-                      {/* <p className="banner-pera">
-                  Sewn on the side, standard model, double stitches on the
-                  render, sleeves and bottom. Stitched side edges, which avoids
-                  deformation and twisting after washing.
-                </p> */}
                     </div>
                   </div>
                   <div className="col-lg-6 align-self-center">
@@ -662,48 +646,6 @@ const SingleProduct = (props) => {
           </div>
         </div>
       </div>
-
-      {/* <div className="related-product-section">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="hero-section">
-                <h3 className="banner-head">Related Products</h3>
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="releted-product-listing">
-                <SliderComponent dots={false} slidesToShow={5} arrows={true}>
-                  {[1, 2, 3, 4, 5, 6, 7].map((item, i) => (
-                    <Product key={i} />
-                  ))}
-                </SliderComponent>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div className="releted-category-section">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="hero-section">
-                <h3 className="banner-head">{t("Related Categories")}</h3>
-              </div>
-            </div>
-          </div>
-          <div className="col-12">
-            <div className="releted-category-listing categories-slider">
-              <SliderComponent dots={false} slidesToShow={4}>
-                {categories.map((item, i) => (
-                  <Category key={i} name={item.name} image={item.image} />
-                ))}
-              </SliderComponent>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <CommonCategorySidebar
         renderHeader={() => {
           return (

@@ -1,23 +1,26 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { jwtDecode } from "jwt-decode";
-import * as Action from "../../../redux/actions";
-import LineChartView from "../../../components/Charts/LineChartView";
-import { CommonWhiteBackground } from "../../../components/Sections";
-import { DashboardContainer } from "./styled";
-import { Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { ACCESS_TOKEN } from "../../../utils/constant";
-import { useTranslation } from "react-i18next";
+import * as Action from "../../../redux/actions";
+
+import LineChartView from "../../../components/Charts/LineChartView";
+
+import { CommonWhiteBackground } from "../../../components/Sections";
+import { DashboardContainer } from "./styled";
+import { Col, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 
-const Dashboard = (props) => {
-  const { userData, saveUserData } = props;
+const Dashboard = ({ userData, saveUserData }) => {
   const { t } = useTranslation();
+
   const getUserData = async () => {
     if (ACCESS_TOKEN) {
       const decoded = jwtDecode(ACCESS_TOKEN);
       const response = await commonGetQuery(`/users/${decoded.id}`);
+
       if (response) {
         const { data } = response.data;
         saveUserData(data);

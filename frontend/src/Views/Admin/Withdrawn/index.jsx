@@ -1,59 +1,62 @@
-import React, { useEffect, useState } from "react";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import Tables from "../../../components/SuperAdmin/Tables";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { renderHeader } from "./mock";
-import map from "lodash/map";
-import associate2 from "../../../assets/images/associate2.jpg";
-import { useNavigate } from "react-router-dom";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { LoaderContainer } from "../../../components/Loader";
 import { get, size } from "lodash";
+import { getSelectobjectValue } from "../../../utils/commonFunctions";
+import map from "lodash/map";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { LoaderContainer } from "../../../components/Loader";
+import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+
+import Tables from "../../../components/SuperAdmin/Tables";
 import ModalComponent from "../../../components/ModalComponent";
 import SelectComponent from "../../../components/SelectComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
-import { getSelectobjectValue } from "../../../utils/commonFunctions";
-
-const StatusList = [
-  {
-    id: "PENDING",
-    title: "PENDING",
-  },
-  {
-    id: "COMPLETED",
-    title: "COMPLETED",
-  },
-  {
-    id: "CANCELLED",
-    title: "CANCELLED",
-  },
-];
 
 const Withdrawn = () => {
-  const navigation = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [withdrawnList, setWithdrawnList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState({});
   const [withdrawnStatus, setWithdrawnStatus] = useState("");
 
+  const { t } = useTranslation();
+
+  const StatusList = [
+    {
+      id: "PENDING",
+      title: t("PENDING"),
+    },
+    {
+      id: "COMPLETED",
+      title: t("COMPLETED"),
+    },
+    {
+      id: "CANCELLED",
+      title: t("CANCELLED"),
+    },
+  ];
+
   const getWithdrawnList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/associate_withdrawn_request");
+
     if (response) {
       const { data } = response.data;
       setWithdrawnList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const setTableRenderData = (data) => {
-    // setLoading(true);
     const renderData = map(data, (item, index) => ({
       ...item,
       no: `${index + 1}`,
@@ -72,19 +75,21 @@ const Withdrawn = () => {
       withdrawnDetail: item,
       openModel,
     }));
-    // setLoading(false);
 
     return renderData;
   };
 
   const openModel = (item) => {
     setIsOpen(true);
+
     let finalStatus = get(item, "status")
       ? `${get(item, "status")},${get(item, "status")}`
       : "PENDING,PENDING";
+
     setWithdrawnStatus(finalStatus);
     setSelectedData(item);
   };
+
   const closeModel = () => {
     setIsOpen(false);
     setWithdrawnStatus("");
@@ -97,7 +102,9 @@ const Withdrawn = () => {
 
   const handleUpdateWithdrawnStatus = async (id) => {
     setLoading(true);
+
     const URL = id ? `/associate_withdrawn_request/${id}` : "";
+
     if (URL) {
       let finalStatus =
         withdrawnStatus && getSelectobjectValue(withdrawnStatus);
@@ -105,13 +112,16 @@ const Withdrawn = () => {
       const reqBody = {
         status: finalStatus ? finalStatus.id : "PENDING",
       };
+
       try {
         const response = await commonAddUpdateQuery(URL, reqBody, "PATCH");
+
         if (response) {
           SuccessTaster("Withdrawn status updated sucessfully");
           closeModel();
           getWithdrawnList();
         }
+
         setLoading(false);
       } catch (error) {
         ErrorTaster(error.response.message);
@@ -127,19 +137,22 @@ const Withdrawn = () => {
     <>
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
-          <div className="main-title ">Associates Withdrawn Request</div>
+          <div className="main-title">{t("Associates Withdrawn Request")}</div>
         </FlexBox>
         {loading && <LoaderContainer />}
         <Tables
           body={
             size(withdrawnList) > 0 ? setTableRenderData(withdrawnList) : []
           }
-          header={renderHeader}
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
         />
       </CommonWhiteBackground>
       <ModalComponent
         open={isOpen}
-        title="Update Status"
+        title={t("Update Status")}
         handleClose={closeModel}
         size="lg"
       >
@@ -151,7 +164,6 @@ const Withdrawn = () => {
                   <div className="row ">
                     <div className="col-lg-6">
                       <SelectComponent
-                        // label="Status"
                         fullWidth
                         name="status"
                         optionList={StatusList}
@@ -160,14 +172,13 @@ const Withdrawn = () => {
                         }}
                         isShowValue
                         value={withdrawnStatus}
-                        // formik={formik}
-                        title="Select Status"
+                        title={t("Select Status")}
                         disabled={loading}
                       />
                     </div>
                     <div className="col-lg-6 align-self-end">
                       <ButtonComponent
-                        text="Update"
+                        text={t("Update")}
                         variant="contained"
                         className="mb-2"
                         onClick={() => {

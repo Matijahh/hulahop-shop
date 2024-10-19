@@ -1,59 +1,65 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import cx from "classnames";
-import { TextField, Container, InputAdornment } from "@mui/material";
+
+import { TextField, InputAdornment } from "@mui/material";
+
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { useTranslation } from "react-i18next";
 
 const InputComponentContainer = styled.div`
   label {
     margin-bottom: 9px;
   }
+
   @media screen and (max-width: 768px) {
     width: 100%;
+
     .text-input {
       width: 100% !important;
     }
   }
+
   .error-msg {
     color: rgb(241, 103, 109);
     font-size: 12px;
     font-weight: 500;
     margin-top: 9px;
   }
+
   .MuiFormHelperText-root {
     margin-left: 0 !important;
     font-size: 0.9rem !important;
   }
+
   .MuiFormControl-root {
     margin-bottom: 10px;
   }
 `;
 
-const InputComponent = (props) => {
-  const {
-    placeholder,
-    variant,
-    fullWidth,
-    label,
-    InnerPlaceholder,
-    type,
-    className,
-    helperText,
-    value,
-    onChange,
-    id,
-    hasIcon,
-    iconPosition,
-    renderIcon,
-    formik,
-    name,
-    disabled,
-    inputClassname,
-    isUseCustomeValue,
-  } = props;
+const InputComponent = ({
+  placeholder,
+  variant,
+  fullWidth,
+  label,
+  InnerPlaceholder,
+  type,
+  className,
+  helperText,
+  value,
+  onChange,
+  id,
+  hasIcon,
+  iconPosition,
+  renderIcon,
+  formik,
+  name,
+  disabled,
+  inputClassname,
+  isUseCustomeValue,
+}) => {
   const { t } = useTranslation();
+
   return (
     <InputComponentContainer
       hasError={formik && formik.errors[name] && formik.touched[name]}
@@ -83,7 +89,7 @@ const InputComponent = (props) => {
           <TextField
             id={id && id}
             label={t(placeholder)}
-            variant={variant || "outlined"}
+            variant={variant ? variant : "outlined"}
             size="small"
             name={name}
             error={

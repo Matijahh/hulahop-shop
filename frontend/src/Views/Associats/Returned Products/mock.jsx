@@ -18,7 +18,7 @@ export const renderHeader = [
     headerName: "Product Image",
     width: 120,
     align: "left",
-    renderCell: (params) => (
+    renderCell: () => (
       <>
         <img src="https://picsum.photos/seed/picsum/40/40" />
       </>
@@ -34,26 +34,26 @@ export const renderHeader = [
   },
   {
     field: "return_resone",
-    headerName: "Resone",
+    headerName: "Reason",
     width: 300,
     align: "left",
     sortable: false,
   },
   {
     field: "id",
-    headerName: "order Id",
+    headerName: "Order ID",
     width: 180,
     align: "left",
   },
   {
     field: "sku",
-    headerName: "order SKU",
+    headerName: "Order SKU",
     width: 180,
     align: "left",
   },
   {
     field: "date",
-    headerName: "order Date",
+    headerName: "Order Date",
     width: 180,
     align: "left",
   },

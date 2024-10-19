@@ -13,6 +13,7 @@ export const SignInContainer = styled.div`
     width: 100%;
     height: 100vh;
   }
+
   .logo-container {
     .cover {
       img {
@@ -20,36 +21,45 @@ export const SignInContainer = styled.div`
       }
     }
   }
+
   .row {
     margin-top: 20px;
+
     label {
       margin-bottom: 10px;
     }
   }
+
   .title-container {
     margin-top: 40px;
+
     .title {
       font-size: 22px;
       font-weight: bold;
       margin-bottom: 7px;
     }
+
     .description {
       font-size: 16px;
       font-weight: 500;
       color: #7e7e7e;
     }
   }
+
   .css-1sdkjlz-MuiButtonBase-root-MuiCheckbox-root {
     padding: 0px !important;
   }
+
   .buttons {
     margin: 20px 0;
   }
+
   .info-text {
     span {
       color: #7e7e7e;
       margin-right: 10px;
     }
+
     a {
       color: rgb(241, 103, 109);
       font-weight: 600;
@@ -57,12 +67,13 @@ export const SignInContainer = styled.div`
       text-decoration: underline;
     }
   }
+
   .forgot-password-text {
     color: rgb(241, 103, 109);
     font-weight: 600;
     font-size: 16px;
-
     text-decoration: none;
+
     &:hover {
       text-decoration: underline;
     }

@@ -1,52 +1,54 @@
-import React, { useEffect, useState } from "react";
-import ProfileComponent from ".";
-import * as Yup from "yup";
-import { Col, Row } from "react-bootstrap";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useFormik } from "formik";
+import { Col, Row } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
+import * as Yup from "yup";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
-import axios from "axios";
-import { useFormik } from "formik";
-import { Loader } from "../../../components/Loader";
 import { getUserType } from "../../../utils/commonFunctions";
+import axios from "axios";
+
+import ProfileComponent from ".";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+
+import { Loader } from "../../../components/Loader";
 import { SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
 
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  // email: Yup.string()
-  //   .email("Invalid email address")
-  //   .required("Email is required"),
-  phone: Yup.string()
-    .matches(/^\d{10}$/, "Invalid phone number")
-    .required("Phone number is required"),
-});
 const Profile = () => {
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [fileLoading, setFileLoading] = useState(false);
   const [userData, setUserData] = useState(null);
+
+  const { t } = useTranslation();
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required(t("First name is required")),
+    lastName: Yup.string().required(t("Last name is required")),
+    phone: Yup.string()
+      .matches(/^\d{10}$/, t("Invalid phone number"))
+      .required(t("Phone number is required")),
+  });
 
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
-      // email: "",
       phone: "",
       image_id: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const decoded = jwtDecode(ACCESS_TOKEN);
+
       setLoading(true);
+
       const response = await commonAddUpdateQuery(
         `/users/${decoded.id}`,
         {
@@ -59,7 +61,9 @@ const Profile = () => {
         },
         "PATCH"
       );
+
       setLoading(false);
+
       if (response) {
         const { message } = response.data;
         SuccessTaster(message);
@@ -70,8 +74,10 @@ const Profile = () => {
   const uploadImage = async (file) => {
     let formData = new FormData();
     formData.append("image", file);
+
     try {
       setFileLoading(true);
+
       const response = await axios.post(
         `${REST_URL_SERVER}/images/upload`,
         formData,
@@ -90,6 +96,7 @@ const Profile = () => {
       }
     } catch (error) {
       setFileLoading(false);
+
       if (error && error.data) {
         const { message } = error.data;
         return ErrorTaster(message);
@@ -106,13 +113,18 @@ const Profile = () => {
 
   const getUserData = async () => {
     const decoded = jwtDecode(ACCESS_TOKEN);
+
     setLoading(true);
+
     const response = await commonGetQuery(`/users/${decoded.id}`);
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
 
       setUserData(data);
+
       formik.setValues({
         ...formik.values,
         firstName: data.first_name,
@@ -133,13 +145,14 @@ const Profile = () => {
       <Helmet>
         <title>{t("Profile Settings - HulaHop")}</title>
       </Helmet>
+
       <div className="profile-box">
         <div className="hero-section">
           <h3 className="banner-head">{t("Edit Profile")}</h3>
         </div>
         <Row>
           <Col md={2} lg={2} sm={2}>
-            <label>Profile Picture</label>
+            <label>{t("Profile Picture")}</label>
             {fileLoading ? (
               <Loader />
             ) : (
@@ -162,37 +175,36 @@ const Profile = () => {
             <Row className="gy-3">
               <Col md={6} lg={6} sm={12}>
                 <InputComponent
-                  label="First name"
+                  label={t("First name")}
                   fullWidth
-                  InnerPlaceholder="Enter first name"
+                  InnerPlaceholder={t("Enter first name")}
                   name="firstName"
                   formik={formik}
                 />
               </Col>
               <Col md={6} lg={6} sm={12}>
                 <InputComponent
-                  label="Last name"
+                  label={t("Last name")}
                   fullWidth
-                  InnerPlaceholder="Enter last name"
+                  InnerPlaceholder={t("Enter last name")}
                   name="lastName"
                   formik={formik}
                 />
               </Col>
               <Col md={6} lg={6} sm={12}>
                 <InputComponent
-                  label="Email"
+                  label={t("Email")}
                   fullWidth
-                  InnerPlaceholder="Enter your email"
+                  InnerPlaceholder={t("Enter email")}
                   name="email"
-                  // formik={formik}
                   disabled
                 />
               </Col>
               <Col md={6} lg={6} sm={12}>
                 <InputComponent
-                  label="Phone "
+                  label={t("Phone")}
                   fullWidth
-                  InnerPlaceholder="Enter your phone no."
+                  InnerPlaceholder={t("Enter phone no.")}
                   name="phone"
                   formik={formik}
                 />
@@ -202,20 +214,13 @@ const Profile = () => {
           <Col md={7} lg={7} sm={7} className="mt-4"></Col>
           <Col md={5} lg={5} sm={5} className="mt-4">
             <Row className="g-3">
-              <Col md={6} lg={6} sm={6}>
-                {/* <ButtonComponent
-                  variant="outlined"
-                  size="large"
-                  text="Back"
-                  width="100%"
-                /> */}
-              </Col>
+              <Col md={6} lg={6} sm={6}></Col>
               <Col md={6} lg={6} sm={6}>
                 <ButtonComponent
                   onClick={formik.handleSubmit}
                   variant="contained"
                   width="100%"
-                  text="Save"
+                  text={t("Save")}
                   loading={loading}
                   disabled={loading}
                 />

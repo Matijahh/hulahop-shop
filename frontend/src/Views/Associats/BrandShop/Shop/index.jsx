@@ -1,10 +1,10 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
+import { get } from "lodash";
 
 import BrandShop from "../../../Users/Shop/index";
+
 import { Helmet } from "react-helmet";
-import { get } from "lodash";
-import { useTranslation } from "react-i18next";
 
 const Shop = ({ storeData }) => {
   const { t } = useTranslation();
@@ -22,8 +22,6 @@ const Shop = ({ storeData }) => {
     </div>
   );
 };
-
-// export default Shop;
 
 const mapStateToProps = (state) => ({
   storeData: state.user.storeData,

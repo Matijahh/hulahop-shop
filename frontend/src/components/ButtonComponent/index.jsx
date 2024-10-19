@@ -1,9 +1,9 @@
-import React from "react";
-import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import cx from "classnames";
-import { Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import cx from "classnames";
+
+import { Button } from "@mui/material";
+import { Spinner } from "react-bootstrap";
 
 const VisuallyHiddenInput = styled("input")({
   opacity: 0,
@@ -17,26 +17,25 @@ const VisuallyHiddenInput = styled("input")({
   zIndex: 1,
 });
 
-const ButtonComponent = (props) => {
+const ButtonComponent = ({
+  variant,
+  startIcon,
+  text,
+  onClick,
+  className,
+  width,
+  endIcon,
+  maxHeight,
+  styled,
+  type,
+  fontSize,
+  disabled,
+  fullWidth,
+  loading,
+  handleFileChange,
+}) => {
   const { t } = useTranslation();
 
-  const {
-    variant,
-    startIcon,
-    text,
-    onClick,
-    className,
-    width,
-    endIcon,
-    maxHeight,
-    styled,
-    type,
-    fontSize,
-    disabled,
-    fullWidth,
-    loading,
-    handleFileChange,
-  } = props;
   return (
     <Button
       variant={variant}
@@ -57,6 +56,7 @@ const ButtonComponent = (props) => {
       {type === "file" ? (
         <>
           {loading ? <Spinner color="light" /> : text}
+
           <VisuallyHiddenInput
             onChange={handleFileChange}
             accept="image/*"

@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from "react";
-import ModalComponent from "../../../components/ModalComponent";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import SelectComponent from "../../../components/SelectComponent";
+import { useTranslation } from "react-i18next";
 import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
-import { SuccessTaster } from "../../../components/Toast";
-import { FlexBox } from "../../../components/Sections";
+
+import ModalComponent from "../../../components/ModalComponent";
+import SelectComponent from "../../../components/SelectComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 
-const optionList = [
-  {
-    id: true,
-    title: "Active",
-  },
-  {
-    id: false,
-    title: "Inactive",
-  },
-];
+import { SuccessTaster } from "../../../components/Toast";
+import { FlexBox } from "../../../components/Sections";
 
 const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
   const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation();
+
+  const optionList = [
+    {
+      id: true,
+      title: t("Active"),
+    },
+    {
+      id: false,
+      title: t("Inactive"),
+    },
+  ];
 
   useEffect(() => {
     if (data) {
@@ -40,15 +45,19 @@ const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
     },
     onSubmit: async (values) => {
       setLoading(true);
+
       const requiredBody = {
         status: values.status.split(",")[0] == "true" ? true : false,
       };
+
       const response = await commonAddUpdateQuery(
         `/users/${values.id}`,
         requiredBody,
         "PATCH"
       );
+
       setLoading(false);
+
       if (response) {
         const { message } = response.data;
         SuccessTaster(message);
@@ -60,7 +69,7 @@ const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
 
   return (
     <ModalComponent
-      title="Update User Status"
+      title={t("Update User Status")}
       size={"m"}
       open={isOpen}
       handleClose={toggle}
@@ -71,7 +80,7 @@ const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
           optionList={optionList}
           name="status"
           formik={formik}
-          title="Select Status"
+          title={t("Select Status")}
           disabled={loading}
         />
         <FlexBox hasBorderTop={true} className="pt-3 mt-3">
@@ -79,13 +88,13 @@ const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
             className=""
             variant="outlined"
             fullWidth
-            text="Cancel"
+            text={t("Cancel")}
             onClick={toggle}
           />
           <ButtonComponent
             variant="contained"
             fullWidth
-            text="Change Status"
+            text={t("Change Status")}
             type="submit"
             loading={loading}
           />

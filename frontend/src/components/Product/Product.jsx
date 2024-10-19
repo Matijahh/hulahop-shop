@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import product1 from "../../assets/images/product1.jpg";
-import ButtonComponent from "../ButtonComponent";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { get, size } from "lodash";
+import { getImageUrlById, slugify } from "../../utils/commonFunctions";
+import { commonAddUpdateQuery } from "../../utils/axiosInstance";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
@@ -9,48 +11,52 @@ import {
   ROUTE_MAIN_SHOP,
   ROUTE_MAIN_SHOP_PRODUCT,
 } from "../../routes/routes";
-import { useNavigate, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { get, size } from "lodash";
-import { getImageUrlById, slugify } from "../../utils/commonFunctions";
-import PreviewJsonImage from "../PreviewJsonImage";
-import { toast } from "react-toastify";
-import { ErrorTaster, SuccessTaster } from "../Toast";
-import { commonAddUpdateQuery } from "../../utils/axiosInstance";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Loader } from "../Loader";
 import { ACCESS_TOKEN } from "../../utils/constant";
-const Product = (props) => {
-  const {
-    productData,
-    isAssociateProduct,
-    isInWishList,
-    getWishListData,
-    mainLoading,
-  } = props;
-  const params = useParams();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import ButtonComponent from "../ButtonComponent";
+import PreviewJsonImage from "../PreviewJsonImage";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
+import { ErrorTaster, SuccessTaster } from "../Toast";
+import { Loader } from "../Loader";
+
+const Product = ({
+  productData,
+  isAssociateProduct,
+  isInWishList,
+  getWishListData,
+  mainLoading,
+}) => {
   const [loading, setLoading] = useState(false);
   const [productUrl, setProductUrl] = useState("");
   const [categoryUrl, setCategoryUrl] = useState("");
   const [subCategoryUrl, setSubCategoryUrl] = useState("");
   const [prieviewProduct, setPrieviewProduct] = useState({});
+
+  const params = useParams();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const addRemoveWishList = async (id) => {
     if (!ACCESS_TOKEN) {
-      ErrorTaster("Please login first");
+      ErrorTaster(t("Please login first"));
       return;
     }
+
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/wishlist`,
       { associate_product_id: id },
       "POST"
     );
+
     if (response) {
       getWishListData();
-      SuccessTaster("Product added to WishList Sucessfully");
+      SuccessTaster(t("Product added to WishList Sucessfully"));
     }
+
     setLoading(false);
   };
 
@@ -64,6 +70,7 @@ const Product = (props) => {
           ":sId",
           get(params, "id", null)
         ).replace(":id", slugify(productName, productId));
+
     let ShopUrl = !isAssociateProduct
       ? ROUTE_MAIN_SHOP
       : ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
@@ -76,11 +83,13 @@ const Product = (props) => {
       "product.category_id",
       0
     )}`;
-    let SubCetegoryUrl = `${ShopUrl}?categoryId=${get(
+
+    let SubCategoryUrl = `${ShopUrl}?categoryId=${get(
       productData,
       "product.category_id",
       0
     )}&sub_categoryId=${get(productData, "product.subcategory_id", 0)}`;
+
     if (size(get(productData, "product.product_variants")) > 0) {
       const findCoverImage = [
         ...get(productData, "product.product_variants"),
@@ -89,28 +98,16 @@ const Product = (props) => {
       );
       setPrieviewProduct(findCoverImage[0]);
     }
+
     setProductUrl(ProductUrl);
     setCategoryUrl(CetegoryUrl);
-    setSubCategoryUrl(SubCetegoryUrl);
+    setSubCategoryUrl(SubCategoryUrl);
   }, [productData]);
 
   return (
     <div className="product-wrapper">
-      <div
-        className="product-box"
-        // onClick={() =>
-        //   navigate(
-        //     !isAssociateProduct
-        //       ? ROUTE_MAIN_SHOP_PRODUCT.replace(":id", get(productData, "id"))
-        //       : ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW.replace(
-        //           ":sId",
-        //           get(params, "id", null)
-        //         ).replace(":id", get(productData, "id"))
-        //   )
-        // }
-      >
+      <div className="product-box">
         <div className="product-img" onClick={() => navigate(productUrl)}>
-          {/* {isAssociateProduct ? ( */}
           {!mainLoading && (
             <PreviewJsonImage
               previewImageUrl={getImageUrlById(
@@ -124,15 +121,13 @@ const Product = (props) => {
               productData={productData}
             />
           )}
-          {/* ) : ( */}
-          {/* <img src={getImageUrlById(get(productData, "product.image_id"))} /> */}
-          {/* )} */}
         </div>
         <div className="prodoct-content">
-          <div className="content-heder">
+          <div className="content-header">
             <h6 onClick={() => navigate(productUrl)}>
               {get(productData, "name", "")}
             </h6>
+
             <div
               className="whishlist-btn"
               onClick={() => {
@@ -150,7 +145,6 @@ const Product = (props) => {
               ) : (
                 <FavoriteBorderOutlinedIcon />
               )}
-              {/* <FavoriteBorderOutlinedIcon /> */}
             </div>
           </div>
           {!isAssociateProduct && (
@@ -175,18 +169,16 @@ const Product = (props) => {
                     alt=""
                   />
                 </div>
+
                 <div className="name">
                   {get(productData, "user.store_layout_details[0].name")}
                 </div>
               </div>
             </>
           )}
-          <div
-            className="product-description"
-            // onClick={() => navigate(ProductUrl)}
-          >
+          <div className="product-description">
             <p className="product-price" onClick={() => navigate(productUrl)}>
-              {get(productData, "price", "")} DIN
+              {get(productData, "price", "")} RSD
             </p>
             <p className="product-category  ">
               <span onClick={() => window.location.replace(categoryUrl)}>

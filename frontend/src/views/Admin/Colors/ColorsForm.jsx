@@ -1,41 +1,47 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import * as Yup from "yup";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import SelectComponent from "../../../components/SelectComponent";
+import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import { ROUTE_ADMIN_COLORS } from "../../../routes/routes";
+import { get } from "lodash";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { useNavigate } from "react-router";
-import { ROUTE_ADMIN_COLORS } from "../../../routes/routes";
-import { get } from "lodash";
+import styled from "styled-components";
+import * as Yup from "yup";
 
-const StatusList = [
-  {
-    id: true,
-    title: "Active",
-  },
-  {
-    id: false,
-    title: "Inactive",
-  },
-];
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import SelectComponent from "../../../components/SelectComponent";
+
 export const ColorsFormWrapper = styled.div``;
 
-const validation = Yup.object().shape({
-  code: Yup.string().required("Code is required!"),
-  name: Yup.string().required("name is required!"),
-});
-
 const ColorsForm = () => {
+  const [loading, setLoading] = useState();
+
   const navigation = useNavigate();
   const params = useParams();
-  const [loading, setLoading] = useState();
+  const { t } = useTranslation();
+
+  const StatusList = [
+    {
+      id: true,
+      title: t("Active"),
+    },
+    {
+      id: false,
+      title: t("Inactive"),
+    },
+  ];
+
+  const validation = Yup.object().shape({
+    code: Yup.string().required(t("Code is required!")),
+    name: Yup.string().required(t("Name is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -46,18 +52,19 @@ const ColorsForm = () => {
     validationSchema: validation,
     onSubmit: async (values) => {
       let id = get(params, "id");
+
       const URL = id ? `/colors/${id}` : "/colors";
+
       const reqBody = {
         name: values.name,
         code: values?.code,
         status: values.status.split(",")[0] === "true" ? true : false,
       };
+
       setLoading(true);
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
+
       setLoading(false);
       navigation(ROUTE_ADMIN_COLORS);
     },
@@ -68,6 +75,7 @@ const ColorsForm = () => {
 
     let id = get(params, "id");
     const response = await commonGetQuery(`/colors/${id}`);
+
     if (response) {
       const { data } = response.data;
       const { code, name, status } = data;
@@ -76,10 +84,12 @@ const ColorsForm = () => {
       formik.setFieldValue("status", status ? "true,Active" : "false,Inactive");
       setLoading(false);
     }
+
     setLoading(false);
   };
   useEffect(() => {
     let id = get(params, "id");
+
     if (id) {
       getColorData();
     }
@@ -89,7 +99,7 @@ const ColorsForm = () => {
     <ColorsFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">Add Color</div>
+          <div className="main-title ">{t("Add Color")}</div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -104,7 +114,7 @@ const ColorsForm = () => {
                   <InputComponent
                     name="code"
                     fullWidth
-                    label="Select Color"
+                    label={t("Select Color")}
                     type="color"
                     formik={formik}
                     disabled={loading}
@@ -113,21 +123,20 @@ const ColorsForm = () => {
                 <div className="col-lg-5">
                   <InputComponent
                     name="name"
-                    InnerPlaceholder="Color name"
+                    InnerPlaceholder={t("Color name")}
                     fullWidth
-                    label="Color name"
+                    label={t("Color name")}
                     formik={formik}
                     disabled={loading}
                   />
                 </div>
                 <div className="col-lg-5">
                   <SelectComponent
-                    // label="Status"
                     fullWidth
                     name="status"
                     optionList={StatusList}
                     formik={formik}
-                    title="Select Status"
+                    title={t("Select Status")}
                     disabled={loading}
                   />
                 </div>
@@ -135,9 +144,8 @@ const ColorsForm = () => {
                   <FlexBox justifyContent="end" className="mt-3">
                     <ButtonComponent
                       variant="contained"
-                      text="Save"
+                      text={t("Save")}
                       type="submit"
-                      // onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
                     />
                   </FlexBox>
                 </div>

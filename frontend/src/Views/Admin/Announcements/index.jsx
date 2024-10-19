@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
-import Tables from "../../../components/SuperAdmin/Tables";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { Loader, LoaderContainer } from "../../../components/Loader";
-import AddIcon from "@mui/icons-material/Add";
-
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import {
   ROUTE_ADMIN_ANNOUNCEMENTS_ADD,
   ROUTE_ADMIN_ANNOUNCEMENTS_EDIT,
 } from "../../../routes/routes";
-import { useNavigate } from "react-router-dom";
+
+import Tables from "../../../components/SuperAdmin/Tables";
+import AddIcon from "@mui/icons-material/Add";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ButtonComponent from "../../../components/ButtonComponent";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { LoaderContainer } from "../../../components/Loader";
 
 const Announcements = () => {
   const tableHeaderTitle = [
@@ -47,15 +48,19 @@ const Announcements = () => {
     },
   ];
 
-  const navigation = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [tableList, setTableList] = useState([]);
 
-  const getAnnouncementDat = async () => {
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+
+  const getAnnouncementData = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/announcements");
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       const modifiedData = data.map((item) => {
@@ -67,20 +72,24 @@ const Announcements = () => {
           EditColor,
         };
       });
+
       setTableList(modifiedData);
     }
   };
 
   const handleDelete = async (id) => {
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/announcements/${id}`,
       null,
       "DELETE"
     );
+
     if (response) {
-      getAnnouncementDat();
+      getAnnouncementData();
     }
+
     setLoading(false);
   };
 
@@ -90,25 +99,30 @@ const Announcements = () => {
   };
 
   useEffect(() => {
-    getAnnouncementDat();
+    getAnnouncementData();
   }, []);
 
   return (
     <CommonWhiteBackground>
       <FlexBox className="mb-4">
-        <div className="main-title ">Announcements</div>
+        <div className="main-title ">{t("Announcements")}</div>
         <FlexBox>
-          {/* <InputComponent type="search" label="Search orders" /> */}
           <ButtonComponent
             variant="contained"
             startIcon={<AddIcon />}
-            text="Add Announcements"
+            text={t("Add Announcements")}
             onClick={() => navigation(ROUTE_ADMIN_ANNOUNCEMENTS_ADD)}
           />
         </FlexBox>
       </FlexBox>
       {loading && <LoaderContainer />}
-      <Tables header={tableHeaderTitle} body={tableList} />
+      <Tables
+        header={tableHeaderTitle.map((item) => ({
+          ...item,
+          headerName: t(item.headerName),
+        }))}
+        body={tableList}
+      />
     </CommonWhiteBackground>
   );
 };

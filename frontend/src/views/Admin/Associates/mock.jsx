@@ -16,6 +16,7 @@ export const renderHeader = (toggleModal) => {
         </>
       ),
     },
+
     {
       field: "user_image",
       headerName: "User Image",
@@ -28,36 +29,34 @@ export const renderHeader = (toggleModal) => {
       ),
       sortable: false,
     },
+
     {
       field: "user_name",
       headerName: "User Name",
       width: 180,
       align: "left",
     },
+
     {
       field: "user_type",
       headerName: "User type",
       width: 180,
       align: "left",
     },
+
     {
       field: "email",
       headerName: "Email",
       width: 180,
       align: "left",
     },
+
     {
       field: "contact_no",
       headerName: "Contact No",
       width: 180,
       align: "left",
     },
-    // {
-    //   field: "address",
-    //   headerName: "Address",
-    //   width: 300,
-    //   align: "left",
-    // },
 
     {
       field: "status",
@@ -65,6 +64,7 @@ export const renderHeader = (toggleModal) => {
       width: 180,
       align: "left",
     },
+
     {
       field: "action",
       headerName: "Action",

@@ -1,29 +1,30 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet";
+import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import { useFormik } from "formik";
-
-import logo from "../../../assets/images/logo.png";
 import { ROUTE_MAIN } from "../../../routes/routes";
 import { ForgetPasswordContainer } from "./styled";
-import { Col, Row } from "react-bootstrap";
+import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
+import * as Yup from "yup";
+import logo from "../../../assets/images/logo.png";
+
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
 
-const validation = Yup.object().shape({
-  email: Yup.string().email().required("Email is required"),
-});
+import { Helmet } from "react-helmet";
+import { Col, Row } from "react-bootstrap";
 
 const ForgetPassword = () => {
+  const [loading, setLoading] = useState(false);
+  const [emailSubmitted, setEmailSubmitted] = useState("");
+
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [emailSubmitted, setEmailSubmitted] = useState("");
+  const validation = Yup.object().shape({
+    email: Yup.string().email().required(t("Email is required")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +33,7 @@ const ForgetPassword = () => {
     validationSchema: validation,
     onSubmit: async (value) => {
       setLoading(true);
-      const response = await commonAddUpdateQuery("/auth/forgot-password", {
+      await commonAddUpdateQuery("/auth/forgot-password", {
         ...value,
       });
 
@@ -44,7 +45,7 @@ const ForgetPassword = () => {
   return (
     <ForgetPasswordContainer>
       <Helmet>
-        <title>{t("Forgot Password - HulaHop")}</title>
+        <title>{`${t("Forgot Password")} - HulaHop`}</title>
       </Helmet>
 
       <div className="logo-container">
@@ -61,15 +62,17 @@ const ForgetPassword = () => {
       {emailSubmitted ? (
         <div className="title-container">
           <p className="description">
-            If a HulaHop account exists for <strong>{emailSubmitted}</strong>,
-            you will receive a password reset email shortly. Please click the
-            link in the email to reset your password.
+            {`${t("If a HulaHop account exists for")} ${(
+              <strong>{emailSubmitted}</strong>
+            )}, ${t(
+              "you will receive a password reset email shortly. Please click the link in the email to reset your password."
+            )}`}
           </p>
         </div>
       ) : (
         <>
           <div className="title-container">
-            <div className="title">{t("Forgot your password")}</div>
+            <div className="title">{t("Forgot Password")}</div>
             <div className="description">
               {t(
                 "No problem, just enter your email address below and we'll send you an email to reset your password."
@@ -83,7 +86,7 @@ const ForgetPassword = () => {
                 <InputComponent
                   label={t("Email")}
                   fullWidth
-                  InnerPlaceholder={t("Enter Email")}
+                  InnerPlaceholder={t("Enter email")}
                   name="email"
                   type="text"
                   disabled={loading}

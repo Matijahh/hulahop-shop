@@ -2,7 +2,6 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import ReviewsIcon from "@mui/icons-material/Reviews";
 import GroupIcon from "@mui/icons-material/Group";
 import ViewQuiltOutlinedIcon from "@mui/icons-material/ViewQuiltOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
@@ -10,7 +9,6 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
 import ContactPhoneOutlinedIcon from "@mui/icons-material/ContactPhoneOutlined";
-import AssignmentReturnOutlinedIcon from "@mui/icons-material/AssignmentReturnOutlined";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import LogoutIcon from "@mui/icons-material/Logout";
 import GTranslateOutlinedIcon from "@mui/icons-material/GTranslateOutlined";
@@ -25,8 +23,6 @@ import {
   ROUTE_ADMIN_DASHBOARD,
   ROUTE_ADMIN_ORDERS,
   ROUTE_ADMIN_PRODUCTS,
-  ROUTE_ADMIN_REVIEWS,
-  ROUTE_ADMIN_RETURNED_PRODUCTS,
   ROUTE_ADMIN_USERS,
   ROUTE_ADMIN_WITHDRAWN,
   ROUTE_ADMIN_ASSOCIATE_PRODUCTS,
@@ -97,21 +93,11 @@ export const SidebarTabList = [
     name: "Contact",
     path: ROUTE_ADMIN_CONTACT,
   },
-  // {
-  //   icon: <ReviewsIcon />,
-  //   name: "Reviews",
-  //   path: ROUTE_ADMIN_REVIEWS,
-  // },
   {
     icon: <AccountBalanceWalletOutlinedIcon />,
     name: "Withdrawn",
     path: ROUTE_ADMIN_WITHDRAWN,
   },
-  // {
-  //   icon: <AssignmentReturnOutlinedIcon />,
-  //   name: "Returned Products",
-  //   path: ROUTE_ADMIN_RETURNED_PRODUCTS,
-  // },
   {
     icon: <CampaignIcon />,
     name: "Announcement",

@@ -1,71 +1,55 @@
-import React, { useEffect, useState } from "react";
-
-import Tables from "../../../components/SuperAdmin/Tables";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { get, isEmpty, map, size } from "lodash";
 import { renderHeader } from "./mock";
-import { useTranslation } from "react-i18next";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import moment from "moment/moment";
-import ModalComponent from "../../../components/ModalComponent";
-import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import {
   getImageUrlById,
   getSelectobjectValue,
 } from "../../../utils/commonFunctions";
+import { jwtDecode } from "jwt-decode";
+import moment from "moment/moment";
+
+import Tables from "../../../components/SuperAdmin/Tables";
+import InputComponent from "../../../components/InputComponent";
+import ModalComponent from "../../../components/ModalComponent";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import DownloadIcon from "@mui/icons-material/Download";
 import DownloadFile from "../../../utils/FileDownload";
-import ButtonComponent from "../../../components/ButtonComponent";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
-import SelectComponent from "../../../components/SelectComponent";
-import { ACCESS_TOKEN } from "../../../utils/constant";
-import { jwtDecode } from "jwt-decode";
 import { Helmet } from "react-helmet";
 
-const StatusList = [
-  {
-    id: "PENDING",
-    title: "PENDING",
-  },
-  {
-    id: "DISPATCHED",
-    title: "DISPATCHED",
-  },
-  {
-    id: "DELIVERED",
-    title: "DELIVERED",
-  },
-  {
-    id: "CANCELLED",
-    title: "CANCELLED",
-  },
-];
-
 const Orders = () => {
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [ordersProductsList, setOrdersProductsList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
   const [orderStatus, setOrderStatus] = useState("");
+
+  const { t } = useTranslation();
+
   const getOrdersProducts = async () => {
     const decoded = jwtDecode(ACCESS_TOKEN);
+
     setLoading(true);
+
     const response = await commonGetQuery(`/orders?associate_id=${decoded.id}`);
+
     if (response) {
       const { data } = response.data;
       setOrdersProductsList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const setTableRenderData = (data) => {
-    // setLoading(true);
     const renderData = map(data, (item, index) => ({
       ...item,
       no: `${index + 1}`,
@@ -78,19 +62,21 @@ const Orders = () => {
       orderDetail: item,
       openModel,
     }));
-    // setLoading(false);
 
     return renderData;
   };
 
   const openModel = (item) => {
     setIsOpen(true);
+
     let finalStatus = get(item, "status")
       ? `${get(item, "status")},${get(item, "status")}`
       : "PENDING,PENDING";
+
     setOrderStatus(finalStatus);
     setSelectedOrder(item);
   };
+
   const closeModel = () => {
     setIsOpen(false);
     setSelectedOrder({});
@@ -99,6 +85,7 @@ const Orders = () => {
 
   const handleUpdateOrderStatus = async (id) => {
     setLoading(true);
+
     const URL = id ? `/orders/${id}/status` : "";
     let finalStatus = orderStatus && getSelectobjectValue(orderStatus);
 
@@ -109,11 +96,13 @@ const Orders = () => {
 
       try {
         const response = await commonAddUpdateQuery(URL, reqBody, "PATCH");
+
         if (response) {
           SuccessTaster("Order status updated sucessfully");
           closeModel();
           getOrdersProducts();
         }
+
         setLoading(false);
       } catch (error) {
         ErrorTaster(error.response.message);
@@ -132,7 +121,7 @@ const Orders = () => {
       </Helmet>
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
-          <div className="main-title ">Orders</div>
+          <div className="main-title ">{t("Orders")}</div>
           <InputComponent type="search" label="Search orders" />
         </FlexBox>
         <Tables
@@ -141,10 +130,13 @@ const Orders = () => {
               ? setTableRenderData(ordersProductsList)
               : []
           }
-          header={renderHeader}
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
         />
       </CommonWhiteBackground>
-      <ModalComponent open={isOpen} title="Order" handleClose={closeModel}>
+      <ModalComponent open={isOpen} title={t("Order")} handleClose={closeModel}>
         <div className="order-detail-body">
           <div className="container">
             <div className="row">
@@ -182,53 +174,53 @@ const Orders = () => {
                 </div>
               </div> */}
               <div className="col-12">
-                <h5>User Detail</h5>
+                <h5>{t("User Detail")}</h5>
               </div>
               <div className="col-12">
                 <div className="user-detail-box">
                   <div className="row g-3">
                     <div className="col-4">
-                      <p>Name</p>
+                      <p>{t("Name")}</p>
                       <p>
                         {get(selectedOrder, "order_addresses.0.first_name")}{" "}
                         {get(selectedOrder, "order_addresses.0.last_name")}
                       </p>
                     </div>
                     <div className="col-4">
-                      <p>Mobile</p>
+                      <p>{t("Mobile")}</p>
                       <p>{get(selectedOrder, "order_addresses.0.mobile")}</p>
                     </div>
                     <div className="col-4">
-                      <p>Email</p>
+                      <p>{t("Email")}</p>
                       <p>{get(selectedOrder, "order_addresses.0.email")}</p>
                     </div>
                     <div className="col-4">
-                      <p>House/Flat no</p>
+                      <p>{t("House/Flat no")}</p>
                       <p>
                         {get(selectedOrder, "order_addresses.0.house_flat_no")}
                       </p>
                     </div>
                     <div className="col-4">
-                      <p>City</p>
+                      <p>{t("City")}</p>
                       <p>{get(selectedOrder, "order_addresses.0.city")}</p>
                     </div>
                     <div className="col-4">
-                      <p>State</p>
+                      <p>{t("State")}</p>
                       <p>{get(selectedOrder, "order_addresses.0.state")}</p>
                     </div>
                     <div className="col-4">
-                      <p>Pincode</p>
+                      <p>{t("Pincode")}</p>
                       <p>{get(selectedOrder, "order_addresses.0.pincode")}</p>
                     </div>
                     <div className="col-12">
-                      <p>Special Instruction By User</p>
+                      <p>{t("Special Instruction By User")}</p>
                       <p>{get(selectedOrder, "instructions", "-") || "-"}</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-12">
-                <h5>Product List</h5>
+                <h5>{t("Product List")}</h5>
               </div>
               <div className="col-12">
                 {!isEmpty(selectedOrder) &&
@@ -252,11 +244,13 @@ const Orders = () => {
                         <div className="order-detail-box" key={index}>
                           <div className="row g-3">
                             <div className="col-12">
-                              <h6>Product {index + 1}</h6>
+                              <h6>
+                                {t("Product")} {index + 1}
+                              </h6>
                             </div>
                             <div className="col-lg-3">
                               <div className="product-img-box">
-                                <h6>Product Image</h6>
+                                <h6>{t("Product Image")}</h6>
                                 <PreviewJsonImage
                                   previewImageUrl={getImageUrlById(
                                     get(item, "product_variant.image_id")
@@ -269,7 +263,7 @@ const Orders = () => {
                             </div>
                             <div className="col-lg-3">
                               <div className="mock-up-img-box">
-                                <h6>Product Mockup Image</h6>
+                                <h6>{t("Product Mockup Image")}</h6>
                                 <div className="mock-up-img">
                                   <img src={get(jsonData, "0.image")} alt="" />
                                   <div
@@ -291,7 +285,7 @@ const Orders = () => {
                                 <div className="row g-3">
                                   <div className="col-4">
                                     <p className="product-cmn-data">
-                                      Base Price :
+                                      {t("Base Price")} :
                                     </p>
                                     <p>
                                       {get(
@@ -303,7 +297,7 @@ const Orders = () => {
                                   </div>
                                   <div className="col-4">
                                     <p className="product-cmn-data">
-                                      Assosiate Price :
+                                      {t("Assosiate Price")} :
                                     </p>
                                     <p>
                                       {get(item, "associate_product.price", "")}
@@ -311,7 +305,7 @@ const Orders = () => {
                                   </div>
                                   <div className="col-4">
                                     <p className="product-cmn-data">
-                                      Margine :
+                                      {t("Margine")} :
                                     </p>
                                     <p>
                                       {parseFloat(
@@ -327,11 +321,11 @@ const Orders = () => {
                                     </p>
                                   </div>
                                   <div className="col-4">
-                                    <p>Quantity :</p>
+                                    <p>{t("Quantity")} :</p>
                                     <p>{get(item, "quantity")}</p>
                                   </div>
                                   <div className="col-4">
-                                    <p>Selected Color :</p>
+                                    <p>{t("Selected Color")} :</p>
                                     <p className="color-data">
                                       <span>
                                         {`${get(
@@ -355,7 +349,7 @@ const Orders = () => {
                                     </p>
                                   </div>
                                   <div className="col-4">
-                                    <p>Varriant Value</p>
+                                    <p>{t("Varriant Value")}</p>
                                     <p>
                                       {get(item, "product_sub_variant.value")}
                                     </p>

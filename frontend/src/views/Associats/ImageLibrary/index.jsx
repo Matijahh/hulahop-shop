@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-
-import ModalComponent from "../../../components/ModalComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import { ImageLibraryContainer } from "./styled";
-import { FlexBox } from "../../../components/Sections";
-import SelectComponent from "../../../components/SelectComponent";
-import { Col, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { map } from "lodash";
-import { Checkbox } from "@mui/material";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import axios from "axios";
+
+import AddIcon from "@mui/icons-material/Add";
+import ModalComponent from "../../../components/ModalComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import SelectComponent from "../../../components/SelectComponent";
+
+import { ImageLibraryContainer } from "./styled";
+import { FlexBox } from "../../../components/Sections";
+import { Col, Row } from "react-bootstrap";
+import { Checkbox } from "@mui/material";
+import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import { Loader } from "../../../components/Loader";
 
 const ImageLibrary = ({ open, handleClose, onPickImage }) => {
@@ -25,10 +27,15 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
   const [images, setImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
+  const { t } = useTranslation();
+
   const getAllAssociateImage = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/associate_images");
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       setImages(data);
@@ -37,6 +44,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
 
   const handleFileChange = (e) => {
     const file = e.target && e.target.files[0];
+
     if (file) {
       uploadImage(file);
     }
@@ -44,8 +52,10 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
   const uploadImage = async (file) => {
     let formData = new FormData();
     formData.append("image", file);
+
     try {
       setButtonLoading(true);
+
       const response = await axios.post(
         `${REST_URL_SERVER}/images/upload`,
         formData,
@@ -64,6 +74,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
       }
     } catch (error) {
       setButtonLoading(false);
+
       if (error && error.data) {
         const { message } = error.data;
         return ErrorTaster(message);
@@ -73,10 +84,13 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
 
   const createAssociateImages = async (id) => {
     setButtonLoading(true);
+
     const response = await commonAddUpdateQuery("/associate_images", {
       image_id: id,
     });
+
     setButtonLoading(false);
+
     if (response) {
       const { message } = response.data;
       getAllAssociateImage();
@@ -87,6 +101,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
   const handleOnSelectImage = (id) => {
     const copyArr = [...selectedImages];
     const hasImageAlready = copyArr.find((item) => item === id);
+
     if (hasImageAlready) {
       const updatedArray = copyArr.filter((item) => item !== id);
       setSelectedImages(updatedArray);
@@ -97,6 +112,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
 
   const handleRemove = async () => {
     setDeleteButtonLoading(true);
+
     const response = await commonAddUpdateQuery(
       "/associate_images",
       {
@@ -104,6 +120,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
       },
       "DELETE"
     );
+
     setDeleteButtonLoading(false);
     if (response) {
       getAllAssociateImage();
@@ -111,6 +128,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
       SuccessTaster(message);
     }
   };
+
   useEffect(() => {
     getAllAssociateImage();
   }, []);
@@ -119,12 +137,12 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
     <ModalComponent open={open} handleClose={handleClose}>
       <ImageLibraryContainer>
         <FlexBox className="mb-2 header">
-          <div className="modal-title">A collection of files</div>
+          <div className="modal-title">{t("A collection of files")}</div>
           <FlexBox>
             <SelectComponent
               id="1"
               labelId="demo-multiple-name-label"
-              label="Filter Images"
+              label={t("Filter Images")}
               width={150}
               size="small"
             />
@@ -132,7 +150,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
               variant="contained"
               startIcon={<AddIcon />}
               styled={{ position: "relative" }}
-              text="Add a Photo"
+              text={t("Add Photo")}
               type="file"
               handleFileChange={handleFileChange}
               loading={buttonLoading}
@@ -140,13 +158,13 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
           </FlexBox>
         </FlexBox>
         <FlexBox className="mt-3 mb-3">
-          <div className="modal-sub-title ">Recent Used files (3)</div>
+          <div className="modal-sub-title">{t("Recent Used Files")}</div>
           {selectedImages.length > 0 && (
             <ButtonComponent
               variant="outlined"
               onClick={handleRemove}
               loading={deleteButtonLoading}
-              text="Remove"
+              text={t("Remove")}
             />
           )}
         </FlexBox>
@@ -183,7 +201,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
                           justifyContent={"flex-start"}
                           className="content-list"
                         >
-                          <div className="title">Type :</div>
+                          <div className="title">{`${t("Type")}:`}</div>
                           <div className="value">image/jpeg</div>
                         </FlexBox>
                       </div>

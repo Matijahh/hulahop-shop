@@ -1,32 +1,36 @@
-import React, { useEffect, useState } from "react";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import ButtonComponent from "../../../../components/ButtonComponent";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { commonGetQuery } from "../../../../utils/axiosInstance";
+import { getImageUrlById, slugify } from "../../../../utils/commonFunctions";
+import { ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW } from "../../../../routes/routes";
 import _size from "lodash/size";
 import _get from "lodash/get";
 import _map from "lodash/map";
 
-import { ProductsContainer } from "./styled";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import ButtonComponent from "../../../../components/ButtonComponent";
 
-import { commonGetQuery } from "../../../../utils/axiosInstance";
-import { useNavigate, useParams } from "react-router-dom";
+import { ProductsContainer } from "./styled";
 import { Loader } from "../../../../components/Loader";
-import { getImageUrlById, slugify } from "../../../../utils/commonFunctions";
-import { ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW } from "../../../../routes/routes";
-import { useTranslation } from "react-i18next";
 
 const Products = () => {
-  const { id } = useParams();
-  const { t } = useTranslation();
-  const navigation = useNavigate();
   const [productsList, setProductsList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const { id } = useParams();
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+
   const getProductsList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery(
       `/associate_products?user_id=${id?.split("-")?.[1]}`
     );
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       setProductsList(data);
@@ -75,7 +79,7 @@ const Products = () => {
                           />
                         </div>
                         <div className="prodoct-content">
-                          <div className="content-heder">
+                          <div className="content-header">
                             <h6>{_get(item, "name", "")}</h6>
                             <div className="whishlist-btn">
                               <FavoriteBorderOutlinedIcon />

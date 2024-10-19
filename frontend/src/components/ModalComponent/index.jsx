@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal } from "react-bootstrap";
 
 const ModalComponent = ({ open, handleClose, children, size, title }) => {

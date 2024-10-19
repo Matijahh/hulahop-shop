@@ -1,8 +1,9 @@
 import { get } from "lodash";
+import { getImageUrlById } from "../../../utils/commonFunctions";
 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { getImageUrlById } from "../../../utils/commonFunctions";
+
 export const renderHeader = [
   {
     field: "no",
@@ -30,7 +31,7 @@ export const renderHeader = [
   },
   {
     field: "heading",
-    headerName: "Blog  Heading",
+    headerName: "Blog Heading",
     width: 300,
     align: "left",
   },
@@ -40,21 +41,6 @@ export const renderHeader = [
     width: 180,
     align: "left",
   },
-
-  // {
-  //   field: "post_date",
-  //   headerName: "Post Date",
-  //   width: 180,
-  //   align: "left",
-  // },
-
-  // {
-  //   field: "status",
-  //   headerName: "Status",
-  //   width: 180,
-  //   align: "left",
-  // },
-
   {
     field: "action",
     headerName: "Action",

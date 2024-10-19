@@ -1,5 +1,4 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   ROUTE_MAIN_CHANGE_PASSWORD,
   ROUTE_MAIN_DASHBOARD,
@@ -7,12 +6,12 @@ import {
   ROUTE_MAIN_PROFILE,
   ROUTE_MAIN_WISHLIST,
 } from "../../../routes/routes";
-import { useTranslation } from "react-i18next";
 import { handlePublicRedirection } from "../../../utils/commonFunctions";
 
-const ProfileComponent = (props) => {
+import { NavLink } from "react-router-dom";
+
+const ProfileComponent = ({ children }) => {
   const { t } = useTranslation();
-  const { children } = props;
 
   const handleLogout = () => {
     localStorage.clear();
@@ -86,7 +85,7 @@ const ProfileComponent = (props) => {
                                 : "profile-sidebar-item"
                             }
                           >
-                            Wishlist
+                            {t("Wishlist")}
                           </NavLink>
                         </li>
                         <li>

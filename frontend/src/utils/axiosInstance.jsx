@@ -1,20 +1,22 @@
-import axios from "axios";
-import { REST_URL_SERVER, ACCESS_TOKEN } from "./constant";
-import { ErrorTaster } from "../components/Toast";
-import { ROUTE_MAIN } from "../routes/routes";
 import {
   commonSignOut,
   getRegfreshToken,
   setAcessToken,
 } from "./commonFunctions";
+import axios from "axios";
 import { get } from "lodash";
+import { REST_URL_SERVER, ACCESS_TOKEN } from "./constant";
+
+import { ErrorTaster } from "../components/Toast";
 
 export const getNewAccessToken = async () => {
   let refreshToken = getRegfreshToken();
+
   if (refreshToken) {
     const req_body = {
       refresh_token: refreshToken,
     };
+
     let apiPromise = new Promise((resolve, reject) => {
       axios
         .post(`${REST_URL_SERVER}/auth/refresh`, req_body, {
@@ -42,6 +44,7 @@ export const getNewAccessToken = async () => {
 
 const setNewAccessToken = async () => {
   let response = await getNewAccessToken();
+
   if (response) {
     const { data } = response;
     setAcessToken(get(data, "access_token"));
@@ -53,12 +56,12 @@ const setNewAccessToken = async () => {
 
 export const axiosInstance = axios.create({
   baseURL: `${REST_URL_SERVER}`,
-  // timeout: 15000,
 });
 
 if (ACCESS_TOKEN) {
   axiosInstance.defaults.headers["Authorization"] = `Bearer  ${ACCESS_TOKEN}`;
 }
+
 axiosInstance.defaults.headers["accept"] = "application/json";
 
 axiosInstance.interceptors.response.use(
@@ -92,9 +95,11 @@ export const commonGetQuery = async (url) => {
       method: "GET",
       url: url,
     });
+
     if (response) return response;
   } catch (error) {
     const { message } = error.data;
+
     return console.warn(message);
   }
 };
@@ -108,6 +113,7 @@ export const commonAddUpdateQuery = async (url, data, type) => {
         ...data,
       },
     });
+
     if (response) {
       return response || null;
     } else {
@@ -116,6 +122,7 @@ export const commonAddUpdateQuery = async (url, data, type) => {
   } catch (error) {
     if (error) {
       const { message } = error.data;
+
       if (message) {
         return ErrorTaster(message);
       }

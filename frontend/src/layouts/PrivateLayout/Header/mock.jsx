@@ -1,15 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { size } from "lodash";
 import {
   ROUTE_MAIN_ABOUT_PRODUCT,
   ROUTE_MAIN_SHOP,
 } from "../../../routes/routes";
-// import { i18n } from "react-i18next";
-import { map, size } from "lodash";
 import i18next from "i18next";
-// const { t } = useTranslation();
+
+import { NavLink } from "react-router-dom";
 
 export const menuItemsData = (data, name) => {
   let dropdownArray = [];
+
   if (size(data) > 0) {
     dropdownArray = data.map((category) => ({
       label: (
@@ -37,6 +37,7 @@ export const menuItemsData = (data, name) => {
       })),
     }));
   }
+
   return {
     label: (
       <NavLink
@@ -44,8 +45,6 @@ export const menuItemsData = (data, name) => {
         className={(navData) => (navData.isActive ? "active-nav" : "none")}
       >
         {name}
-        {/* Shop */}
-        {/* {t("Shop")} */}
       </NavLink>
     ),
     items: dropdownArray,
@@ -57,11 +56,7 @@ export const menuAboutProductData = (data, name) => {
   if (size(data) > 0) {
     dropdownArray = data.map((category) => ({
       label: (
-        <NavLink
-          // to={ROUTE_MAIN_ABOUT_PRODUCT + `?categoryId=${category.id || 0}`}
-          to="#"
-          className="dropdown-link"
-        >
+        <NavLink to="#" className="dropdown-link">
           {i18next.t(category.name)}
         </NavLink>
       ),
@@ -82,16 +77,14 @@ export const menuAboutProductData = (data, name) => {
       })),
     }));
   }
+
   return {
     label: (
       <NavLink
         to="javascript:void(0);"
-        // to="#"
         className={(navData) => (navData.isActive ? "active-nav" : "none")}
       >
         {name}
-        {/* About Product */}
-        {/* {t("The Shop")} */}
       </NavLink>
     ),
     items: dropdownArray,

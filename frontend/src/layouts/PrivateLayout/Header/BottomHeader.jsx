@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import cx from "classnames";
+import { connect } from "react-redux";
+import { isEmpty, size } from "lodash";
+import { commonGetQuery } from "../../../utils/axiosInstance";
+import { menuAboutProductData, menuItemsData } from "./mock";
 import {
   ROUTE_MAIN,
   ROUTE_MAIN_SHOP,
@@ -15,32 +15,28 @@ import {
   ROUTE_MAIN_DESIGN_IT_YOUR_SELF,
   ROUTE_MAIN_INSTRUCTIONS,
 } from "../../../routes/routes";
-import { NestedDropdown } from "mui-nested-menu";
-import { connect } from "react-redux";
+import cx from "classnames";
 import * as Action from "../../../redux/actions";
-import { isEmpty, size } from "lodash";
-import { commonGetQuery } from "../../../utils/axiosInstance";
-import { menuAboutProductData, menuItemsData } from "./mock";
+
+import { NestedDropdown } from "mui-nested-menu";
+import { NavLink } from "react-router-dom";
+
 import CloseIcon from "@mui/icons-material/Close";
 
-const BottomHeader = (props) => {
-  const {
-    shopCategoryDataList,
-    saveShopCategoryList,
-    menuIsOpen,
-    toggleMenu,
-    popoverRef,
-  } = props;
+const BottomHeader = ({
+  shopCategoryDataList,
+  saveShopCategoryList,
+  menuIsOpen,
+  toggleMenu,
+  popoverRef,
+}) => {
   const { t } = useTranslation();
-  const [categoryLoading, setCategoryLoading] = useState(false);
 
   const getAllCategory = async () => {
-    setCategoryLoading(true);
     const response = await commonGetQuery("/categories");
-    setCategoryLoading(false);
+
     if (response) {
       const { data } = response.data;
-
       saveShopCategoryList(data);
     }
   };
@@ -82,14 +78,6 @@ const BottomHeader = (props) => {
                   </NavLink>
                 </li>
                 <li>
-                  {/* <NavLink
-                    to={ROUTE_MAIN_SHOP}
-                    className={(navData) =>
-                      navData.isActive ? "active-nav" : "none"
-                    }
-                  >
-                    {t("Shop")}
-                  </NavLink> */}
                   <NestedDropdown
                     menuItemsData={menuItemsData(
                       shopCategoryDataList,
@@ -107,18 +95,6 @@ const BottomHeader = (props) => {
                     {t("About The Platform")}
                   </NavLink>
                 </li>
-
-                {/* <li>
-                  <NavLink
-                    to={ROUTE_MAIN_DESIGN_IT_YOUR_SELF}
-                    className={(navData) =>
-                      navData.isActive ? "active-nav" : "none"
-                    }
-                  >
-                    {t("Design it yourself")}
-                  </NavLink>
-                </li> */}
-
                 <li>
                   <NavLink
                     to={ROUTE_MAIN_ASSOCIETS}
@@ -130,14 +106,6 @@ const BottomHeader = (props) => {
                   </NavLink>
                 </li>
                 <li>
-                  {/* <NavLink
-                    to={ROUTE_MAIN_ABOUT_PRODUCT}
-                    className={(navData) =>
-                      navData.isActive ? "active-nav nested-route-link" : "none"
-                    }
-                  >
-                    {t("About products")}
-                  </NavLink>  */}
                   <NestedDropdown
                     menuItemsData={menuAboutProductData(
                       shopCategoryDataList,
@@ -155,16 +123,6 @@ const BottomHeader = (props) => {
                     {t("Blog")}
                   </NavLink>
                 </li>
-                {/* <li>
-                  <NavLink
-                    to={ROUTE_MAIN_INSTRUCTIONS}
-                    className={(navData) =>
-                      navData.isActive ? "active-nav" : "none"
-                    }
-                  >
-                    {t("Instructions")}
-                  </NavLink>
-                </li> */}
                 <li>
                   <NavLink
                     to={ROUTE_MAIN_CONTACT}

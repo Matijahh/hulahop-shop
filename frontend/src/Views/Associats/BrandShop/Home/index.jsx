@@ -1,29 +1,32 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
+import _get from "lodash/get";
+import get from "lodash/get";
+
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import _get from "lodash/get";
-
-import SliderSecction from "./SliderSecction";
-import { HomeContainer } from "./styled";
+import SliderSection from "./SliderSection";
 import Products from "./Products";
 import CommonCategorySidebar from "../../../../components/CommonCategorySidebar";
+
+import { HomeContainer } from "./styled";
 import { Helmet } from "react-helmet";
-import { useTranslation } from "react-i18next";
-import get from "lodash/get";
 
 const Home = ({ storeData }) => {
   const { t } = useTranslation();
+
   const getSocialUrl = (name) => {
     if (storeData && _get(storeData, "social_links")) {
       const obj = JSON.parse(_get(storeData, "social_links"));
       return obj[name];
     }
   };
+
   const handleOnSelectSocialIcon = (url) => {
     window.open(url, "_blank");
   };
+
   return (
     <HomeContainer>
       <Helmet>
@@ -33,7 +36,7 @@ const Home = ({ storeData }) => {
             : t("Associate Shop - HulaHop")}
         </title>
       </Helmet>
-      <SliderSecction data={storeData} />
+      <SliderSection data={storeData} />
       <div className="social-links">
         {getSocialUrl("ig_url") && (
           <div

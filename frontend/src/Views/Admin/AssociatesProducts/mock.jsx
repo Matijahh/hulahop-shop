@@ -4,8 +4,6 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import Switch from "@mui/material/Switch";
-import { REST_URL_SERVER } from "../../../utils/constant";
-import { getImageUrlById } from "../../../utils/commonFunctions";
 
 export const renderHeader = [
   {
@@ -54,18 +52,6 @@ export const renderHeader = [
     width: 180,
     align: "left",
   },
-  // {
-  //   field: "colors",
-  //   headerName: "Colors",
-  //   width: 180,
-  //   align: "left",
-  // },
-  // {
-  //   field: "date",
-  //   headerName: "Create Date",
-  //   width: 180,
-  //   align: "left",
-  // },
   {
     field: "base_price",
     headerName: "Base Price",

@@ -1,18 +1,20 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
-import { Provider } from "react-redux";
-import store from "./utils/store";
-
-import indexRoutes from "./routes";
-import ErrorBoundary from "./boundaries/GlobalErrorBoundary";
-import "./assets/sass/style.scss";
-import "react-toastify/dist/ReactToastify.css";
-import NotFound from "./views/NotFound";
-import i18next from "i18next";
+import { Suspense, useEffect, useState } from "react";
 import { axiosInstance } from "./utils/axiosInstance";
 import { get } from "lodash";
+import store from "./utils/store";
+import indexRoutes from "./routes";
+import i18next from "i18next";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import { Provider } from "react-redux";
+
+import ErrorBoundary from "./boundaries/GlobalErrorBoundary";
+import NotFound from "./views/NotFound";
+
+import "./assets/sass/style.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 const RenderRoutes = () => {
   return (

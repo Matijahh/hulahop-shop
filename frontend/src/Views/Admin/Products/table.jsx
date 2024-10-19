@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
   Table,
   TableBody,
@@ -23,6 +25,8 @@ const DynamicTable = () => {
       size: "M",
     },
   ]);
+
+  const { t } = useTranslation();
 
   const handleAddRow = () => {
     const newRow = {
@@ -51,10 +55,10 @@ const DynamicTable = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Choose image</TableCell>
-            <TableCell>Choose color</TableCell>
-            <TableCell>Select size</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>{t("Choose image")}</TableCell>
+            <TableCell>{t("Choose color")}</TableCell>
+            <TableCell>{t("Select size")}</TableCell>
+            <TableCell>{t("Actions")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -78,7 +82,7 @@ const DynamicTable = () => {
               </TableCell>
               <TableCell>
                 <FormControl>
-                  <InputLabel>Size</InputLabel>
+                  <InputLabel>{t("Size")}</InputLabel>
                   <Select
                     value={row.size}
                     onChange={(e) => handleSizeChange(row.id, e.target.value)}
@@ -92,7 +96,7 @@ const DynamicTable = () => {
               </TableCell>
               <TableCell>
                 <IconButton onClick={() => handleRemoveRow(row.id)}>
-                  Remove
+                  {t("Remove")}
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -100,7 +104,7 @@ const DynamicTable = () => {
           <TableRow>
             <TableCell colSpan={4}>
               <Button variant="contained" onClick={handleAddRow}>
-                Add Row
+                {t("Add Row")}
               </Button>
             </TableCell>
           </TableRow>

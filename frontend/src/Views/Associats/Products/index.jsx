@@ -1,38 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { Tooltip } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
-import AddIcon from "@mui/icons-material/Add";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { useTranslation } from "react-i18next";
 import {
   ROUTE_ASSOCIATE_CREATE_PRODUCT,
   ROUTE_ASSOCIATE_EDIT_PRODUCT,
 } from "../../../routes/routes";
-import { ProductCardBox, ProductsListContainer } from "./styled";
-import ButtonComponent from "../../../components/ButtonComponent";
-import SelectComponent from "../../../components/SelectComponent";
-import InputComponent from "../../../components/InputComponent";
-import ImageLibrary from "../ImageLibrary";
+import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
+import { jwtDecode } from "jwt-decode";
+import { size } from "lodash";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
+import { ProductCardBox, ProductsListContainer } from "./styled";
+
+import { Tooltip } from "@mui/material";
+import { Col, Row } from "react-bootstrap";
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Loader } from "../../../components/Loader";
-import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
-import { jwtDecode } from "jwt-decode";
-import PreviewJsonImage from "../../../components/PreviewJsonImage";
-import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
-import { size } from "lodash";
+
+import AddIcon from "@mui/icons-material/Add";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import ButtonComponent from "../../../components/ButtonComponent";
+import SelectComponent from "../../../components/SelectComponent";
+import InputComponent from "../../../components/InputComponent";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
+import ImageLibrary from "../ImageLibrary";
 
 const Products = () => {
-  const { t } = useTranslation();
-  const navigation = useNavigate();
   const [loading, setLoading] = useState(false);
   const [productsList, setProductsList] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -42,25 +39,36 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
 
+  const { t } = useTranslation();
+  const navigation = useNavigate();
+
   const handleToggle = () => {
     setIsOpenImageLibrary(!isOpenImageLibrary);
   };
 
   const getAllProduct = async (searchString, categoryId, subCategoryId) => {
     setLoading(true);
+
     const decoded = jwtDecode(ACCESS_TOKEN);
+
     let URL = `/associate_products/?user_id=${decoded.id}`;
+
     if (searchString) {
       URL += `&search_string=${searchString}`;
     }
+
     if (categoryId) {
       URL += `&category_ids=${parseFloat(categoryId)}`;
     }
+
     if (subCategoryId) {
       URL += `&sub_category_ids=${parseFloat(subCategoryId)}`;
     }
+
     const response = await commonGetQuery(URL);
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       setProductsList(data);
@@ -78,12 +86,15 @@ const Products = () => {
 
   const deleteProduct = async (id) => {
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/associate_products/${id}`,
       null,
       "DELETE"
     );
+
     setLoading(false);
+
     if (response) {
       getAllProduct();
     }
@@ -91,8 +102,10 @@ const Products = () => {
 
   const getAllCategory = async () => {
     const response = await commonGetQuery("/categories");
+
     if (response) {
       const { data } = response.data;
+
       if (size(data) > 0) {
         const categoryList = data.map((item) => {
           return {
@@ -108,10 +121,13 @@ const Products = () => {
 
   const onSelectCategory = (e) => {
     const selectedId = e.target && e.target.value.split(",")[0];
+
     const selectedItem = categories.find(
       (item) => item.id === parseFloat(selectedId)
     );
+
     getAllProduct(searchVal, selectedItem?.id);
+
     setSubCategories(
       selectedItem?.sub_category?.map((item) => {
         return {
@@ -121,8 +137,10 @@ const Products = () => {
         };
       })
     );
+
     setSelectedCategory(e.target && e.target.value);
   };
+
   const handleSelectSubCategory = (e) => {
     const selectedId = e.target && e.target.value.split(",")[0];
 
@@ -135,6 +153,7 @@ const Products = () => {
     getAllProduct(value);
     setSearchVal(value);
   };
+
   useEffect(() => {
     getAllProduct();
     getAllCategory();
@@ -151,7 +170,7 @@ const Products = () => {
           <SelectComponent
             id="1"
             labelId="demo-multiple-name-label"
-            label="Select Categories"
+            label={t("Select Categories")}
             width={200}
             size="small"
             onChange={onSelectCategory}
@@ -163,7 +182,7 @@ const Products = () => {
           <SelectComponent
             id="1"
             labelId="demo-multiple-name-label"
-            label="Select Sub Category"
+            label={t("Select Sub Categories")}
             width={200}
             size="small"
             optionList={subCategories}
@@ -171,6 +190,7 @@ const Products = () => {
             value={selectedSubCategory}
             onChange={handleSelectSubCategory}
           />
+
           <InputComponent
             type="search"
             onChange={onSearchValue}
@@ -192,6 +212,7 @@ const Products = () => {
           />
         </FlexBox>
       </FlexBox>
+
       <ProductsListContainer>
         {loading ? (
           <Loader />
@@ -217,7 +238,7 @@ const Products = () => {
                         />
                         <div className="overlay">
                           <div className="overlay-icon">
-                            <Tooltip title="Edit" placement="bottom">
+                            <Tooltip title={t("Edit")} placement="bottom">
                               <EditOutlinedIcon
                                 onClick={() =>
                                   handleEditProduct(item.id, item?.product_id)
@@ -225,18 +246,8 @@ const Products = () => {
                               />
                             </Tooltip>
                           </div>
-                          {/* <div className="overlay-icon">
-                            <Tooltip title="Add Images" placement="bottom">
-                              <InsertPhotoOutlinedIcon onClick={handleToggle} />
-                            </Tooltip>
-                          </div>
                           <div className="overlay-icon">
-                            <Tooltip title="Visibility" placement="bottom">
-                              <RemoveRedEyeOutlinedIcon />
-                            </Tooltip>
-                          </div> */}
-                          <div className="overlay-icon">
-                            <Tooltip title="Delete" placement="bottom">
+                            <Tooltip title={t("Delete")} placement="bottom">
                               <DeleteOutlineOutlinedIcon
                                 onClick={() => deleteProduct(item.id)}
                               />

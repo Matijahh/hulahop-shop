@@ -1,64 +1,71 @@
-import React, { useEffect, useState } from "react";
-import inspiration from "../../../assets/images/inspiration.jpg";
-import blog2 from "../../../assets/images/blog2.jpg";
-import blog3 from "../../../assets/images/blog3.png";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
-import { get, map, replace, size } from "lodash";
+import { getImageUrlById } from "../../../utils/commonFunctions";
+import { get, map, size } from "lodash";
 import {
-  ROUTE_ASSOCIATE_BRAND_STORE_BLOGS,
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID,
   ROUTE_MAIN_BLOG,
   ROUTE_MAIN_BLOG_SINGLE,
 } from "../../../routes/routes";
-import { getImageUrlById } from "../../../utils/commonFunctions";
 import parse from "html-react-parser";
 import moment from "moment";
-import { useTranslation } from "react-i18next";
+
 import { Helmet } from "react-helmet";
+import { LoaderContainer } from "../../../components/Loader";
 
 const BlogPage = () => {
-  const navigation = useNavigate();
-  const { t } = useTranslation();
-  const params = useParams();
   const [loading, setLoading] = useState();
   const [blogData, setBlogData] = useState();
   const [blogList, setBlogList] = useState([]);
+
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+  const params = useParams();
 
   const getBlogData = async () => {
     setLoading(true);
 
     let id = get(params, "blogId") || get(params, "id");
     const response = await commonGetQuery(`/blogs/${id}`);
+
     if (response) {
       const { data } = response.data;
 
       setBlogData(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const getBlogList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/blogs");
+
     if (response) {
       const { data } = response.data;
       setBlogList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
     let id = get(params, "id");
+
     if (id) {
       getBlogData();
     } else {
       navigation(ROUTE_MAIN_BLOG);
     }
+
     getBlogList();
   }, []);
+
   return (
     <div className="page-wrapper single-blog-page">
       <Helmet>
@@ -68,6 +75,9 @@ const BlogPage = () => {
             : t("Blogs Details - HulaHop")}
         </title>
       </Helmet>
+
+      {loading && <LoaderContainer />}
+
       <div className="blog-section">
         <div className="container">
           <div className="row">
@@ -82,7 +92,9 @@ const BlogPage = () => {
                       {t(get(blogData, "heading", ""))}
                     </h5>
                     <div className="blog-head-footer">
-                      <p className="blog-auther-text">by: Velimir Stupar</p>
+                      <p className="blog-author-text">
+                        {t("by:")} Velimir Stupar
+                      </p>
                       <p className="blog-post-date">
                         {moment(Number(get(blogData, "created_at", ""))).format(
                           "MMMM, DD,YYYY"

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 const HeaderWrapperStyled = styled.div`
-  /* position: sticky; */
   top: 0;
   z-index: 999;
+
   .menu-wrapper {
     height: 100vh;
     width: 100%;
@@ -12,34 +12,38 @@ const HeaderWrapperStyled = styled.div`
     z-index: 888;
     cursor: pointer;
     display: none;
+
     &.open {
       display: block;
     }
   }
+
   .header-container {
     display: block;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
   }
+
   .flex-box-header {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+
     @media (max-width: 991.98px) {
       flex-wrap: wrap;
     }
   }
   .header-top-area {
-    /* background: #eee; */
     background: #f8f8f8;
     padding: 10px 20px;
 
     .contact-box {
       width: 200px;
       max-width: 100%;
+
       a {
         text-decoration: none;
         font-size: 16px;
@@ -59,6 +63,7 @@ const HeaderWrapperStyled = styled.div`
         font-weight: 600;
         color: #f1676d;
       }
+
       @media (max-width: 991.98px) {
         display: block;
         max-width: 100%;
@@ -68,6 +73,7 @@ const HeaderWrapperStyled = styled.div`
     .top-area-end {
       display: inline-block;
       width: fit-content;
+
       .language-transfer-tab {
         display: inline-block;
 
@@ -98,6 +104,7 @@ const HeaderWrapperStyled = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
+
             svg {
               color: #2c2c2c;
               width: 24px;
@@ -116,6 +123,7 @@ const HeaderWrapperStyled = styled.div`
     .open-menu-box {
       display: none;
       width: 100%;
+
       .open-menu {
         display: flex;
         align-items: center;
@@ -124,6 +132,7 @@ const HeaderWrapperStyled = styled.div`
         width: 30px;
         height: 30px;
         background-color: #f1676d;
+
         svg {
           fill: #fff;
         }
@@ -136,13 +145,13 @@ const HeaderWrapperStyled = styled.div`
     }
   }
   .header-middle-area {
-    /* border: 1px solid #e0e0e0; */
     border-top: 1px solid #e5eaee;
-    /* border-bottom: 1px solid #f1676d; */
     background: #fff;
     padding: 10px 20px;
+
     .logo-box {
       width: 200px;
+
       img {
         width: 180px;
         max-width: 100%;
@@ -191,6 +200,7 @@ const HeaderWrapperStyled = styled.div`
     .cart-box {
       padding: 5px;
       cursor: pointer;
+
       svg {
         color: #071c1f;
         width: 25px;
@@ -199,7 +209,6 @@ const HeaderWrapperStyled = styled.div`
     }
   }
   .header-bottom-area {
-    /* background: #f1676d; */
     background: #fff;
     padding: 10px 5px;
 
@@ -209,10 +218,10 @@ const HeaderWrapperStyled = styled.div`
       justify-content: center;
       flex-wrap: wrap;
       width: 100%;
-      /* padding: 20px; */
 
       .header-menu-user {
         width: 100%;
+
         .nav-user {
           position: relative;
           height: 45px;
@@ -223,6 +232,7 @@ const HeaderWrapperStyled = styled.div`
           align-items: center;
           pointer-events: all;
           width: 100%;
+
           ul {
             width: 100%;
             display: flex;
@@ -233,6 +243,7 @@ const HeaderWrapperStyled = styled.div`
             margin-bottom: 0;
             height: 100%;
             padding: 0;
+
             li {
               height: 100%;
               padding: 0 5px;
@@ -240,11 +251,11 @@ const HeaderWrapperStyled = styled.div`
               justify-content: center;
               align-items: center;
               padding: 10px;
+
               a {
                 border: none;
                 text-decoration: none;
                 text-transform: capitalize;
-                /* color: #fff; */
                 color: #150e4b;
                 font-size: 16px;
                 font-weight: 700;
@@ -258,10 +269,7 @@ const HeaderWrapperStyled = styled.div`
                 }
 
                 &:hover {
-                  /* color: #150e4b; */
                   color: #f1676d;
-                  /* background: #fff; */
-                  /* border-bottom: 2px solid #150e4b; */
                   border-bottom: 2px solid #f1676d;
 
                   & + .MuiButton-endIcon {
@@ -273,8 +281,6 @@ const HeaderWrapperStyled = styled.div`
                 }
 
                 &.active-nav {
-                  /* border-bottom: 2px solid #150e4b; */
-                  /* color: #150e4b; */
                   border-bottom: 2px solid #f1676d;
                   color: #f1676d;
 
@@ -288,9 +294,11 @@ const HeaderWrapperStyled = styled.div`
               }
             }
           }
+
           .close-menu-box {
             display: none;
             width: 100%;
+
             .close-menu {
               display: flex;
               align-items: center;
@@ -299,6 +307,7 @@ const HeaderWrapperStyled = styled.div`
               width: 30px;
               height: 30px;
               background-color: #f1676d;
+
               svg {
                 fill: #fff;
               }
@@ -313,6 +322,7 @@ const HeaderWrapperStyled = styled.div`
       .header-main-user {
         .header-menu-user {
           width: 100%;
+
           .nav-user {
             position: absolute;
             flex-direction: column;
@@ -323,24 +333,24 @@ const HeaderWrapperStyled = styled.div`
             top: 0;
             left: -100%;
             z-index: 9999;
+
             ul {
               display: block;
-              /* width: unset; */
+
               li {
                 height: 48px;
                 padding: 5px 10px;
                 background-color: #e5eaee;
-                /* border: 1px solid #f1676d;
-                border-left: none;
-                border-right: none; */
                 margin-bottom: 4px;
                 margin-top: 4px;
               }
             }
+
             .close-menu-box {
               display: flex;
               justify-content: end;
             }
+
             &.open {
               left: 0;
             }

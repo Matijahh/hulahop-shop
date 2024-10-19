@@ -1,22 +1,22 @@
-import React from "react";
+import styled from "styled-components";
+import i18next from "i18next";
+import { size as lodashSize } from "lodash";
+import { map } from "lodash";
+
 import {
   InputLabel,
   MenuItem,
   OutlinedInput,
   FormControl,
   Select,
-  Checkbox,
   ListItemText,
 } from "@mui/material";
-import styled from "styled-components";
-import { size as lodashSize } from "lodash";
-import { map } from "lodash";
-import i18next from "i18next";
 
 const SelectContainer = styled.div`
   .MuiInputBase-root {
     height: 40px !important;
   }
+
   .css-5d0qwl-MuiInputBase-root-MuiOutlinedInput-root,
   .MuiSelect-select {
     min-height: 40px !important;
@@ -26,14 +26,17 @@ const SelectContainer = styled.div`
     justify-content: center;
     align-items: center;
   }
+
   .input-label {
     margin-bottom: 9px;
   }
+
   @media screen and (max-width: 768px) {
     display: block;
     min-width: 100% !important;
     width: 100% !important;
   }
+
   .selectbox-input {
     @media screen and (max-width: 768px) {
       min-width: 100% !important;
@@ -42,30 +45,27 @@ const SelectContainer = styled.div`
   }
 `;
 
-const SelectComponent = (props) => {
-  const {
-    label,
-    id,
-    value,
-    MenuProps,
-    width,
-    onChange = () => {},
-    multiple = false,
-    size,
-    title,
-    optionList,
-    formik,
-    name,
-    fullWidth,
-    className,
-    disabled,
-    isCustumeChangeFunction,
-    isShowValue,
-  } = props;
+const SelectComponent = ({
+  label,
+  value,
+  width,
+  onChange = () => {},
+  size,
+  title,
+  optionList,
+  formik,
+  name,
+  fullWidth,
+  className,
+  disabled,
+  isCustumeChangeFunction,
+  isShowValue,
+}) => {
   const onValueChange = (e) => {
     if (formik) {
       const value = e.target && e.target.value;
       formik.setFieldValue(name, value);
+
       if (isCustumeChangeFunction) {
         onChange(e, name);
       }
@@ -77,6 +77,7 @@ const SelectComponent = (props) => {
   return (
     <SelectContainer className={className || ""}>
       {title && <label className="input-label">{title}</label>}
+
       <FormControl
         className="selectbox-input"
         sx={{ width: width || (fullWidth && "100%") }}
@@ -85,6 +86,7 @@ const SelectComponent = (props) => {
         <InputLabel size={size} id="demo-multiple-name-label">
           {label}
         </InputLabel>
+
         <Select
           value={
             isShowValue ? value : formik ? formik.values[name] : value || ""
@@ -92,7 +94,6 @@ const SelectComponent = (props) => {
           onChange={onValueChange}
           input={<OutlinedInput label={label} size={size} />}
           size={size}
-          // multiple={multiple}
           name={name}
         >
           {optionList &&
@@ -107,6 +108,7 @@ const SelectComponent = (props) => {
                 />
               </MenuItem>
             ))}
+
           {!optionList ||
             (lodashSize(optionList) < 1 && (
               <MenuItem size={size} value={10}>

@@ -1,33 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import * as Yup from "yup";
-import {
-  ErrorMessage,
-  Field,
-  FieldArray,
-  FormikProvider,
-  useFormik,
-} from "formik";
-import { find, get, isEmpty, map, size } from "lodash";
-
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import SelectComponent from "../../../components/SelectComponent";
-import BoxFileInput from "../../../components/BoxFileInput";
-import ButtonComponent from "../../../components/ButtonComponent";
-import AddIcon from "@mui/icons-material/Add";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { getSelectobjectValue } from "../../../utils/commonFunctions";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import ReactQuillEditor from "../../../components/ReactQuillEditor";
-import { useNavigate, useParams } from "react-router-dom";
-import ImageUploadBox from "../../../components/ImageUploadBox";
+import { ErrorMessage, FieldArray, FormikProvider, useFormik } from "formik";
+import { find, get, isEmpty, map, size } from "lodash";
+import { getSelectobjectValue } from "../../../utils/commonFunctions";
 import { ROUTE_ADMIN_ABOUT_PRODUCT } from "../../../routes/routes";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+
+import SelectComponent from "../../../components/SelectComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import ReactQuillEditor from "../../../components/ReactQuillEditor";
+import ImageUploadBox from "../../../components/ImageUploadBox";
 
 const AboutProductFormWrapper = styled.div`
   .add-product-btn {
@@ -38,36 +30,42 @@ const AboutProductFormWrapper = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
     svg {
       width: 35px;
       height: 35px;
     }
   }
 `;
-const validation = Yup.object().shape({
-  category_id: Yup.string().required("Category is required!"),
-  subcategory_id: Yup.string().required("Sub Category is required!"),
-  product_description_1: Yup.string().required(
-    "Product description is required!"
-  ),
-  product_description_2: Yup.string().required(
-    "Product description is required!"
-  ),
-  product_description_1_ab: Yup.string().required(
-    "Product description is required!"
-  ),
-  product_description_2_sb: Yup.string().required(
-    "Product description is required!"
-  ),
-});
+
 const AboutProductForm = () => {
-  const params = useParams();
-  const navigation = useNavigate();
   const [loading, setLoading] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [aboutProductData, setAboutProductdata] = useState([]);
+
+  const params = useParams();
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    category_id: Yup.string().required(t("Category is required!")),
+    subcategory_id: Yup.string().required(t("Sub Category is required!")),
+    product_description_1: Yup.string().required(
+      t("Product description is required!")
+    ),
+    product_description_2: Yup.string().required(
+      t("Product description is required!")
+    ),
+    product_description_1_ab: Yup.string().required(
+      t("Product description is required!")
+    ),
+    product_description_2_sb: Yup.string().required(
+      t("Product description is required!")
+    ),
+  });
+
   const formik = useFormik({
     initialValues: {
       category_id: "",
@@ -98,11 +96,7 @@ const AboutProductForm = () => {
         bottom_bar_images_ids: values.bottom_bar_images_ids,
       };
       setLoading(true);
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
       setLoading(false);
       navigation(ROUTE_ADMIN_ABOUT_PRODUCT);
     },
@@ -110,8 +104,10 @@ const AboutProductForm = () => {
 
   const getCategoryList = async () => {
     const response = await commonGetQuery("/categories");
+
     if (response) {
       const { data } = response.data;
+
       if (size(data) > 0) {
         setCategoriesData(data);
         const updatedList =
@@ -121,7 +117,9 @@ const AboutProductForm = () => {
           });
         setCategoryList(updatedList);
       }
+
       let id = get(params, "id");
+
       if (id) {
         getAboutProductData();
       }
@@ -146,11 +144,13 @@ const AboutProductForm = () => {
   const handeleSelectChange = (e, name) => {
     const { value } = e.target;
     const SelectObj = getSelectobjectValue(value);
+
     if (name === "category_id") {
       if (size(categoriesData) > 0) {
         const subCategoriesData = getSubCategoriesByCategoryId(
           Number(SelectObj.id)
         );
+
         setSubCategoryList(subCategoriesData || []);
         formik.setFieldValue.subcategory_id = "";
       }
@@ -166,11 +166,12 @@ const AboutProductForm = () => {
 
     let id = get(params, "id");
     const response = await commonGetQuery(`/about-product-data/${id}`);
+
     if (response) {
       const { data } = response.data;
+
       const {
         category_id,
-        subcategory_id,
         product_description_1,
         product_description_2,
         product_description_1_ab,
@@ -181,17 +182,21 @@ const AboutProductForm = () => {
         category,
         sub_category,
       } = data;
+
       setAboutProductdata(data);
+
       if (size(categoriesData) > 0) {
         const subCategoriesData = getSubCategoriesByCategoryId(
           Number(category_id)
         );
         setSubCategoryList(subCategoriesData || []);
       }
+
       let topBarImagesIds = [];
       if (size(about_product_top_bar_image) > 0) {
         topBarImagesIds = map(about_product_top_bar_image, "top_bar_images_id");
       }
+
       let sizeChartImagesIds = [];
       if (about_product_size_chart_image) {
         sizeChartImagesIds = map(
@@ -199,6 +204,7 @@ const AboutProductForm = () => {
           "size_chart_image_id"
         );
       }
+
       let bottomBarImagesIds = [];
       if (size(about_product_bottom_bar_images) > 0) {
         bottomBarImagesIds = map(
@@ -206,22 +212,27 @@ const AboutProductForm = () => {
           "bottom_bar_images_id"
         );
       }
+
       formik.setFieldValue(
         "product_description_1",
         product_description_1 || ""
       );
+
       formik.setFieldValue(
         "product_description_2",
         product_description_2 || ""
       );
+
       formik.setFieldValue(
         "product_description_1_ab",
         product_description_1_ab || ""
       );
+
       formik.setFieldValue(
         "product_description_2_sb",
         product_description_2_sb || ""
       );
+
       formik.setFieldValue("top_bar_images_ids", topBarImagesIds || "");
       formik.setFieldValue("size_chart_image_ids", sizeChartImagesIds || "");
       formik.setFieldValue("bottom_bar_images_ids", bottomBarImagesIds || "");
@@ -242,6 +253,7 @@ const AboutProductForm = () => {
         const subCategoriesData = getSubCategoriesByCategoryId(
           Number(get(aboutProductData, "category_id"))
         );
+
         setSubCategoryList(subCategoriesData || []);
       }
     }
@@ -256,7 +268,7 @@ const AboutProductForm = () => {
       {loading && <LoaderContainer />}
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">Add About Product Data</div>
+          <div className="main-title ">{t("Add About Product Data")}</div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -273,7 +285,7 @@ const AboutProductForm = () => {
                       fullWidth
                       name="category_id"
                       size="small"
-                      title="Select Categories"
+                      title={t("Select Categories")}
                       onChange={handeleSelectChange}
                       optionList={categoryList}
                       formik={formik}
@@ -291,7 +303,7 @@ const AboutProductForm = () => {
                       fullWidth
                       name="subcategory_id"
                       size="small"
-                      title="Select Sub Categories"
+                      title={t("Select Sub Categories")}
                       optionList={subCategoryList}
                       formik={formik}
                       disabled={loading}
@@ -309,7 +321,7 @@ const AboutProductForm = () => {
                       }
                       name="product_description_1"
                       value={formik.values.product_description_1}
-                      label="Product Description 1 English"
+                      label={`${t("Product Description")} 1 ${t("English")}`}
                     />
                     {formik.errors.product_description_1 && (
                       <p className="error-msg">
@@ -324,7 +336,7 @@ const AboutProductForm = () => {
                       }
                       name="product_description_1_ab"
                       value={formik.values.product_description_1_ab}
-                      label="Product Description 1 Serbian"
+                      label={`${t("Product Description")} 1 ${t("Serbian")}`}
                     />
                     {formik.errors.product_description_1_ab && (
                       <p className="error-msg">
@@ -339,7 +351,7 @@ const AboutProductForm = () => {
                       }
                       name="product_description_2"
                       value={formik.values.product_description_2}
-                      label="Product Description 2 English"
+                      label={`${t("Product Description")} 2 ${t("English")}`}
                     />
                     {formik.errors.product_description_2 && (
                       <p className="error-msg">
@@ -354,7 +366,7 @@ const AboutProductForm = () => {
                       }
                       name="product_description_2_sb"
                       value={formik.values.product_description_2_sb}
-                      label="Product Description 2 Serbian"
+                      label={`${t("Product Description")} 2 ${t("Serbian")}`}
                     />
                     {formik.errors.product_description_2_sb && (
                       <p className="error-msg">
@@ -363,7 +375,7 @@ const AboutProductForm = () => {
                     )}
                   </div>
                   <div className="col-lg-12">
-                    <h5 className="mb-3">Top Bar Images</h5>
+                    <h5 className="mb-3">{t("Top Bar Images")}</h5>
                     <div className="row g-4 ">
                       <FieldArray
                         name="top_bar_images_ids"
@@ -384,7 +396,6 @@ const AboutProductForm = () => {
                                         <ButtonComponent
                                           variant="contained"
                                           width="100%"
-                                          // startIcon={<AddIcon />}
                                           text="Remove"
                                           onClick={() => {
                                             remove(index);
@@ -407,7 +418,7 @@ const AboutProductForm = () => {
                     </div>
                   </div>
                   <div className="col-lg-12">
-                    <h5 className="mb-3">Bottom Bar Images</h5>
+                    <h5 className="mb-3">{t("Bottom Bar Images")}</h5>
                     <div className="row g-4 ">
                       <FieldArray
                         name="bottom_bar_images_ids"
@@ -428,7 +439,6 @@ const AboutProductForm = () => {
                                         <ButtonComponent
                                           variant="contained"
                                           width="100%"
-                                          // startIcon={<AddIcon />}
                                           text="Remove"
                                           onClick={() => {
                                             remove(index);
@@ -451,7 +461,7 @@ const AboutProductForm = () => {
                     </div>
                   </div>
                   <div className="col-lg-12">
-                    <h5 className="mb-3">Size Chart Images</h5>
+                    <h5 className="mb-3">{t("Size Chart Images")}</h5>
                     <div className="row g-4 ">
                       <FieldArray
                         name="size_chart_image_ids"
@@ -472,8 +482,7 @@ const AboutProductForm = () => {
                                         <ButtonComponent
                                           variant="contained"
                                           width="100%"
-                                          // startIcon={<AddIcon />}
-                                          text="Remove"
+                                          text={t("Remove")}
                                           onClick={() => {
                                             remove(index);
                                           }}
@@ -498,9 +507,8 @@ const AboutProductForm = () => {
                     <FlexBox justifyContent="end" className="mt-3">
                       <ButtonComponent
                         variant="contained"
-                        text="Save"
+                        text={t("Save")}
                         type="submit"
-                        // onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
                       />
                     </FlexBox>
                   </div>

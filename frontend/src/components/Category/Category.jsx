@@ -1,8 +1,6 @@
-import React from "react";
 import ButtonComponent from "../ButtonComponent";
 
-const Category = (props) => {
-  const { name, image } = props;
+const Category = ({ name, image }) => {
   return (
     <div className="categories-slide-wrapper">
       <div className="categories-slide">

@@ -1,6 +1,6 @@
-import React from "react";
-import CircularProgress from "@mui/material/CircularProgress";
 import styled from "styled-components";
+
+import CircularProgress from "@mui/material/CircularProgress";
 
 const containerStyle = `
   display: flex;
@@ -25,9 +25,6 @@ const MainContainer = styled.div`
   .MuiCircularProgress-root {
     z-index: 111;
   }
-  /* span {
-    display: none;
-  } */
 `;
 
 const Container = styled.div`
@@ -44,9 +41,9 @@ export const LoaderContainer = () => {
   );
 };
 
-export const Loader = (props) => {
+export const Loader = ({ height, className }) => {
   return (
-    <Container height={props.height} className={props.className}>
+    <Container height={height} className={className}>
       <CircularProgress />
     </Container>
   );

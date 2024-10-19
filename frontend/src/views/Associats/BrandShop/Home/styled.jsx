@@ -5,11 +5,13 @@ export const HomeContainer = styled.div`
     width: 100%;
     height: calc(100vh - 270px);
     position: relative;
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .overlay {
       position: absolute;
       width: 100%;
@@ -19,6 +21,7 @@ export const HomeContainer = styled.div`
       background-color: rgba(0, 0, 0, 0.4);
     }
   }
+
   .social-links {
     display: flex;
     justify-content: center;
@@ -27,6 +30,7 @@ export const HomeContainer = styled.div`
     width: 100%;
     background: #f8f8f8;
     border-bottom: 1px solid #e5eaee;
+
     .social-links-item {
       display: flex;
       justify-content: center;
@@ -37,11 +41,13 @@ export const HomeContainer = styled.div`
       border-radius: 4px;
       margin: 0 20px;
       cursor: pointer;
+
       svg {
         width: 40px;
         height: 40px;
         color: rgb(241, 103, 109);
       }
+
       &:hover {
         background-color: rgb(241, 103, 109);
         svg {
@@ -50,15 +56,18 @@ export const HomeContainer = styled.div`
       }
     }
   }
+
   .section-title-desc {
     margin: 20px 0;
     text-align: center;
+
     h2 {
       font-size: 34px;
       font-weight: 600;
       color: #000;
       margin-bottom: 10px;
     }
+
     p {
       font-size: 20px;
       font-weight: 400;
@@ -68,12 +77,14 @@ export const HomeContainer = styled.div`
   }
 `;
 
-export const SliderSecctionContainer = styled.div`
+export const SliderSectionContainer = styled.div`
   position: relative;
+
   .content {
     position: absolute;
     bottom: 120px;
     left: 120px;
+
     .shop-title {
       font-size: 40px;
       font-weight: bold;

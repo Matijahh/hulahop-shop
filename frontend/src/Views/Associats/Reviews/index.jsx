@@ -1,12 +1,12 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
 import { map } from "lodash";
+import { renderHeader } from "./mock";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import InputComponent from "../../../components/InputComponent";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import { renderHeader } from "./mock";
 import { Helmet } from "react-helmet";
-import { useTranslation } from "react-i18next";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 
 const Reviews = () => {
   const { t } = useTranslation();
@@ -19,16 +19,24 @@ const Reviews = () => {
     review_date: "02/10/2023",
     created_by: "Chirag Rathod",
   }));
+
   return (
     <CommonWhiteBackground>
       <Helmet>
         <title>{t("Reviews - Associate")}</title>
       </Helmet>
       <FlexBox className="mb-4" isWrap>
-        <div className="main-title ">Reviews</div>
-        <InputComponent type="search" label="Search orders" />
+        <div className="main-title ">{t("Reviews")}</div>
+        <InputComponent type="search" label={t("Search orders")} />
       </FlexBox>
-      <Tables body={renderData} header={renderHeader} maxHeight="650px" />
+      <Tables
+        body={renderData}
+        header={renderHeader.map((item) => ({
+          ...item,
+          headerName: t(item.headerName),
+        }))}
+        maxHeight="650px"
+      />
     </CommonWhiteBackground>
   );
 };

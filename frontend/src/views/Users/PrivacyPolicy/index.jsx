@@ -1,9 +1,10 @@
-import React from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
+
+import { Helmet } from "react-helmet";
 
 const PrivacyPolicy = () => {
   const { t } = useTranslation();
+
   return (
     <div className="page-wrapper privacy-policy-page">
       <Helmet>
@@ -98,7 +99,7 @@ const PrivacyPolicy = () => {
           </a>{" "}
           .
           {t(
-            " In this sense, we are responsible for the processing of your personal data. By using the Service, you consent to the collection and use of information in accordance with this policy. Unless otherwise specified in this Privacy Policy, the terms of use set forth in this Privacy Policy have the same meanings as those in our Terms and Conditions of Use."
+            "In this sense, we are responsible for the processing of your personal data. By using the Service, you consent to the collection and use of information in accordance with this policy. Unless otherwise specified in this Privacy Policy, the terms of use set forth in this Privacy Policy have the same meanings as those in our Terms and Conditions of Use."
           )}
         </div>
         <div className="description mb-2">

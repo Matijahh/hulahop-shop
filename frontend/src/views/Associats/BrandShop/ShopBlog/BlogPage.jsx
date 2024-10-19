@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../../utils/axiosInstance";
 import { get, map, size } from "lodash";
 import {
@@ -10,16 +11,19 @@ import {
 import { getImageUrlById } from "../../../../utils/commonFunctions";
 import parse from "html-react-parser";
 import moment from "moment";
-import { useTranslation } from "react-i18next";
+
 import { Helmet } from "react-helmet";
+import { LoaderContainer } from "../../../../components/Loader";
 
 const ShopBlogPage = () => {
-  const navigation = useNavigate();
-  const { t } = useTranslation();
-  const params = useParams();
   const [loading, setLoading] = useState();
   const [blogData, setBlogData] = useState();
   const [blogList, setBlogList] = useState([]);
+
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+  const params = useParams();
+
   const storeId = get(params, "id")?.split("-")[1];
 
   const getBlogData = async () => {
@@ -27,33 +31,40 @@ const ShopBlogPage = () => {
 
     let id = get(params, "blogId") || get(params, "id");
     const response = await commonGetQuery(`/associate_blogs/${id}`);
+
     if (response) {
       const { data } = response.data;
 
       setBlogData(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const getBlogList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery(`/associate_blogs/store/${storeId}`);
+
     if (response) {
       const { data } = response.data;
       setBlogList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
     let id = get(params, "blogId") || get(params, "id");
+
     if (id) {
       getBlogData();
     } else {
       navigation(ROUTE_MAIN_BLOG);
     }
+
     getBlogList();
   }, []);
 
@@ -67,6 +78,7 @@ const ShopBlogPage = () => {
         </title>
       </Helmet>
       <div className="blog-section">
+        {loading && <LoaderContainer />}
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
@@ -80,7 +92,9 @@ const ShopBlogPage = () => {
                       {t(get(blogData, "heading", ""))}
                     </h5>
                     <div className="blog-head-footer">
-                      <p className="blog-auther-text">by: Velimir Stupar</p>
+                      <p className="blog-author-text">{`${t(
+                        "by:"
+                      )} Velimir Stupar`}</p>
                       <p className="blog-post-date">
                         {moment(Number(get(blogData, "created_at", ""))).format(
                           "MMMM, DD,YYYY"

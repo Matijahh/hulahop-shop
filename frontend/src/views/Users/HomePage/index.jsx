@@ -1,33 +1,7 @@
-import React, { useEffect, useState } from "react";
-import _size from "lodash/size";
-import _map from "lodash/map";
-import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
-import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
-import PhoneCallbackOutlinedIcon from "@mui/icons-material/PhoneCallbackOutlined";
-import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
-import { Helmet } from "react-helmet";
-
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-
-import ButtonComponent from "../../../components/ButtonComponent";
-import SliderSecction from "./SliderSecction";
-import SliderComponent from "../../../components/SliderComponent/SliderComponent";
-
-import createStore from "../../../assets/images/createStore.png";
-import associate1 from "../../../assets/images/associate1.jpg";
-import associate2 from "../../../assets/images/associate2.jpg";
-import associate3 from "../../../assets/images/associate3.jpg";
-import associate4 from "../../../assets/images/associate4.jpg";
-import associate5 from "../../../assets/images/associate5.jpg";
-import Product from "../../../components/Product/Product";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CommonCategorySidebar from "../../../components/CommonCategorySidebar";
 import { commonGetQuery } from "../../../utils/axiosInstance";
-import { Loader } from "../../../components/Loader";
-import { get, isEmpty, map, size } from "lodash";
+import { get, map, size } from "lodash";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -36,14 +10,34 @@ import {
   ROUTE_SIGN_UP,
 } from "../../../routes/routes";
 import { getImageUrlById } from "../../../utils/commonFunctions";
+import _size from "lodash/size";
+import _map from "lodash/map";
+import createStore from "../../../assets/images/createStore.png";
+
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
+import PhoneCallbackOutlinedIcon from "@mui/icons-material/PhoneCallbackOutlined";
+import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import ButtonComponent from "../../../components/ButtonComponent";
+import SliderSection from "./SliderSection";
+import SliderComponent from "../../../components/SliderComponent/SliderComponent";
+import Product from "../../../components/Product/Product";
+import CommonCategorySidebar from "../../../components/CommonCategorySidebar";
+
+import { Helmet } from "react-helmet";
+import { Loader } from "../../../components/Loader";
 
 const HomePage = () => {
   const [value, setValue] = useState("1");
-  const navigate = useNavigate();
   const [bestSellingProducts, setBestSellingProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [associatesList, setAssociatesList] = useState([]);
+
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const handleChange = (event, newValue) => {
@@ -67,9 +61,13 @@ const HomePage = () => {
     if (id) {
       url = `${url}&category_ids=${id}`;
     }
+
     setLoading(true);
+
     const response = await commonGetQuery(`/${url}`);
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       setBestSellingProducts(data);
@@ -78,15 +76,20 @@ const HomePage = () => {
 
   const getAssociatesList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/associates");
+
     if (response) {
       const { data } = response.data;
+
       const filteredData = data.filter(
         (item) => size(item.store_layout_details) > 0
       );
+
       setAssociatesList(filteredData);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
@@ -134,7 +137,7 @@ const HomePage = () => {
                   width="560"
                   height="315"
                   src="https://www.youtube.com/embed/PgniL3fILmM?si=qcqCY5kBg7g3lMUD"
-                  title="YouTube video player"
+                  title={t("YouTube video player")}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
@@ -207,7 +210,7 @@ const HomePage = () => {
             <div className="col-12">
               <div className="hero-section">
                 <h3 className="banner-head">{t("How Does It Work?")}</h3>
-                <p className="banner-pera">
+                <p className="banner-paragraph">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo,
                   veniam eos id nam incidunt et esse consequatur consectetur
                   accusantium impedit sit ex at temporibus, non facere
@@ -217,7 +220,7 @@ const HomePage = () => {
             </div>
             <div className="col-12">
               <div className="slider-container">
-                <SliderSecction />
+                <SliderSection />
               </div>
             </div>
           </div>
@@ -263,7 +266,7 @@ const HomePage = () => {
             <div className="col-12">
               <div className="hero-section">
                 <h3 className="banner-head">{t("We Deliver Happiness")}</h3>
-                <p className="banner-pera">
+                <p className="banner-paragraph">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo,
                   veniam eos id nam incidunt et esse consequatur consectetur
                   accusantium impedit sit ex at temporibus, non facere
@@ -312,7 +315,7 @@ const HomePage = () => {
                     <PhoneCallbackOutlinedIcon />
                   </div>
                   <div className="content-box">
-                    <h4>{t("Contect")}</h4>
+                    <h4>{t("Contact")}</h4>
                     <p>
                       {t(
                         "Feel free to reach out to usduring weekdays from 9 am to 4 pm if you have any inquiries or suggestions about potential collaborations. We'll be more than happy to assist you."
@@ -391,130 +394,6 @@ const HomePage = () => {
           );
         }}
       />
-      {/* <div className="categories-section">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="hero-section">
-                <h3 className="banner-head">{t("Product Categories")}</h3>
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="categories-slider">
-                <SliderComponent dots={false} slidesToShow={4}>
-                  <div className="categories-slide">
-                    <div
-                      className="categories-box"
-                      style={{
-                        backgroundImage: `url(${Textiles})`,
-                      }}
-                    >
-                      <div className="category-overlay">
-                        <p className="category-name">Textiles</p>
-                        <ButtonComponent
-                          text="View All"
-                          variant=" "
-                          className="category-view-btn"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="categories-slide">
-                    <div
-                      className="categories-box"
-                      style={{
-                        backgroundImage: `url(${Cups})`,
-                      }}
-                    >
-                      <div className="category-overlay">
-                        <p className="category-name">Cups and thermoses</p>
-                        <ButtonComponent
-                          text="View All"
-                          variant=" "
-                          className="category-view-btn"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="categories-slide">
-                    <div
-                      className="categories-box"
-                      style={{
-                        backgroundImage: `url(${Bags})`,
-                      }}
-                    >
-                      <div className="category-overlay">
-                        <p className="category-name">Bags and backpacks</p>
-                        <ButtonComponent
-                          text="View All"
-                          variant=" "
-                          className="category-view-btn"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="categories-slide">
-                    <div
-                      className="categories-box"
-                      style={{
-                        backgroundImage: `url(${NotebooksPencils})`,
-                      }}
-                    >
-                      <div className="category-overlay">
-                        <p className="category-name">Notebooks and pencils</p>
-                        <ButtonComponent
-                          text="View All"
-                          variant=" "
-                          className="category-view-btn"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="categories-slide">
-                    <div
-                      className="categories-box"
-                      style={{
-                        backgroundImage: `url(${Umbrellas})`,
-                      }}
-                    >
-                      <div className="category-overlay">
-                        <p className="category-name">Umbrellas</p>
-                        <ButtonComponent
-                          text="View All"
-                          variant=" "
-                          className="category-view-btn"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="categories-slide">
-                    <div
-                      className="categories-box"
-                      style={{
-                        backgroundImage: `url(${Paintings})`,
-                      }}
-                    >
-                      <div className="category-overlay">
-                        <p className="category-name">Paintings on canvas</p>
-                        <ButtonComponent
-                          text="View All"
-                          variant=" "
-                          className="category-view-btn"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </SliderComponent>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

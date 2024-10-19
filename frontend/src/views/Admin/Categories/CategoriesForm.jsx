@@ -1,43 +1,47 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import ModalComponent from "../../../components/ModalComponent";
-import InputComponent from "../../../components/InputComponent";
-import SelectComponent from "../../../components/SelectComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import { FlexBox } from "../../../components/Sections";
-import { Modal } from "react-bootstrap";
-import BoxFileInput from "../../../components/BoxFileInput";
+import { useTranslation } from "react-i18next";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import axios from "axios";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
+import * as Yup from "yup";
+import axios from "axios";
+
+import ModalComponent from "../../../components/ModalComponent";
+import InputComponent from "../../../components/InputComponent";
+import SelectComponent from "../../../components/SelectComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import BoxFileInput from "../../../components/BoxFileInput";
+
+import { FlexBox } from "../../../components/Sections";
 import { ErrorTaster } from "../../../components/Toast";
 
-const optionList = [
-  {
-    id: true,
-    title: "Active",
-  },
-  {
-    id: false,
-    title: "Inactive",
-  },
-];
-
-const validation = Yup.object().shape({
-  name: Yup.string().required("Name is required!"),
-});
-
 const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
+  const { t } = useTranslation();
+
   const [parentCategoryList, setParentCategoryList] = useState([
-    { id: 0, title: "Select Parent Category" },
+    { id: 0, title: t("Select Parent Category") },
   ]);
   const [loading, setLoading] = useState(false);
   const [fileLoading, setFileLoading] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
+
+  const optionList = [
+    {
+      id: true,
+      title: t("Active"),
+    },
+    {
+      id: false,
+      title: t("Inactive"),
+    },
+  ];
+
+  const validation = Yup.object().shape({
+    name: Yup.string().required(t("Name is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -57,10 +61,12 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
         image_id: values.imageId,
         category_order: length + 1,
       };
+
       if (values.parentCategory.split(",")[0] !== "0") {
         reqBody.category_id = parseInt(values.parentCategory.split(",")[0]);
         reqBody.sub_category_order = subCategories.length + 1;
       }
+
       const URL =
         values.parentCategory.split(",")[0] !== "0"
           ? values.id
@@ -69,13 +75,17 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
           : values.id
           ? `/categories/${values.id}`
           : "/categories";
+
       setLoading(true);
+
       const response = await commonAddUpdateQuery(
         URL,
         reqBody,
         values.id ? "PATCH" : "POST"
       );
+
       setLoading(false);
+
       if (response) {
         toggle();
         refresh();
@@ -90,7 +100,9 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
     try {
       let formData = new FormData();
       formData.append("image", file);
+
       setFileLoading(true);
+
       const response = await axios.post(
         `${REST_URL_SERVER}/images/upload`,
         formData,
@@ -101,13 +113,16 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
           },
         }
       );
+
       setFileLoading(false);
+
       if (response.status === 200) {
         const { data } = response.data;
         formik.setFieldValue("imageId", data.id);
       }
     } catch (error) {
       setFileLoading(false);
+
       if (error && error.data) {
         const { message } = error.data;
         return ErrorTaster(message);
@@ -117,6 +132,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
 
   const onFileSelect = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       uploadImage(file);
     }
@@ -125,6 +141,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
   const getParentCategory = async () => {
     const EditedCategory = data;
     const response = await commonGetQuery("/categories");
+
     if (response) {
       const { data } = response.data;
       const updatedList =
@@ -143,6 +160,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
           );
         }
       }
+
       setParentCategoryList([parentCategoryList[0], ...updatedList] || []);
     }
   };
@@ -185,7 +203,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
 
   return (
     <ModalComponent
-      title="Add Category"
+      title={t("Add Category")}
       size={"m"}
       open={isOpen}
       handleClose={toggle}
@@ -196,13 +214,13 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
           optionList={parentCategoryList}
           name="parentCategory"
           formik={formik}
-          title="Select Parent Category"
+          title={t("Select Parent Category")}
           disabled={loading}
         />
         <InputComponent
-          label="Category Name"
+          label={t("Category Name")}
           fullWidth
-          InnerPlaceholder="Enter Category Name"
+          InnerPlaceholder={t("Enter Category Name")}
           name="name"
           formik={formik}
           className="mt-3"
@@ -213,7 +231,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
           optionList={optionList}
           name="active"
           formik={formik}
-          title="Status"
+          title={t("Status")}
           className="mt-2"
           disabled={loading}
         />
@@ -238,13 +256,13 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
               className=""
               variant="outlined"
               fullWidth
-              text="Cancel"
+              text={t("Cancel")}
               onClick={toggle}
             />
             <ButtonComponent
               variant="contained"
               fullWidth
-              text="Add Categories"
+              text={t("Add Categories")}
               type="submit"
               loading={loading}
             />

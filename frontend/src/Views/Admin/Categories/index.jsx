@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
-import map from "lodash/map";
-import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { cloneDeep } from "lodash";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
+  commonAddUpdateQuery,
+  commonGetQuery,
+} from "../../../utils/axiosInstance";
+import { REST_URL_SERVER } from "../../../utils/constant";
+import { Container } from "./styled";
+
+import {
   Collapse,
   Table,
   TableBody,
@@ -13,18 +16,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-
-import { cloneDeep } from "lodash";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 import CategoriesForm from "./CategoriesForm";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import {
-  commonAddUpdateQuery,
-  commonGetQuery,
-} from "../../../utils/axiosInstance";
-
-import Cups from "../../../assets/images/Cups.jpg";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowUp from "@mui/icons-material/ArrowUpward";
 import ArrowDown from "@mui/icons-material/ArrowDownward";
@@ -32,12 +26,12 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
-import { REST_URL_SERVER } from "../../../utils/constant";
-import { Container } from "./styled";
 import ModalComponent from "../../../components/ModalComponent";
 
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { LoaderContainer } from "../../../components/Loader";
+
 const Categories = () => {
-  const navigation = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryData, setCategoryData] = useState([]);
@@ -50,8 +44,11 @@ const Categories = () => {
     isOpen: false,
   });
 
+  const { t } = useTranslation();
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
+
     if (isOpen) {
       setSelectedItem(null);
     }
@@ -59,6 +56,7 @@ const Categories = () => {
 
   const handleToggleDeleteModel = () => {
     setIsOpenDeleteModel(!isOpenDeleteModel);
+
     if (isOpenDeleteModel) {
       setSelectedCategory();
       setIsSelectedSubCategory(false);
@@ -80,8 +78,11 @@ const Categories = () => {
 
   const getCategoryData = async () => {
     setIsLoading(true);
+
     const response = await commonGetQuery("categories");
+
     setIsLoading(false);
+
     if (response) {
       const { data } = response.data;
       setCategoryData(data);
@@ -89,7 +90,7 @@ const Categories = () => {
   };
 
   const updateCategory = async (category) => {
-    const { sub_categories, ...rest } = category;
+    const { ...rest } = category;
 
     return commonAddUpdateQuery(
       `categories/${category.id}`,
@@ -121,9 +122,11 @@ const Categories = () => {
       null,
       "DELETE"
     );
+
     if (response) {
       getCategoryData();
     }
+
     handleToggleDeleteModel();
   };
 
@@ -142,7 +145,9 @@ const Categories = () => {
     });
 
     setIsLoading(true);
+
     Promise.all([updateCategory(data[index]), updateCategory(data[index - 1])]);
+
     setIsLoading(false);
 
     setCategoryData(updatedOrder);
@@ -159,7 +164,9 @@ const Categories = () => {
     });
 
     setIsLoading(true);
+
     Promise.all([updateCategory(data[index]), updateCategory(data[index + 1])]);
+
     setIsLoading(false);
 
     setCategoryData(updatedOrder);
@@ -203,15 +210,17 @@ const Categories = () => {
 
   return (
     <Container>
+      {isLoading && <LoaderContainer />}
+
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
-          <div className="main-title ">Categories</div>
+          <div className="main-title ">{t("Categories")}</div>
           <FlexBox alignItems="flex-start">
-            <InputComponent type="search" label="Search orders" />
+            <InputComponent type="search" label={t("Search orders")} />
             <ButtonComponent
               variant="contained"
               startIcon={<AddIcon />}
-              text="Add Categories"
+              text={t("Add Categories")}
               onClick={() => handleToggle()}
             />
           </FlexBox>
@@ -221,10 +230,10 @@ const Categories = () => {
           <TableHead>
             <TableRow>
               <TableCell width="5%">#</TableCell>
-              <TableCell width="25%">Image</TableCell>
-              <TableCell width="30%">Name</TableCell>
-              <TableCell width="20%">Status</TableCell>
-              <TableCell width="20%">Action</TableCell>
+              <TableCell width="25%">{t("Image")}</TableCell>
+              <TableCell width="30%">{t("Name")}</TableCell>
+              <TableCell width="20%">{t("Status")}</TableCell>
+              <TableCell width="20%">{t("Action")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -256,7 +265,9 @@ const Categories = () => {
                       </div>
                     </TableCell>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.active ? "Active" : "Inactive"}</TableCell>
+                    <TableCell>
+                      {item.active ? t("Active") : t("Inactive")}
+                    </TableCell>
                     <TableCell>
                       <EditOutlinedIcon
                         onClick={() => handleEdit(item)}
@@ -264,7 +275,6 @@ const Categories = () => {
                       />
                       <DeleteOutlinedIcon
                         className="mx-2 cursor-pointer"
-                        // onClick={() => handleDelete(item.id)}
                         onClick={() => openToggleDeleteModel(item.id)}
                       />
                       {key !== 0 && (
@@ -298,10 +308,10 @@ const Categories = () => {
                           <TableHead>
                             <TableRow>
                               <TableCell width="5%">#</TableCell>
-                              <TableCell width="25%">Image</TableCell>
-                              <TableCell width="30%">Name</TableCell>
-                              <TableCell width="20%">Status</TableCell>
-                              <TableCell width="20%">Action</TableCell>
+                              <TableCell width="25%">{t("Image")}</TableCell>
+                              <TableCell width="30%">{t("Name")}</TableCell>
+                              <TableCell width="20%">{t("Status")}</TableCell>
+                              <TableCell width="20%">{t("Action")}</TableCell>
                             </TableRow>
                           </TableHead>
                           {item.sub_categories.length > 0 &&
@@ -328,8 +338,8 @@ const Categories = () => {
                                   <TableCell>{sub_category.name}</TableCell>
                                   <TableCell>
                                     {sub_category.active
-                                      ? "Active"
-                                      : "Inactive"}
+                                      ? t("Active")
+                                      : t("Inactive")}
                                   </TableCell>
                                   <TableCell>
                                     <EditOutlinedIcon
@@ -340,9 +350,6 @@ const Categories = () => {
                                     />
                                     <DeleteOutlinedIcon
                                       className="mx-2 cursor-pointer"
-                                      // onClick={() =>
-                                      //   handleDelete(sub_category.id, true)
-                                      // }
                                       onClick={() =>
                                         openToggleDeleteModel(
                                           sub_category.id,
@@ -398,20 +405,22 @@ const Categories = () => {
         )}
         <ModalComponent
           title={
-            isSelectedSubCategory ? "Delete Sub Category" : "Delete Category"
+            isSelectedSubCategory
+              ? t("Delete Sub Category")
+              : t("Delete Category")
           }
           size={"m"}
           open={isOpenDeleteModel}
           handleClose={handleToggleDeleteModel}
         >
-          <p>Are you sure want to delete</p>
+          <p>{t("Are you sure want to delete")}</p>
           <>
             <FlexBox hasBorderTop={true} className="pt-3 mt-3">
               <ButtonComponent
                 className=""
                 variant="outlined"
                 fullWidth
-                text="Cancel"
+                text={t("Cancel")}
                 onClick={handleToggleDeleteModel}
               />
               <ButtonComponent
@@ -419,15 +428,13 @@ const Categories = () => {
                 fullWidth
                 text={
                   isSelectedSubCategory
-                    ? "Delete Sub Category"
-                    : "Delete Category"
+                    ? t("Delete Sub Category")
+                    : t("Delete Category")
                 }
                 type="button"
                 onClick={() => {
                   handleDelete(selectedCategory, isSelectedSubCategory);
                 }}
-
-                // loading={loading}
               />
             </FlexBox>
           </>

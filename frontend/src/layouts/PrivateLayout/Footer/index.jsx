@@ -1,11 +1,3 @@
-import React from "react";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-
-import { FooterWrapperStyled } from "./Styled";
-import logo from "../../../assets/images/logo.png";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   ROUTE_MAIN_ABOUT_PLATFORM,
@@ -14,6 +6,14 @@ import {
   ROUTE_PRIVACY_POLICY,
   ROUTE_RETURN_POLICY,
 } from "../../../routes/routes";
+import logo from "../../../assets/images/logo.png";
+
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+
+import { FooterWrapperStyled } from "./Styled";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { t } = useTranslation();

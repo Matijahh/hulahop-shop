@@ -1,38 +1,43 @@
 import { useState, useEffect } from "react";
-import cx from "classnames";
-import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 import { get, map, size } from "lodash";
+import { commonGetQuery } from "../../../utils/axiosInstance";
+import { getImageUrlById } from "../../../utils/commonFunctions";
+import cx from "classnames";
+
+import { Helmet } from "react-helmet";
+import { HomeContainer } from "../../Associats/BrandShop/Home/styled";
+import { LoaderContainer } from "../../../components/Loader";
 
 import Main from "./Main";
-import { useTranslation } from "react-i18next";
 import CategorySidebarUser from "../../../components/SuperAdmin/CategorySidebar/CategorySidebarUser";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import SliderSecction from "../../Associats/BrandShop/Home/SliderSecction";
-import { HomeContainer } from "../../Associats/BrandShop/Home/styled";
-import { commonGetQuery } from "../../../utils/axiosInstance";
-import { LoaderContainer } from "../../../components/Loader";
+import SliderSection from "../../Associats/BrandShop/Home/SliderSection";
 import SliderComponent from "../../../components/SliderComponent/SliderComponent";
-import { getImageUrlById } from "../../../utils/commonFunctions";
 
 const Shop = (props) => {
-  const { t } = useTranslation();
-
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shopSliderList, setShopSliderList] = useState();
   const [mainLoading, setMainLoading] = useState(false);
+
+  const { t } = useTranslation();
+
   const toggleMenu = (state = !menuIsOpen) => {
     setMenuIsOpen(state);
   };
 
   const getShopSliderList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/shop_slider");
+
     if (response) {
       const { data } = response.data;
       setShopSliderList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
@@ -47,12 +52,13 @@ const Shop = (props) => {
         <Helmet>
           <title>{t("Shop Page - HulaHop")}</title>
         </Helmet>
+
         {window.location.pathname === "/shop" ? (
           <div className="shop-hero-section">
             <div className="shop-slider">
               <SliderComponent dots={false} arrows={true} slidesToShow={1}>
                 {size(shopSliderList) > 0 &&
-                  map(shopSliderList, (item, index) => {
+                  map(shopSliderList, (item) => {
                     return (
                       <div className="product-slide">
                         <div
@@ -64,15 +70,8 @@ const Shop = (props) => {
                           }}
                         >
                           <div className="container">
-                            {/* <img src={associate1} alt="" /> */}
                             <div className="description-box">
-                              {/* <p className="category-name">Textiles</p> */}
                               <h5>{t(get(item, "description", ""))} </h5>
-                              {/* <ButtonComponent
-                    text="View Collection"
-                    variant="outlined"
-                    className="category-view-btn"
-                  /> */}
                             </div>
                           </div>
                         </div>
@@ -83,7 +82,7 @@ const Shop = (props) => {
             </div>
           </div>
         ) : (
-          <SliderSecction data={props.data} />
+          <SliderSection data={props.data} />
         )}
 
         <div className="shop-product-section">
@@ -105,7 +104,7 @@ const Shop = (props) => {
                     <div className="icon-box">
                       <MenuOutlinedIcon />
                     </div>
-                    <span>View Categories</span>
+                    <span>{t("View Categories")}</span>
                   </div>
                 </div>
                 <div

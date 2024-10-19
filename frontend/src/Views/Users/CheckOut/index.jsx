@@ -1,43 +1,44 @@
-import React, { useEffect, useState } from "react";
-import InputComponent from "../../../components/InputComponent";
-import * as Yup from "yup";
-import ButtonComponent from "../../../components/ButtonComponent";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { getImageUrlById } from "../../../utils/commonFunctions";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { get, size } from "lodash";
-import PreviewJsonImage from "../../../components/PreviewJsonImage";
-import { getImageUrlById } from "../../../utils/commonFunctions";
-import { useFormik } from "formik";
-import { SuccessTaster } from "../../../components/Toast";
 import { ROUTE_MAIN_ORDERS } from "../../../routes/routes";
-import { Helmet } from "react-helmet";
+import { get, size } from "lodash";
+import * as Yup from "yup";
 
-const validationSchema = Yup.object().shape({
-  first_name: Yup.string().required("First name is required"),
-  last_name: Yup.string().required("Last name is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  mobile: Yup.string()
-    // .matches(/^\d{10}$/, "Invalid phone number")
-    .required("Phone number is required"),
-  house_flat_no: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
-  //state: Yup.string().required("Required"),
-  country: Yup.string().required("Required"),
-  pincode: Yup.string().required("Required"),
-});
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
+
+import { SuccessTaster } from "../../../components/Toast";
+import { Helmet } from "react-helmet";
+import { LoaderContainer } from "../../../components/Loader";
 
 const CheckOut = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [cartList, setCartList] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
+
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const validationSchema = Yup.object().shape({
+    first_name: Yup.string().required(t("First name is required")),
+    last_name: Yup.string().required(t("Last name is required")),
+    email: Yup.string()
+      .email(t("Invalid email!"))
+      .required(t("Email is required!")),
+    mobile: Yup.string().required(t("Phone number is required")),
+    house_flat_no: Yup.string().required(t("Required")),
+    city: Yup.string().required(t("Required")),
+    country: Yup.string().required(t("Required")),
+    pincode: Yup.string().required(t("Required")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -48,7 +49,6 @@ const CheckOut = () => {
       house_flat_no: "",
       street_locality: "",
       city: "",
-      //state: null,
       country: "",
       pincode: "",
       instructions: "",
@@ -56,6 +56,7 @@ const CheckOut = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
+
       const order_addresses = {
         first_name: values.first_name,
         last_name: values.last_name,
@@ -68,6 +69,7 @@ const CheckOut = () => {
         country: values.country,
         pincode: values.pincode,
       };
+
       const response = await commonAddUpdateQuery(
         "/orders/order-place",
         {
@@ -77,7 +79,9 @@ const CheckOut = () => {
         },
         "POST"
       );
+
       setLoading(false);
+
       if (response) {
         const { message } = response.data;
         SuccessTaster(message);
@@ -88,12 +92,15 @@ const CheckOut = () => {
 
   const getCartList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/carts/get-cart-summary");
+
     if (response) {
       const { data } = response.data;
       setCartList(data);
       let cartTotalData = 0;
       let cartProducts = get(data, "cart_products");
+
       // Calculate total cart value
       if (size(cartProducts) > 0) {
         cartProducts.forEach((product) => {
@@ -102,9 +109,11 @@ const CheckOut = () => {
           cartTotalData += price * quantity;
         });
       }
+
       setCartTotal(cartTotalData);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
@@ -115,15 +124,18 @@ const CheckOut = () => {
   return (
     <div className="page-wrapper checkout-page">
       <Helmet>
-        <title>{t("CheckOut - HulaHop")}</title>
+        <title>{t("Checkout - HulaHop")}</title>
       </Helmet>
+
+      {loading && <LoaderContainer />}
+
       <div className="checkout-banner-section">
         <div className="container">
           <div className="row">
             <div className="col-12">
               <div className="hero-section">
                 <h3 className="banner-head">{t("CHECKOUT")}</h3>
-                <p className="banner-pera">
+                <p className="banner-paragraph">
                   {t(
                     "Complete your purchase and get your order on its way. We're committed to your security and satisfaction. The latest security technology protects your personal information, and we offer a hassle-free return policy."
                   )}
@@ -133,6 +145,7 @@ const CheckOut = () => {
           </div>
         </div>
       </div>
+
       <div className="blling-order-section">
         <div className="container">
           <div className="row">
@@ -147,90 +160,81 @@ const CheckOut = () => {
                       <div className="row g-3">
                         <div className="col-lg-6">
                           <InputComponent
-                            InnerPlaceholder="First Name"
+                            InnerPlaceholder={t("First name")}
                             fullWidth
-                            label="First Name *"
+                            label={t("First name")}
                             name="first_name"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-6">
                           <InputComponent
-                            InnerPlaceholder="Last Name"
+                            InnerPlaceholder={t("Last name")}
                             fullWidth
-                            label="Last Name *"
+                            label={t("Last name")}
                             name="last_name"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder="Email"
+                            InnerPlaceholder={t("Email")}
                             fullWidth
-                            label="Email *"
+                            label={t("Email")}
                             name="email"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder="Contact No"
+                            InnerPlaceholder={t("Contact No")}
                             fullWidth
-                            label="Contact No *"
+                            label={t("Contact No")}
                             name="mobile"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder="Street and house number"
+                            InnerPlaceholder={t("Street and house number")}
                             fullWidth
-                            label="Street and house number *"
+                            label={t("Street and house number")}
                             name="house_flat_no"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-6">
                           <InputComponent
-                            InnerPlaceholder="City *"
+                            InnerPlaceholder={t("City")}
                             fullWidth
-                            label="City *"
+                            label={t("City")}
                             name="city"
                             formik={formik}
                           />
                         </div>
-                        {/* <div className="col-lg-6">
-                          <InputComponent
-                            InnerPlaceholder="State *"
-                            fullWidth
-                            label="State *"
-                            name="state"
-                            formik={formik}
-                          />
-                        </div> */}
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder="Country / Region "
+                            InnerPlaceholder={t("Country / Region")}
                             fullWidth
-                            label="Country / Region  *"
+                            label={t("Country / Region")}
                             name="country"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder="Postal code"
+                            InnerPlaceholder={t("Postal code")}
                             fullWidth
-                            label="Postal code *"
+                            label={t("Postal code")}
                             name="pincode"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder="Write instructions"
+                            InnerPlaceholder={t("Write instructions")}
                             fullWidth
-                            label="Special instructions for seller"
+                            label={t("Special instructions for seller")}
                             type="textarea"
                             height="100px"
                             className="summary-input"
@@ -244,6 +248,7 @@ const CheckOut = () => {
                 </div>
               </div>
             </div>
+
             <div className="col-lg-6">
               <div className="order-section">
                 <div className="hero-section">
@@ -271,7 +276,6 @@ const CheckOut = () => {
                           <div className="product-item-flexbox">
                             <div className="product-info-flexbox">
                               <div className="product-img-box">
-                                {/* <img src={muska1} alt="" /> */}
                                 <PreviewJsonImage
                                   previewImageUrl={getImageUrlById(
                                     get(item, "product_variant.image_id")
@@ -293,16 +297,13 @@ const CheckOut = () => {
                                   {get(item, "associate_product.name")}
                                 </h6>
                                 <p>
-                                  <b>Prize:</b>{" "}
-                                  {get(item, "associate_product.price")} DIN
+                                  <b>{t("Price")}:</b>{" "}
+                                  {get(item, "associate_product.price")} RSD
                                 </p>
                                 <p>
-                                  <b>Size:</b>{" "}
+                                  <b>{t("Size")}:</b>{" "}
                                   {get(item, "product_sub_variant.value")}
                                 </p>
-                                {/* <p>
-                                  <b>Vendor:</b> Popcorn
-                                </p> */}
                               </div>
                             </div>
                             <div className="item-total-box">
@@ -319,17 +320,18 @@ const CheckOut = () => {
                       );
                     })}
                 </div>
+
                 <div className="order-total-box">
                   <div className="checkout-total-table">
                     <table className="table table-responsive  ">
                       <tbody>
                         <tr>
-                          <th>Subtotal</th>
-                          <td>{cartTotal} DIN</td>
+                          <th>{t("Subtotal")}</th>
+                          <td>{cartTotal} RSD</td>
                         </tr>
                         <tr>
-                          <th>Total</th>
-                          <td>{cartTotal} DIN</td>
+                          <th>{t("Total")}</th>
+                          <td>{cartTotal} RSD</td>
                         </tr>
                       </tbody>
                     </table>

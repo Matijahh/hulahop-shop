@@ -1,23 +1,27 @@
-import React from "react";
+import { useTranslation } from "react-i18next";
+
 import { CommonWhiteBackground } from "../../../components/Sections";
 import { OrderPreviewPageContainer } from "./styled";
+
 import GobackButton from "../../../components/GoBackButton";
 
 const OrderPreviewPage = () => {
+  const { t } = useTranslation();
+
   return (
     <CommonWhiteBackground>
-      <div className="main-title mb-4">Orders Preview</div>
+      <div className="main-title mb-4">{t("Orders Preview")}</div>
       <GobackButton />
       <OrderPreviewPageContainer>
         <table>
           <tr>
-            <td className="title">No.</td>
-            <td className="title">Image</td>
-            <td className="title product-detail">Description</td>
-            <td className="title">Quantity</td>
-            <td className="title">Order Value</td>
-            <td className="title">Commission</td>
-            <td className="title">Actual Value</td>
+            <td className="title">{t("No.")}</td>
+            <td className="title">{t("Image")}</td>
+            <td className="title product-detail">{t("Description")}</td>
+            <td className="title">{t("Quantity")}</td>
+            <td className="title">{t("Order Value")}</td>
+            <td className="title">{t("Commission")}</td>
+            <td className="title">{t("Actual Value")}</td>
           </tr>
           {[1, 2, 3].map((item, index) => (
             <tr>
@@ -29,7 +33,9 @@ const OrderPreviewPage = () => {
               </td>
               <td className="body-cell product-detail">
                 <div className="product-data">
-                  <div className="product-name">This is demo product</div>
+                  <div className="product-name">
+                    {t("This is demo product")}
+                  </div>
                   <div className="product-description">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Dicta pariatur minus perspiciatis deserunt facilis

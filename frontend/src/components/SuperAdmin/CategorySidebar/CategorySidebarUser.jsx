@@ -1,44 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { commonGetQuery } from "../../../utils/axiosInstance";
+import { connect } from "react-redux";
+import { isEmpty, size } from "lodash";
 import styled from "styled-components";
 import cx from "classnames";
-import { ExpandLess, ExpandLessOutlined } from "@mui/icons-material";
-import { commonGetQuery } from "../../../utils/axiosInstance";
-import { Loader } from "../../Loader";
-import { useNavigate, useParams } from "react-router-dom";
 import _get from "lodash/get";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
-  ROUTE_ASSOCIATE_CREATE_PRODUCT,
   ROUTE_MAIN_SHOP,
 } from "../../../routes/routes";
-import { connect } from "react-redux";
 import * as Action from "../../../redux/actions";
-import { isEmpty, size } from "lodash";
-import { useTranslation } from "react-i18next";
+
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { ExpandLessOutlined } from "@mui/icons-material";
+import { Loader } from "../../Loader";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const CategorySidebarContainer = styled.div`
   .MuiPaper-root {
     box-shadow: none !important;
     max-width: 100%;
     width: 100%;
+
     &:before {
       background-color: transparent !important;
     }
   }
+
   .MuiAccordionSummary-content,
   .Mui-expanded {
     margin: 0px !important;
     min-height: auto !important;
   }
+
   .MuiButtonBase-root {
     padding: 0 !important;
     min-height: auto !important;
   }
+
   .MuiAccordionDetails-root {
     padding: 0 !important;
   }
+
   .category-item {
     display: flex;
     justify-content: space-between;
@@ -50,15 +56,18 @@ const CategorySidebarContainer = styled.div`
 
     &.active {
       color: rgba(241, 103, 109, 1);
+
       .category-item-numb {
         background-color: rgba(241, 103, 109, 1);
         color: #fff;
       }
     }
+
     .category-item-right {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       .category-item-numb {
         width: 25px;
         height: 25px;
@@ -88,29 +97,30 @@ const CategorySidebarContainer = styled.div`
     &.active {
       color: rgba(241, 103, 109, 1);
     }
+
     @media screen and (max-width: 768px) {
       font-size: 16px;
     }
   }
 `;
 
-const CategorySidebarUser = (props) => {
-  const {
-    className,
-    isAssociateProduct,
-    shopCategoryDataList,
-    saveShopCategoryList,
-    mainLoading,
-    setMainLoading,
-  } = props;
-  const navigation = useNavigate();
-  const params = useParams();
-  const { t } = useTranslation();
-
+const CategorySidebarUser = ({
+  className,
+  isAssociateProduct,
+  shopCategoryDataList,
+  saveShopCategoryList,
+  mainLoading,
+  setMainLoading,
+}) => {
   const [selectedId, setSelectedId] = useState("all");
   const [subSelectedId, setSubSelectedId] = useState();
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  const navigation = useNavigate();
+  const params = useParams();
+  const { t } = useTranslation();
+
   const queryParams = new URLSearchParams(location.search);
 
   const getAllCategory = async () => {
@@ -118,6 +128,7 @@ const CategorySidebarUser = (props) => {
     setMainLoading(true);
     const response = await commonGetQuery("/categories");
     setCategoryLoading(false);
+
     if (response) {
       const { data } = response.data;
       setCategories([
@@ -137,7 +148,9 @@ const CategorySidebarUser = (props) => {
   const toggle = (id, subId) => {
     setSelectedId(id);
     setSubSelectedId(subId);
+
     let url;
+
     if (isAssociateProduct) {
       url =
         ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":id", _get(params, "id")) +
@@ -146,6 +159,7 @@ const CategorySidebarUser = (props) => {
       url =
         ROUTE_MAIN_SHOP + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
     }
+
     navigation(url);
   };
 
@@ -170,6 +184,7 @@ const CategorySidebarUser = (props) => {
     setSelectedId(category === "all" ? category : parseFloat(category));
     setSubSelectedId(parseFloat(subCategory));
   }, [queryParams]);
+
   return (
     <CategorySidebarContainer>
       {categoryLoading ? (

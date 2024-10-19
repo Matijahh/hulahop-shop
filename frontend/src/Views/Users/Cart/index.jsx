@@ -1,40 +1,46 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import CloseIcon from "@mui/icons-material/Close";
-import _size from "lodash/size";
-import _get from "lodash/get";
-import _map from "lodash/map";
-
-import ButtonComponent from "../../../components/ButtonComponent";
 import { useTranslation } from "react-i18next";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import { getImageUrlById } from "../../../utils/commonFunctions";
-import { Loader } from "../../../components/Loader";
 import { ROUTE_MAIN_CHECKOUT, ROUTE_MAIN_SHOP } from "../../../routes/routes";
+import _size from "lodash/size";
+import _get from "lodash/get";
+import _map from "lodash/map";
+
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import CloseIcon from "@mui/icons-material/Close";
+import ButtonComponent from "../../../components/ButtonComponent";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
+
+import { Loader } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
 
 const Cart = () => {
-  const { t } = useTranslation();
-  const navigator = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cartTotal, setCartTotal] = useState(false);
 
+  const { t } = useTranslation();
+  const navigator = useNavigate();
+
   const getProductSummaryData = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/carts/get-cart-summary");
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       let cartTotalData = 0;
       let cartProduct = _get(data, "cart_products");
+
       // Calculate total cart value
       if (_size(cartProduct) > 0) {
         cartProduct.forEach((product) => {
@@ -43,6 +49,7 @@ const Cart = () => {
           cartTotalData += price * quantity;
         });
       }
+
       setCartTotal(cartTotalData);
       setCartProducts(data);
     }
@@ -50,6 +57,7 @@ const Cart = () => {
 
   const updateCart = async (item, type, quantity) => {
     setUpdateLoading(true);
+
     const response = await commonAddUpdateQuery("/cart_products/add-to-cart", {
       associate_product_id: parseFloat(_get(item, "associate_product_id")),
       product_variant_id: parseFloat(_get(item, "product_variant_id")),
@@ -57,7 +65,9 @@ const Cart = () => {
       action_type: type === "increment" ? "add_qty" : "remove_qty",
       quantity: parseFloat(quantity),
     });
+
     setUpdateLoading(false);
+
     if (response) {
       getProductSummaryData();
     }
@@ -65,6 +75,7 @@ const Cart = () => {
 
   const removeProduct = async (item) => {
     setUpdateLoading(true);
+
     const response = await commonAddUpdateQuery("/cart_products/add-to-cart", {
       associate_product_id: parseFloat(_get(item, "associate_product_id")),
       product_variant_id: parseFloat(_get(item, "product_variant_id")),
@@ -72,7 +83,9 @@ const Cart = () => {
       action_type: "remove_product",
       quantity: parseFloat(_get(item, "quantity")),
     });
+
     setUpdateLoading(false);
+
     if (response) {
       getProductSummaryData();
     }
@@ -147,7 +160,7 @@ const Cart = () => {
                             </div>
                             <div className="product-price-box">
                               <p className="product-price">
-                                {_get(item, "associate_product.price", "-")} DIN
+                                {_get(item, "associate_product.price", "-")} RSD
                               </p>
                             </div>
                             <div className="product-quantity-box">
@@ -210,7 +223,7 @@ const Cart = () => {
                   ))
                 ) : (
                   <center>
-                    <b>No Product Fond!</b>
+                    <b>{t("No Product Found!")}</b>
                   </center>
                 )}
               </>
@@ -260,11 +273,11 @@ const Cart = () => {
                       <tbody>
                         <tr>
                           <th>{t("Subtotal")}</th>
-                          <td>{cartTotal} DIN</td>
+                          <td>{cartTotal} RSD</td>
                         </tr>
                         <tr>
                           <th>{t("Total")}</th>
-                          <td>{cartTotal} DIN</td>
+                          <td>{cartTotal} RSD</td>
                         </tr>
                       </tbody>
                     </table>

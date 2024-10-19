@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import inspiration from "../../../assets/images/inspiration.jpg";
-import blog2 from "../../../assets/images/blog2.jpg";
-import blog3 from "../../../assets/images/blog3.png";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID,
   ROUTE_MAIN_BLOG_SINGLE,
@@ -10,50 +9,61 @@ import {
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { get, map, size } from "lodash";
 import parse from "html-react-parser";
-import { useTranslation } from "react-i18next";
-import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
 import moment from "moment";
+
 import { Helmet } from "react-helmet";
+import { LoaderContainer } from "../../../components/Loader";
+
 import SliderComponent from "../../../components/SliderComponent/SliderComponent";
 
-const Blog = ({ isAssociateProduct }) => {
-  const navigate = useNavigate();
-  const params = useParams();
+const Blog = () => {
   const [loading, setLoading] = useState(false);
   const [blogList, setBlogList] = useState([]);
   const [blogSlider, setBlogSlider] = useState([]);
+
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const params = useParams();
 
   const getBlogList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/blogs");
+
     if (response) {
       const { data } = response.data;
       setBlogList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const getAssociateBlogList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/associate_blogs");
+
     if (response) {
       const { data } = response.data;
       setBlogList((prev) => [...prev, ...data]);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const getBlogSliderList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/blog_page_slider");
+
     if (response) {
       const { data } = response.data;
       setBlogSlider(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
@@ -69,11 +79,13 @@ const Blog = ({ isAssociateProduct }) => {
         <title>{t("Blogs - HulaHop")}</title>
       </Helmet>
 
+      {loading && <LoaderContainer />}
+
       <div className="shop-hero-section">
         <div className="shop-slider">
           <SliderComponent dots={false} arrows={true} slidesToShow={1}>
             {size(blogSlider) > 0 &&
-              map(blogSlider, (item, index) => {
+              map(blogSlider, (item) => {
                 return (
                   <div className="product-slide">
                     <div
@@ -85,15 +97,8 @@ const Blog = ({ isAssociateProduct }) => {
                       }}
                     >
                       <div className="container">
-                        {/* <img src={associate1} alt="" /> */}
                         <div className="description-box">
-                          {/* <p className="category-name">Textiles</p> */}
                           <h5>{t(get(item, "description", ""))} </h5>
-                          {/* <ButtonComponent
-                    text="View Collection"
-                    variant="outlined"
-                    className="category-view-btn"
-                  /> */}
                         </div>
                       </div>
                     </div>

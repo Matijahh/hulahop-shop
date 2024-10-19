@@ -1,27 +1,28 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import Tables from "../../../components/SuperAdmin/Tables";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { renderHeader } from "./mock";
+import { get, size, debounce } from "lodash";
 import map from "lodash/map";
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import AddIcon from "@mui/icons-material/Add";
 import {
   ROUTE_ADMIN_ABOUT_PRODUCT_ADD,
   ROUTE_ADMIN_ABOUT_PRODUCT_EDIT,
 } from "../../../routes/routes";
-import { useNavigate } from "react-router-dom";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { get, size, debounce } from "lodash";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+
+import Tables from "../../../components/SuperAdmin/Tables";
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../../../components/ModalComponent";
 
 const AboutProduct = () => {
-  const navigation = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [aboutProductData, setAboutProductData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -30,8 +31,12 @@ const AboutProduct = () => {
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
 
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
+
     if (isOpen) {
       setSelectedProduct();
     }
@@ -46,17 +51,19 @@ const AboutProduct = () => {
 
   const getAboutProductData = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/about-product-data");
+
     if (response) {
       const { data } = response.data;
       setAboutProductData(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const setTableRenderData = (data) => {
-    // setLoading(true);
     const renderData = map(data, (item, index) => ({
       ...item,
       no: `${index + 1}`,
@@ -67,21 +74,23 @@ const AboutProduct = () => {
       handleOpenToggle,
       EditAboutProduct,
     }));
-    // setLoading(false);
 
     return renderData;
   };
 
   const handleDelete = async (id) => {
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/about-product-data/${id}`,
       null,
       "DELETE"
     );
+
     if (response) {
       getAboutProductData();
     }
+
     handleToggle();
     setLoading(false);
   };
@@ -106,6 +115,7 @@ const AboutProduct = () => {
       } else {
         setIsSearch(false);
       }
+
       const filteredItems = filterItems(query);
       setSearchFilterData(filteredItems);
     }, 1000),
@@ -121,26 +131,29 @@ const AboutProduct = () => {
   useEffect(() => {
     getAboutProductData();
   }, []);
+
   return (
     <CommonWhiteBackground>
       <FlexBox className="mb-4">
-        <div className="main-title ">About Product Data</div>
+        <div className="main-title ">{t("About Product Data")}</div>
         <FlexBox>
           <InputComponent
             type="search"
-            label="Search About Product Data"
+            label={t("Search About Product Data")}
             value={searchText}
             onChange={handleChange}
           />
           <ButtonComponent
             variant="contained"
             startIcon={<AddIcon />}
-            text="Add Product Data"
+            text={t("Add Product Data")}
             onClick={() => navigation(ROUTE_ADMIN_ABOUT_PRODUCT_ADD)}
           />
         </FlexBox>
       </FlexBox>
+
       {loading && <LoaderContainer />}
+
       <Tables
         body={
           isSearch
@@ -151,34 +164,35 @@ const AboutProduct = () => {
             ? setTableRenderData(aboutProductData)
             : []
         }
-        header={renderHeader}
+        header={renderHeader.map((item) => ({
+          ...item,
+          headerName: t(item.headerName),
+        }))}
       />
       <ModalComponent
-        title="Delete About Product Data"
+        title={t("Delete About Product Data")}
         size={"m"}
         open={isOpen}
         handleClose={handleToggle}
       >
-        <p>Are you sure want to delete</p>
+        <p>{t("Are you sure want to delete")}</p>
         <>
           <FlexBox hasBorderTop={true} className="pt-3 mt-3">
             <ButtonComponent
               className=""
               variant="outlined"
               fullWidth
-              text="Cancel"
+              text={t("Cancel")}
               onClick={handleToggle}
             />
             <ButtonComponent
               variant="contained"
               fullWidth
-              text="Delete Product Data"
+              text={t("Delete Product Data")}
               type="button"
               onClick={() => {
                 handleDelete(selectedProduct);
               }}
-
-              // loading={loading}
             />
           </FlexBox>
         </>

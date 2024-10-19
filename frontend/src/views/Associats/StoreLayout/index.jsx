@@ -1,45 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-
-import * as Yup from "yup";
-import * as Action from "../../../redux/actions";
-
-import Tables from "../../../components/SuperAdmin/Tables";
-import ButtonComponent from "../../../components/ButtonComponent";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-
-import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
-import InputComponent from "../../../components/InputComponent";
-import BoxFileInput from "../../../components/BoxFileInput";
-import { Col, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
+import { slugify } from "../../../utils/commonFunctions";
+import { jwtDecode } from "jwt-decode";
+import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import axios from "axios";
 import { connect } from "react-redux";
-import { decode } from "querystring";
-import { tabClasses } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { Helmet } from "react-helmet";
-import { slugify } from "../../../utils/commonFunctions";
+import * as Yup from "yup";
+import * as Action from "../../../redux/actions";
 
-const validation = Yup.object().shape({
-  name: Yup.string().required("Store name is required!"),
-  logo_image: Yup.string().required("Store logo is required!"),
-  description: Yup.string().required("Store description is required!"),
-  sliderName: Yup.string().required("Slider name is required!"),
-  sliderDesc: Yup.string().required("Slider description is required!"),
-  sliderImage: Yup.string().required("Slider image is required!"),
-});
+import ButtonComponent from "../../../components/ButtonComponent";
+import InputComponent from "../../../components/InputComponent";
+import BoxFileInput from "../../../components/BoxFileInput";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { Col, Row } from "react-bootstrap";
+import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+import { Helmet } from "react-helmet";
 
 const StoreLayout = ({ userData, saveUserData }) => {
-  const { t } = useTranslation();
-  const navigation = useNavigate();
   const [fileLoading, setFileLoading] = useState({
     loading: false,
     for: "logo",
@@ -47,6 +31,17 @@ const StoreLayout = ({ userData, saveUserData }) => {
   const [storeName, setStoreName] = useState("");
   const [loading, setLoading] = useState(false);
   const decoded = jwtDecode(ACCESS_TOKEN);
+
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    name: Yup.string().required(t("Store name is required!")),
+    logo_image: Yup.string().required(t("Store logo is required!")),
+    description: Yup.string().required(t("Store description is required!")),
+    sliderName: Yup.string().required(t("Slider name is required!")),
+    sliderDesc: Yup.string().required(t("Slider description is required!")),
+    sliderImage: Yup.string().required(t("Slider image is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -77,7 +72,9 @@ const StoreLayout = ({ userData, saveUserData }) => {
         slider_description: values?.sliderDesc,
         slider_image: values?.sliderImage,
       };
+
       setLoading(true);
+
       const response = await commonAddUpdateQuery(
         values?.id
           ? `/store_layout_details/${values?.id}`
@@ -85,7 +82,9 @@ const StoreLayout = ({ userData, saveUserData }) => {
         reqBody,
         values?.id ? "PATCH" : "POST"
       );
+
       setLoading(false);
+
       if (response) {
         const { message } = response.data;
         SuccessTaster(message);
@@ -96,11 +95,14 @@ const StoreLayout = ({ userData, saveUserData }) => {
   const handleUploadImage = async (file, name) => {
     try {
       let formData = new FormData();
+
       formData.append("image", file);
+
       setFileLoading({
         loading: true,
         for: name,
       });
+
       const response = await axios.post(
         `${REST_URL_SERVER}/images/upload`,
         formData,
@@ -111,10 +113,12 @@ const StoreLayout = ({ userData, saveUserData }) => {
           },
         }
       );
+
       setFileLoading({
         loading: false,
         for: name,
       });
+
       if (response.status === 200) {
         const { data } = response.data;
         if (name === "sliderImage") {
@@ -128,14 +132,17 @@ const StoreLayout = ({ userData, saveUserData }) => {
         loading: false,
         for: name,
       });
+
       if (error && error.data) {
         const { message } = error.data;
         return ErrorTaster(message);
       }
     }
   };
+
   const onLogoSelect = (e, name) => {
     const file = e.target && e.target.files[0];
+
     if (file) {
       handleUploadImage(file, name);
     }
@@ -151,10 +158,13 @@ const StoreLayout = ({ userData, saveUserData }) => {
 
   const getStoreData = async () => {
     setLoading(true);
+
     const response = await commonGetQuery(
       `/store_layout_details/${decoded.id}`
     );
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
 
@@ -190,7 +200,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
         {formik.values.id && (
           <ButtonComponent
             variant="contained"
-            text={t("View Your Shop")}
+            text={t("VIEW YOUR SHOP")}
             onClick={() =>
               (window.location.href = ROUTE_ASSOCIATE_BRAND_STORE.replace(
                 ":id",
@@ -222,7 +232,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Store Name")}
               fullWidth
-              InnerPlaceholder="Enter store name"
+              InnerPlaceholder={t("Enter store name")}
               type="text"
               name="name"
               formik={formik}
@@ -232,7 +242,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("About Store")}
               fullWidth
-              InnerPlaceholder="Enter about store description"
+              InnerPlaceholder={t("Enter about store description")}
               type="textarea"
               name="description"
               formik={formik}
@@ -242,7 +252,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Instagram Url")}
               fullWidth
-              InnerPlaceholder="Enter instagram url"
+              InnerPlaceholder={t("Enter Instagram url")}
               type="text"
               name="ig_url"
               formik={formik}
@@ -252,7 +262,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Youtube Url")}
               fullWidth
-              InnerPlaceholder="Enter youtube url"
+              InnerPlaceholder={t("Enter Youtube url")}
               type="text"
               name="yt_url"
               formik={formik}
@@ -262,7 +272,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Facebook Url")}
               fullWidth
-              InnerPlaceholder="Enter facebook url"
+              InnerPlaceholder={t("Enter Facebook url")}
               type="text"
               name="fb_url"
               formik={formik}
@@ -273,7 +283,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Slider Name")}
               fullWidth
-              InnerPlaceholder="Enter slider name"
+              InnerPlaceholder={t("Enter slider name")}
               type="text"
               name="sliderName"
               formik={formik}
@@ -283,7 +293,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Slider description")}
               fullWidth
-              InnerPlaceholder="Enter slider description"
+              InnerPlaceholder={t("Enter slider description")}
               type="text"
               name="sliderDesc"
               formik={formik}

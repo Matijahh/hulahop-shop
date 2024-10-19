@@ -1,52 +1,54 @@
-import React, { useState } from "react";
-import * as Yup from "yup";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
+import { useState } from "react";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+import { SignInContainer } from "./styled";
+import { ROUTE_MAIN, ROUTE_SIGN_IN } from "../../../routes/routes";
+import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
+import * as Yup from "yup";
+import logo from "../../../assets/images/logo.png";
 
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import Radio from "@mui/material/Radio";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { FlexBox } from "../../../components/Sections";
-import { SignInContainer } from "./styled";
-import { ROUTE_MAIN, ROUTE_SIGN_IN } from "../../../routes/routes";
 
-import logo from "../../../assets/images/logo.png";
-import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
+import { FormControlLabel } from "@mui/material";
+import { Col, Row } from "react-bootstrap";
+import { FlexBox } from "../../../components/Sections";
 import { SuccessTaster } from "../../../components/Toast";
-import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
 
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email!").required("Email is required!"),
-  password: Yup.string()
-    .required("Password is required.")
-    .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-      "Please enter a valid password."
-    ),
-  first_name: Yup.string().required("First Name is required"),
-  last_name: Yup.string().required("Last Name is required"),
-  mobile: Yup.string().required("Mobile number is required"),
-  status: Yup.boolean().required("Status is required"),
-  type: Yup.string().required("Type is required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Please confirm your password"),
-});
-
 const SignUp = ({ maxWidth }) => {
-  const navigation = useNavigate();
   const [loading, setLoading] = useState(false);
   const [togglePassword, setTogglePassword] = useState(false);
+
+  const navigation = useNavigate();
   const { t } = useTranslation();
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(t("Invalid email!"))
+      .required(t("Email is required!")),
+    password: Yup.string()
+      .required(t("Password is required."))
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        t("Please enter a valid password.")
+      ),
+    first_name: Yup.string().required(t("First Name is required")),
+    last_name: Yup.string().required(t("Last Name is required")),
+    mobile: Yup.string().required(t("Mobile number is required")),
+    status: Yup.boolean().required(t("Status is required")),
+    type: Yup.string().required(t("Type is required")),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], t("Passwords must match"))
+      .required(t("Please confirm your password")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -111,7 +113,7 @@ const SignUp = ({ maxWidth }) => {
                   name="first_name"
                   formik={formik}
                   disabled={loading}
-                  InnerPlaceholder="Enter first name"
+                  InnerPlaceholder={t("Enter first name")}
                   renderIcon={
                     <>
                       <PersonOutlineOutlinedIcon />
@@ -127,7 +129,7 @@ const SignUp = ({ maxWidth }) => {
                   name="last_name"
                   disabled={loading}
                   formik={formik}
-                  InnerPlaceholder="Enter last name"
+                  InnerPlaceholder={t("Enter last name")}
                   renderIcon={
                     <>
                       <PersonOutlineOutlinedIcon />
@@ -145,7 +147,7 @@ const SignUp = ({ maxWidth }) => {
               name="email"
               formik={formik}
               disabled={loading}
-              InnerPlaceholder="Enter email"
+              InnerPlaceholder={t("Enter email")}
               renderIcon={
                 <>
                   <EmailOutlinedIcon />
@@ -161,7 +163,7 @@ const SignUp = ({ maxWidth }) => {
               name="mobile"
               formik={formik}
               disabled={loading}
-              InnerPlaceholder="Enter phone no."
+              InnerPlaceholder={t("Enter phone no.")}
               renderIcon={
                 <>
                   <PhoneOutlinedIcon />
@@ -176,7 +178,7 @@ const SignUp = ({ maxWidth }) => {
             <InputComponent
               label={t("Password")}
               fullWidth
-              InnerPlaceholder="Enter password"
+              InnerPlaceholder={t("Enter password")}
               name="password"
               formik={formik}
               disabled={loading}
@@ -200,7 +202,7 @@ const SignUp = ({ maxWidth }) => {
               formik={formik}
               disabled={loading}
               fullWidth
-              InnerPlaceholder="Enter confirm password"
+              InnerPlaceholder={t("Enter confirm password")}
               renderIcon={
                 <div onClick={() => setTogglePassword(!togglePassword)}>
                   {togglePassword ? (

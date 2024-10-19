@@ -1,37 +1,31 @@
-import React, { useCallback, useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import map from "lodash/map";
-
-import InputComponent from "../../../components/InputComponent";
-import Tables from "../../../components/SuperAdmin/Tables";
-import ButtonComponent from "../../../components/ButtonComponent";
-import { renderHeader } from "./mock";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-
-import muska1 from "../../../assets/images/muska-1.jpg";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ROUTE_ADMIN_ASSOCIATE_EDIT_PRODUCTS,
-  ROUTE_ADMIN_ASSOCIATE_VIEW_PRODUCTS,
-  ROUTE_ADMIN_PRODUCTS_ADD,
-} from "../../../routes/routes";
+import { useTranslation } from "react-i18next";
+import { renderHeader } from "./mock";
+import { ROUTE_ADMIN_ASSOCIATE_EDIT_PRODUCTS } from "../../../routes/routes";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { debounce, get, size } from "lodash";
-import { convertTimeStampToDate } from "../../../utils/constant";
-import { LoaderContainer } from "../../../components/Loader";
+import map from "lodash/map";
 import { getImageUrlById } from "../../../utils/commonFunctions";
+import { debounce, get, size } from "lodash";
+
+import InputComponent from "../../../components/InputComponent";
+import Tables from "../../../components/SuperAdmin/Tables";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { LoaderContainer } from "../../../components/Loader";
 
 const AssociatesProducts = () => {
-  const navigation = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [associateProductsList, setAssociateProductsList] = useState([]);
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const navigation = useNavigate();
+  const { t } = useTranslation();
 
   const getAssociateProducts = async () => {
     setLoading(true);
@@ -45,7 +39,6 @@ const AssociatesProducts = () => {
   };
 
   const setTableRenderData = (data) => {
-    // setLoading(true);
     const renderData = map(data, (item, index) => {
       return {
         ...item,
@@ -67,23 +60,17 @@ const AssociatesProducts = () => {
 
         productData: item,
         isBestSelling: get(item, "best_selling", false),
-        // colors: "Red, Yellow, Green",
-        // sku: "#red_t_shirt",
-        // date: convertTimeStampToDate(get(item, "created_at")),
-        // qty: "10",
-        // status: "Pending",
         status: item.is_approve ? "Active" : "In Active",
         handleDelete,
         EditAssociateProducts,
-        handelBestSellingImage,
+        handleBestSellingImage,
       };
     });
-    // setLoading(false);
 
     return renderData;
   };
 
-  const handelBestSellingImage = async (isBestSelling, id) => {
+  const handleBestSellingImage = async (isBestSelling, id) => {
     setLoading(true);
     const response = await commonAddUpdateQuery(
       `/associate_products/best_selling/${id}`,
@@ -95,16 +82,20 @@ const AssociatesProducts = () => {
     }
     setLoading(false);
   };
+
   const handleDelete = async (id) => {
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/associate_products/${id}`,
       null,
       "DELETE"
     );
+
     if (response) {
       getAssociateProducts();
     }
+
     setLoading(false);
   };
 
@@ -155,13 +146,14 @@ const AssociatesProducts = () => {
   return (
     <>
       {loading && <LoaderContainer />}
+
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
-          <div className="main-title ">Associate Products</div>
+          <div className="main-title ">{t("Associate Products")}</div>
           <FlexBox>
             <InputComponent
               type="search"
-              label="Search Associate Products"
+              label={t("Search Associate Products")}
               value={searchText}
               onChange={handleChange}
             />
@@ -177,7 +169,10 @@ const AssociatesProducts = () => {
               ? setTableRenderData(associateProductsList)
               : []
           }
-          header={renderHeader}
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
         />
       </CommonWhiteBackground>
     </>

@@ -1,42 +1,48 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import * as Yup from "yup";
-import { ErrorMessage, useFormik } from "formik";
+import { useState, useEffect } from "react";
+import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import SelectComponent from "../../../components/SelectComponent";
+import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { useNavigate } from "react-router";
 import { get } from "lodash";
-import ImageUploadBox from "../../../components/ImageUploadBox";
 import { ROUTE_ADMIN_APPEARANCE } from "../../../routes/routes";
+import styled from "styled-components";
+import * as Yup from "yup";
 
-const StatusList = [
-  {
-    id: true,
-    title: "Active",
-  },
-  {
-    id: false,
-    title: "Inactive",
-  },
-];
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import SelectComponent from "../../../components/SelectComponent";
+import ImageUploadBox from "../../../components/ImageUploadBox";
+
 export const ColorsFormWrapper = styled.div``;
 
-const validation = Yup.object().shape({
-  image_id: Yup.string().required("Image is required!"),
-  description: Yup.string().required("Description  is required!"),
-});
-
 const BlogSliderForm = () => {
+  const [loading, setLoading] = useState();
+
   const navigation = useNavigate();
   const params = useParams();
-  const [loading, setLoading] = useState();
+  const { t } = useTranslation();
+
+  const StatusList = [
+    {
+      id: true,
+      title: t("Active"),
+    },
+    {
+      id: false,
+      title: t("Inactive"),
+    },
+  ];
+
+  const validation = Yup.object().shape({
+    image_id: Yup.string().required(t("Image is required!")),
+    description: Yup.string().required(t("Description is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -47,18 +53,18 @@ const BlogSliderForm = () => {
     validationSchema: validation,
     onSubmit: async (values) => {
       let id = get(params, "id");
+
       const URL = id ? `/blog_page_slider/${id}` : "/blog_page_slider";
+
       const reqBody = {
         image_id: values.image_id,
         description: values.description,
         status: values.status.split(",")[0] === "true" ? true : false,
       };
+
       setLoading(true);
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
+
       setLoading(false);
       navigation(ROUTE_ADMIN_APPEARANCE);
     },
@@ -69,6 +75,7 @@ const BlogSliderForm = () => {
 
     let id = get(params, "id");
     const response = await commonGetQuery(`/blog_page_slider/${id}`);
+
     if (response) {
       const { data } = response.data;
       const { image_id, description, status } = data;
@@ -77,10 +84,12 @@ const BlogSliderForm = () => {
       formik.setFieldValue("status", status ? "true,Active" : "false,Inactive");
       setLoading(false);
     }
+
     setLoading(false);
   };
   useEffect(() => {
     let id = get(params, "id");
+
     if (id) {
       getBlogPageSlider();
     }
@@ -90,7 +99,7 @@ const BlogSliderForm = () => {
     <ColorsFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">Add Blog Slider Slides</div>
+          <div className="main-title ">{t("Add Blog Slider Slides")}</div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -121,10 +130,10 @@ const BlogSliderForm = () => {
                   <div className="row g-4">
                     <div className="col-lg-12">
                       <InputComponent
-                        InnerPlaceholder="Write description"
+                        InnerPlaceholder={t("Write description")}
                         fullWidth
                         name="description"
-                        label="Description"
+                        label={t("Description")}
                         type="textarea"
                         formik={formik}
                         disabled={loading}
@@ -132,12 +141,11 @@ const BlogSliderForm = () => {
                     </div>
                     <div className="col-lg-12">
                       <SelectComponent
-                        // label="Status"
                         fullWidth
                         name="status"
                         optionList={StatusList}
                         formik={formik}
-                        title="Select Status"
+                        title={t("Select Status")}
                         disabled={loading}
                       />
                     </div>
@@ -145,9 +153,8 @@ const BlogSliderForm = () => {
                       <FlexBox justifyContent="end" className="mt-3">
                         <ButtonComponent
                           variant="contained"
-                          text="Save"
+                          text={t("Save")}
                           type="submit"
-                          // onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
                         />
                       </FlexBox>
                     </div>

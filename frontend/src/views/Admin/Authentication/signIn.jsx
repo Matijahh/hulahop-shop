@@ -1,41 +1,42 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
-import { Col, Row } from "react-bootstrap";
-import { Checkbox } from "@mui/material";
-import { connect } from "react-redux";
-import * as Actions from "../../../redux/actions";
-import * as Yup from "yup";
-import qs from "querystring";
-import cx from "classnames";
-
-import InputComponent from "../../../components/InputComponent";
-import ButtonComponent from "../../../components/ButtonComponent";
-import { Container, SignInContainer } from "./styled";
-import { FlexBox } from "../../../components/Sections";
-import logo from "../../../assets/images/logo.png";
+import { useTranslation } from "react-i18next";
 import { commonAddUpdateQuery } from "../../../utils/axiosInstance";
-import { SuccessTaster } from "../../../components/Toast";
-// import Toast from "../../../components/Toast";
-
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import * as Yup from "yup";
+import logo from "../../../assets/images/logo.png";
 import {
   handleRedirection,
   setTokenAfterLogin,
 } from "../../../utils/commonFunctions";
 
-const validation = Yup.object().shape({
-  email: Yup.string().email("Invalid email!").required("Email is required!"),
-  password: Yup.string()
-    .required("Password is required.")
-    .matches(
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-      "Please enter a valid password."
-    ),
-});
+import { Col, Row } from "react-bootstrap";
+import { Checkbox } from "@mui/material";
+import { Container, SignInContainer } from "./styled";
+import { FlexBox } from "../../../components/Sections";
+import { SuccessTaster } from "../../../components/Toast";
+import { LoaderContainer } from "../../../components/Loader";
 
-const SignIn = (props) => {
+import InputComponent from "../../../components/InputComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+
+const SignIn = () => {
   const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    email: Yup.string()
+      .email(t("Invalid email!"))
+      .required(t("Email is required!")),
+    password: Yup.string()
+      .required(t("Password is required."))
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        t("Please enter a valid password.")
+      ),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -45,10 +46,14 @@ const SignIn = (props) => {
     validationSchema: validation,
     onSubmit: async (value) => {
       setLoading(true);
+
       const response = await commonAddUpdateQuery("/auth/login", { ...value });
+
       setLoading(false);
+
       if (response) {
         const { data, message } = response.data;
+
         if (data) {
           setTokenAfterLogin(response);
           handleRedirection(data.type);
@@ -61,6 +66,7 @@ const SignIn = (props) => {
   });
   return (
     <Container justifyContent="center" alineItems="center">
+      {loading && <LoaderContainer />}
       <SignInContainer>
         <div className="logo-container">
           <div className="cover">
@@ -68,15 +74,15 @@ const SignIn = (props) => {
           </div>
         </div>
         <div className="title-container">
-          <div className="title">Admin Sign In</div>
+          <div className="title">{t("Admin Sign In")}</div>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <Row>
             <Col className="col-12">
               <InputComponent
-                label="Email"
+                label={t("Email")}
                 fullWidth
-                InnerPlaceholder="Enter email"
+                InnerPlaceholder={t("Enter email")}
                 name="email"
                 formik={formik}
                 renderIcon={
@@ -89,11 +95,11 @@ const SignIn = (props) => {
             </Col>
             <Col className="col-12">
               <InputComponent
-                label="Password"
+                label={t("Password")}
                 fullWidth
                 name="password"
                 formik={formik}
-                InnerPlaceholder="Enter password"
+                InnerPlaceholder={t("Enter password")}
                 renderIcon={
                   <>
                     <LockOutlinedIcon />
@@ -107,11 +113,8 @@ const SignIn = (props) => {
               <FlexBox>
                 <FlexBox justifyContent="flex-start remember-me">
                   <Checkbox />
-                  <span>Remember me?</span>
+                  <span>{t("Remember me?")}</span>
                 </FlexBox>
-                {/* <Link href="#" className="forgot-password-text">
-                Forgot Password
-              </Link> */}
               </FlexBox>
             </Col>
             <Col className="col-12 buttons ">
@@ -119,7 +122,7 @@ const SignIn = (props) => {
                 type="submit"
                 variant="contained"
                 size="large"
-                text="Sign In"
+                text={t("Sign In")}
                 width="100%"
               />
             </Col>

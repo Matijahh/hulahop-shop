@@ -15,7 +15,6 @@ import {
   ROUTE_ADMIN_WITHDRAWN,
   ROUTE_ADMIN_PRODUCTS_ADD,
   ROUTE_ADMIN_ASSOCIATE_PRODUCTS,
-  ROUTE_ADMIN_SIGN_IN,
   ROUTE_ADMIN_CATEGORIES_ADD,
   ROUTE_ADMIN_COLORS_ADD,
   ROUTE_ADMIN_COLORS_EDIT,
@@ -40,7 +39,6 @@ import {
 } from "../routes";
 
 import AdminLayout from "../../layouts/AdminLayout";
-import SignIn from "../../views/Admin/Authentication/signIn";
 
 import Appearance from "../../views/Admin/Appearance";
 import ShopSliderForm from "../../views/Admin/Appearance/ShopSliderForm";
@@ -68,7 +66,7 @@ import AssociateProducts from "../../views/Admin/AssociatesProducts";
 import ViewProduct from "../../views/Admin/AssociatesProducts/ViewProduct";
 
 import Reviews from "../../views/Admin/Reviews";
-import RreturnedProducts from "../../views/Admin/RreturnedProducts";
+import ReturnedProducts from "../../views/Admin/ReturnedProducts";
 import Users from "../../views/Admin/Users";
 import Withdrawn from "../../views/Admin/Withdrawn";
 
@@ -176,7 +174,7 @@ const routes = [
     path: ROUTE_ADMIN_RETURNED_PRODUCTS,
     component: (props) => (
       <AdminLayout {...props}>
-        <RreturnedProducts {...props} />
+        <ReturnedProducts {...props} />
       </AdminLayout>
     ),
   },

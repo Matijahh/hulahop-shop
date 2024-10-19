@@ -1,9 +1,8 @@
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import styled from "styled-components";
 
 import Colors from "../design/Colors";
 import Fonts from "../design/Fonts";
-import ButtonComponent from "../components/ButtonComponent";
 import { LoaderContainer } from "../components/Loader";
 
 export const Container = styled.div`
@@ -11,10 +10,12 @@ export const Container = styled.div`
     border-color: #d8121254;
     border-radius: 0.5rem;
   }
+
   .card-header {
     background-color: #ffe4e4;
     border-radius: 0.5rem 0.5rem 0 0;
   }
+
   p {
     color: ${Colors.errorColor};
     font-size: ${Fonts.fs_18};
@@ -23,6 +24,7 @@ export const Container = styled.div`
     align-items: center;
     margin-bottom: 0px;
   }
+
   .button-div {
     width: fit-content !important;
     padding: 10px !important;
@@ -31,11 +33,13 @@ export const Container = styled.div`
     border-color: ${Colors.errorColor} !important;
     margin-left: 20px !important;
   }
+
   .error-details {
     color: ${Colors.errorColor};
     font-size: ${Fonts.fs_14};
     font-weight: ${Fonts.fw_500};
     white-space: pre-wrap;
+
     summary {
       font-size: ${Fonts.fs_15};
       font-weight: ${Fonts.fw_600};
@@ -70,6 +74,7 @@ class ErrorBoundary extends PureComponent {
 
   render() {
     const { hasError, error, errorInfo } = this.state;
+
     if (hasError) {
       return (
         <Container className="container">

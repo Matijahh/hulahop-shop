@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
-
-import { CommonWhiteBackground } from "../../../../components/Sections";
+import { useTranslation } from "react-i18next";
 import { CreateProductContainer, ProductCardBox } from "./styled";
-import CategorySidebar from "../../../../components/SuperAdmin/CategorySidebar";
-import GobackButton from "../../../../components/GoBackButton";
 import { ROUTE_ASSOCIATE_EDIT_PRODUCT } from "../../../../routes/routes";
 import { commonGetQuery } from "../../../../utils/axiosInstance";
-import { Loader } from "../../../../components/Loader";
 import { REST_URL_SERVER } from "../../../../utils/constant";
 import { connect } from "react-redux";
-import { useTranslation } from "react-i18next";
+
+import { Col, Row } from "react-bootstrap";
+import { CommonWhiteBackground } from "../../../../components/Sections";
+import { Loader } from "../../../../components/Loader";
 import { Helmet } from "react-helmet";
 
-const CreateProduct = ({ shopCategoryDataList }) => {
-  const { t } = useTranslation();
+import CategorySidebar from "../../../../components/SuperAdmin/CategorySidebar";
+import GobackButton from "../../../../components/GoBackButton";
 
-  const navigate = useNavigate();
-  const { sub_categoryId, categoryId } = useParams();
+const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
-  const getAllProducts = async (category) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { sub_categoryId, categoryId } = useParams();
+
+  const getAllProducts = async () => {
     setLoading(true);
+
     let URL;
+
     if (categoryId === "all") {
       URL = `/products`;
     } else if (categoryId && sub_categoryId !== "0") {
@@ -38,8 +41,11 @@ const CreateProduct = ({ shopCategoryDataList }) => {
     } else {
       URL = `/products`;
     }
+
     const response = await commonGetQuery(URL);
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       setProducts(data);
@@ -57,7 +63,7 @@ const CreateProduct = ({ shopCategoryDataList }) => {
       </Helmet>
       <CommonWhiteBackground>
         <GobackButton />
-        <div className="main-title">Create Product</div>
+        <div className="main-title">{t("Create Product")}</div>
         <Row>
           <Col md={12} lg={3} sm={12} className="mt-4">
             <CategorySidebar />
@@ -100,7 +106,7 @@ const CreateProduct = ({ shopCategoryDataList }) => {
                   </>
                 ) : (
                   <center>
-                    <b>No Data Found!</b>
+                    <b>{t("No Data Found!")}</b>
                   </center>
                 )}
               </Row>

@@ -1,7 +1,6 @@
 import { get } from "lodash";
 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 export const renderHeader = [
   {
@@ -45,9 +44,6 @@ export const renderHeader = [
           >
             <EditOutlinedIcon />
           </div>
-          {/* <div role="button" onClick={() => row.handleDelete(row.id)}>
-            <DeleteOutlinedIcon />
-          </div> */}
         </div>
       </>
     ),

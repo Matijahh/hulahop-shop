@@ -1,8 +1,6 @@
 import {
-  ROUTE_ADMIN,
   ROUTE_ADMIN_DASHBOARD,
   ROUTE_ADMIN_SIGN_IN,
-  ROUTE_ASSOCIATE_MAIN,
   ROUTE_ASSOCIATE_MAIN_DASHBOARD,
   ROUTE_MAIN,
   ROUTE_SIGN_IN,
@@ -14,11 +12,7 @@ import {
   ACCESS_TOKEN_NAME,
   COOKIE_ACCESS_TOKEN_NAME,
   REFRESH_TOKEN_NAME,
-  REST_URL_SERVER,
-  ROLE_NAME,
 } from "./constant";
-import { ErrorTaster } from "../components/Toast";
-import { commonAddUpdateQuery } from "./axiosInstance";
 
 export const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -41,11 +35,14 @@ export const setTokenAfterLogin = (response, isRememberChecked) => {
     ACCESS_TOKEN_NAME,
     get(response, "data.data.access_token")
   );
+
   localStorage.setItem(
     REFRESH_TOKEN_NAME,
     get(response, "data.data.refresh_token")
   );
+
   localStorage.setItem("type", get(response, "data.data.type"));
+
   if (isRememberChecked) {
     localStorage.setItem("rememberme", true);
   } else {
@@ -156,6 +153,7 @@ export const getUserInfo = () => {
     return { isLoggedIn: false, error: "Error decoding token" };
   }
 };
+
 export const dataURLtoFile = (dataURL, filename = "image.png") => {
   // Split the data URL to get the mime type and the base64 encoded data
   const [, mimeType, base64Data] = dataURL.match(/^data:(.*?);base64,(.*)$/);
@@ -210,7 +208,6 @@ export function isEmpty(obj) {
   if (obj.length === 0) return true;
   if (typeof obj == "undefined") return true;
   if (!Object.keys(obj).length) return true;
-  //if (typeof obj !== "object") return true;
   for (var key in obj) {
     if (hasOwnProperty.call(obj, key)) return false;
   }

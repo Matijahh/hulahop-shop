@@ -31,13 +31,6 @@ export const renderHeader = [
     align: "left",
   },
 
-  // {
-  //   field: "status",
-  //   headerName: "Status",
-  //   width: 180,
-  //   align: "left",
-  // },
-
   {
     field: "action",
     headerName: "Action",

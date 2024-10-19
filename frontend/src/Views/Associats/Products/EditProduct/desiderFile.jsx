@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+
 import { Stage, Layer, Rect, Text, Image, Transformer } from "react-konva";
 import { ChromePicker } from "react-color";
 
@@ -7,7 +9,9 @@ const DesignCanvas = () => {
   const [color, setColor] = useState("#000000");
   const [selectedId, selectShape] = useState(null);
   const [tshirtImage, setTshirtImage] = useState(null);
+
   const stageRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const image = new window.Image();
@@ -93,13 +97,13 @@ const DesignCanvas = () => {
           type="text"
           value={text}
           onChange={handleTextChange}
-          placeholder="Enter text"
+          placeholder={t("Enter text")}
         />
         <ChromePicker
           color={color}
           onChange={(color) => handleColorChange(color)}
         />
-        <button onClick={handleDownload}>Download Design</button>
+        <button onClick={handleDownload}>{t("Download Design")}</button>
       </div>
     </div>
   );

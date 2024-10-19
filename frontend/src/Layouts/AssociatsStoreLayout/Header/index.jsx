@@ -1,24 +1,11 @@
-import React from "react";
-import { Link, useLocation, useParams, NavLink } from "react-router-dom";
-import Slider from "react-slick";
+import { useTranslation } from "react-i18next";
 import { get } from "lodash";
 import { connect } from "react-redux";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import PersonIcon from "@mui/icons-material/Person";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
-
-import { HeaderContainer, HeaderMainContainer } from "./styled";
-import { FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { Link, useLocation, useParams, NavLink } from "react-router-dom";
+import { getImageUrlById } from "../../../utils/commonFunctions";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS,
-  ROUTE_ASSOCIATE_BRAND_STORE_CART,
   ROUTE_ASSOCIATE_BRAND_STORE_CONTACT,
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
   ROUTE_MAIN,
@@ -26,15 +13,22 @@ import {
   ROUTE_MAIN_PROFILE,
   ROUTE_SIGN_IN,
 } from "../../../routes/routes";
-import { getImageUrlById } from "../../../utils/commonFunctions";
-import { useTranslation } from "react-i18next";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 import logo from "../../../assets/images/logo.png";
+
+import Slider from "react-slick";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import PersonIcon from "@mui/icons-material/Person";
+import LocalMallIcon from "@mui/icons-material/LocalMall";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { HeaderContainer, HeaderMainContainer } from "./styled";
+import { FlexBox } from "../../../components/Sections";
 
 const Header = ({ storeData }) => {
   const location = useLocation();
   const { id } = useParams();
   const { t } = useTranslation();
+
   const PageName = get(location, "pathname") && get(location, "pathname");
 
   const settings = {
@@ -51,21 +45,12 @@ const Header = ({ storeData }) => {
     <HeaderMainContainer>
       <div className="flex-box-header container">
         <div className="open-menu-box">
-          <div
-            className="open-menu"
-            onClick={() => {
-              toggleMenu(true);
-            }}
-          >
+          <div className="open-menu">
             <MenuOutlinedIcon />
           </div>
         </div>
         <div className="contact-box order-2 order-lg-1 d-none d-md-block">
-          <Link
-            // href={import.meta.env.VITE_BASE_FRONT_URL}
-            to={ROUTE_MAIN}
-            className="hulaHop-icon-cover"
-          >
+          <Link to={ROUTE_MAIN} className="hulaHop-icon-cover">
             <img src={logo} alt="logo" />
           </Link>
         </div>

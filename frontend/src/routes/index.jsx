@@ -1,4 +1,3 @@
-import { ACCESS_TOKEN, ROLE_NAME, USER_ROLE } from "../utils/constant";
 import AuthRoutes from "./Modules/authRoute";
 import UserRoutes from "./Modules/usersRoutes";
 import AssociatesRoute from "./Modules/associatesRoute";
@@ -20,7 +19,6 @@ const renderRoute = () => {
           ...UserRoutes,
           ...PublicRoutes,
         ];
-        break;
       case "ASSOCIATE":
         return [
           ...AssociatesRoute,
@@ -28,7 +26,6 @@ const renderRoute = () => {
           ...PublicRoutes,
           ...UserRoutes,
         ];
-        break;
       default:
         return [
           ...AuthRoutes,
@@ -36,7 +33,6 @@ const renderRoute = () => {
           ...UserRoutes,
           ...PublicRoutes,
         ];
-        break;
     }
   } else {
     return [

@@ -1,31 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import ReactQuillEditor from "../../../components/ReactQuillEditor";
-import styled from "styled-components";
-import InputComponent from "../../../components/InputComponent";
-import ImageUploadBox from "../../../components/ImageUploadBox";
-import ButtonComponent from "../../../components/ButtonComponent";
+import { useTranslation } from "react-i18next";
+import { useFormik } from "formik";
 import { ROUTE_ADMIN_BLOG } from "../../../routes/routes";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { get } from "lodash";
+import styled from "styled-components";
+import * as Yup from "yup";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Checkbox } from "@mui/material";
 
+import ReactQuillEditor from "../../../components/ReactQuillEditor";
+import InputComponent from "../../../components/InputComponent";
+import ImageUploadBox from "../../../components/ImageUploadBox";
+import ButtonComponent from "../../../components/ButtonComponent";
+
 const BlogFormWrapper = styled.div``;
-const validation = Yup.object().shape({
-  heading: Yup.string().required("Heading is required!"),
-  content: Yup.string().required("Content is required!"),
-});
+
 const AssociateBlogForm = () => {
+  const [loading, setLoading] = useState();
+
   const navigation = useNavigate();
   const params = useParams();
-  const [loading, setLoading] = useState();
+  const { t } = useTranslation();
+
+  const validation = Yup.object().shape({
+    heading: Yup.string().required(t("Heading is required!")),
+    content: Yup.string().required(t("Content is required!")),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +44,9 @@ const AssociateBlogForm = () => {
     validationSchema: validation,
     onSubmit: async (values) => {
       let id = get(params, "id");
+
       const URL = id ? `/associate_blogs/${id}` : "/associate_blogs";
+
       const reqBody = {
         heading: values.heading,
         category_name: values.category_name,
@@ -46,12 +54,11 @@ const AssociateBlogForm = () => {
         image_id: values.image_id,
         show_on_main: values.show_on_main ? 1 : 0,
       };
+
       setLoading(true);
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
+
       setLoading(false);
       navigation(ROUTE_ADMIN_BLOG);
     },
@@ -65,7 +72,9 @@ const AssociateBlogForm = () => {
     setLoading(true);
 
     let id = get(params, "id");
+
     const response = await commonGetQuery(`/associate_blogs/${id}`);
+
     if (response) {
       const { data } = response.data;
       const { image_id, heading, category_name, content } = data;
@@ -75,10 +84,13 @@ const AssociateBlogForm = () => {
       formik.setFieldValue("content", content);
       setLoading(false);
     }
+
     setLoading(false);
   };
+
   useEffect(() => {
     let id = get(params, "id");
+
     if (id) {
       getBlogData();
     }
@@ -88,7 +100,7 @@ const AssociateBlogForm = () => {
     <BlogFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">Add Blog</div>
+          <div className="main-title ">{t("Add Blog")}</div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -106,14 +118,12 @@ const AssociateBlogForm = () => {
                     formik={formik}
                   />
                 </div>
-                {/* <div className="col-lg-7">
-                  <div className="row g-4"> */}
                 <div className="col-lg-12">
                   <InputComponent
                     name="heading"
-                    InnerPlaceholder="Blog Heading"
+                    InnerPlaceholder={t("Blog Heading")}
                     fullWidth
-                    label="Blog Heading *"
+                    label={t("Blog Heading")}
                     formik={formik}
                     disabled={loading}
                   />
@@ -121,11 +131,11 @@ const AssociateBlogForm = () => {
                 <div className="col-lg-12">
                   <InputComponent
                     name="category_name"
-                    InnerPlaceholder="Blog Category"
+                    InnerPlaceholder={t("Blog Category")}
                     fullWidth
                     formik={formik}
                     disabled={loading}
-                    label="Blog Category"
+                    label={t("Blog Category")}
                   />
                 </div>
                 <div className="col-lg-12">
@@ -133,7 +143,7 @@ const AssociateBlogForm = () => {
                     handleChange={(e) => handleChangeTextArea("content", e)}
                     name="content"
                     value={formik.values.content}
-                    label="Blog Content"
+                    label={t("Blog Content")}
                   />
                 </div>
 
@@ -150,7 +160,7 @@ const AssociateBlogForm = () => {
                         formik.setFieldValue("show_on_main", checked)
                       }
                     />
-                    <label>Show on main page</label>
+                    <label>{t("Show on main page")}</label>
                   </div>
                 </div>
 
@@ -158,10 +168,9 @@ const AssociateBlogForm = () => {
                   <FlexBox justifyContent="end" className="mt-3">
                     <ButtonComponent
                       variant="contained"
-                      text="Save"
+                      text={t("Save")}
                       type="submit"
                       disabled={loading}
-                      // onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
                     />
                   </FlexBox>
                 </div>

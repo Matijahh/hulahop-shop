@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import TextilesShop from "../../../assets/images/Textiles-Shop.jpg";
-import CupsShop from "../../../assets/images/Cups-Shop.png";
-import BagsShop from "../../../assets/images/Bags-Shop.png";
-import Tables from "../../../components/SuperAdmin/Tables";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   renderAboutSliderHeader,
   renderBlogSliderHeader,
   renderShopSliderHeader,
 } from "./mock";
 import map from "lodash/map";
-import ButtonComponent from "../../../components/ButtonComponent";
-import AddIcon from "@mui/icons-material/Add";
-import { useNavigate } from "react-router-dom";
 import {
   ROUTE_ADMIN_APPEARANCE_ABOUT_SLIDER_ADD,
   ROUTE_ADMIN_APPEARANCE_ABOUT_SLIDER_EDIT,
@@ -22,49 +15,67 @@ import {
   ROUTE_ADMIN_APPEARANCE_SHOP_SLIDER_ADD,
   ROUTE_ADMIN_APPEARANCE_SHOP_SLIDER_EDIT,
 } from "../../../routes/routes";
+import { get, size } from "lodash";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { get, size } from "lodash";
+
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+import { LoaderContainer } from "../../../components/Loader";
+
+import Tables from "../../../components/SuperAdmin/Tables";
+import ButtonComponent from "../../../components/ButtonComponent";
+import AddIcon from "@mui/icons-material/Add";
 
 const Appearance = () => {
-  const navigation = useNavigate();
   const [loading, setLoading] = useState(false);
   const [shopSliderList, setShopSliderList] = useState([]);
   const [aboutSliderList, setAboutSliderList] = useState([]);
   const [blogSliderList, setBlogSliderList] = useState([]);
 
+  const navigation = useNavigate();
+  const { t } = useTranslation();
+
   const getShopSliderList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/shop_slider");
+
     if (response) {
       const { data } = response.data;
       setShopSliderList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const getAboutSliderList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/about_page_slider");
+
     if (response) {
       const { data } = response.data;
       setAboutSliderList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
   const getBlogSliderList = async () => {
     setLoading(true);
+
     const response = await commonGetQuery("/blog_page_slider");
+
     if (response) {
       const { data } = response.data;
       setBlogSliderList(data);
       setLoading(false);
     }
+
     setLoading(false);
   };
 
@@ -75,7 +86,7 @@ const Appearance = () => {
       image_id: item.image_id,
       description: get(item, "description", ""),
       id: get(item, "id", ""),
-      status: item.status ? "Active" : "In Active",
+      status: item.status ? t("Active") : t("Inactive"),
       handleDeleteShopSlider,
       handleEditShopSlider,
     }));
@@ -88,7 +99,7 @@ const Appearance = () => {
       image_id: item.image_id,
       description: get(item, "description", ""),
       id: get(item, "id", ""),
-      status: item.status ? "Active" : "In Active",
+      status: item.status ? t("Active") : t("Inactive"),
       handleDeleteAboutSlider,
       handleEditAboutSlider,
     }));
@@ -102,7 +113,7 @@ const Appearance = () => {
       image_id: item.image_id,
       description: get(item, "description", ""),
       id: get(item, "id", ""),
-      status: item.status ? "Active" : "In Active",
+      status: item.status ? t("Active") : t("Inactive"),
       handleDeleteBlogSlider,
       handleEditBlogSlider,
     }));
@@ -111,14 +122,17 @@ const Appearance = () => {
 
   const handleDeleteBlogSlider = async (id) => {
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/blog_page_slider/${id}`,
       null,
       "DELETE"
     );
+
     if (response) {
       getBlogSliderList();
     }
+
     setLoading(false);
   };
 
@@ -129,14 +143,17 @@ const Appearance = () => {
 
   const handleDeleteShopSlider = async (id) => {
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/shop_slider/${id}`,
       null,
       "DELETE"
     );
+
     if (response) {
       getShopSliderList();
     }
+
     setLoading(false);
   };
 
@@ -147,14 +164,17 @@ const Appearance = () => {
 
   const handleDeleteAboutSlider = async (id) => {
     setLoading(true);
+
     const response = await commonAddUpdateQuery(
       `/about_page_slider/${id}`,
       null,
       "DELETE"
     );
+
     if (response) {
       getAboutSliderList();
     }
+
     setLoading(false);
   };
 
@@ -174,12 +194,12 @@ const Appearance = () => {
       <div className="w-100 mb-4">
         <CommonWhiteBackground>
           <FlexBox className="mb-4">
-            <div className="main-title ">Shop Slider</div>
+            <div className="main-title ">{t("Shop Slider")}</div>
             <FlexBox>
               <ButtonComponent
                 variant="contained"
                 startIcon={<AddIcon />}
-                text="Add Slide"
+                text={t("Add Slide")}
                 onClick={() =>
                   navigation(ROUTE_ADMIN_APPEARANCE_SHOP_SLIDER_ADD)
                 }
@@ -192,7 +212,10 @@ const Appearance = () => {
                 ? setShopSliderTableRenderData(shopSliderList)
                 : []
             }
-            header={renderShopSliderHeader}
+            header={renderShopSliderHeader.map((item) => ({
+              ...item,
+              headerName: t(item.headerName),
+            }))}
           />{" "}
         </CommonWhiteBackground>
       </div>
@@ -200,12 +223,12 @@ const Appearance = () => {
       <div className="w-100 mb-4">
         <CommonWhiteBackground>
           <FlexBox className="mb-4">
-            <div className="main-title ">About Page Slider</div>
+            <div className="main-title ">{t("About Page Slider")}</div>
             <FlexBox>
               <ButtonComponent
                 variant="contained"
                 startIcon={<AddIcon />}
-                text="Add Slide"
+                text={t("Add Slide")}
                 onClick={() =>
                   navigation(ROUTE_ADMIN_APPEARANCE_ABOUT_SLIDER_ADD)
                 }
@@ -218,20 +241,23 @@ const Appearance = () => {
                 ? setAboutSliderTableRenderData(aboutSliderList)
                 : []
             }
-            header={renderAboutSliderHeader}
+            header={renderAboutSliderHeader.map((item) => ({
+              ...item,
+              headerName: t(item.headerName),
+            }))}
           />{" "}
         </CommonWhiteBackground>
       </div>
-
+      {loading && <LoaderContainer />}
       <div className="w-100 mb-4">
         <CommonWhiteBackground>
           <FlexBox className="mb-4">
-            <div className="main-title">Blog Page Slider</div>
+            <div className="main-title">{t("Blog Page Slider")}</div>
             <FlexBox>
               <ButtonComponent
                 variant="contained"
                 startIcon={<AddIcon />}
-                text="Add Slide"
+                text={t("Add Slide")}
                 onClick={() =>
                   navigation(ROUTE_ADMIN_APPEARANCE_BLOG_SLIDER_ADD)
                 }
@@ -244,7 +270,10 @@ const Appearance = () => {
                 ? setBlogSliderTableRenderData(blogSliderList)
                 : []
             }
-            header={renderBlogSliderHeader}
+            header={renderBlogSliderHeader.map((item) => ({
+              ...item,
+              headerName: t(item.headerName),
+            }))}
           />{" "}
         </CommonWhiteBackground>
       </div>

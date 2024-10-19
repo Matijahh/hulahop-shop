@@ -8,10 +8,12 @@ export const FooterWrapperStyled = styled.div`
     background: #fff;
     border-radius: 15px;
   }
+
   .footer-section-header {
     margin-bottom: 10px;
     height: 40px;
     padding: 0 10px;
+
     .site-logo {
       img {
         width: 150px;
@@ -19,6 +21,7 @@ export const FooterWrapperStyled = styled.div`
         height: auto;
       }
     }
+
     .footer-header-text {
       color: #f1676d;
       padding-bottom: 8px;
@@ -31,6 +34,7 @@ export const FooterWrapperStyled = styled.div`
 
   .site-description {
     padding: 10px;
+
     p {
       color: #616173;
       font-size: 14px;
@@ -46,6 +50,7 @@ export const FooterWrapperStyled = styled.div`
       display: flex;
       align-items: flex-start;
       margin-bottom: 10px;
+
       .icon-box {
         width: 35px;
 
@@ -55,6 +60,7 @@ export const FooterWrapperStyled = styled.div`
           color: #f1676d;
         }
       }
+
       .contact-detail {
         width: calc(100% - 35px);
         font-size: 14px;
@@ -94,6 +100,7 @@ export const FooterWrapperStyled = styled.div`
   .low-description-box {
     padding: 10px;
     text-align: end;
+
     p,
     a {
       font-size: 14px;
@@ -124,9 +131,9 @@ export const FooterWrapperStyled = styled.div`
       .footer-copright-box {
         padding: 20px 20px;
         text-align: center;
-        /* box-shadow: 0px 0px 3px 0px #afaccb; */
         border-radius: 5px 5px 0 0;
         background: #f1676d;
+
         p {
           font-size: 16px;
           font-weight: 600;

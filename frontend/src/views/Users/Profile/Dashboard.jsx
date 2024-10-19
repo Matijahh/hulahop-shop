@@ -1,29 +1,37 @@
-import React, { useEffect, useState } from "react";
-import ProfileComponent from ".";
-import ButtonComponent from "../../../components/ButtonComponent";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Helmet } from "react-helmet";
+import { useNavigate } from "react-router-dom";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 import { jwtDecode } from "jwt-decode";
 import { get } from "lodash";
-import { useNavigate } from "react-router-dom";
 import {
   ROUTE_ADMIN_DASHBOARD,
   ROUTE_ASSOCIATE_MAIN_DASHBOARD,
 } from "../../../routes/routes";
 
+import ProfileComponent from ".";
+import ButtonComponent from "../../../components/ButtonComponent";
+
+import { Helmet } from "react-helmet";
+import { LoaderContainer } from "../../../components/Loader";
+
 const Dashboard = () => {
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
+
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const getUserData = async () => {
     const decoded = jwtDecode(ACCESS_TOKEN);
+
     setLoading(true);
+
     const response = await commonGetQuery(`/users/${decoded.id}`);
+
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
 
@@ -50,15 +58,20 @@ const Dashboard = () => {
       <Helmet>
         <title>{t("Dashboard - HulaHop")}</title>
       </Helmet>
-      <div className="deshboard-box">
+
+      <div className="dashboard-box">
         <div className="user-description">
-          <h6>Hello {get(userData, "first_name", "")}</h6>
+          <h6>
+            {t("Hello")} {get(userData, "first_name", "")}
+          </h6>
           <p>
             {t(
               "In your user account control panel, you can view your recent orders , manage your shipping and billing address , and change your password and account information."
             )}
           </p>
         </div>
+
+        {loading && <LoaderContainer />}
 
         <div className="vendor-box">
           <div className="vendor-flexbox">

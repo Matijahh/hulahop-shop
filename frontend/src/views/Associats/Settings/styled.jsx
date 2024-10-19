@@ -1,19 +1,21 @@
 import styled from "styled-components";
 
 export const SettingsContainer = styled.div`
-  /* max-width: 1080px; */
   label {
     margin-bottom: 9px;
   }
+
   .profile-pic-image {
     width: 100%;
     height: 130px;
     position: relative;
+
     img {
       object-fit: contain;
       width: 100%;
       height: 100%;
     }
+
     .hidden-input {
       height: 130px;
       width: 100%;
@@ -23,6 +25,7 @@ export const SettingsContainer = styled.div`
       z-index: 999;
       opacity: 0;
     }
+
     .pick-image-icon {
       position: absolute;
       top: 50%;
@@ -37,10 +40,12 @@ export const SettingsContainer = styled.div`
       cursor: pointer;
       visibility: hidden;
       transition: all 0.2s ease-in-out;
+
       svg {
         color: #fff;
       }
     }
+
     &:hover {
       .pick-image-icon {
         visibility: visible;

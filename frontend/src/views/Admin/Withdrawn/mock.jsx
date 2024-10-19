@@ -3,6 +3,7 @@ import { get } from "lodash";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 import { getImageUrlById } from "../../../utils/commonFunctions";
+
 export const renderHeader = [
   {
     field: "no",

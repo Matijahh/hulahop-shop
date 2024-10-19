@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { AssociatsStoreLayoutContainer } from "./styled";
-import Header from "./Header";
-import Footer from "../PrivateLayout/Footer";
-import * as Action from "../../redux/actions";
+import { useEffect, useState } from "react";
 import { commonGetQuery } from "../../utils/axiosInstance";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
+import * as Action from "../../redux/actions";
+
+import { AssociatsStoreLayoutContainer } from "./styled";
 import { LoaderContainer } from "../../components/Loader";
 
-const AssociatsStoreLayout = (props) => {
-  const { children, saveAssociateStoreData, storeData } = props;
-  const { id, sId } = useParams();
+import Header from "./Header";
+import Footer from "../PrivateLayout/Footer";
 
+const AssociatsStoreLayout = ({
+  children,
+  saveAssociateStoreData,
+  storeData,
+}) => {
   const [loading, setLoading] = useState(false);
+
+  const { id, sId } = useParams();
 
   const getStoreData = async () => {
     setLoading(true);
@@ -20,6 +25,7 @@ const AssociatsStoreLayout = (props) => {
       `/store_layout_details/${(sId || id)?.split("-")?.[1]}`
     );
     setLoading(false);
+
     if (response) {
       const { data } = response.data;
       saveAssociateStoreData(data);

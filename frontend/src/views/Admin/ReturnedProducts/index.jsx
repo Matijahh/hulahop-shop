@@ -1,12 +1,16 @@
-import React from "react";
-import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
-import InputComponent from "../../../components/InputComponent";
-import muska4 from "../../../assets/images/muska-4.jpg";
-import Tables from "../../../components/SuperAdmin/Tables";
+import { useTranslation } from "react-i18next";
 import { renderHeader } from "./mock";
+import muska4 from "../../../assets/images/muska-4.jpg";
 import map from "lodash/map";
 
-const RreturnedProducts = () => {
+import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
+
+import InputComponent from "../../../components/InputComponent";
+import Tables from "../../../components/SuperAdmin/Tables";
+
+const ReturnedProducts = () => {
+  const { t } = useTranslation();
+
   const renderData = map(Array(10), (item, index) => ({
     ...item,
     no: `${index + 1}`,
@@ -24,16 +28,23 @@ const RreturnedProducts = () => {
     qty: "2",
     status: "Returned",
   }));
+
   return (
     <CommonWhiteBackground>
       <FlexBox className="mb-4">
-        <div className="main-title ">Rreturned Products</div>
+        <div className="main-title ">{t("Returned Products")}</div>
 
-        <InputComponent type="search" label="Search orders" />
+        <InputComponent type="search" label={t("Search orders")} />
       </FlexBox>
-      <Tables body={renderData} header={renderHeader} />
+      <Tables
+        body={renderData}
+        header={renderHeader.map((item) => ({
+          ...item,
+          headerName: t(item.headerName),
+        }))}
+      />
     </CommonWhiteBackground>
   );
 };
 
-export default RreturnedProducts;
+export default ReturnedProducts;

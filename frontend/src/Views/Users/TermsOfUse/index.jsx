@@ -1,6 +1,6 @@
-import React from "react";
-import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
+
+import { Helmet } from "react-helmet";
 
 const TermsOfUse = () => {
   const { t } = useTranslation();
@@ -10,6 +10,7 @@ const TermsOfUse = () => {
       <Helmet>
         <title>{t("Terms of use - HulaHop")}</title>
       </Helmet>
+
       <div className="container">
         <div className="title mb-4">{t("Terms of use")}</div>
         <div className="bold-description mb-3">

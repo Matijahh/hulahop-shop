@@ -1,8 +1,8 @@
 import { get } from "lodash";
 
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+
 export const renderHeader = [
   {
     field: "no",
@@ -54,12 +54,9 @@ export const renderHeader = [
     headerName: "Action",
     width: 150,
     align: "left",
-    renderCell: (params) => (
+    renderCell: () => (
       <>
-        <div className="d-flex align-items-cente">
-          {/* <div className="me-2">
-            <FileDownloadOutlinedIcon />
-          </div> */}
+        <div className="d-flex align-items-center">
           <div className="me-2">
             <BorderColorOutlinedIcon />
           </div>
