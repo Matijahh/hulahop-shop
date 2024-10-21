@@ -22,6 +22,7 @@ export const renderHeader = [
     width: 450,
     align: "left",
   },
+
   {
     field: "sb",
     headerName: "Serbian",
@@ -32,15 +33,15 @@ export const renderHeader = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
+    width: 100,
     align: "left",
     renderCell: ({ row }) => (
       <>
-        <div className="d-flex align-items-cente">
+        <div className="d-flex align-items-center cursor-pointer">
           <div
             role="button"
             className="me-2"
-            onClick={() => row.handelEdit(row)}
+            onClick={() => row.handleEdit(row)}
           >
             <EditOutlinedIcon />
           </div>

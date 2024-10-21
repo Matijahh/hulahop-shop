@@ -7,6 +7,7 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { debounce, size } from "lodash";
+import { TranslatationContainer } from "./styled";
 import * as Yup from "yup";
 import map from "lodash/map";
 
@@ -60,7 +61,7 @@ const Translation = () => {
       setLoading(false);
 
       if (response) {
-        handeleClose();
+        handleClose();
         getWordsList();
       }
     },
@@ -101,7 +102,7 @@ const Translation = () => {
     setLoading(false);
   };
 
-  const handelEdit = (item) => {
+  const handleEdit = (item) => {
     const { en, sb } = item;
 
     formik.setValues({
@@ -120,7 +121,7 @@ const Translation = () => {
       en: item.en,
       sb: item.sb,
       id: item.id,
-      handelEdit,
+      handleEdit,
     }));
 
     return renderData;
@@ -131,7 +132,7 @@ const Translation = () => {
     setIsOpen(true);
   };
 
-  const handeleClose = () => {
+  const handleClose = () => {
     formik.resetForm();
     setIsOpen(false);
   };
@@ -170,14 +171,12 @@ const Translation = () => {
     getWordsList();
   }, []);
 
-  console.log();
-
   return (
-    <>
+    <TranslatationContainer>
       <CommonWhiteBackground>
-        <FlexBox className="mb-4">
+        <FlexBox className="mb-4 title-wrapper">
           <div className="main-title ">{t("Translations")}</div>
-          <FlexBox>
+          <FlexBox className="filters-wrapper">
             <InputComponent
               type="search"
               label={t("Search")}
@@ -212,7 +211,7 @@ const Translation = () => {
       <ModalComponent
         open={isOpen}
         title={formik && formik.values.id ? t("Edit Word") : t("Add Word")}
-        handleClose={handeleClose}
+        handleClose={handleClose}
         size="m"
       >
         <form onSubmit={formik.handleSubmit}>
@@ -241,7 +240,7 @@ const Translation = () => {
                 variant="outlined"
                 fullWidth
                 text={t("Cancel")}
-                onClick={handeleClose}
+                onClick={handleClose}
               />
               <ButtonComponent
                 variant="contained"
@@ -255,7 +254,7 @@ const Translation = () => {
           </>
         </form>
       </ModalComponent>
-    </>
+    </TranslatationContainer>
   );
 };
 

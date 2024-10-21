@@ -556,7 +556,7 @@
   "Returned Date": "Datum vraćanja",
   "Serbian word is required!": "Reč na srpskom je obavezna!",
   "English word is required!": "Reč na engleskom je obavezna!",
-  "Translations": "Prevod",
+  "Translations": "Prevodi",
   "Search": "Pretraga",
   "Add Word": "Dodaj reč",
   "Update Word": "Ažuriraj reč",
@@ -668,5 +668,8 @@
   "15 days money back guarantee.": "Garancija povraćaja novca u roku od 15 dana.",
   "Support": "Podrška",
   "We strive for great support to please you.": "Trudimo se da pružimo odličnu podršku kako bismo vas zadovoljili.",
-  "Terms of use - HulaHop": "Uslovi korišćenja - HulaHop"
+  "Terms of use - HulaHop": "Uslovi korišćenja - HulaHop",
+  "Appearance": "Izgled",
+  "About Product": "O proizvodu",
+  "Translation": "Prevodi"
 }

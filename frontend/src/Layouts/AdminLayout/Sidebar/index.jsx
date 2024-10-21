@@ -33,6 +33,11 @@ const Sidebar = () => {
   return (
     <SidebarContainer>
       <div className="menu-icon">
+        <Link to={ROUTE_MAIN} target="_blank">
+          <div className="logo-cover">
+            <img src={Logo} />
+          </div>
+        </Link>
         {toggle ? (
           <CloseOutlinedIcon onClick={() => handleSidebarToggle()} />
         ) : (

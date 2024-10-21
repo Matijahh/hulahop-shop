@@ -31,10 +31,6 @@ const InputComponentContainer = styled.div`
     margin-left: 0 !important;
     font-size: 0.9rem !important;
   }
-
-  .MuiFormControl-root {
-    margin-bottom: 10px;
-  }
 `;
 
 const InputComponent = ({
@@ -70,7 +66,7 @@ const InputComponent = ({
           id="search"
           type="search"
           label={t(label)}
-          value={t(value)}
+          value={value}
           onChange={onChange}
           sx={{ width: 300 }}
           size="small"
@@ -106,11 +102,7 @@ const InputComponent = ({
             onChange={formik ? formik.handleChange : onChange}
             className={cx("text-input", inputClassname)}
             value={
-              isUseCustomeValue
-                ? value
-                : formik
-                ? t(formik.values[name])
-                : t(value)
+              isUseCustomeValue ? value : formik ? formik.values[name] : value
             }
             onBlur={formik && formik.handleBlur}
             fullWidth={fullWidth}

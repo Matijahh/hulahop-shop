@@ -109,6 +109,7 @@ const Tables = (props) => {
     { id: 10, lastName: "Roxie", firstName: "Harvey", age: 65 },
     { id: 11, lastName: "Roxie", firstName: "Harvey", age: 65 },
   ];
+
   const columns = [
     { field: "id", headerName: "ID" },
     { field: "firstName", headerName: "First Name", width: 300 },
@@ -128,7 +129,9 @@ const Tables = (props) => {
         `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
   ];
+
   const { header, body, onRowClick } = props;
+
   return (
     <div style={{ width: "100%" }}>
       <TableWrapper style={{ width: "100%" }}>

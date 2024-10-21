@@ -4,7 +4,7 @@ export const SidebarContainer = styled.div`
   .menu-icon {
     height: 60px;
     padding: 0 30px;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     position: fixed;
     top: 0;
@@ -12,6 +12,15 @@ export const SidebarContainer = styled.div`
     z-index: 999;
     width: 100%;
     display: none;
+    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
+
+    .logo-cover {
+      margin-top: 0;
+
+      img {
+        width: 160px;
+      }
+    }
 
     svg {
       cursor: pointer;
@@ -31,7 +40,6 @@ export const SidebarContainer = styled.div`
     background-color: #fff;
     box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
     transition: position 0.5s ease-in-out;
-    overflow-y: auto;
 
     @media screen and (max-width: 1080px) {
       display: none;
@@ -40,6 +48,7 @@ export const SidebarContainer = styled.div`
     &.show-sidebar {
       @media screen and (max-width: 1080px) {
         display: block;
+        width: 100%;
         top: 60px;
         height: calc(100vh - 60px);
         z-index: 998;
@@ -65,6 +74,12 @@ export const SidebarContainer = styled.div`
     &::-webkit-scrollbar-thumb:hover {
       background: #dcdcdc;
     }
+
+    .logo-cover {
+      @media screen and (max-width: 1080px) {
+        display: none;
+      }
+    }
   }
 
   .logo-cover {
@@ -79,6 +94,9 @@ export const SidebarContainer = styled.div`
 
   .tab-list {
     margin-top: 30px;
+    overflow-y: auto;
+    /*110 px in height represents total height of logo with paddings */
+    height: calc(100% - 110px);
   }
 
   .tab-item {
