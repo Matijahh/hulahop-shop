@@ -175,7 +175,7 @@ const AboutProduct = () => {
         open={isOpen}
         handleClose={handleToggle}
       >
-        <p>{t("Are you sure want to delete")}</p>
+        <p>{t("Are you sure want to delete?")}</p>
         <>
           <FlexBox hasBorderTop={true} className="pt-3 mt-3">
             <ButtonComponent

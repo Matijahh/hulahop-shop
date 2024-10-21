@@ -55,9 +55,9 @@ const DynamicTable = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>{t("Choose image")}</TableCell>
-            <TableCell>{t("Choose color")}</TableCell>
-            <TableCell>{t("Select size")}</TableCell>
+            <TableCell>{t("Choose Image")}</TableCell>
+            <TableCell>{t("Choose Color")}</TableCell>
+            <TableCell>{t("Select Size")}</TableCell>
             <TableCell>{t("Actions")}</TableCell>
           </TableRow>
         </TableHead>

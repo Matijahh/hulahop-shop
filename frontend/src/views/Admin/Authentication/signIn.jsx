@@ -82,7 +82,7 @@ const SignIn = () => {
               <InputComponent
                 label={t("Email")}
                 fullWidth
-                InnerPlaceholder={t("Enter email")}
+                InnerPlaceholder={t("Enter Email")}
                 name="email"
                 formik={formik}
                 renderIcon={
@@ -99,7 +99,7 @@ const SignIn = () => {
                 fullWidth
                 name="password"
                 formik={formik}
-                InnerPlaceholder={t("Enter password")}
+                InnerPlaceholder={t("Enter Password")}
                 renderIcon={
                   <>
                     <LockOutlinedIcon />

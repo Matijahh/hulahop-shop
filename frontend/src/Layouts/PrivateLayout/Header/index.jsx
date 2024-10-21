@@ -130,13 +130,13 @@ const Header = () => {
               <div className="header-slider-section order-1 order-lg-2">
                 <Slider {...settings}>
                   <h3 className="header-slider-text">
-                    {t("Free postage over 6000 dinars")}
+                    {t("Free Postage Over 6000 RSD")}
                   </h3>
                   <h3 className="header-slider-text">
-                    {t("Possible return of goods")}
+                    {t("Possible Return of Goods")}
                   </h3>
                   <h3 className="header-slider-text">
-                    {t("Safe and fast delivery")}
+                    {t("Safe and Fast Delivery")}
                   </h3>
                 </Slider>
               </div>

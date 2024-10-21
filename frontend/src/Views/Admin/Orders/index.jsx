@@ -48,20 +48,20 @@ const Orders = () => {
 
   const StatusList = [
     {
-      id: "PENDING",
-      title: t("PENDING"),
+      id: "Pending",
+      title: t("Pending"),
     },
     {
-      id: "DISPATCHED",
-      title: t("DISPATCHED"),
+      id: "Dispatched",
+      title: t("Dispatched"),
     },
     {
-      id: "DELIVERED",
-      title: t("DELIVERED"),
+      id: "Delivered",
+      title: t("Delivered"),
     },
     {
-      id: "CANCELLED",
-      title: t("CANCELLED"),
+      id: "Cancelled",
+      title: t("Cancelled"),
     },
   ];
 
@@ -107,7 +107,7 @@ const Orders = () => {
 
     if (URL) {
       const reqBody = {
-        status: finalStatus ? finalStatus.id : "PENDING",
+        status: finalStatus ? finalStatus.id : "Pending",
       };
 
       try {

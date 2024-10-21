@@ -110,7 +110,7 @@ const AnnouncementsForm = () => {
               <div className="row g-4">
                 <div className="col-lg-12">
                   <InputComponent
-                    InnerPlaceholder={t("Enter title")}
+                    InnerPlaceholder={t("Enter Title")}
                     name="title"
                     fullWidth
                     label={t("Title")}
@@ -120,7 +120,7 @@ const AnnouncementsForm = () => {
                 </div>
                 <div className="col-lg-12">
                   <InputComponent
-                    InnerPlaceholder={t("Write description")}
+                    InnerPlaceholder={t("Write Description")}
                     fullWidth
                     name="description"
                     label={t("Description")}

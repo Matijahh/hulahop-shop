@@ -123,7 +123,7 @@ const HomePage = () => {
                   </p>
                 </div>
                 <ButtonComponent
-                  text={t("REGISTER AND CREATE A STORE")}
+                  text={t("Register and Create a Store")}
                   startIcon={<PersonAddAltOutlinedIcon />}
                   variant="contained"
                   className="register-button"
@@ -137,7 +137,7 @@ const HomePage = () => {
                   width="560"
                   height="315"
                   src="https://www.youtube.com/embed/PgniL3fILmM?si=qcqCY5kBg7g3lMUD"
-                  title={t("YouTube video player")}
+                  title={t("YouTube Video Player")}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
@@ -249,7 +249,7 @@ const HomePage = () => {
                     )}
                   </p>
                   <ButtonComponent
-                    text={t("SHOP NOW")}
+                    text={t("Shop Now")}
                     variant="outlined"
                     className="shop-now-btn"
                     onClick={() => navigate(ROUTE_MAIN_SHOP)}
@@ -281,7 +281,7 @@ const HomePage = () => {
                     <RocketLaunchOutlinedIcon />
                   </div>
                   <div className="content-box">
-                    <h4>{t("FAST AND SAFE DELIVERY")}</h4>
+                    <h4>{t("Fast and Safe Delivery")}</h4>
                     <p>
                       {t(
                         "When it comes to fast and secure delivery in Serbia, there is no better option than Post Express. With their reliable courier services, your parcels and packages are guaranteed to reach their destination without any delay or hassle."
@@ -298,7 +298,7 @@ const HomePage = () => {
                     <CurrencyExchangeOutlinedIcon />
                   </div>
                   <div className="content-box">
-                    <h4>{t("REFUND")}</h4>
+                    <h4>{t("Refund")}</h4>
                     <p>
                       {t(
                         "If the product you receive fails to meet your expectations, we offer a hassle-free return policy. You have the option to send the goods back to us and receive a full refund. Your satisfaction is our top priority."
@@ -318,7 +318,7 @@ const HomePage = () => {
                     <h4>{t("Contact")}</h4>
                     <p>
                       {t(
-                        "Feel free to reach out to usduring weekdays from 9 am to 4 pm if you have any inquiries or suggestions about potential collaborations. We'll be more than happy to assist you."
+                        "Feel free to reach out to us during weekdays from 9 am to 4 pm if you have any inquiries or suggestions about potential collaborations. We'll be more than happy to assist you."
                       )}
                     </p>
                   </div>
@@ -335,7 +335,7 @@ const HomePage = () => {
               <div className="col-12">
                 <div className="hero-section">
                   <h3 className="banner-head m-0">
-                    {t("Best selling products")}
+                    {t("Best Selling Products")}
                   </h3>
                 </div>
               </div>

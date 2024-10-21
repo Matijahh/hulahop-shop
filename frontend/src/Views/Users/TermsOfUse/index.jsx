@@ -16,11 +16,11 @@ const TermsOfUse = () => {
         <div className="bold-description mb-3">
           {t("Dear users,")} <br />{" "}
           {t(
-            "Please read carefully the following General Terms of Use and Privacy Policy before using our website/platform, or using and ordering our services . In order to use this internet presentation/platform set up at www.hulahop.shop (hereinafter referred to as HULAHOP internet presentation/platform or HULAHOP), you need to familiarize yourself with and fully agree with these General Terms of Use and the Privacy Policy."
+            "Please read carefully the following General Terms of Use and Privacy Policy before using our website/platform, or using and ordering our services . In order to use this internet presentation/platform set up at www.hulahop.shop (here in after referred to as HULAHOP internet presentation/platform or HULAHOP), you need to familiarize yourself with and fully agree with these General Terms of Use and the Privacy Policy."
           )}
         </div>
         <div className="bold-description mb-4">
-          {t("GENERAL TERMS OF USE OF THE HULAHOP INTERNET PLATFORM:")}
+          {t("General Terms of Use of the HulaHop Internet Platform:")}
         </div>
         <div className="description">
           {t(
@@ -43,7 +43,7 @@ const TermsOfUse = () => {
           </div>
         </div>
         <div className="bold-description mt-4 mb-2">
-          {t("1. GENERAL PROVISIONS")}
+          {t("1. General Provisions")}
         </div>
         <div className="description">
           {t(
@@ -85,7 +85,7 @@ const TermsOfUse = () => {
             "User - a natural person can be any adult, capable of doing business."
           )}
         </div>
-        <div className="bold-description mt-3 mb-2">{t("2. REGISTRATION")}</div>
+        <div className="bold-description mt-3 mb-2">{t("2. Registration")}</div>
         <div className="description">
           {t(
             "In order to use the services of the HULAHOP internet platform in terms of ordering and printing services, it is necessary to register the User (opening a user account), which is free of charge. Registration is done by logging in to the HULAHOP internet platform, where the User enters an e-mail address, password, and all other personal data that are listed as mandatory. Only registered and logged in User can order printing service of own design. In addition, VGA DESIGN CENTER reserves the right to decide to conclude a special contract with a specific User on the further distribution of goods and/or the use of its design for the purposes of advertising the services of the HULAHOP internet platform, hereinafter referred to as the Design Use Agreement, with an agreed monthly fee to the User. A user can have only one registered user account."
@@ -97,7 +97,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("3. RESTRICTIONS WHEN USING THE HULAHOP INTERNET PLATFORM")}
+          {t("3. Restrictions When Using the HulaHop Internet Platform")}
         </div>
         <div className="description">
           {t(
@@ -120,7 +120,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("4. ILLEGAL ACTIONS WHEN ORDERING PATTERNS FOR PRINTING")}
+          {t("4. Illegal Actions When Ordering Patterns for Printing")}
         </div>
         <div className="description">
           {t(
@@ -156,7 +156,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("5. TRADE AND OTHER BUSINESS RELATIONS BETWEEN USERS")}
+          {t("5. Trade and Other Business Relations Between Users")}
         </div>
         <div className="description">
           {t(
@@ -179,7 +179,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("6. COPYRIGHTS AND OTHER INTELLECTUAL PROPERTY RIGHTS")}
+          {t("6. Copyrights and Other Intellectual Property Rights")}
         </div>
         <div className="description">
           {t(
@@ -217,7 +217,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("7. PROTECTION OF RIGHTS")}
+          {t("7. Protection of Rights")}
         </div>
         <div className="description">
           {t(
@@ -236,7 +236,7 @@ const TermsOfUse = () => {
         </div>
 
         <div className="bold-description mt-3 mb-2">
-          {t("8. COLLECTION AND PROCESSING OF PERSONAL DATA")}
+          {t("8. Collection and Processing of Personal Data")}
         </div>
         <div className="description">
           {t(
@@ -284,7 +284,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("9. VIOLATION OF THE GENERAL CONDITIONS")}
+          {t("9. Violation of the General Conditions")}
         </div>
         <div className="description">
           {t(
@@ -297,7 +297,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("10. LIMITATION OF RESPONSIBILITY")}
+          {t("10. Limitation of Responsibility")}
         </div>
         <div className="description">
           {t(
@@ -340,7 +340,7 @@ const TermsOfUse = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("11. CONTACT AND COMMUNICATION WITH THE USER SUPPORT DEPARTMENT")}
+          {t("11. Contact and Communication with the User Support Department")}
         </div>
         <div className="description">
           {t(
@@ -359,7 +359,7 @@ const TermsOfUse = () => {
         </div>
 
         <div className="bold-description mt-3 mb-2">
-          {t("12. AMENDMENTS TO THE GENERAL TERMS")}
+          {t("12. Amendments to the General Terms")}
         </div>
         <div className="description">
           {t(

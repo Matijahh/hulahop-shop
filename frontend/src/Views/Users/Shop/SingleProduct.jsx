@@ -109,7 +109,7 @@ const SingleProduct = (props) => {
       setLoading(true);
 
       await commonAddUpdateQuery(URL, reqBody, "POST");
-      SuccessTaster(t("Added to cart sucessfully"));
+      SuccessTaster(t("Added to cart sucessfully."));
       setLoading(false);
     },
   });
@@ -185,7 +185,7 @@ const SingleProduct = (props) => {
       if (ACCESS_TOKEN) {
         getWishListData();
       }
-      SuccessTaster(t("Product added to WishList Sucessfully"));
+      SuccessTaster(t("Product added to wishList sucessfully."));
     }
 
     setLoading(false);
@@ -498,7 +498,7 @@ const SingleProduct = (props) => {
                         </div>
                         <div className="add-cart-btn">
                           <ButtonComponent
-                            text={t("ADD TO CART")}
+                            text={t("Add to Cart")}
                             startIcon={<ShoppingCartIcon />}
                             variant="contained"
                             className="add-btn"
@@ -533,7 +533,7 @@ const SingleProduct = (props) => {
                           )}{" "}
                         </span>
                         <span className="wishlist-text">
-                          {t("Add to wishlist")}
+                          {t("Add to Wishlist")}
                         </span>
                       </p>
                     </div>
@@ -607,7 +607,7 @@ const SingleProduct = (props) => {
                         </div>
                         <div className="after-purchase-description">
                           <h4>{t("Free Shipping")}</h4>
-                          <p>{t("Free shipping on orders over $99")}.</p>
+                          <p>{t("Free shipping on orders over $99.")}.</p>
                         </div>
                       </div>
                     </div>

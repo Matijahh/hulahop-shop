@@ -22,7 +22,7 @@ export const renderHeader = [
   },
   {
     field: "product_name",
-    headerName: "Product name",
+    headerName: "Product Name",
     width: 180,
     align: "left",
   },

@@ -28,8 +28,8 @@ const CheckOut = () => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
-    first_name: Yup.string().required(t("First name is required")),
-    last_name: Yup.string().required(t("Last name is required")),
+    first_name: Yup.string().required(t("First name is required.")),
+    last_name: Yup.string().required(t("Last name is required.")),
     email: Yup.string()
       .email(t("Invalid email!"))
       .required(t("Email is required!")),
@@ -75,7 +75,7 @@ const CheckOut = () => {
         {
           instructions: values.instructions,
           order_addresses,
-          status: "PENDING",
+          status: "Pending",
         },
         "POST"
       );
@@ -134,7 +134,7 @@ const CheckOut = () => {
           <div className="row">
             <div className="col-12">
               <div className="hero-section">
-                <h3 className="banner-head">{t("CHECKOUT")}</h3>
+                <h3 className="banner-head">{t("Checkout")}</h3>
                 <p className="banner-paragraph">
                   {t(
                     "Complete your purchase and get your order on its way. We're committed to your security and satisfaction. The latest security technology protects your personal information, and we offer a hassle-free return policy."
@@ -152,7 +152,7 @@ const CheckOut = () => {
             <div className="col-lg-6">
               <div className="billing-section">
                 <div className="hero-section">
-                  <h3 className="banner-head">{t("BILLING DETAILS")}</h3>
+                  <h3 className="banner-head">{t("Billing Details")}</h3>
                 </div>
                 <div className="billing-form-box">
                   <form className="billing-form">
@@ -160,18 +160,18 @@ const CheckOut = () => {
                       <div className="row g-3">
                         <div className="col-lg-6">
                           <InputComponent
-                            InnerPlaceholder={t("First name")}
+                            InnerPlaceholder={t("First Name")}
                             fullWidth
-                            label={t("First name")}
+                            label={t("First Name")}
                             name="first_name"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-6">
                           <InputComponent
-                            InnerPlaceholder={t("Last name")}
+                            InnerPlaceholder={t("Last Name")}
                             fullWidth
-                            label={t("Last name")}
+                            label={t("Last Name")}
                             name="last_name"
                             formik={formik}
                           />
@@ -196,9 +196,9 @@ const CheckOut = () => {
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder={t("Street and house number")}
+                            InnerPlaceholder={t("Street and House Number")}
                             fullWidth
-                            label={t("Street and house number")}
+                            label={t("Street and House Number")}
                             name="house_flat_no"
                             formik={formik}
                           />
@@ -223,18 +223,18 @@ const CheckOut = () => {
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder={t("Postal code")}
+                            InnerPlaceholder={t("Postal Code")}
                             fullWidth
-                            label={t("Postal code")}
+                            label={t("Postal Code")}
                             name="pincode"
                             formik={formik}
                           />
                         </div>
                         <div className="col-lg-12">
                           <InputComponent
-                            InnerPlaceholder={t("Write instructions")}
+                            InnerPlaceholder={t("Write Instructions")}
                             fullWidth
-                            label={t("Special instructions for seller")}
+                            label={t("Special Instructions for Seller")}
                             type="textarea"
                             height="100px"
                             className="summary-input"
@@ -252,7 +252,7 @@ const CheckOut = () => {
             <div className="col-lg-6">
               <div className="order-section">
                 <div className="hero-section">
-                  <h3 className="banner-head">{t("YOUR ORDER")}</h3>
+                  <h3 className="banner-head">{t("Your Order")}</h3>
                 </div>
                 <div className="order-detail-box">
                   {cartList &&
@@ -338,7 +338,7 @@ const CheckOut = () => {
                   </div>
                   <div className="checkout-btn-box">
                     <ButtonComponent
-                      text={t("PLACE-ORDER")}
+                      text={t("Place Order")}
                       variant="contained"
                       className="checkout-btn"
                       maxHeight="50px"

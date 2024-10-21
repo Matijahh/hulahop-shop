@@ -82,7 +82,7 @@ const ProductForm = () => {
     name: Yup.string().required(t("Name is required!")),
     price: Yup.string().required(t("Price is required!")),
     category_id: Yup.string().required(t("Category is required!")),
-    subcategory_id: Yup.string().required(t("Sub Category is required!")),
+    subcategory_id: Yup.string().required(t("Sub category is required!")),
   });
 
   const formik = useFormik({
@@ -409,9 +409,9 @@ const ProductForm = () => {
                       <div className="col-lg-6">
                         <InputComponent
                           name="name"
-                          InnerPlaceholder={t("Product name")}
+                          InnerPlaceholder={t("Product Name")}
                           fullWidth
-                          label={t("Product name")}
+                          label={t("Product Name")}
                           formik={formik}
                           disabled={loading}
                         />
@@ -462,7 +462,7 @@ const ProductForm = () => {
                       </div>
                       <div className="col-lg-12">
                         <InputComponent
-                          InnerPlaceholder={t("Write description")}
+                          InnerPlaceholder={t("Write Description")}
                           fullWidth
                           name="description"
                           label={t("Description")}
@@ -592,7 +592,7 @@ const ProductForm = () => {
                       <div className="col-12">
                         <InputComponent
                           name="frame_width"
-                          InnerPlaceholder={t("Enter frame width")}
+                          InnerPlaceholder={t("Enter Frame Width")}
                           fullWidth
                           label={t("Frame Width")}
                           formik={formik}
@@ -602,7 +602,7 @@ const ProductForm = () => {
                       <div className="col-12">
                         <InputComponent
                           name="frame_height"
-                          InnerPlaceholder={t("Enter frame height")}
+                          InnerPlaceholder={t("Enter Frame Height")}
                           fullWidth
                           label={t("Frame Height")}
                           formik={formik}

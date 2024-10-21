@@ -86,7 +86,7 @@ export const ResetPassword = () => {
             <InputComponent
               label={t("Password")}
               fullWidth
-              InnerPlaceholder={t("Enter password")}
+              InnerPlaceholder={t("Enter Password")}
               name="password"
               formik={formik}
               disabled={loading}
@@ -108,7 +108,7 @@ export const ResetPassword = () => {
             <InputComponent
               label={t("Confirm Password")}
               fullWidth
-              InnerPlaceholder={t("Enter confirm password")}
+              InnerPlaceholder={t("Enter Confirm Password")}
               name="confirmPassword"
               formik={formik}
               disabled={loading}
@@ -135,7 +135,7 @@ export const ResetPassword = () => {
               type="submit"
               variant="contained"
               size="large"
-              text={t("Update password")}
+              text={t("Update Password")}
               width="100%"
               disabled={loading}
             />

@@ -140,7 +140,7 @@ const Products = () => {
   return (
     <CommonWhiteBackground>
       <FlexBox className="mb-4">
-        <div className="main-title">{t("products")}</div>
+        <div className="main-title">{t("Products")}</div>
         <FlexBox>
           <InputComponent
             type="search"
@@ -178,7 +178,7 @@ const Products = () => {
         open={isOpen}
         handleClose={handleToggle}
       >
-        <p>{t("Are you sure want to delete")}</p>
+        <p>{t("Are you sure want to delete?")}</p>
         <>
           <FlexBox hasBorderTop={true} className="pt-3 mt-3">
             <ButtonComponent

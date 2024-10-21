@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { get, map } from "lodash";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { handlePublicRedirection } from "../../../utils/commonFunctions";
 import { ROUTE_MAIN } from "../../../routes/routes";
 import cx from "classnames";
@@ -16,6 +17,7 @@ const Sidebar = () => {
   const [toggle, setToggle] = useState(false);
 
   const location = useLocation();
+  const { t } = useTranslation();
 
   const PageName = get(location, "pathname") && get(location, "pathname");
 
@@ -58,7 +60,7 @@ const Sidebar = () => {
                 }`}
               >
                 {item.icon}
-                <div className="title">{get(item, "name")}</div>
+                <div className="title">{t(get(item, "name"))}</div>
               </div>
             </Link>
           ))}

@@ -38,7 +38,7 @@ const AboutPlatForm = () => {
       {loading && <LoaderContainer />}
       <div className="page-wrapper about-platform-page">
         <Helmet>
-          <title>{t("About PlatForm - HulaHop")}</title>
+          <title>{t("About Platform - HulaHop")}</title>
         </Helmet>
         <div className="about-hero-section">
           <div className="about-slider">
@@ -79,10 +79,10 @@ const AboutPlatForm = () => {
                 <div className="about-platform-decription">
                   <p>
                     {t(
-                      "The hulahop.shop platform is a multivendor Print on Demand (POD) marketplace with an additional personalized POD service for individuals . More precisely, the first Serbian POD platform where the Print on Demand service can be used by everyone!Until now, you could start your business through foreign or domestic platforms limited only to that type of service, or you could only order personalized printing without the possibility of starting your own store. We have created a platform for everyone who wants to express their creativity and earn money in an interesting and simple way, for everyone who wants to order their creations, but also for those who just want us to print their personalized motif on one of the items from our offer. . Finally everything in one place!"
+                      "The hulahop.shop platform is a multivendor Print on Demand (POD) marketplace with an additional personalized POD service for individuals. More precisely, the first Serbian POD platform where the Print on Demand service can be used by everyone! Until now, you could start your business through foreign or domestic platforms limited only to that type of service, or you could only order personalized printing without the possibility of starting your own store. We have created a platform for everyone who wants to express their creativity and earn money in an interesting and simple way, for everyone who wants to order their creations, but also for those who just want us to print their personalized motif on one of the items from our offer. Finally everything in one place!"
                     )}
                   </p>
-                  <h5>{t("WHAT CAN YOU DO ON THE HULAHOP.SHOP PLATFORM?")}</h5>
+                  <h5>{t("What can you do on the hulahop.shop platform?")}</h5>
                   <p>
                     {t(
                       "The possibilities of the platform are multiple, find the option that suits you in the following text."
@@ -103,7 +103,7 @@ const AboutPlatForm = () => {
                       "Our sellers - If you want to order some of the items from the designer offer of our partners, select this section, browse the store's offers, choose, order. Hmm...can you do better than them? Do you want your logo to be here and open your online store? Here's how:"
                     )}
                   </p>
-                  <h5>{t("WANT YOUR STORE ON THE HULAHOP.SHOP PLATFORM?")}</h5>
+                  <h5>{t("Want your store on the hulahop.shop platform?")}</h5>
                   <p>
                     {t(
                       "In the following text, you will find out how you can start your own designer line for free, with little effort, or improve a line that you have been building for some time. In short, the story is not complicated, it does not require you: initial investments, warehouse, space lease, previous programming knowledge. Start your online store on our platform with our articles, on which we print your motifs. If you don't have one already registered, you don't need to open a company, because we send the ordered printed items, with the invoice for the services, to the end customer. YOU DON'T PAY US ANYTHING :) You take the profit as the difference between our price to you and your price to the end customer. You form your price quite freely, based on your own assessment of the value of your design. If it sounds great or at least interesting, read on."
@@ -111,7 +111,7 @@ const AboutPlatForm = () => {
                   </p>
                   <h5>
                     {t(
-                      "WHY START A 'PRINT ON DEMAND' BUSINESS OR ORDER PRINTING EXACTLY ON THE HULAHOP.SHOP PLATFORM?"
+                      "Why start a 'Print on Demand' business or order printing exactly on the hulahop.shop platform?"
                     )}
                   </h5>
                   <p>
@@ -162,7 +162,7 @@ const AboutPlatForm = () => {
                     </li>
                   </ul>
                   <h5>
-                    {t("HOW TO START YOUR STORE ON THE HULAHOP.SHOP PLATFORM?")}
+                    {t("How to start your store on the hulahop.shop platform?")}
                   </h5>
                   <p>
                     {t(
@@ -209,7 +209,7 @@ const AboutPlatForm = () => {
                       "Have more questions? No problem:) Our email for details and help is: vga.centar@gmail.com"
                     )}
                   </p>
-                  <h5>{t("SOME TIPS FOR YOUR NEW BUSINESS (FREE TOO):")}</h5>
+                  <h5>{t("Some tips for your new business (free too):")}</h5>
                   <p>
                     {t(
                       "We recommend that you devote a little more effort and time to creating the name and logo of your brand, after all, it is the first information that a potential customer has about you:) Ask for the help of a friend who understands a little more about these details, there is no shame, you will take him out for a drink..."
@@ -232,7 +232,7 @@ const AboutPlatForm = () => {
                   </p>
                   <h5>
                     {t(
-                      "We look forward to socializing and cooperating with you in advance, and when the first money from the sale comes in, you can treat us to some lemonade or cakes, we don't refuse:)"
+                      "We look forward to socializing and cooperating with you in advance, and when the first money from the sale comes in, you can treat us to some lemonade or cakes, we don't refuse :)"
                     )}
                   </h5>
                 </div>

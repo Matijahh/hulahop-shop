@@ -64,7 +64,7 @@ const SliderSection = () => {
       </div>
       <div className="home-slide-wrapper">
         <div className="home-slide-box">
-          <h4>{t("Process completed")}</h4>
+          <h4>{t("Process Completed")}</h4>
           <p>
             {t(
               "Upon receipt, the customer pays for the order with postal costs, the service pays us the money, we transfer your part of the payment to you."

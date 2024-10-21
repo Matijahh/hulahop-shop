@@ -34,7 +34,7 @@ const OrderPreviewPage = () => {
               <td className="body-cell product-detail">
                 <div className="product-data">
                   <div className="product-name">
-                    {t("This is demo product")}
+                    {t("This is demo a product.")}
                   </div>
                   <div className="product-description">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.

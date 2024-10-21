@@ -23,8 +23,8 @@ const RequestWithdrawal = ({ isOpen, toggle, refresh, wallet }) => {
     },
     validationSchema: Yup.object({
       withdrawalAmount: Yup.number()
-        .min(1, t("Withdrawal amount must be greater than 0"))
-        .required("Please enter the withdrawal amount"),
+        .min(1, t("Withdrawal amount must be greater than 0."))
+        .required("Please enter the withdrawal amount."),
     }),
     onSubmit: async (values) => {
       if (parseInt(wallet) <= 0) {
@@ -64,9 +64,9 @@ const RequestWithdrawal = ({ isOpen, toggle, refresh, wallet }) => {
       </RequestWithdrawalContainer>
       <form onSubmit={formik.handleSubmit} className="form mt-4">
         <InputComponent
-          label={t("Enter withdrawal amount")}
+          label={t("Enter Withdrawal Amount")}
           fullWidth
-          InnerPlaceholder={t("Enter value")}
+          InnerPlaceholder={t("Enter Value")}
           name="withdrawalAmount"
           formik={formik}
           disabled={formik.values.loading}
@@ -76,7 +76,7 @@ const RequestWithdrawal = ({ isOpen, toggle, refresh, wallet }) => {
             <ButtonComponent
               variant="outlined"
               size="large"
-              text={t("BACK")}
+              text={t("Back")}
               width="100%"
               onClick={toggle}
               disabled={formik.values.loading}

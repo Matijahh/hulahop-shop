@@ -31,7 +31,7 @@ export const renderShopSliderHeader = [
   },
   {
     field: "description",
-    headerName: "Slider description",
+    headerName: "Slider Description",
     width: 300,
     align: "left",
   },
@@ -94,7 +94,7 @@ export const renderAboutSliderHeader = [
   },
   {
     field: "description",
-    headerName: "Slider description",
+    headerName: "Slider Description",
     width: 300,
     align: "left",
   },
@@ -160,7 +160,7 @@ export const renderBlogSliderHeader = [
   },
   {
     field: "description",
-    headerName: "Slider description",
+    headerName: "Slider Description",
     width: 300,
     align: "left",
   },

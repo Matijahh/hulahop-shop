@@ -123,9 +123,9 @@ const ColorsForm = () => {
                 <div className="col-lg-5">
                   <InputComponent
                     name="name"
-                    InnerPlaceholder={t("Color name")}
+                    InnerPlaceholder={t("Color Name")}
                     fullWidth
-                    label={t("Color name")}
+                    label={t("Color Name")}
                     formik={formik}
                     disabled={loading}
                   />

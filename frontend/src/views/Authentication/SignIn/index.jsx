@@ -127,7 +127,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
               <InputComponent
                 label={t("Email")}
                 fullWidth
-                InnerPlaceholder={t("Enter email")}
+                InnerPlaceholder={t("Enter Email")}
                 name="id"
                 formik={formik}
                 disabled={loading}
@@ -161,7 +161,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
             <InputComponent
               label={t("Password")}
               fullWidth
-              InnerPlaceholder={t("Enter password")}
+              InnerPlaceholder={t("Enter Password")}
               name="password"
               formik={formik}
               disabled={loading}

@@ -10,7 +10,7 @@ const GobackButton = () => {
 
   return (
     <ButtonComponent
-      text={t("BACK")}
+      text={t("Back")}
       startIcon={<ArrowBackOutlinedIcon />}
       variant="outlined"
       className="mb-3"

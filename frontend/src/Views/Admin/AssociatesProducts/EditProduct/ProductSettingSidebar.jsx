@@ -53,7 +53,7 @@ const ProductSettingSidebar = ({
   };
   return (
     <ProductSettingSidebarContainer>
-      <div className="title">{t("Product settings")}</div>
+      <div className="title">{t("Product Settings")}</div>
       <Divider />
       <div className="tab-list">
         <ButtonComponent
@@ -65,7 +65,7 @@ const ProductSettingSidebar = ({
         />
         <ButtonComponent
           fontSize="12px"
-          text={t("ADD INFORMATION")}
+          text={t("Add Information")}
           variant="outlined"
           width="50%"
         />
@@ -73,16 +73,16 @@ const ProductSettingSidebar = ({
       <Divider />
       <form className="info-form">
         <InputComponent
-          InnerPlaceholder={t("Enter name of the product")}
+          InnerPlaceholder={t("Enter Name of the Product")}
           fullWidth
-          label={t("Name of the product")}
+          label={t("Name of the Product")}
           name="productName"
           formik={formik}
         />
         <InputComponent
-          InnerPlaceholder={t("Enter description of the product")}
+          InnerPlaceholder={t("Enter Description of the Product")}
           fullWidth
-          label={t("Description of the product")}
+          label={t("Description of the Product")}
           type="textarea"
           height="100px"
           className="mt-3"
@@ -90,7 +90,7 @@ const ProductSettingSidebar = ({
           formik={formik}
         />
 
-        <label className="mt-3">{t("Choose colors")}</label>
+        <label className="mt-3">{t("Choose Colors")}</label>
         <Row className="color-row">
           {product &&
             product.product_variants &&
@@ -125,7 +125,7 @@ const ProductSettingSidebar = ({
         {formik.errors.selectedColorIds && (
           <div className="error-msg">{formik.errors.selectedColorIds}</div>
         )}
-        <label className="mt-3">{t("Select Product cover image color")}</label>
+        <label className="mt-3">{t("Select Product Cover Image Color")}</label>
         <SelectComponent
           optionList={renderColorList()}
           formik={formik}

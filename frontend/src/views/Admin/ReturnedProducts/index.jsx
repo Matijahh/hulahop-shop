@@ -34,7 +34,7 @@ const ReturnedProducts = () => {
       <FlexBox className="mb-4">
         <div className="main-title ">{t("Returned Products")}</div>
 
-        <InputComponent type="search" label={t("Search orders")} />
+        <InputComponent type="search" label={t("Search Orders")} />
       </FlexBox>
       <Tables
         body={renderData}

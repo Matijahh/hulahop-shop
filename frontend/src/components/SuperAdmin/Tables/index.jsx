@@ -111,8 +111,8 @@ const Tables = (props) => {
   ];
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "First name", width: 300 },
-    { field: "lastName", headerName: "Last name", width: 300 },
+    { field: "firstName", headerName: "First Name", width: 300 },
+    { field: "lastName", headerName: "Last Name", width: 300 },
     {
       field: "age",
       headerName: "Age",

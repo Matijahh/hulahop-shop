@@ -86,7 +86,7 @@ const ForgetPassword = () => {
                 <InputComponent
                   label={t("Email")}
                   fullWidth
-                  InnerPlaceholder={t("Enter email")}
+                  InnerPlaceholder={t("Enter Email")}
                   name="email"
                   type="text"
                   disabled={loading}

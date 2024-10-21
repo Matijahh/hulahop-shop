@@ -27,7 +27,7 @@ const Reviews = () => {
       </Helmet>
       <FlexBox className="mb-4" isWrap>
         <div className="main-title ">{t("Reviews")}</div>
-        <InputComponent type="search" label={t("Search orders")} />
+        <InputComponent type="search" label={t("Search Orders")} />
       </FlexBox>
       <Tables
         body={renderData}

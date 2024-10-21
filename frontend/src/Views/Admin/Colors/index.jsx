@@ -87,7 +87,7 @@ const Colors = () => {
       <FlexBox className="mb-4">
         <div className="main-title ">{t("Colors")}</div>
         <FlexBox>
-          <InputComponent type="search" label={t("Search orders")} />
+          <InputComponent type="search" label={t("Search Orders")} />
           <ButtonComponent
             variant="contained"
             startIcon={<AddIcon />}

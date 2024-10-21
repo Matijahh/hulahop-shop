@@ -102,14 +102,14 @@ const BottomHeader = ({
                       navData.isActive ? "active-nav" : "none"
                     }
                   >
-                    {t("Asociates")}
+                    {t("Associates")}
                   </NavLink>
                 </li>
                 <li>
                   <NestedDropdown
                     menuItemsData={menuAboutProductData(
                       shopCategoryDataList,
-                      t("About products")
+                      t("About Products")
                     )}
                   />
                 </li>

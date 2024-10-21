@@ -216,7 +216,7 @@ const Categories = () => {
         <FlexBox className="mb-4">
           <div className="main-title ">{t("Categories")}</div>
           <FlexBox alignItems="flex-start">
-            <InputComponent type="search" label={t("Search orders")} />
+            <InputComponent type="search" label={t("Search Orders")} />
             <ButtonComponent
               variant="contained"
               startIcon={<AddIcon />}
@@ -413,7 +413,7 @@ const Categories = () => {
           open={isOpenDeleteModel}
           handleClose={handleToggleDeleteModel}
         >
-          <p>{t("Are you sure want to delete")}</p>
+          <p>{t("Are you sure want to delete?")}</p>
           <>
             <FlexBox hasBorderTop={true} className="pt-3 mt-3">
               <ButtonComponent

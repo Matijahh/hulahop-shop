@@ -238,7 +238,7 @@ const Cart = () => {
               <div className="shoping-btns">
                 <div className="shoping-btns-flexbox">
                   <ButtonComponent
-                    text={t("CONTINUE SHOPING")}
+                    text={t("Continue Shopping")}
                     variant="contained"
                     className="continue-btn"
                     maxHeight="50px"
@@ -246,7 +246,7 @@ const Cart = () => {
                   />
                   {_size(_get(cartProducts, "cart_products")) > 0 && (
                     <ButtonComponent
-                      text={t("CLEAR CART")}
+                      text={t("Clear Cart")}
                       variant="contained"
                       className="clear-btn"
                       maxHeight="50px"
@@ -284,7 +284,7 @@ const Cart = () => {
                   </div>
                   <div className="checkout-btn-box">
                     <ButtonComponent
-                      text={t("PROCEED TO CHECKOUT")}
+                      text={t("Proceed to Checkout")}
                       variant="contained"
                       className="checkout-btn"
                       maxHeight="50px"

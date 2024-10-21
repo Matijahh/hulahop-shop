@@ -29,16 +29,16 @@ const Withdrawn = () => {
 
   const StatusList = [
     {
-      id: "PENDING",
-      title: t("PENDING"),
+      id: "Pending",
+      title: t("Pending"),
     },
     {
-      id: "COMPLETED",
-      title: t("COMPLETED"),
+      id: "Completed",
+      title: t("Completed"),
     },
     {
-      id: "CANCELLED",
-      title: t("CANCELLED"),
+      id: "Cancelled",
+      title: t("Cancelled"),
     },
   ];
 
@@ -71,7 +71,7 @@ const Withdrawn = () => {
       request_ammount: get(item, "amount", ""),
       email: get(item, "user.email", ""),
       contact_no: get(item, "user.mobile", ""),
-      status: get(item, "status", "") ? get(item, "status", "") : "PENDING",
+      status: get(item, "status", "") ? get(item, "status", "") : "Pending",
       withdrawnDetail: item,
       openModel,
     }));
@@ -110,7 +110,7 @@ const Withdrawn = () => {
         withdrawnStatus && getSelectobjectValue(withdrawnStatus);
 
       const reqBody = {
-        status: finalStatus ? finalStatus.id : "PENDING",
+        status: finalStatus ? finalStatus.id : "Pending",
       };
 
       try {

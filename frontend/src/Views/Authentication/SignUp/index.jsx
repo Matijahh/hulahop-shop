@@ -40,14 +40,14 @@ const SignUp = ({ maxWidth }) => {
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
         t("Please enter a valid password.")
       ),
-    first_name: Yup.string().required(t("First Name is required")),
-    last_name: Yup.string().required(t("Last Name is required")),
-    mobile: Yup.string().required(t("Mobile number is required")),
-    status: Yup.boolean().required(t("Status is required")),
-    type: Yup.string().required(t("Type is required")),
+    first_name: Yup.string().required(t("First name is required.")),
+    last_name: Yup.string().required(t("Last name is required.")),
+    mobile: Yup.string().required(t("Mobile number is required.")),
+    status: Yup.boolean().required(t("Status is required.")),
+    type: Yup.string().required(t("Type is required.")),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], t("Passwords must match"))
-      .required(t("Please confirm your password")),
+      .oneOf([Yup.ref("password"), null], t("Passwords must match."))
+      .required(t("Please confirm your password.")),
   });
 
   const formik = useFormik({
@@ -99,7 +99,7 @@ const SignUp = ({ maxWidth }) => {
       <div className="title-container">
         <div className="title">{t("Sign Up")}</div>
         <div className="description">
-          {t("Please create your account to expolre AI image repository.")}
+          {t("Please create your account to explore AI image repository.")}
         </div>
       </div>
       <form onSubmit={formik.handleSubmit}>
@@ -108,12 +108,12 @@ const SignUp = ({ maxWidth }) => {
             <Row>
               <Col>
                 <InputComponent
-                  label={t("First name")}
+                  label={t("First Name")}
                   fullWidth
                   name="first_name"
                   formik={formik}
                   disabled={loading}
-                  InnerPlaceholder={t("Enter first name")}
+                  InnerPlaceholder={t("Enter First Name")}
                   renderIcon={
                     <>
                       <PersonOutlineOutlinedIcon />
@@ -124,12 +124,12 @@ const SignUp = ({ maxWidth }) => {
               </Col>
               <Col>
                 <InputComponent
-                  label={t("Last name")}
+                  label={t("Last Name")}
                   fullWidth
                   name="last_name"
                   disabled={loading}
                   formik={formik}
-                  InnerPlaceholder={t("Enter last name")}
+                  InnerPlaceholder={t("Enter Last Name")}
                   renderIcon={
                     <>
                       <PersonOutlineOutlinedIcon />
@@ -147,7 +147,7 @@ const SignUp = ({ maxWidth }) => {
               name="email"
               formik={formik}
               disabled={loading}
-              InnerPlaceholder={t("Enter email")}
+              InnerPlaceholder={t("Enter Email")}
               renderIcon={
                 <>
                   <EmailOutlinedIcon />
@@ -163,7 +163,7 @@ const SignUp = ({ maxWidth }) => {
               name="mobile"
               formik={formik}
               disabled={loading}
-              InnerPlaceholder={t("Enter phone no.")}
+              InnerPlaceholder={t("Enter Phone Number")}
               renderIcon={
                 <>
                   <PhoneOutlinedIcon />
@@ -178,7 +178,7 @@ const SignUp = ({ maxWidth }) => {
             <InputComponent
               label={t("Password")}
               fullWidth
-              InnerPlaceholder={t("Enter password")}
+              InnerPlaceholder={t("Enter Password")}
               name="password"
               formik={formik}
               disabled={loading}
@@ -202,7 +202,7 @@ const SignUp = ({ maxWidth }) => {
               formik={formik}
               disabled={loading}
               fullWidth
-              InnerPlaceholder={t("Enter confirm password")}
+              InnerPlaceholder={t("Enter Confirm Password")}
               renderIcon={
                 <div onClick={() => setTogglePassword(!togglePassword)}>
                   {togglePassword ? (
@@ -252,7 +252,7 @@ const SignUp = ({ maxWidth }) => {
           {!maxWidth && (
             <Col className="col-12">
               <div className="info-text">
-                <span>{t("already have an account?")}</span>
+                <span>{t("Already have an account?")}</span>
                 <Link to={ROUTE_SIGN_IN}>{t("Sign In")}</Link>
               </div>
             </Col>

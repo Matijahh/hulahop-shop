@@ -49,7 +49,7 @@ const Contact = () => {
       const response = await commonAddUpdateQuery(URL, reqBody);
 
       if (response.status == 200) {
-        SuccessTaster(t("Your message has been sent successfully"));
+        SuccessTaster(t("Your message has been sent successfully."));
       }
 
       setLoading(false);

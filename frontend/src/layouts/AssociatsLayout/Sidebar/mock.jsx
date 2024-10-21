@@ -27,17 +27,17 @@ export const SidebarTabList = [
   },
   {
     icon: <ShoppingBagOutlinedIcon />,
-    name: "products",
+    name: "Products",
     path: ROUTE_ASSOCIATE_MAIN_PRODUCTS,
   },
   {
     icon: <ShoppingCartOutlinedIcon />,
-    name: "orders",
+    name: "Orders",
     path: ROUTE_ASSOCIATE_MAIN_ORDERS,
   },
   {
     icon: <SettingsOutlinedIcon />,
-    name: "settings",
+    name: "Settings",
     path: ROUTE_ASSOCIATE_MAIN_SETTINGS,
   },
   {

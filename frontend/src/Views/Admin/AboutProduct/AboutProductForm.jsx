@@ -51,7 +51,7 @@ const AboutProductForm = () => {
 
   const validation = Yup.object().shape({
     category_id: Yup.string().required(t("Category is required!")),
-    subcategory_id: Yup.string().required(t("Sub Category is required!")),
+    subcategory_id: Yup.string().required(t("Sub category is required!")),
     product_description_1: Yup.string().required(
       t("Product description is required!")
     ),

@@ -39,7 +39,7 @@ export const renderHeader = (toggleModal) => {
 
     {
       field: "user_type",
-      headerName: "User type",
+      headerName: "User Type",
       width: 180,
       align: "left",
     },

@@ -23,13 +23,13 @@ const ChangePassword = () => {
   const { t } = useTranslation();
 
   const validationSchema = Yup.object().shape({
-    old_password: Yup.string().required(t("Old Password is required")),
+    old_password: Yup.string().required(t("Old password is required.")),
     password: Yup.string()
       .required(t("Password is required."))
-      .min(8, t("Password must be at least 8 characters")),
+      .min(8, t("Password must be at least 8 characters.")),
     retype_password: Yup.string()
-      .required(t("Retype Password is required."))
-      .oneOf([Yup.ref("password"), null], t("Passwords must match")),
+      .required(t("Retype password is required."))
+      .oneOf([Yup.ref("password"), null], t("Passwords must match.")),
   });
 
   const formik = useFormik({
@@ -82,7 +82,7 @@ const ChangePassword = () => {
               <InputComponent
                 label={t("Current Password")}
                 fullWidth
-                InnerPlaceholder={t("Enter password")}
+                InnerPlaceholder={t("Enter Password")}
                 name="old_password"
                 formik={formik}
                 renderIcon={
@@ -106,7 +106,7 @@ const ChangePassword = () => {
               <InputComponent
                 label={t("New Password")}
                 fullWidth
-                InnerPlaceholder={t("Enter new password")}
+                InnerPlaceholder={t("Enter New Password")}
                 name="password"
                 formik={formik}
                 renderIcon={
@@ -126,7 +126,7 @@ const ChangePassword = () => {
               <InputComponent
                 label={t("Confirm Password")}
                 fullWidth
-                InnerPlaceholder={t("Enter confirm password")}
+                InnerPlaceholder={t("Enter Confirm Password")}
                 name="retype_password"
                 formik={formik}
                 renderIcon={

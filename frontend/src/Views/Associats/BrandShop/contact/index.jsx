@@ -44,7 +44,7 @@ const ShopContact = ({ storeData }) => {
       });
 
       if (response.status == 200) {
-        SuccessTaster("Your message has been sent successfully");
+        SuccessTaster("Your message has been sent successfully.");
       }
 
       setLoading(false);

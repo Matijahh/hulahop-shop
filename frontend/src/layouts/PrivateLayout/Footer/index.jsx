@@ -100,7 +100,7 @@ const Footer = () => {
               <div className="col-12 col-md-6 col-lg-3">
                 <div className="footer-section-header">
                   <p className="footer-header-text">
-                    {t("Law on consumer protection")}
+                    {t("Law on Consumer Protection")}
                   </p>
                 </div>
                 <div className="low-description-box">
@@ -114,7 +114,7 @@ const Footer = () => {
                     target="_blank"
                     className="know-more-text"
                   >
-                    {t("Know more")}...
+                    {t("Know More")}...
                   </Link>
                 </div>
               </div>

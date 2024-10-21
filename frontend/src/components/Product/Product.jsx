@@ -40,7 +40,7 @@ const Product = ({
 
   const addRemoveWishList = async (id) => {
     if (!ACCESS_TOKEN) {
-      ErrorTaster(t("Please login first"));
+      ErrorTaster(t("Please login first."));
       return;
     }
 
@@ -54,7 +54,7 @@ const Product = ({
 
     if (response) {
       getWishListData();
-      SuccessTaster(t("Product added to WishList Sucessfully"));
+      SuccessTaster(t("Product added to wishList sucessfully."));
     }
 
     setLoading(false);

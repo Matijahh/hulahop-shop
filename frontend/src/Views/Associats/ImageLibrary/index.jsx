@@ -137,7 +137,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
     <ModalComponent open={open} handleClose={handleClose}>
       <ImageLibraryContainer>
         <FlexBox className="mb-2 header">
-          <div className="modal-title">{t("A collection of files")}</div>
+          <div className="modal-title">{t("A Collection of Files")}</div>
           <FlexBox>
             <SelectComponent
               id="1"

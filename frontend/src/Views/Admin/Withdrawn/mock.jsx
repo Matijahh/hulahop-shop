@@ -19,7 +19,7 @@ export const renderHeader = [
   },
   {
     field: "associate_logo",
-    headerName: "Store logo",
+    headerName: "Store Logo",
     width: 120,
     align: "left",
     renderCell: (params) => (

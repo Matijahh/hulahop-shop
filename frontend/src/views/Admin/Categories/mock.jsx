@@ -18,7 +18,7 @@ export const renderHeader = [
   },
   {
     field: "category_image",
-    headerName: "Category image",
+    headerName: "Category Image",
     width: 170,
     align: "left",
     renderCell: (params) => (

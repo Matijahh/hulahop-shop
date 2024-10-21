@@ -130,7 +130,7 @@ const BlogSliderForm = () => {
                   <div className="row g-4">
                     <div className="col-lg-12">
                       <InputComponent
-                        InnerPlaceholder={t("Write description")}
+                        InnerPlaceholder={t("Write Description")}
                         fullWidth
                         name="description"
                         label={t("Description")}

@@ -91,7 +91,7 @@ const Orders = () => {
 
     if (URL) {
       const reqBody = {
-        status: finalStatus ? finalStatus.id : "PENDING",
+        status: finalStatus ? finalStatus.id : "Pending",
       };
 
       try {
@@ -122,7 +122,7 @@ const Orders = () => {
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
           <div className="main-title ">{t("Orders")}</div>
-          <InputComponent type="search" label="Search orders" />
+          <InputComponent type="search" label="Search Orders" />
         </FlexBox>
         <Tables
           body={

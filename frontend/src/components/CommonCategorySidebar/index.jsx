@@ -66,7 +66,7 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
             <div className="col-12">
               <div className="section-title-desc">
                 <h2>{t("Category")}</h2>
-                <p>{t("SELECT PRODUCTS CATEGORY")}</p>
+                <p>{t("Select Products Category")}</p>
               </div>
             </div>
           )}

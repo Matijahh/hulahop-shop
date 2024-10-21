@@ -34,14 +34,14 @@ const Settings = () => {
   const { t } = useTranslation();
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required(t("First Name is required")),
-    lastName: Yup.string().required(t("Last Name is required")),
+    firstName: Yup.string().required(t("First name is required.")),
+    lastName: Yup.string().required(t("Last name is required.")),
     email: Yup.string()
       .email(t("Invalid email!"))
       .required(t("Email is required!")),
     phone: Yup.string()
-      .matches(/^\d{10}$/, t("Invalid phone number"))
-      .required(t("Phone number is required")),
+      .matches(/^\d{10}$/, t("Invalid phone number."))
+      .required(t("Phone number is required.")),
   });
 
   const formik = useFormik({
@@ -183,18 +183,18 @@ const Settings = () => {
             <Row className="gy-3">
               <Col md={6} lg={6} sm={12}>
                 <InputComponent
-                  label={t("First name")}
+                  label={t("First Name")}
                   fullWidth
-                  InnerPlaceholder={t("Enter first name")}
+                  InnerPlaceholder={t("Enter First Name")}
                   name="firstName"
                   formik={formik}
                 />
               </Col>
               <Col md={6} lg={6} sm={12}>
                 <InputComponent
-                  label={t("Last name")}
+                  label={t("Last Name")}
                   fullWidth
-                  InnerPlaceholder={t("Enter last name")}
+                  InnerPlaceholder={t("Enter Last Name")}
                   name="lastName"
                   formik={formik}
                 />
@@ -203,7 +203,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Email")}
                   fullWidth
-                  InnerPlaceholder={t("Enter email")}
+                  InnerPlaceholder={t("Enter Email")}
                   name="email"
                   formik={formik}
                 />
@@ -212,7 +212,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Phone")}
                   fullWidth
-                  InnerPlaceholder={t("Enter phone no.")}
+                  InnerPlaceholder={t("Enter Phone Number")}
                   name="phone"
                   formik={formik}
                 />
@@ -221,7 +221,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Password")}
                   fullWidth
-                  InnerPlaceholder={t("Enter password")}
+                  InnerPlaceholder={t("Enter Password")}
                   name="password"
                   formik={formik}
                   renderIcon={
@@ -241,7 +241,7 @@ const Settings = () => {
                 <InputComponent
                   label={t("Confirm Password")}
                   fullWidth
-                  InnerPlaceholder={t("Enter confirm password")}
+                  InnerPlaceholder={t("Enter Confirm Password")}
                   name="confirmPassword"
                   formik={formik}
                   renderIcon={

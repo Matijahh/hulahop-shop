@@ -36,7 +36,7 @@ const ReturnedProducts = () => {
       </Helmet>
       <FlexBox isWrap className="mb-4">
         <div className="main-title ">{t("Return Orders")}</div>
-        <InputComponent type="search" label="Search orders" />
+        <InputComponent type="search" label="Search Orders" />
       </FlexBox>
       <Tables
         onRowClick={() => navigation(ROUTE_ASSOCIATE_MAIN_ORDER_PREVIEW)}

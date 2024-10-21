@@ -12,7 +12,7 @@ const ReturnPolicy = () => {
         <title>{t("Return Policy - HulaHop")}</title>
       </Helmet>
       <div className="container">
-        <div className="title mb-4">{t("RETURN OF GOODS AND COMPLAINTS")}</div>
+        <div className="title mb-4">{t("Return of Goods and Complaints")}</div>
         <div className="description mb-3">
           {t(
             "When picking up the package, please visually check your package in the presence of the courier, or in the premises of the courier service if you are picking up the package there. If there are visible damages on it (torn parts, open package), you should not take the package. In this case, please send us an e-mail with your data (name, surname, phone) to the address info@hulahop.shop and state the reason for which you refused to collect the package or call us at +381 63 118 28 78. We will inform you about further action as soon as possible."

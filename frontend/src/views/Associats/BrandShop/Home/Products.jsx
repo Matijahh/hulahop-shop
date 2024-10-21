@@ -45,7 +45,7 @@ const Products = () => {
     <ProductsContainer className=" product-list-section">
       <div className="section-title-desc">
         <h2>{t("Look")}</h2>
-        <p>{t("OUR BEST SELLING PRODUCTS")}</p>
+        <p>{t("Our Best Selling Products")}</p>
       </div>
       <div className="container">
         <div className="products-list-container">
@@ -101,7 +101,7 @@ const Products = () => {
                           </div>
                           <div className="product-buy-button">
                             <ButtonComponent
-                              text={t("BUY NOW")}
+                              text={t("Buy Now")}
                               variant="outlined"
                               className="buy-btn"
                             />

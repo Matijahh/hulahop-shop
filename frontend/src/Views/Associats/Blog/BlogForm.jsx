@@ -160,7 +160,7 @@ const AssociateBlogForm = () => {
                         formik.setFieldValue("show_on_main", checked)
                       }
                     />
-                    <label>{t("Show on main page")}</label>
+                    <label>{t("Show on Main Page")}</label>
                   </div>
                 </div>
 

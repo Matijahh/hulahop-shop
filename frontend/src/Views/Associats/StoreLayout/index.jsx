@@ -200,7 +200,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
         {formik.values.id && (
           <ButtonComponent
             variant="contained"
-            text={t("VIEW YOUR SHOP")}
+            text={t("View Your Shop")}
             onClick={() =>
               (window.location.href = ROUTE_ASSOCIATE_BRAND_STORE.replace(
                 ":id",
@@ -212,7 +212,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
       </FlexBox>
       <form>
         <Row className="gy-2 mb-4">
-          <div className="sub-title">{t("1. Basic details")}</div>
+          <div className="sub-title">{t("1. Basic Details")}</div>
           <Col md={2} lg={2} sm={6}>
             <label className="mb-2">{t("Store Logo")}</label>
             <BoxFileInput
@@ -232,7 +232,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Store Name")}
               fullWidth
-              InnerPlaceholder={t("Enter store name")}
+              InnerPlaceholder={t("Enter Store Name")}
               type="text"
               name="name"
               formik={formik}
@@ -242,7 +242,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("About Store")}
               fullWidth
-              InnerPlaceholder={t("Enter about store description")}
+              InnerPlaceholder={t("Enter About Store Description")}
               type="textarea"
               name="description"
               formik={formik}
@@ -252,7 +252,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Instagram Url")}
               fullWidth
-              InnerPlaceholder={t("Enter Instagram url")}
+              InnerPlaceholder={t("Enter Instagram URL")}
               type="text"
               name="ig_url"
               formik={formik}
@@ -262,7 +262,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Youtube Url")}
               fullWidth
-              InnerPlaceholder={t("Enter Youtube url")}
+              InnerPlaceholder={t("Enter Youtube URL")}
               type="text"
               name="yt_url"
               formik={formik}
@@ -272,18 +272,18 @@ const StoreLayout = ({ userData, saveUserData }) => {
             <InputComponent
               label={t("Facebook Url")}
               fullWidth
-              InnerPlaceholder={t("Enter Facebook url")}
+              InnerPlaceholder={t("Enter Facebook URL")}
               type="text"
               name="fb_url"
               formik={formik}
             />
           </Col>
-          <div className="sub-title mt-3">{t("2. Layout details")}</div>
+          <div className="sub-title mt-3">{t("2. Layout Details")}</div>
           <Col md={6} lg={6} sm={6}>
             <InputComponent
               label={t("Slider Name")}
               fullWidth
-              InnerPlaceholder={t("Enter slider name")}
+              InnerPlaceholder={t("Enter Slider Name")}
               type="text"
               name="sliderName"
               formik={formik}
@@ -291,9 +291,9 @@ const StoreLayout = ({ userData, saveUserData }) => {
           </Col>
           <Col md={6} lg={6} sm={6}>
             <InputComponent
-              label={t("Slider description")}
+              label={t("Slider Description")}
               fullWidth
-              InnerPlaceholder={t("Enter slider description")}
+              InnerPlaceholder={t("Enter Slider Description")}
               type="text"
               name="sliderDesc"
               formik={formik}

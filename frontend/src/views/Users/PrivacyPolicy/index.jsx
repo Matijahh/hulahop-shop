@@ -17,7 +17,7 @@ const PrivacyPolicy = () => {
             "Dear Users, this page explains our policy regarding: the collection, use and publication of personal data when you use our Service and the choices you have made with that data, in accordance with the Personal Data Protection Act ('Official Gazette of RS', No. 87/2018, hereinafter: Law)."
           )}
         </div>
-        <div className="bold-description mt-3 mb-2">{t("1. DEFINITIONS")}</div>
+        <div className="bold-description mt-3 mb-2">{t("1. Definitions")}</div>
         <div className="bold-description mb-2">
           {t("Personal Data -")}
           <span className="description">
@@ -47,7 +47,7 @@ const PrivacyPolicy = () => {
           </span>
         </div>
         <div className="bold-description mb-2">
-          {t("Data controllers –")}
+          {t("Data Controllers –")}
           <span className="description">
             {" "}
             {t(
@@ -82,7 +82,7 @@ const PrivacyPolicy = () => {
         </div>
         <div className="bold-description mt-3 mb-2">
           {t(
-            "2. BASIC INFORMATION ON THE COLLECTION OF PERSONAL DATA ABOUT USERS"
+            "2. Basic Information on the Collection of Personal Data About Users"
           )}
         </div>
         <div className="description mb-2">
@@ -114,7 +114,7 @@ const PrivacyPolicy = () => {
         </div>
         <div className="bold-description mt-3 mb-2">
           {t(
-            "3. WHAT PERSONAL DATA DO WE COLLECT, ON WHAT LEGAL BASIS AND FOR WHAT PURPOSES"
+            "3. What Personal Data Do We Collect, on What Legal Basis and For What Purposes"
           )}
         </div>
         <div className="description mb-2">
@@ -240,7 +240,7 @@ const PrivacyPolicy = () => {
           </a>{" "}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("4. DISCLOSURE (DISCLOSURE) OF DATA TO THIRD PARTIES")}
+          {t("4. Disclosure of Data to Third Parties")}
         </div>
         <div className="description mb-2">
           {t(
@@ -284,7 +284,7 @@ const PrivacyPolicy = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("5. DATA SECURITY")}
+          {t("5. Data Security")}
         </div>
         <div className="description mb-2">
           {t(
@@ -297,14 +297,14 @@ const PrivacyPolicy = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("6. PERSONAL DATA PROCESSING DURATION")}{" "}
+          {t("6. Personal Data Processing Duration")}{" "}
         </div>
         <div className="description mb-2">
           {t(
             "We process your personal data as long as it is necessary to achieve the purpose of the processing, that is, until the consent is revoked (if the processing is based on consent). We store data for the duration necessary to ensure uninterrupted provision of services to Users, i.e. execution of our contractual obligations from the General Terms of Use, i.e. implementation of the contract with the registered user. Longer processing of data is possible only if it represents a legal obligation or submission, exercise or defense of a legal claim. Specifically, we will keep your personal data as long as you are a registered user of the website, that is, until you submit a request to delete your user account and personal data. After submitting such a request, we have a legal obligation to store certain data, for example identification, for 30 days before final deletion."
           )}
         </div>
-        <div className="bold-description mt-3 mb-2">{t("7. YOUR RIGHTS")}</div>
+        <div className="bold-description mt-3 mb-2">{t("7. Your Rights")}</div>
         <div className="description mb-2">
           {t(
             "VGA DESIGN CENTER strives to allow you to correct, change, delete or limit the use of your personal data within a reasonable framework."
@@ -365,7 +365,7 @@ const PrivacyPolicy = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("8. PRIVACY OF CHILDREN")}
+          {t("8. Privacy of Children")}
         </div>
         <div className="description mb-2">
           {t(
@@ -390,7 +390,7 @@ const PrivacyPolicy = () => {
           )}
         </div>
         <div className="bold-description mt-3 mb-2">
-          {t("9. CHANGES TO THIS PRIVACY POLICY")}
+          {t("9. Changes to This Privacy Policy")}
         </div>
         <div className="description mb-2">
           {t(
