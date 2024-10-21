@@ -84,9 +84,9 @@ const Colors = () => {
 
   return (
     <CommonWhiteBackground>
-      <FlexBox className="mb-4">
+      <FlexBox className="mb-4 title-wrapper">
         <div className="main-title ">{t("Colors")}</div>
-        <FlexBox>
+        <FlexBox className="filters-wrapper">
           <InputComponent type="search" label={t("Search Orders")} />
           <ButtonComponent
             variant="contained"

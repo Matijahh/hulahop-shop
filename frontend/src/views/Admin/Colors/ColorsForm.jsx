@@ -81,7 +81,10 @@ const ColorsForm = () => {
       const { code, name, status } = data;
       formik.setFieldValue("code", code);
       formik.setFieldValue("name", name);
-      formik.setFieldValue("status", status ? "true,Active" : "false,Inactive");
+      formik.setFieldValue(
+        "status",
+        status ? `true,${t("Active")}` : `false,${t("Inactive")}`
+      );
       setLoading(false);
     }
 

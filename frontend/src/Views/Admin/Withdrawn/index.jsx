@@ -84,7 +84,7 @@ const Withdrawn = () => {
 
     let finalStatus = get(item, "status")
       ? `${get(item, "status")},${get(item, "status")}`
-      : "PENDING,PENDING";
+      : `${t("Pending")},${t("Pending")}`;
 
     setWithdrawnStatus(finalStatus);
     setSelectedData(item);
@@ -136,10 +136,12 @@ const Withdrawn = () => {
   return (
     <>
       <CommonWhiteBackground>
-        <FlexBox className="mb-4">
+        <FlexBox className="mb-4 title-wrapper">
           <div className="main-title">{t("Associates Withdrawn Request")}</div>
         </FlexBox>
+
         {loading && <LoaderContainer />}
+
         <Tables
           body={
             size(withdrawnList) > 0 ? setTableRenderData(withdrawnList) : []

@@ -71,7 +71,7 @@ const Contact = () => {
 
   return (
     <CommonWhiteBackground>
-      <FlexBox className="mb-4">
+      <FlexBox className="mb-4 title-wrapper">
         <div className="main-title ">{t("Users Queries")}</div>
       </FlexBox>
 

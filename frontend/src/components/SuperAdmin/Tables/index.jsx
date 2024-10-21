@@ -9,6 +9,8 @@ const TableWrapper = styled.div`
 
   .MuiDataGrid-columnHeaderTitle {
     white-space: normal !important;
+    line-height: normal !important;
+    text-align: center;
   }
 
   .MuiDataGrid-columnHeaderTitleContainer {
