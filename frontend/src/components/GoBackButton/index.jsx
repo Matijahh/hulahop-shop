@@ -13,7 +13,6 @@ const GobackButton = () => {
       text={t("Back")}
       startIcon={<ArrowBackOutlinedIcon />}
       variant="outlined"
-      className="mb-3"
       onClick={() => navigate(-1)}
     />
   );

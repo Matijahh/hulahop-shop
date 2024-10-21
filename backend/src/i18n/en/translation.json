@@ -417,7 +417,7 @@
   "Search About Product Data": "Search About Product Data",
   "Add Product Data": "Add Product Data",
   "Delete About Product Data": "Delete About Product Data",
-  "Are you sure want to delete?": "Are you sure want to delete?",
+  "Are you sure you want to delete": "Are you sure you want to delete",
   "Delete Product Data": "Delete Product Data",
   "No.": "No.",
   "Category Name": "Category Name",
@@ -671,5 +671,7 @@
   "Terms of use - HulaHop": "Terms of use - HulaHop",
   "Appearance": "Appearance",
   "About Product": "About Product",
-  "Translation": "Translation"
+  "Translation": "Translation",
+  "Delete Announcement": "Delete Announcement",
+  "Delete": "Delete"
 }

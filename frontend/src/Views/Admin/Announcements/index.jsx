@@ -15,6 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ButtonComponent from "../../../components/ButtonComponent";
+import ModalComponent from "../../../components/ModalComponent";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
@@ -39,7 +40,10 @@ const Announcements = () => {
             >
               <EditOutlinedIcon />
             </div>
-            <div role="button" onClick={() => row.handleDelete(row.id)}>
+            <div
+              role="button"
+              onClick={() => row.handleOpenDeleteModal(row.id, row.title)}
+            >
               <DeleteOutlinedIcon />
             </div>
           </div>
@@ -50,6 +54,8 @@ const Announcements = () => {
 
   const [loading, setLoading] = useState(false);
   const [tableList, setTableList] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [announcementToDelete, setAnnouncementToDelete] = useState(null);
 
   const navigation = useNavigate();
   const { t } = useTranslation();
@@ -68,7 +74,7 @@ const Announcements = () => {
           id: item.id,
           title: item.title,
           desc: item.description,
-          handleDelete,
+          handleOpenDeleteModal,
           EditColor,
         };
       });
@@ -77,11 +83,15 @@ const Announcements = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleDelete = async () => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/announcements/${id}`,
+      `/announcements/${announcementToDelete.id}`,
       null,
       "DELETE"
     );
@@ -91,6 +101,13 @@ const Announcements = () => {
     }
 
     setLoading(false);
+
+    handleToggle();
+  };
+
+  const handleOpenDeleteModal = (id, title) => {
+    setAnnouncementToDelete({ id, title });
+    handleToggle();
   };
 
   const EditColor = (id) => {
@@ -104,9 +121,9 @@ const Announcements = () => {
 
   return (
     <CommonWhiteBackground>
-      <FlexBox className="mb-4">
+      <FlexBox className="mb-4 title-wrapper">
         <div className="main-title ">{t("Announcements")}</div>
-        <FlexBox>
+        <FlexBox className="filters-wrapper">
           <ButtonComponent
             variant="contained"
             startIcon={<AddIcon />}
@@ -115,7 +132,40 @@ const Announcements = () => {
           />
         </FlexBox>
       </FlexBox>
+
       {loading && <LoaderContainer />}
+
+      <ModalComponent
+        title={t("Delete Announcement")}
+        size={"m"}
+        open={isOpen}
+        handleClose={handleToggle}
+      >
+        <p>
+          {`${t("Are you sure you want to delete")} `}
+          <span className="bold">{announcementToDelete?.title}</span>
+          {`?`}
+        </p>
+        <>
+          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+            <ButtonComponent
+              className=""
+              variant="outlined"
+              fullWidth
+              text={t("Cancel")}
+              onClick={handleToggle}
+            />
+            <ButtonComponent
+              variant="contained"
+              fullWidth
+              text={t("Delete")}
+              type="button"
+              onClick={handleDelete}
+            />
+          </FlexBox>
+        </>
+      </ModalComponent>
+
       <Tables
         header={tableHeaderTitle.map((item) => ({
           ...item,

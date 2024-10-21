@@ -417,7 +417,7 @@
   "Search About Product Data": "Traži po podacima o proizvodu",
   "Add Product Data": "Dodaj podatke proizvoda",
   "Delete About Product Data": "Obriši podatke o proizvodu",
-  "Are you sure want to delete?": "Jesi siguran da želiš da obrišeš?",
+  "Are you sure you want to delete": "Jesi siguran da želiš da obrišeš",
   "Delete Product Data": "Obriši podatke proizvoda",
   "No.": "Broj",
   "Category Name": "Ime kategorije",
@@ -671,5 +671,7 @@
   "Terms of use - HulaHop": "Uslovi korišćenja - HulaHop",
   "Appearance": "Izgled",
   "About Product": "O proizvodu",
-  "Translation": "Prevodi"
+  "Translation": "Prevodi",
+  "Delete Announcement": "Obriši obaveštenje",
+  "Delete": "Obriši"
 }

@@ -17,6 +17,7 @@ import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SelectComponent from "../../../components/SelectComponent";
+import GobackButton from "../../../components/GoBackButton";
 
 export const AnnouncementsFormWrapper = styled.div``;
 
@@ -47,7 +48,7 @@ const AnnouncementsForm = () => {
     initialValues: {
       title: "",
       description: "",
-      status: "true,Active",
+      status: `true,${t("Active")}`,
     },
     validationSchema: validation,
     onSubmit: async (values) => {
@@ -80,12 +81,16 @@ const AnnouncementsForm = () => {
       const { title, description, status } = data;
       formik.setFieldValue("title", title);
       formik.setFieldValue("description", description);
-      formik.setFieldValue("status", status ? "true,Active" : "false,Inactive");
+      formik.setFieldValue(
+        "status",
+        status ? `true,${t("Active")}` : `false,${t("Inactive")}`
+      );
       setLoading(false);
     }
 
     setLoading(false);
   };
+
   useEffect(() => {
     let id = get(params, "id");
     if (id) {
@@ -96,7 +101,7 @@ const AnnouncementsForm = () => {
   return (
     <AnnouncementsFormWrapper>
       <CommonWhiteBackground>
-        <FlexBox>
+        <FlexBox className="title-wrapper">
           <div className="main-title ">{t("Announcements")}</div>
         </FlexBox>
         <hr />
@@ -141,6 +146,7 @@ const AnnouncementsForm = () => {
                 </div>
                 <div className="col-12">
                   <FlexBox justifyContent="end" className="mt-3">
+                    <GobackButton />
                     <ButtonComponent
                       variant="contained"
                       text={t("Save")}

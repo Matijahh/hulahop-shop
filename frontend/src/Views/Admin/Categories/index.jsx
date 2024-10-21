@@ -413,7 +413,7 @@ const Categories = () => {
           open={isOpenDeleteModel}
           handleClose={handleToggleDeleteModel}
         >
-          <p>{t("Are you sure want to delete?")}</p>
+          <p>{`${t("Are you sure you want to delete")}?`}</p>
           <>
             <FlexBox hasBorderTop={true} className="pt-3 mt-3">
               <ButtonComponent

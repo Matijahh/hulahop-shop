@@ -7,7 +7,6 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { debounce, size } from "lodash";
-import { TranslatationContainer } from "./styled";
 import * as Yup from "yup";
 import map from "lodash/map";
 
@@ -172,7 +171,7 @@ const Translation = () => {
   }, []);
 
   return (
-    <TranslatationContainer>
+    <>
       <CommonWhiteBackground>
         <FlexBox className="mb-4 title-wrapper">
           <div className="main-title ">{t("Translations")}</div>
@@ -254,7 +253,7 @@ const Translation = () => {
           </>
         </form>
       </ModalComponent>
-    </TranslatationContainer>
+    </>
   );
 };
 

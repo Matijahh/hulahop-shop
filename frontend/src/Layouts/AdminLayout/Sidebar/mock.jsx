@@ -100,12 +100,12 @@ export const SidebarTabList = [
   },
   {
     icon: <CampaignIcon />,
-    name: "Announcement",
+    name: "Announcements",
     path: ROUTE_ADMIN_ANNOUNCEMENTS,
   },
   {
     icon: <GTranslateOutlinedIcon />,
-    name: "Translation",
+    name: "Translations",
     path: ROUTE_ADMIN_TRANSLATION,
   },
   {
