@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { cloneDeep } from "lodash";
+import { cloneDeep, debounce } from "lodash";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
@@ -27,6 +27,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import ModalComponent from "../../../components/ModalComponent";
+import NoImage from "../../../assets/images/no-image-placeholder.png";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
@@ -39,6 +40,9 @@ const Categories = () => {
   const [isOpenDeleteModel, setIsOpenDeleteModel] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState();
   const [isSelectedSubCategory, setIsSelectedSubCategory] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchFilterData, setSearchFilterData] = useState([]);
   const [activeOpenRow, setActiveOpenRow] = useState({
     id: 1,
     isOpen: false,
@@ -63,9 +67,9 @@ const Categories = () => {
     }
   };
 
-  const openToggleDeleteModel = (id, isSubCategory = false) => {
-    if (id) {
-      setSelectedCategory(id);
+  const openToggleDeleteModel = (itemToDelete, isSubCategory = false) => {
+    if (itemToDelete) {
+      setSelectedCategory(itemToDelete);
       setIsOpenDeleteModel(true);
       setIsSelectedSubCategory(isSubCategory);
     }
@@ -116,9 +120,11 @@ const Categories = () => {
     });
   };
 
-  const handleDelete = async (id, isSubCategory) => {
+  const handleDelete = async (category, isSubCategory) => {
     const response = await commonAddUpdateQuery(
-      isSubCategory ? `/sub_categories/${id}` : `/categories/${id}`,
+      isSubCategory
+        ? `/sub_categories/${category.id}`
+        : `/categories/${category.id}`,
       null,
       "DELETE"
     );
@@ -208,15 +214,53 @@ const Categories = () => {
     getCategoryData();
   };
 
+  const filterCategories = (query) => {
+    console.log(categoryData);
+    return categoryData.filter(
+      (item) =>
+        item.name.toLowerCase().includes(query.toLowerCase()) || // Search by Category Name
+        item.sub_categories?.find((cat) =>
+          cat.name.toLowerCase().includes(query.toLowerCase())
+        ) // Search by SubCategory Name
+    );
+  };
+
+  // Debounced version of handleSearch
+  const debouncedHandleSearch = useCallback(
+    debounce((query) => {
+      if (query) {
+        setIsSearch(true);
+      } else {
+        setIsSearch(false);
+      }
+
+      const filteredItems = filterCategories(query);
+      setSearchFilterData(filteredItems);
+    }, 1000),
+    [searchText]
+  );
+
+  // Event handler for search change
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setSearchText(value);
+    debouncedHandleSearch(value);
+  };
+
   return (
     <Container>
       {isLoading && <LoaderContainer />}
 
       <CommonWhiteBackground>
-        <FlexBox className="mb-4">
+        <FlexBox className="mb-4 title-wrapper">
           <div className="main-title ">{t("Categories")}</div>
-          <FlexBox alignItems="flex-start">
-            <InputComponent type="search" label={t("Search Orders")} />
+          <FlexBox alignItems="flex-start" className="filters-wrapper">
+            <InputComponent
+              type="search"
+              label={t("Search")}
+              value={searchText}
+              onChange={handleChange}
+            />
             <ButtonComponent
               variant="contained"
               startIcon={<AddIcon />}
@@ -238,7 +282,7 @@ const Categories = () => {
           </TableHead>
           <TableBody>
             {categoryData &&
-              categoryData.map((item, key) => (
+              (isSearch ? searchFilterData : categoryData).map((item, key) => (
                 <>
                   <TableRow
                     sx={{ "& > *": { borderBottom: "unset" } }}
@@ -259,9 +303,13 @@ const Categories = () => {
                     </TableCell>
                     <TableCell>
                       <div className="image-cover">
-                        <img
-                          src={`${REST_URL_SERVER}/images/${item.image_id}`}
-                        />
+                        {item.image_id ? (
+                          <img
+                            src={`${REST_URL_SERVER}/images/${item.image_id}`}
+                          />
+                        ) : (
+                          <img src={NoImage} />
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>{item.name}</TableCell>
@@ -274,8 +322,8 @@ const Categories = () => {
                         className="cursor-pointer"
                       />
                       <DeleteOutlinedIcon
-                        className="mx-2 cursor-pointer"
-                        onClick={() => openToggleDeleteModel(item.id)}
+                        className="mx-2 cursor-pointer delete-icon"
+                        onClick={() => openToggleDeleteModel(item)}
                       />
                       {key !== 0 && (
                         <ArrowUp
@@ -330,9 +378,13 @@ const Categories = () => {
                                   <TableCell>{index + 1}</TableCell>
                                   <TableCell>
                                     <div className="image-cover ">
-                                      <img
-                                        src={`${REST_URL_SERVER}/images/${sub_category.image_id}`}
-                                      />
+                                      {sub_category.image_id ? (
+                                        <img
+                                          src={`${REST_URL_SERVER}/images/${sub_category.image_id}`}
+                                        />
+                                      ) : (
+                                        <img src={NoImage} />
+                                      )}
                                     </div>
                                   </TableCell>
                                   <TableCell>{sub_category.name}</TableCell>
@@ -349,10 +401,10 @@ const Categories = () => {
                                       className="cursor-pointer"
                                     />
                                     <DeleteOutlinedIcon
-                                      className="mx-2 cursor-pointer"
+                                      className="mx-2 cursor-pointer delete-icon"
                                       onClick={() =>
                                         openToggleDeleteModel(
-                                          sub_category.id,
+                                          sub_category,
                                           true
                                         )
                                       }
@@ -413,7 +465,11 @@ const Categories = () => {
           open={isOpenDeleteModel}
           handleClose={handleToggleDeleteModel}
         >
-          <p>{`${t("Are you sure you want to delete")}?`}</p>
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{selectedCategory?.name}</span>
+            {`?`}
+          </p>
           <>
             <FlexBox hasBorderTop={true} className="pt-3 mt-3">
               <ButtonComponent

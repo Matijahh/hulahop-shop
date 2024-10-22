@@ -471,6 +471,7 @@
   "Cover Image": "Naslovna slika",
   "Select Parent Category": "Odaberi nadređenu kategoriju",
   "Add Category": "Dodaj kategoriju",
+  "Edit Category": "Uredi kategoriju",
   "Enter Category Name": "Unesi ime kategorije",
   "Add Categories": "Dodaj kategorije",
   "Categories": "Kategorije",
@@ -673,5 +674,10 @@
   "About Product": "O proizvodu",
   "Translation": "Prevodi",
   "Delete Announcement": "Obriši obaveštenje",
-  "Delete": "Obriši"
+  "Delete": "Obriši",
+  "Customer": "Kupac",
+  "Seller": "Prodavac",
+  "Delete Color": "Obriši boju",
+  "Edit Color": "Izmeni boju",
+  "Global Category": "Globalna kategorija"
 }

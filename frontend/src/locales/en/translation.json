@@ -471,6 +471,7 @@
   "Cover Image": "Cover Image",
   "Select Parent Category": "Select Parent Category",
   "Add Category": "Add Category",
+  "Edit Category": "Edit Category",
   "Enter Category Name": "Enter Category Name",
   "Add Categories": "Add Categories",
   "Categories": "Categories",
@@ -673,5 +674,10 @@
   "About Product": "About Product",
   "Translation": "Translation",
   "Delete Announcement": "Delete Announcement",
-  "Delete": "Delete"
+  "Delete": "Delete",
+  "Customer": "Customer",
+  "Seller": "Seller",
+  "Delete Color": "Delete Color",
+  "Edit Color": "Edit Color",
+  "Global Category": "Global Category"
 }

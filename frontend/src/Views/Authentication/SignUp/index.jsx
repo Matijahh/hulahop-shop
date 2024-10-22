@@ -222,7 +222,7 @@ const SignUp = ({ maxWidth }) => {
               <FormControlLabel
                 value="USER"
                 control={<Radio />}
-                label={t("User")}
+                label={t("Customer")}
                 checked={formik.values.type === "USER"}
                 onClick={handleCheckboxChange}
                 disabled={loading}
@@ -231,7 +231,7 @@ const SignUp = ({ maxWidth }) => {
               <FormControlLabel
                 value="ASSOCIATE"
                 control={<Radio />}
-                label={t("Associate")}
+                label={t("Seller")}
                 name="role"
                 onClick={handleCheckboxChange}
                 disabled={loading}

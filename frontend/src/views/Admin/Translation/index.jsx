@@ -161,7 +161,7 @@ const Translation = () => {
 
   // Event handler for input change
   const handleChange = (event) => {
-    const value = event.target.value.trim();
+    const value = event.target.value;
     setSearchText(value);
     debouncedHandleSearch(value);
   };

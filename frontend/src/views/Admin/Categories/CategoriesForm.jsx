@@ -22,7 +22,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
   const { t } = useTranslation();
 
   const [parentCategoryList, setParentCategoryList] = useState([
-    { id: 0, title: t("Select Parent Category") },
+    { id: 0, title: t("Global Category") },
   ]);
   const [loading, setLoading] = useState(false);
   const [fileLoading, setFileLoading] = useState(false);
@@ -46,9 +46,9 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
   const formik = useFormik({
     initialValues: {
       id: null,
-      parentCategory: "0,Select Parent Category",
+      parentCategory: `0,${t("Global Category")}`,
       name: "",
-      active: "true,Active",
+      active: `true,${t("Active")}`,
       previewURL: null,
       imageObj: null,
       imageId: null,
@@ -149,10 +149,12 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
         data.map((item) => {
           return { id: item.id, title: item.name };
         });
+
       if (EditedCategory) {
         const FindCategoryObj = updatedList.find(
           (item) => item.id === EditedCategory.category_id
         );
+
         if (FindCategoryObj && EditedCategory.isSubCategory) {
           formik.setFieldValue(
             "parentCategory",
@@ -166,7 +168,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
   };
 
   const onDeselect = () => {
-    formik.setFieldValue("previewURL", null);
+    formik.setFieldValue("imageId", null);
   };
 
   const getSubCategoriesByCategoryId = async () => {
@@ -191,9 +193,9 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
       formik.setValues({
         ...formik.values,
         id: data.id,
-        parentCategory: "0,Select Parent Category",
+        parentCategory: `0,${t("Global Category")}`,
         name: data.name,
-        active: data.active ? "true,Active" : "false,Inactive",
+        active: data.active ? `true,${t("Active")}` : `false,${t("Inactive")}`,
         imageId: data.image_id,
       });
     } else {
@@ -203,7 +205,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
 
   return (
     <ModalComponent
-      title={t("Add Category")}
+      title={data ? t("Edit Category") : t("Add Category")}
       size={"m"}
       open={isOpen}
       handleClose={toggle}
@@ -262,7 +264,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
             <ButtonComponent
               variant="contained"
               fullWidth
-              text={t("Add Categories")}
+              text={data ? t("Edit Category") : t("Add Category")}
               type="submit"
               loading={loading}
             />

@@ -17,6 +17,7 @@ import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SelectComponent from "../../../components/SelectComponent";
+import GobackButton from "../../../components/GoBackButton";
 
 export const ColorsFormWrapper = styled.div``;
 
@@ -47,7 +48,7 @@ const ColorsForm = () => {
     initialValues: {
       code: "#000000",
       name: "",
-      status: "true,Active",
+      status: `true,${t("Active")}`,
     },
     validationSchema: validation,
     onSubmit: async (values) => {
@@ -101,8 +102,10 @@ const ColorsForm = () => {
   return (
     <ColorsFormWrapper>
       <CommonWhiteBackground>
-        <FlexBox>
-          <div className="main-title ">{t("Add Color")}</div>
+        <FlexBox className="title-wrapper">
+          <div className="main-title">
+            {get(params, "id") ? t("Edit Color") : t("Add Color")}
+          </div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -145,6 +148,7 @@ const ColorsForm = () => {
                 </div>
                 <div className="col-12">
                   <FlexBox justifyContent="end" className="mt-3">
+                    <GobackButton />
                     <ButtonComponent
                       variant="contained"
                       text={t("Save")}
