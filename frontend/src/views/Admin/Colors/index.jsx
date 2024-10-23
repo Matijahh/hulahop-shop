@@ -96,6 +96,8 @@ const Colors = () => {
   };
 
   const filterColors = (query) => {
+    console.log(colorList);
+
     return colorList.filter(
       (item) =>
         item.name.toLowerCase().includes(query.toLowerCase()) || // Search by Color Name
@@ -120,7 +122,7 @@ const Colors = () => {
 
   // Event handler for search change
   const handleChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value.trim();
     setSearchText(value);
     debouncedHandleSearch(value);
   };

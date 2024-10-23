@@ -91,6 +91,7 @@ const ColorsForm = () => {
 
     setLoading(false);
   };
+
   useEffect(() => {
     let id = get(params, "id");
 
