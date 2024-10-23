@@ -6,6 +6,7 @@ import { ROUTE_ADMIN_ASSOCIATE_EDIT_PRODUCTS } from "../../../routes/routes";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
+  getQuerySearch,
 } from "../../../utils/axiosInstance";
 import map from "lodash/map";
 import { getImageUrlById } from "../../../utils/commonFunctions";
@@ -16,6 +17,8 @@ import Tables from "../../../components/SuperAdmin/Tables";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+import SelectComponent from "../../../components/SelectComponent";
+import { FormControl, InputLabel, Menu, MenuItem, Select } from "@mui/material";
 
 const AssociatesProducts = () => {
   const [loading, setLoading] = useState(false);
@@ -24,18 +27,41 @@ const AssociatesProducts = () => {
   const [isSearch, setIsSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
 
+  const [associatesList, setAssociatesList] = useState([]);
+  const [associate, setAssociate] = useState(0);
+
   const navigation = useNavigate();
   const { t } = useTranslation();
 
-  const getAssociateProducts = async () => {
+  const getAssociateProducts = async (searchParams) => {
     setLoading(true);
-    const response = await commonGetQuery("/associate_products");
+    const response = await getQuerySearch("/associate_products", {...searchParams});
     if (response) {
       const { data } = response.data;
       setAssociateProductsList(data);
       setLoading(false);
     }
     setLoading(false);
+  };
+
+  const getAssociates = async () => {
+    setLoading(true);
+    const response = await commonGetQuery("/associates");
+    if (response) {
+      const { data } = response.data;
+      setAssociatesList(formatAssociateListTitle(data));
+      setLoading(false);
+    }
+    setLoading(false);
+  }
+
+  const formatAssociateListTitle = (data) => {
+    return map(data, (item) => {
+      return {
+        ...item,
+        title: `${item.first_name} ${item.last_name ? item.last_name : ""}`,
+      };
+    });
   };
 
   const setTableRenderData = (data) => {
@@ -139,8 +165,15 @@ const AssociatesProducts = () => {
     debouncedHandleSearch(value);
   };
 
+  const handeleAssociateSelectChange = (event) => {
+    const value = event.target.value;
+    getAssociateProducts(value ? { user_id: value } : {});
+    setAssociate(value);
+  };
+
   useEffect(() => {
     getAssociateProducts();
+    getAssociates();
   }, []);
 
   return (
@@ -151,6 +184,25 @@ const AssociatesProducts = () => {
         <FlexBox className="mb-4">
           <div className="main-title ">{t("Associate Products")}</div>
           <FlexBox>
+            <FormControl fullWidth sx={{minWidth: 150}}>
+              <InputLabel id="associate-select-label">{t("Select Associate")}</InputLabel>
+              <Select
+                labelId="associate-select"
+                id="associate-select"
+                value={associate}
+                label={t("Select Associate")}
+                onChange={handeleAssociateSelectChange}
+                size="small"
+                displayEmpty
+              >
+                <MenuItem value={0}>
+                  <em>{t("Show All")}</em>
+                </MenuItem>
+                {associatesList.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>{item.title}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <InputComponent
               type="search"
               label={t("Search Associate Products")}
