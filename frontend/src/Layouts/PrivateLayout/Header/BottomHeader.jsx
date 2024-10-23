@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { isEmpty, size } from "lodash";
@@ -6,14 +6,10 @@ import { commonGetQuery } from "../../../utils/axiosInstance";
 import { menuAboutProductData, menuItemsData } from "./mock";
 import {
   ROUTE_MAIN,
-  ROUTE_MAIN_SHOP,
   ROUTE_MAIN_ABOUT_PLATFORM,
-  ROUTE_MAIN_ABOUT_PRODUCT,
   ROUTE_MAIN_ASSOCIETS,
   ROUTE_MAIN_BLOG,
   ROUTE_MAIN_CONTACT,
-  ROUTE_MAIN_DESIGN_IT_YOUR_SELF,
-  ROUTE_MAIN_INSTRUCTIONS,
 } from "../../../routes/routes";
 import cx from "classnames";
 import * as Action from "../../../redux/actions";

@@ -14,6 +14,9 @@ import {
   ROUTE_SIGN_IN,
 } from "../../../routes/routes";
 import { ACCESS_TOKEN } from "../../../utils/constant";
+import { useEffect, useState } from "react";
+import { commonGetQuery } from "../../../utils/axiosInstance";
+import { jwtDecode } from "jwt-decode";
 import logo from "../../../assets/images/logo.png";
 
 import Slider from "react-slick";
@@ -21,10 +24,13 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
 import { HeaderContainer, HeaderMainContainer } from "./styled";
 import { FlexBox } from "../../../components/Sections";
 
 const Header = ({ storeData }) => {
+  const [userData, setUserData] = useState(null);
+
   const location = useLocation();
   const { id } = useParams();
   const { t } = useTranslation();
@@ -40,6 +46,21 @@ const Header = ({ storeData }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  const getUserData = async () => {
+    const decoded = jwtDecode(ACCESS_TOKEN);
+
+    const response = await commonGetQuery(`/users/${decoded.id}`);
+
+    if (response) {
+      const { data } = response.data;
+      setUserData(data);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <HeaderMainContainer>
@@ -91,7 +112,13 @@ const Header = ({ storeData }) => {
         </div>
         <div className="d-flex d-lg-none middle-area-end order-4">
           <div>
-            <p>{t("Become Seller")}</p>
+            <p>
+              {userData ? (
+                <span>{`${userData.first_name} ${userData.last_name}`}</span>
+              ) : (
+                t("Become Seller")
+              )}
+            </p>
           </div>
           <div className="profile-box">
             <NavLink to={ACCESS_TOKEN ? ROUTE_MAIN_PROFILE : ROUTE_SIGN_IN}>

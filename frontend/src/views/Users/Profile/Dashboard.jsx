@@ -67,6 +67,9 @@ const Dashboard = () => {
           <p>
             {t(
               "In your user account control panel, you can view your recent orders , manage your shipping and billing address , and change your password and account information."
+            )}{" "}
+            {t(
+              "Vendors can sell products and manage a store with a vendor dashboard."
             )}
           </p>
         </div>

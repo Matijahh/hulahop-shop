@@ -196,7 +196,7 @@ const Blog = () => {
           }
           header={renderHeader.map((item) => ({
             ...item,
-            headerName: item.headerName,
+            headerName: t(item.headerName),
           }))}
         />
       </CommonWhiteBackground>

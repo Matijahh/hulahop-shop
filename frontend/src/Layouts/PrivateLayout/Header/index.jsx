@@ -1,60 +1,54 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  ROUTE_MAIN,
+  ROUTE_MAIN_CART,
+  ROUTE_MAIN_PROFILE,
+  ROUTE_SIGN_IN,
+} from "../../../routes/routes";
+import { ACCESS_TOKEN } from "../../../utils/constant";
+import { get, map } from "lodash";
+import { commonGetQuery } from "../../../utils/axiosInstance";
+import { jwtDecode } from "jwt-decode";
+import cx from "classnames";
+import i18n from "../../../i18n";
+import languages from "../../../utils/languages";
+import HeaderWrapperStyled from "./Styled";
+import logo from "../../../assets/images/logo.png";
+
 import Slider from "react-slick";
 import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
-import cx from "classnames";
-
 import SearchIcon from "@mui/icons-material/Search";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalMallIcon from "@mui/icons-material/ShoppingCart";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import BottomHeader from "./BottomHeader";
 
-import { useTranslation } from "react-i18next";
 import { InputAdornment, TextField } from "@mui/material";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-import i18n from "../../../i18n";
-import HeaderWrapperStyled from "./Styled";
-import logo from "../../../assets/images/logo.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-  ROUTE_MAIN,
-  ROUTE_MAIN_SHOP,
-  ROUTE_MAIN_ABOUT_PLATFORM,
-  ROUTE_MAIN_ABOUT_PRODUCT,
-  ROUTE_MAIN_ASSOCIETS,
-  ROUTE_MAIN_BLOG,
-  ROUTE_MAIN_CONTACT,
-  ROUTE_MAIN_CART,
-  ROUTE_MAIN_PROFILE,
-  ROUTE_MAIN_DESIGN_IT_YOUR_SELF,
-  ROUTE_MAIN_INSTRUCTIONS,
-  ROUTE_SIGN_IN,
-} from "../../../routes/routes";
-import languages from "../../../utils/languages";
-import { filter, get, map } from "lodash";
-import BottomHeader from "./BottomHeader";
-import { ACCESS_TOKEN } from "../../../utils/constant";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 const Header = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpen, setIsopen] = useState(false);
   const [selectedLang, setSelectedLang] = useState("en");
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [userData, setUserData] = useState(null);
+
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const popoverRef = useRef(null);
 
   const toggleMenu = (state = !menuIsOpen) => {
     setMenuIsOpen(state);
   };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setIsopen(!isOpen);
@@ -93,9 +87,21 @@ const Header = () => {
   //   }
   // };
 
+  const getUserData = async () => {
+    const decoded = jwtDecode(ACCESS_TOKEN);
+
+    const response = await commonGetQuery(`/users/${decoded.id}`);
+
+    if (response) {
+      const { data } = response.data;
+      setUserData(data);
+    }
+  };
+
   useEffect(() => {
     const currentLanguage = localStorage.getItem("I18N_LANGUAGE");
     setSelectedLang(currentLanguage);
+    getUserData();
     // Add event listener to the entire document
     // document.addEventListener("mousedown", handleClickOutside);
 
@@ -104,6 +110,7 @@ const Header = () => {
     //   document.removeEventListener("mousedown", handleClickOutside);
     // };
   }, []);
+
   return (
     <>
       <HeaderWrapperStyled>
@@ -199,7 +206,13 @@ const Header = () => {
               </div>
               <div className="d-flex d-lg-none middle-area-end order-4">
                 <div>
-                  <p>{t("Become Seller")}</p>
+                  <p>
+                    {userData ? (
+                      <span>{`${userData.first_name} ${userData.last_name}`}</span>
+                    ) : (
+                      t("Become Seller")
+                    )}
+                  </p>
                 </div>
                 <div className="profile-box">
                   <NavLink
@@ -253,7 +266,13 @@ const Header = () => {
                     to={ACCESS_TOKEN ? ROUTE_MAIN_PROFILE : ROUTE_SIGN_IN}
                   >
                     <div className="d-flex justify-content-center align-items-center">
-                      <p>{t("Become Seller")}</p>
+                      <p>
+                        {userData ? (
+                          <span>{`${userData.first_name} ${userData.last_name}`}</span>
+                        ) : (
+                          t("Become Seller")
+                        )}
+                      </p>
                       <PersonIcon />
                     </div>
                   </NavLink>
