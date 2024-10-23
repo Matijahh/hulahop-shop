@@ -4,6 +4,7 @@ import { renderHeader } from "./mock";
 import { filter } from "lodash";
 import { getImageUrlById } from "../../../utils/commonFunctions";
 import { commonGetQuery } from "../../../utils/axiosInstance";
+import { Container } from "../Users/styled";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Loader } from "../../../components/Loader";
@@ -60,30 +61,33 @@ const Associates = () => {
   }, []);
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4">
-        <div className="main-title ">{t("Associate")}</div>
-      </FlexBox>
-      {loading ? (
-        <Loader height="200px" />
-      ) : (
-        <Tables
-          body={userData}
-          header={renderHeader(toggleModal).map((item) => ({
-            ...item,
-            headerName: item.headerName,
-          }))}
-        />
-      )}
-      {isOpen && (
-        <UpdateUserStatus
-          toggle={toggleModal}
-          isOpen={isOpen}
-          refresh={getUsersData}
-          data={selectedItem}
-        />
-      )}
-    </CommonWhiteBackground>
+    <Container>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4">
+          <div className="main-title ">{t("Associate")}</div>
+        </FlexBox>
+        {loading ? (
+          <Loader height="200px" />
+        ) : (
+          <Tables
+            className="user-table"
+            body={userData}
+            header={renderHeader(toggleModal).map((item) => ({
+              ...item,
+              headerName: t(item.headerName),
+            }))}
+          />
+        )}
+        {isOpen && (
+          <UpdateUserStatus
+            toggle={toggleModal}
+            isOpen={isOpen}
+            refresh={getUsersData}
+            data={selectedItem}
+          />
+        )}
+      </CommonWhiteBackground>
+    </Container>
   );
 };
 

@@ -138,6 +138,7 @@ const Tables = (props) => {
     <div style={{ width: "100%" }}>
       <TableWrapper style={{ width: "100%" }}>
         <DataGrid
+          className={props.className}
           rows={body || rows}
           columns={header || columns}
           columnHeaderHeight={50}

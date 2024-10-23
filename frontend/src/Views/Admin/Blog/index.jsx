@@ -11,7 +11,7 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { get, size, debounce } from "lodash";
-import inspiration from "../../../assets/images/inspiration.jpg";
+import { Container } from "../Users/styled";
 import map from "lodash/map";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
@@ -21,13 +21,16 @@ import InputComponent from "../../../components/InputComponent";
 import Tables from "../../../components/SuperAdmin/Tables";
 import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
+import ModalComponent from "../../../components/ModalComponent";
 
 const Blog = () => {
   const [loading, setLoading] = useState(false);
   const [blogList, setBlogList] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null);
 
   const navigation = useNavigate();
   const { t } = useTranslation();
@@ -55,23 +58,38 @@ const Blog = () => {
       image_id: get(item, "image_id", ""),
       category_name: get(item, "category_name", ""),
       content: get(item, "content", ""),
-      handleDelete,
+      handleOpenDeleteModal,
       EditColor,
     }));
 
     return renderData;
   };
 
-  const handleDelete = async (id) => {
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleDelete = async () => {
     setLoading(true);
 
-    const response = await commonAddUpdateQuery(`/blogs/${id}`, null, "DELETE");
+    const response = await commonAddUpdateQuery(
+      `/blogs/${blogToDelete.id}`,
+      null,
+      "DELETE"
+    );
 
     if (response) {
       getBlogList();
     }
 
     setLoading(false);
+
+    handleToggle();
+  };
+
+  const handleOpenDeleteModal = (id, title) => {
+    setBlogToDelete({ id, title });
+    handleToggle();
   };
 
   const EditColor = (id) => {
@@ -112,42 +130,77 @@ const Blog = () => {
   };
 
   return (
-    <CommonWhiteBackground>
-      {loading && <LoaderContainer />}
+    <Container>
+      <CommonWhiteBackground>
+        {loading && <LoaderContainer />}
 
-      <FlexBox className="mb-4">
-        <div className="main-title ">{t("Blogs")}</div>
-        <FlexBox>
-          <InputComponent
-            type="search"
-            label={t("Search Blogs")}
-            value={searchText}
-            onChange={handleChange}
-          />
-          <ButtonComponent
-            variant="contained"
-            startIcon={<AddIcon />}
-            text={t("Add Blog")}
-            onClick={() => navigation(ROUTE_ADMIN_BLOG_ADD)}
-          />
+        <FlexBox className="mb-4 title-wrapper">
+          <div className="main-title ">{t("Blogs")}</div>
+          <FlexBox className="filters-wrapper">
+            <InputComponent
+              type="search"
+              label={t("Search")}
+              value={searchText}
+              onChange={handleChange}
+            />
+            <ButtonComponent
+              variant="contained"
+              startIcon={<AddIcon />}
+              text={t("Add Blog")}
+              onClick={() => navigation(ROUTE_ADMIN_BLOG_ADD)}
+            />
+          </FlexBox>
         </FlexBox>
-      </FlexBox>
-      <Tables
-        body={
-          isSearch
-            ? size(searchFilterData) > 0
-              ? setTableRenderData(searchFilterData)
+
+        <ModalComponent
+          title={t("Delete Blog")}
+          size={"m"}
+          open={isOpen}
+          handleClose={handleToggle}
+        >
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{blogToDelete?.title}</span>
+            {`?`}
+          </p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete")}
+                type="button"
+                onClick={handleDelete}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+
+        <Tables
+          className="user-table"
+          body={
+            isSearch
+              ? size(searchFilterData) > 0
+                ? setTableRenderData(searchFilterData)
+                : []
+              : size(blogList) > 0
+              ? setTableRenderData(blogList)
               : []
-            : size(blogList) > 0
-            ? setTableRenderData(blogList)
-            : []
-        }
-        header={renderHeader.map((item) => ({
-          ...item,
-          headerName: item.headerName,
-        }))}
-      />
-    </CommonWhiteBackground>
+          }
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: item.headerName,
+          }))}
+        />
+      </CommonWhiteBackground>
+    </Container>
   );
 };
 export default Blog;

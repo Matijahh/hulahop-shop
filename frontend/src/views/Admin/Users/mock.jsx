@@ -27,7 +27,7 @@ export const renderHeader = (
       field: "user_image",
       headerName: "User Image",
       width: 120,
-      align: "left",
+      align: "center",
       renderCell: (params) => (
         <>
           <img src={get(params, "row.user_image")} />

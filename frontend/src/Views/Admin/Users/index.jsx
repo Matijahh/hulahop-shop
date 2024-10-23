@@ -6,6 +6,7 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { getImageUrlById } from "../../../utils/commonFunctions";
+import { Container } from "./styled";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 
@@ -102,59 +103,62 @@ const Users = () => {
   };
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4">
-        <div className="main-title">{t("Users")}</div>
-      </FlexBox>
-      {loading ? (
-        <Loader height="200px" />
-      ) : (
-        <Tables
-          body={userData}
-          header={renderHeader(
-            toggleModal,
-            handleOpenToggle,
-            handleSendPasswordForgetLink
-          ).map((item) => ({ ...item, headerName: t(item.headerName) }))}
-        />
-      )}
-      {isOpen && (
-        <UpdateUserStatus
-          toggle={toggleModal}
-          isOpen={isOpen}
-          refresh={getUsersData}
-          data={selectedItem}
-        />
-      )}
-      <ModalComponent
-        title={t("Delete Product")}
-        size={"m"}
-        open={deleteModal}
-        handleClose={handleToggle}
-      >
-        <p>{`${t("Are you sure you want to delete")}?`}</p>
-        <>
-          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
-            <ButtonComponent
-              className=""
-              variant="outlined"
-              fullWidth
-              text={t("Cancel")}
-              onClick={handleToggle}
-            />
-            <ButtonComponent
-              variant="contained"
-              fullWidth
-              text={t("Delete Product")}
-              type="button"
-              onClick={() => {
-                handleDelete(selectedUser);
-              }}
-            />
-          </FlexBox>
-        </>
-      </ModalComponent>
-    </CommonWhiteBackground>
+    <Container>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4">
+          <div className="main-title">{t("Users")}</div>
+        </FlexBox>
+        {loading ? (
+          <Loader height="200px" />
+        ) : (
+          <Tables
+            className="user-table"
+            body={userData}
+            header={renderHeader(
+              toggleModal,
+              handleOpenToggle,
+              handleSendPasswordForgetLink
+            ).map((item) => ({ ...item, headerName: t(item.headerName) }))}
+          />
+        )}
+        {isOpen && (
+          <UpdateUserStatus
+            toggle={toggleModal}
+            isOpen={isOpen}
+            refresh={getUsersData}
+            data={selectedItem}
+          />
+        )}
+        <ModalComponent
+          title={t("Delete Product")}
+          size={"m"}
+          open={deleteModal}
+          handleClose={handleToggle}
+        >
+          <p>{`${t("Are you sure you want to delete")}?`}</p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete Product")}
+                type="button"
+                onClick={() => {
+                  handleDelete(selectedUser);
+                }}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+      </CommonWhiteBackground>
+    </Container>
   );
 };
 

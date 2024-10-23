@@ -463,6 +463,7 @@
   "Heading is required!": "Heading is required!",
   "Content is required!": "Content is required!",
   "Add Blog": "Add Blog",
+  "Edit Blog": "Edit Blog",
   "Blog Heading": "Blog Heading",
   "Blog Category": "Blog Category",
   "Blog Content": "Blog Content",
@@ -679,5 +680,6 @@
   "Seller": "Seller",
   "Delete Color": "Delete Color",
   "Edit Color": "Edit Color",
-  "Global Category": "Global Category"
+  "Global Category": "Global Category",
+  "Delete Blog": "Delete Blog"
 }

@@ -17,6 +17,7 @@ import ReactQuillEditor from "../../../components/ReactQuillEditor";
 import InputComponent from "../../../components/InputComponent";
 import ImageUploadBox from "../../../components/ImageUploadBox";
 import ButtonComponent from "../../../components/ButtonComponent";
+import GobackButton from "../../../components/GoBackButton";
 
 const BlogFormWrapper = styled.div``;
 
@@ -34,7 +35,7 @@ const BlogForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      image_id: "",
+      image_id: null,
       heading: "",
       category_name: "",
       content: "",
@@ -95,8 +96,10 @@ const BlogForm = () => {
   return (
     <BlogFormWrapper>
       <CommonWhiteBackground>
-        <FlexBox>
-          <div className="main-title ">{t("Add Blog")}</div>
+        <FlexBox className="title-wrapper">
+          <div className="main-title ">
+            {get(params, "id") ? t("Edit Blog") : t("Add Blog")}
+          </div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -144,6 +147,7 @@ const BlogForm = () => {
                 </div>
                 <div className="col-12">
                   <FlexBox justifyContent="end" className="mt-3">
+                    <GobackButton />
                     <ButtonComponent
                       variant="contained"
                       text={t("Save")}

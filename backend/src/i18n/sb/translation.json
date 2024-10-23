@@ -463,6 +463,7 @@
   "Heading is required!": "Naslov je obavezan!",
   "Content is required!": "Sadržaj je obavezan!",
   "Add Blog": "Dodaj blog",
+  "Edit Blog": "Uredi blog",
   "Blog Heading": "Naslov bloga",
   "Blog Category": "Kategorija bloga",
   "Blog Content": "Sadržaj bloga",
@@ -679,5 +680,6 @@
   "Seller": "Prodavac",
   "Delete Color": "Obriši boju",
   "Edit Color": "Izmeni boju",
-  "Global Category": "Globalna kategorija"
+  "Global Category": "Globalna kategorija",
+  "Delete Blog": "Obriši Blog"
 }

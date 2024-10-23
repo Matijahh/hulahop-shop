@@ -12,7 +12,10 @@ import {
   ACCESS_TOKEN_NAME,
   COOKIE_ACCESS_TOKEN_NAME,
   REFRESH_TOKEN_NAME,
+  REST_URL_SERVER,
 } from "./constant";
+
+import NoImage from "../assets/images/no-image-placeholder.png";
 
 export const generateUniqueId = () => {
   const timestamp = new Date().getTime();
@@ -121,8 +124,8 @@ export const getSelectobjectValue = (value) => {
 };
 
 export const getImageUrlById = (id) => {
-  let url = `https://api.hulahop.shop/images/${id}`;
-  return url;
+  let url = `${REST_URL_SERVER}/images/${id}`;
+  return id ? url : NoImage;
 };
 
 export const getUserInfo = () => {

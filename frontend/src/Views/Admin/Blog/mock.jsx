@@ -57,7 +57,10 @@ export const renderHeader = [
           >
             <EditOutlinedIcon />
           </div>
-          <div role="button" onClick={() => row.handleDelete(row.id)}>
+          <div
+            role="button"
+            onClick={() => row.handleOpenDeleteModal(row.id, row.heading)}
+          >
             <DeleteOutlinedIcon />
           </div>
         </div>
