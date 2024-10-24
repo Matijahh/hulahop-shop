@@ -17,15 +17,13 @@ import HeaderWrapperStyled from "./Styled";
 import logo from "../../../assets/images/logo.png";
 
 import Slider from "react-slick";
-import Popover from "@mui/material/Popover";
-import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalMallIcon from "@mui/icons-material/ShoppingCart";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import BottomHeader from "./BottomHeader";
+import SelectComponent from "../../../components/SelectComponent";
 
 import { InputAdornment, TextField } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -35,11 +33,10 @@ import "slick-carousel/slick/slick-theme.css";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [isOpen, setIsopen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState("en");
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [langOptions, setLangOptions] = useState([]);
+  const [langValue, setLangValue] = useState(null);
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -49,25 +46,8 @@ const Header = () => {
     setMenuIsOpen(state);
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setIsopen(!isOpen);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setIsopen(false);
-  };
-
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
-  };
-
-  const changeLanguage = (lang) => {
-    setSelectedLang(lang);
-    i18n.changeLanguage();
-    localStorage.setItem("I18N_LANGUAGE", lang);
-    window.location.reload();
   };
 
   const settings = {
@@ -80,13 +60,6 @@ const Header = () => {
     slidesToScroll: 1,
   };
 
-  // const handleClickOutside = (event) => {
-  //   // Close the popover if a click occurs outside of it
-  //   if (popoverRef.current && !popoverRef.current.contains(event.target)) {
-  //     setMenuIsOpen(false);
-  //   }
-  // };
-
   const getUserData = async () => {
     const decoded = jwtDecode(ACCESS_TOKEN);
 
@@ -98,17 +71,30 @@ const Header = () => {
     }
   };
 
+  const handleLangChange = (e) => {
+    const selectedId = e.target && e.target.value.split(",")[0];
+    setLangValue(e.target.value);
+    i18n.changeLanguage();
+    localStorage.setItem("I18N_LANGUAGE", selectedId);
+    window.location.reload();
+  };
+
   useEffect(() => {
     const currentLanguage = localStorage.getItem("I18N_LANGUAGE");
-    setSelectedLang(currentLanguage);
     getUserData();
-    // Add event listener to the entire document
-    // document.addEventListener("mousedown", handleClickOutside);
 
-    // return () => {
-    //   // Clean up the event listener when the component unmounts
-    //   document.removeEventListener("mousedown", handleClickOutside);
-    // };
+    let langs = [];
+
+    map(Object.keys(languages), (key) =>
+      langs.push({
+        id: key,
+        title: get(languages, `${key}.label`),
+      })
+    );
+
+    setLangOptions(langs);
+    const selLang = langs.find((l) => l.id === currentLanguage);
+    setLangValue(`${selLang?.id},${selLang?.title}`);
   }, []);
 
   return (
@@ -150,39 +136,18 @@ const Header = () => {
               <div className="top-area-end order-3">
                 <div className="flex-box-header">
                   <div className="language-transfer-tab">
-                    <Button
-                      aria-describedby={isOpen ? "simple-popover" : undefined}
-                      variant="contained"
-                      onClick={handleClick}
-                    >
-                      <span>{get(languages, `${selectedLang}.label`)}</span>{" "}
-                      <ArrowDownwardIcon />
-                    </Button>
-                    <Popover
-                      id={isOpen ? "simple-popover" : undefined}
-                      open={isOpen}
-                      anchorEl={anchorEl}
-                      onClose={handleClose}
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                      }}
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                    >
-                      <div className="language-popover-body">
-                        {map(Object.keys(languages), (key) => (
-                          <p
-                            onClick={() => changeLanguage(key)}
-                            className={selectedLang == key ? "active-lang" : ""}
-                          >
-                            {get(languages, `${key}.label`)}
-                          </p>
-                        ))}
-                      </div>
-                    </Popover>
+                    {langValue && langOptions && (
+                      <SelectComponent
+                        width={120}
+                        size="small"
+                        name="title"
+                        optionList={langOptions}
+                        label={t("Select Language")}
+                        value={langValue}
+                        onChange={handleLangChange}
+                        isShowValue={true}
+                      />
+                    )}
                   </div>
                   {/* For now comment it */}
                   {/* <div className="social-tab d-none d-sm-flex">
