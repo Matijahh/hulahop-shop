@@ -104,6 +104,24 @@ export const commonGetQuery = async (url) => {
   }
 };
 
+export const getQuerySearch = async (url, searchParams) => {
+  try {
+    const response = await axiosInstance({
+      method: "GET",
+      url: url,
+      params: {
+        ...searchParams
+      },
+    });
+
+    if (response) return response;
+  } catch (error) {
+    const { message } = error.data;
+
+    return console.warn(message);
+  }
+};
+
 export const commonAddUpdateQuery = async (url, data, type) => {
   try {
     const response = await axiosInstance({
