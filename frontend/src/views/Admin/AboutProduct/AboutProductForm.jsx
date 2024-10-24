@@ -20,6 +20,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ReactQuillEditor from "../../../components/ReactQuillEditor";
 import ImageUploadBox from "../../../components/ImageUploadBox";
+import GobackButton from "../../../components/GoBackButton";
 
 const AboutProductFormWrapper = styled.div`
   .add-product-btn {
@@ -267,8 +268,12 @@ const AboutProductForm = () => {
     <AboutProductFormWrapper>
       {loading && <LoaderContainer />}
       <CommonWhiteBackground>
-        <FlexBox>
-          <div className="main-title ">{t("Add About Product Data")}</div>
+        <FlexBox className="title-wrapper">
+          <div className="main-title ">
+            {get(params, "id")
+              ? t("Edit About Product Data")
+              : t("Add About Product Data")}
+          </div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -505,6 +510,7 @@ const AboutProductForm = () => {
                   </div>
                   <div className="col-12">
                     <FlexBox justifyContent="end" className="mt-3">
+                      <GobackButton />
                       <ButtonComponent
                         variant="contained"
                         text={t("Save")}

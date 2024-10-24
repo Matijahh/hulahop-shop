@@ -42,11 +42,9 @@ const AboutProduct = () => {
     }
   };
 
-  const handleOpenToggle = (id) => {
-    if (id) {
-      setIsOpen(true);
-      setSelectedProduct(id);
-    }
+  const handleOpenToggle = (id, title) => {
+    setIsOpen(true);
+    setSelectedProduct({ id, title });
   };
 
   const getAboutProductData = async () => {
@@ -91,8 +89,9 @@ const AboutProduct = () => {
       getAboutProductData();
     }
 
-    handleToggle();
     setLoading(false);
+
+    handleToggle();
   };
 
   const EditAboutProduct = (id) => {
@@ -134,9 +133,9 @@ const AboutProduct = () => {
 
   return (
     <CommonWhiteBackground>
-      <FlexBox className="mb-4">
+      <FlexBox className="mb-4 title-wrapper">
         <div className="main-title ">{t("About Product Data")}</div>
-        <FlexBox>
+        <FlexBox className="filters-wrapper">
           <InputComponent
             type="search"
             label={t("Search About Product Data")}
@@ -169,13 +168,18 @@ const AboutProduct = () => {
           headerName: t(item.headerName),
         }))}
       />
+
       <ModalComponent
         title={t("Delete About Product Data")}
         size={"m"}
         open={isOpen}
         handleClose={handleToggle}
       >
-        <p>{`${t("Are you sure you want to delete")}?`}</p>
+        <p>
+          {`${t("Are you sure you want to delete")} `}
+          <span className="bold">{selectedProduct?.title}</span>
+          {`?`}
+        </p>
         <>
           <FlexBox hasBorderTop={true} className="pt-3 mt-3">
             <ButtonComponent
@@ -188,10 +192,10 @@ const AboutProduct = () => {
             <ButtonComponent
               variant="contained"
               fullWidth
-              text={t("Delete Product Data")}
+              text={t("Delete")}
               type="button"
               onClick={() => {
-                handleDelete(selectedProduct);
+                handleDelete(selectedProduct.id);
               }}
             />
           </FlexBox>

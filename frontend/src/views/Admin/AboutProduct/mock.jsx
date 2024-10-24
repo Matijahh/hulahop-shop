@@ -20,14 +20,14 @@ export const renderHeader = [
   {
     field: "category_name",
     headerName: "Category Name",
-    width: 180,
+    width: 300,
     align: "left",
   },
 
   {
     field: "sub_category_name",
     headerName: "Sub Category Name",
-    width: 180,
+    width: 300,
     align: "left",
   },
 
@@ -46,7 +46,10 @@ export const renderHeader = [
           >
             <EditOutlinedIcon />
           </div>
-          <div role="button" onClick={() => row.handleOpenToggle(row.id)}>
+          <div
+            role="button"
+            onClick={() => row.handleOpenToggle(row.id, row.sub_category_name)}
+          >
             <DeleteOutlinedIcon />
           </div>
         </div>
