@@ -179,7 +179,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
             />
           </Col>
 
-          <Col className="col-12 ">
+          <Col className="col-12 mt-3">
             <FlexBox>
               <FlexBox justifyContent="flex-start remember-me">
                 <Checkbox
