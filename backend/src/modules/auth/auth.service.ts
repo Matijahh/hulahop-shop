@@ -89,6 +89,9 @@ export class AuthService {
     if (data.email) {
       data.email = data.email.toLowerCase();
     }
+    if(data.image_id === '') {
+      data.image_id = null;
+    }
     data.password = await generatePassword(data.password);
     data.created_at = Date.now().toString();
     return await this.usersService.create(data as CreateUsersInput);
