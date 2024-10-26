@@ -2,7 +2,8 @@ import { get } from "lodash";
 
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-export const renderHeader = (toggleModal) => {
+
+export const renderHeader = (toggleModal, deleteItem) => {
   return [
     {
       field: "no",
@@ -76,7 +77,10 @@ export const renderHeader = (toggleModal) => {
             className=" cursor-pointer"
             onClick={() => toggleModal(params)}
           />
-          <DeleteOutlineOutlinedIcon className="mx-2 cursor-pointer" />
+          <DeleteOutlineOutlinedIcon
+            className="mx-2 cursor-pointer"
+            onClick={() => deleteItem(params.row)}
+          />
         </>
       ),
     },

@@ -229,3 +229,12 @@ export function slugify(name, id) {
   const formatName = name?.replace(/\s/g, "")?.trim()?.toLowerCase();
   return `${formatName}-${id}`;
 }
+
+export function camelCase(str) {
+  // Using replace method with regEx
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toUpperCase() : word.toLowerCase();
+    })
+    .replace(/\s+/g, "");
+}
