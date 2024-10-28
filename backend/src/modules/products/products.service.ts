@@ -11,6 +11,7 @@ import { ProductVariants } from '../product-variants/entities/product-variants.e
 import { ProductSubVariants } from '../product-sub-variants/entities/product-sub-variants.entity';
 import { filterInputDto } from './dto/filter-input.dto';
 import { masterFilterInputDto } from './dto/master-filter.dto';
+import { productVariantsRepository } from '../product-variants/repository/product-variants.repository';
 
 @Injectable()
 export class ProductsService extends AbstractService {
@@ -130,6 +131,10 @@ export class ProductsService extends AbstractService {
   }
 
   async remove(id: number) {
+    const relatedVariants = await productVariantsRepository.find({
+      where: { id: id },
+    });
+    console.log('related', productVariantsRepository);
     const categoriesData = await this.findOne({ where: { id } });
     if (!categoriesData) {
       throw new NotFoundException('This record does not exist!');

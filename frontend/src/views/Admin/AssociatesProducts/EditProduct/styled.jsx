@@ -16,6 +16,26 @@ export const EditProductContainer = styled.div`
       height: 100%;
     }
   }
+
+  .container-canvas {
+    /* > div {
+      @media screen and (max-width: 768px) {
+        width: 100% !important;
+        height: auto;
+      }
+    } */
+
+    .konvajs-content {
+      @media screen and (max-width: 768px) {
+        width: 400px !important;
+        height: auto;
+
+        canvas {
+          width: 400px !important;
+        }
+      }
+    }
+  }
 `;
 
 export const ProductSettingSidebarContainer = styled.div`
@@ -64,6 +84,14 @@ export const ProductSettingSidebarContainer = styled.div`
     padding: 15px;
     background-color: #fff;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .price-wrapper {
+    @media screen and (max-width: 768px) {
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .color-row {
@@ -128,6 +156,7 @@ export const ImageContainer = styled.div`
   .image-action-buttons {
     position: absolute;
     top: 20px;
+    z-index: 2;
   }
 
   .button-list {

@@ -22,7 +22,7 @@ export const renderHeader = [
     field: "product_image",
     headerName: "Product Image",
     width: 200,
-    align: "left",
+    align: "center",
     renderCell: (params) => {
       return (
         <div style={{ width: 200, height: "auto" }}>
@@ -44,6 +44,12 @@ export const renderHeader = [
     sortable: false,
   },
   {
+    field: "product_name",
+    headerName: "Product Name",
+    width: 300,
+    align: "left",
+  },
+  {
     field: "product_description",
     headerName: "Product Description",
     width: 300,
@@ -59,7 +65,8 @@ export const renderHeader = [
     field: "action",
     headerName: "Action",
     width: 150,
-    align: "left",
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-cente">
@@ -70,7 +77,7 @@ export const renderHeader = [
           >
             <EditOutlinedIcon />
           </div>
-          <div role="button" onClick={() => row.handleOpenToggle(row.id)}>
+          <div role="button" onClick={() => row.handleOpenToggle(row)}>
             <DeleteOutlinedIcon />
           </div>
         </div>

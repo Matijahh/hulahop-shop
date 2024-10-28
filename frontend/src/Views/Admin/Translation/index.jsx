@@ -60,8 +60,8 @@ const Translation = () => {
       setLoading(false);
 
       if (response) {
-        handleClose();
         getWordsList();
+        handleClose();
       }
     },
   });
@@ -190,7 +190,9 @@ const Translation = () => {
             />
           </FlexBox>
         </FlexBox>
+
         {loading && <LoaderContainer />}
+
         <Tables
           body={
             isSearch

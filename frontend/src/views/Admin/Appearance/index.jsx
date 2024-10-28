@@ -27,12 +27,15 @@ import { LoaderContainer } from "../../../components/Loader";
 import Tables from "../../../components/SuperAdmin/Tables";
 import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
+import ModalComponent from "../../../components/ModalComponent";
 
 const Appearance = () => {
   const [loading, setLoading] = useState(false);
   const [shopSliderList, setShopSliderList] = useState([]);
   const [aboutSliderList, setAboutSliderList] = useState([]);
   const [blogSliderList, setBlogSliderList] = useState([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const navigation = useNavigate();
   const { t } = useTranslation();
@@ -87,11 +90,12 @@ const Appearance = () => {
       description: get(item, "description", ""),
       id: get(item, "id", ""),
       status: item.status ? t("Active") : t("Inactive"),
-      handleDeleteShopSlider,
+      toggleDeleteModal,
       handleEditShopSlider,
     }));
     return renderData;
   };
+
   const setAboutSliderTableRenderData = (data) => {
     const renderData = map(data, (item, index) => ({
       ...item,
@@ -100,7 +104,7 @@ const Appearance = () => {
       description: get(item, "description", ""),
       id: get(item, "id", ""),
       status: item.status ? t("Active") : t("Inactive"),
-      handleDeleteAboutSlider,
+      toggleDeleteModal,
       handleEditAboutSlider,
     }));
     return renderData;
@@ -114,17 +118,31 @@ const Appearance = () => {
       description: get(item, "description", ""),
       id: get(item, "id", ""),
       status: item.status ? t("Active") : t("Inactive"),
-      handleDeleteBlogSlider,
+      toggleDeleteModal,
       handleEditBlogSlider,
     }));
     return renderData;
   };
 
-  const handleDeleteBlogSlider = async (id) => {
+  const handleDeleteItem = () => {
+    if (selectedItem.handleEditShopSlider) {
+      handleDeleteShopSlider();
+    }
+
+    if (selectedItem.handleEditAboutSlider) {
+      handleDeleteAboutSlider();
+    }
+
+    if (selectedItem.handleEditBlogSlider) {
+      handleDeleteBlogSlider();
+    }
+  };
+
+  const handleDeleteBlogSlider = async () => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/blog_page_slider/${id}`,
+      `/blog_page_slider/${selectedItem.id}`,
       null,
       "DELETE"
     );
@@ -132,6 +150,8 @@ const Appearance = () => {
     if (response) {
       getBlogSliderList();
     }
+
+    toggleDeleteModal();
 
     setLoading(false);
   };
@@ -141,11 +161,11 @@ const Appearance = () => {
     navigation(route);
   };
 
-  const handleDeleteShopSlider = async (id) => {
+  const handleDeleteShopSlider = async () => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/shop_slider/${id}`,
+      `/shop_slider/${selectedItem.id}`,
       null,
       "DELETE"
     );
@@ -153,6 +173,8 @@ const Appearance = () => {
     if (response) {
       getShopSliderList();
     }
+
+    toggleDeleteModal();
 
     setLoading(false);
   };
@@ -162,11 +184,11 @@ const Appearance = () => {
     navigation(route);
   };
 
-  const handleDeleteAboutSlider = async (id) => {
+  const handleDeleteAboutSlider = async () => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/about_page_slider/${id}`,
+      `/about_page_slider/${selectedItem.id}`,
       null,
       "DELETE"
     );
@@ -175,12 +197,19 @@ const Appearance = () => {
       getAboutSliderList();
     }
 
+    toggleDeleteModal();
+
     setLoading(false);
   };
 
   const handleEditAboutSlider = (id) => {
     let route = ROUTE_ADMIN_APPEARANCE_ABOUT_SLIDER_EDIT.replace(":id", id);
     navigation(route);
+  };
+
+  const toggleDeleteModal = (item) => {
+    setIsDeleteModalOpen(!isDeleteModalOpen);
+    setSelectedItem(item || null);
   };
 
   useEffect(() => {
@@ -193,9 +222,9 @@ const Appearance = () => {
     <div>
       <div className="w-100 mb-4">
         <CommonWhiteBackground>
-          <FlexBox className="mb-4">
+          <FlexBox className="mb-4 title-wrapper">
             <div className="main-title ">{t("Shop Slider")}</div>
-            <FlexBox>
+            <FlexBox className="filters-wrapper">
               <ButtonComponent
                 variant="contained"
                 startIcon={<AddIcon />}
@@ -222,9 +251,9 @@ const Appearance = () => {
 
       <div className="w-100 mb-4">
         <CommonWhiteBackground>
-          <FlexBox className="mb-4">
+          <FlexBox className="mb-4 title-wrapper">
             <div className="main-title ">{t("About Page Slider")}</div>
-            <FlexBox>
+            <FlexBox className="filters-wrapper">
               <ButtonComponent
                 variant="contained"
                 startIcon={<AddIcon />}
@@ -248,12 +277,46 @@ const Appearance = () => {
           />{" "}
         </CommonWhiteBackground>
       </div>
+
       {loading && <LoaderContainer />}
+
+      <ModalComponent
+        title={t("Delete Slider Slide")}
+        size={"m"}
+        open={isDeleteModalOpen}
+        handleClose={toggleDeleteModal}
+      >
+        <p>
+          {`${t("Are you sure you want to delete")} `}
+          {`${t("No.").toLowerCase()} `}
+          <span className="bold">{selectedItem?.no}</span>
+          {`?`}
+        </p>
+        <>
+          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+            <ButtonComponent
+              className=""
+              variant="outlined"
+              fullWidth
+              text={t("Cancel")}
+              onClick={toggleDeleteModal}
+            />
+            <ButtonComponent
+              variant="contained"
+              fullWidth
+              text={t("Delete")}
+              type="button"
+              onClick={handleDeleteItem}
+            />
+          </FlexBox>
+        </>
+      </ModalComponent>
+
       <div className="w-100 mb-4">
         <CommonWhiteBackground>
-          <FlexBox className="mb-4">
+          <FlexBox className="mb-4 title-wrapper">
             <div className="main-title">{t("Blog Page Slider")}</div>
-            <FlexBox>
+            <FlexBox className="filters-wrapper">
               <ButtonComponent
                 variant="contained"
                 startIcon={<AddIcon />}

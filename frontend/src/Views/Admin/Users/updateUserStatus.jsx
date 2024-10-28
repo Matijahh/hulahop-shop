@@ -32,7 +32,9 @@ const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
         ...formik.values,
         id: data.row.id,
         status: `${
-          data.row.status === "Active" ? "true,Active" : "false,Inactive"
+          data.row.status === t("Active")
+            ? `true,${t("Active")}`
+            : `false,${t("Inactive")}`
         }`,
       });
     }
@@ -41,7 +43,7 @@ const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
   const formik = useFormik({
     initialValues: {
       id: null,
-      status: `true,Active`,
+      status: `true,${t("Active")}`,
     },
     onSubmit: async (values) => {
       setLoading(true);

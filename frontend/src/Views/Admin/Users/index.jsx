@@ -28,19 +28,9 @@ const Users = () => {
 
   const { t } = useTranslation();
 
-  const handleToggle = () => {
+  const handleToggle = (item) => {
     setDeleteModal(!deleteModal);
-
-    if (deleteModal) {
-      setSelectedUser();
-    }
-  };
-
-  const handleOpenToggle = (id) => {
-    if (id) {
-      setDeleteModal(true);
-      setSelectedUser(id);
-    }
+    setSelectedUser(item || null);
   };
 
   const getUsersData = async () => {
@@ -64,7 +54,7 @@ const Users = () => {
                 user_type: item.type,
                 email: item.email,
                 contact_no: item.mobile,
-                status: item.status ? "Active" : "Inactive",
+                status: item.status ? t("Active") : t("Inactive"),
               };
             })
           : [];
@@ -72,10 +62,14 @@ const Users = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (user) => {
     setLoading(true);
 
-    const response = await commonAddUpdateQuery(`/users/${id}`, null, "DELETE");
+    const response = await commonAddUpdateQuery(
+      `/users/${user.id}`,
+      null,
+      "DELETE"
+    );
 
     if (response) {
       getUsersData();
@@ -99,15 +93,17 @@ const Users = () => {
     await commonAddUpdateQuery("/auth/forgot-password", {
       email,
     });
+
     SuccessTaster(t("Password reset email has been successfully sent."));
   };
 
   return (
     <Container>
       <CommonWhiteBackground>
-        <FlexBox className="mb-4">
+        <FlexBox className="mb-4 title-wrapper">
           <div className="main-title">{t("Users")}</div>
         </FlexBox>
+
         {loading ? (
           <Loader height="200px" />
         ) : (
@@ -116,11 +112,13 @@ const Users = () => {
             body={userData}
             header={renderHeader(
               toggleModal,
-              handleOpenToggle,
-              handleSendPasswordForgetLink
+              handleToggle,
+              handleSendPasswordForgetLink,
+              t("Send")
             ).map((item) => ({ ...item, headerName: t(item.headerName) }))}
           />
         )}
+
         {isOpen && (
           <UpdateUserStatus
             toggle={toggleModal}
@@ -129,13 +127,18 @@ const Users = () => {
             data={selectedItem}
           />
         )}
+
         <ModalComponent
-          title={t("Delete Product")}
+          title={t("Delete User")}
           size={"m"}
           open={deleteModal}
           handleClose={handleToggle}
         >
-          <p>{`${t("Are you sure you want to delete")}?`}</p>
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{selectedUser?.user_name}</span>
+            {`?`}
+          </p>
           <>
             <FlexBox hasBorderTop={true} className="pt-3 mt-3">
               <ButtonComponent
@@ -148,7 +151,7 @@ const Users = () => {
               <ButtonComponent
                 variant="contained"
                 fullWidth
-                text={t("Delete Product")}
+                text={t("Delete")}
                 type="button"
                 onClick={() => {
                   handleDelete(selectedUser);

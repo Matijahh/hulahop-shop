@@ -1,5 +1,6 @@
 import { get } from "lodash";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { ColorBox, ProductSettingSidebarContainer } from "./styled";
 import { Divider } from "@mui/material";
@@ -18,6 +19,7 @@ const ProductSettingSidebar = ({
   setShowFrame,
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const onColorChange = (data) => {
     if (formik.values.selectedColorIds.includes(data.id)) {
@@ -59,16 +61,16 @@ const ProductSettingSidebar = ({
         <ButtonComponent
           text={t("Add Your Design")}
           variant="outlined"
-          width="50%"
+          width="100%"
           onClick={handleAddDesign}
           fontSize="12px"
         />
-        <ButtonComponent
+        {/* <ButtonComponent
           fontSize="12px"
           text={t("Add Information")}
           variant="outlined"
           width="50%"
-        />
+        /> */}
       </div>
       <Divider />
       <form className="info-form">
@@ -137,7 +139,7 @@ const ProductSettingSidebar = ({
           <div className="error-msg">{formik.errors.coverImageColor}</div>
         )}
         <Row>
-          <Col>
+          <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Selling Price")}</label>
             <InputComponent
               helperText={`${t("Selling Price")} (RSD)`}
@@ -147,7 +149,7 @@ const ProductSettingSidebar = ({
               formik={formik}
             />
           </Col>
-          <Col>
+          <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Base Price")}</label>
             <InputComponent
               helperText={`${t("Best Price")} (RSD)`}
@@ -157,7 +159,7 @@ const ProductSettingSidebar = ({
               disabled
             />
           </Col>
-          <Col>
+          <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Earning")}</label>
             <InputComponent
               helperText={`${t("Earning")} (RSD)`}
@@ -175,6 +177,7 @@ const ProductSettingSidebar = ({
             variant="contained"
             width="50%"
             loading={loading}
+            onClick={() => navigate(-1)}
           />
           <ButtonComponent
             onClick={() => {
@@ -184,7 +187,7 @@ const ProductSettingSidebar = ({
                 formik.handleSubmit();
               }, 100);
             }}
-            text={t("Add Product")}
+            text={t("Save")}
             variant="contained"
             width="50%"
             loading={loading}

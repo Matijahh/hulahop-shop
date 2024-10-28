@@ -26,6 +26,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import ImageUploadBox from "../../../components/ImageUploadBox";
+import GobackButton from "../../../components/GoBackButton";
 
 const subVariantsInitialData = {
   value: "",
@@ -62,6 +63,30 @@ export const ProductFormWrapper = styled.div`
     padding: 20px;
     margin: 15px 0;
     background-color: #f4f4f4;
+  }
+
+  .konvajs-content {
+    @media screen and (max-width: 768px) {
+      width: 100% !important;
+
+      canvas {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .sub-variant-value-btn {
+    @media screen and (max-width: 768px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .positions-inputs {
+    .col-12 {
+      @media screen and (max-width: 768px) {
+        margin-bottom: 10px;
+      }
+    }
   }
 `;
 
@@ -383,7 +408,9 @@ const ProductForm = () => {
       {loading && <LoaderContainer />}
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title">{t("Add Products")}</div>
+          <div className="main-title title-wrapper">
+            {get(params, "id") ? t("Edit Product") : t("Add Product")}
+          </div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -496,6 +523,7 @@ const ProductForm = () => {
                               variant="contained"
                               startIcon={<AddIcon />}
                               text={t("Add Sub Variant")}
+                              className="sub-variant-value-btn"
                               onClick={() => push(subVariantsStartInitialData)}
                             />
                           </div>
@@ -567,8 +595,8 @@ const ProductForm = () => {
                       </Stage>
                     </div>
                   </div>
-                  <div className="col-6">
-                    <div className="row">
+                  <div className="col-lg-6">
+                    <div className="row positions-inputs">
                       <div className="col-12">
                         <InputComponent
                           name="x_position"
@@ -687,6 +715,7 @@ const ProductForm = () => {
                   </div>
                   <div className="col-12">
                     <FlexBox justifyContent="end" className="mt-3">
+                      <GobackButton />
                       <ButtonComponent
                         variant="contained"
                         text={t("Save")}

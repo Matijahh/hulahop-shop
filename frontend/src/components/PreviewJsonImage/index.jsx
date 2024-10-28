@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { get } from "lodash";
 import { Stage, Layer, Image, Group } from "react-konva";
 import styled, { css } from "styled-components";
@@ -8,10 +8,12 @@ const Container = styled.div`
   canvas {
     border-radius: 6px 0 0px 0;
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
   }
+
   .konvajs-content {
     width: 100% !important;
+
     ${(props) => {
       if (props.autoHeight) {
         return css`

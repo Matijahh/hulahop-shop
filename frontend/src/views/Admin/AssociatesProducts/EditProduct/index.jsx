@@ -18,7 +18,6 @@ import { Loader } from "../../../../components/Loader";
 import { SuccessTaster } from "../../../../components/Toast";
 import { Helmet } from "react-helmet";
 
-import GobackButton from "../../../../components/GoBackButton";
 import ProductSettingSidebar from "./ProductSettingSidebar";
 import NewImageEditor from "./NewImageEditer";
 import ImageLibrary from "../../../Associats/ImageLibrary";
@@ -65,7 +64,7 @@ const EditProduct = () => {
       customizedJson: "",
     },
     validationSchema: validation,
-    onSubmit: async (values) => {
+    onSubmit: async () => {
       if (generatedImageRef.current) {
         generatedImageRef.current.click();
       }
@@ -177,7 +176,6 @@ const EditProduct = () => {
       <Helmet>
         <title>{t("Edit Products - Associate")}</title>
       </Helmet>
-      <GobackButton />
       <CommonWhiteBackground padding="0px">
         {loading ? (
           <Loader height="200px" />
@@ -185,7 +183,9 @@ const EditProduct = () => {
           <>
             <Row>
               <Col md={8} lg={8} sm={6} className="left-col">
-                <div className="main-title">{t("Edit Product")}</div>
+                <div className="main-title title-wrapper">
+                  {t("Edit Product")}
+                </div>
                 <NewImageEditor
                   imgURL={`${REST_URL_SERVER}/images/${activeProductId}`}
                   pickImageUrl={selectedImage}

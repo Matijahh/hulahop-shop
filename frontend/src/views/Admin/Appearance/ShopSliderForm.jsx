@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { get } from "lodash";
 import { ROUTE_ADMIN_APPEARANCE } from "../../../routes/routes";
 import {
@@ -17,7 +18,7 @@ import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SelectComponent from "../../../components/SelectComponent";
 import ImageUploadBox from "../../../components/ImageUploadBox";
-import { useTranslation } from "react-i18next";
+import GobackButton from "../../../components/GoBackButton";
 
 export const ColorsFormWrapper = styled.div``;
 
@@ -48,7 +49,7 @@ const ShopSliderForm = () => {
     initialValues: {
       image_id: "",
       description: "",
-      status: "true,Active",
+      status: `true,${t("Active")}`,
     },
     validationSchema: validation,
     onSubmit: async (values) => {
@@ -64,11 +65,7 @@ const ShopSliderForm = () => {
 
       setLoading(true);
 
-      const response = await commonAddUpdateQuery(
-        URL,
-        reqBody,
-        id ? "PATCH" : "POST"
-      );
+      await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
 
       setLoading(false);
       navigation(ROUTE_ADMIN_APPEARANCE);
@@ -87,7 +84,10 @@ const ShopSliderForm = () => {
       const { image_id, description, status } = data;
       formik.setFieldValue("image_id", image_id);
       formik.setFieldValue("description", description);
-      formik.setFieldValue("status", status ? "true,Active" : "false,Inactive");
+      formik.setFieldValue(
+        "status",
+        status ? `true,${t("Active")}` : `false,${t("Inactive")}`
+      );
       setLoading(false);
     }
 
@@ -105,7 +105,11 @@ const ShopSliderForm = () => {
     <ColorsFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">{t("Add Shop Slider Slides")}</div>
+          <div className="main-title title-wrapper">
+            {get(params, "id")
+              ? t("Edit Shop Slider Slides")
+              : t("Add Shop Slider Slides")}
+          </div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -157,6 +161,7 @@ const ShopSliderForm = () => {
                     </div>
                     <div className="col-12">
                       <FlexBox justifyContent="end" className="mt-3">
+                        <GobackButton />
                         <ButtonComponent
                           variant="contained"
                           text={t("Save")}

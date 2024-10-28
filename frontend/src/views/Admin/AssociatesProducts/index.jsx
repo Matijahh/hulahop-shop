@@ -14,15 +14,18 @@ import { debounce, get, size } from "lodash";
 
 import InputComponent from "../../../components/InputComponent";
 import Tables from "../../../components/SuperAdmin/Tables";
+import ModalComponent from "../../../components/ModalComponent";
+import ButtonComponent from "../../../components/ButtonComponent";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
-import SelectComponent from "../../../components/SelectComponent";
-import { FormControl, InputLabel, Menu, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const AssociatesProducts = () => {
   const [loading, setLoading] = useState(false);
   const [associateProductsList, setAssociateProductsList] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState();
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -35,7 +38,9 @@ const AssociatesProducts = () => {
 
   const getAssociateProducts = async (searchParams) => {
     setLoading(true);
-    const response = await getQuerySearch("/associate_products", {...searchParams});
+    const response = await getQuerySearch("/associate_products", {
+      ...searchParams,
+    });
     if (response) {
       const { data } = response.data;
       setAssociateProductsList(data);
@@ -53,7 +58,7 @@ const AssociatesProducts = () => {
       setLoading(false);
     }
     setLoading(false);
-  }
+  };
 
   const formatAssociateListTitle = (data) => {
     return map(data, (item) => {
@@ -69,13 +74,15 @@ const AssociatesProducts = () => {
       return {
         ...item,
         no: `${index + 1}`,
+        product_name: get(item, "name", ""),
         product_image: get(item, "product.image_id", ""),
         product_description: get(item, "description", ""),
         id: get(item, "id"),
-        base_price: get(item, "product.price", ""),
-        associate_price: get(item, "price"),
-        price_margine:
-          Number(get(item, "price")) - Number(get(item, "product.price")),
+        base_price: `${get(item, "product.price", "") || 0} RSD`,
+        associate_price: `${get(item, "price") || 0} RSD`,
+        price_margine: `${
+          Number(get(item, "price")) - Number(get(item, "product.price")) || 0
+        } RSD`,
         category: get(item, "product.category.name", ""),
         previewImageUrl: getImageUrlById(
           get(item, "product.product_variants.0.image_id")
@@ -86,14 +93,21 @@ const AssociatesProducts = () => {
 
         productData: item,
         isBestSelling: get(item, "best_selling", false),
-        status: item.is_approve ? "Active" : "In Active",
-        handleDelete,
+        status: item.is_approve ? t("Active") : t("Inactive"),
+        handleOpenToggle,
         EditAssociateProducts,
         handleBestSellingImage,
       };
     });
 
     return renderData;
+  };
+
+  const handleOpenToggle = (item) => {
+    if (item) {
+      setIsOpen(true);
+      setSelectedProduct(item);
+    }
   };
 
   const handleBestSellingImage = async (isBestSelling, id) => {
@@ -109,11 +123,11 @@ const AssociatesProducts = () => {
     setLoading(false);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (item) => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/associate_products/${id}`,
+      `/associate_products/${item.id}`,
       null,
       "DELETE"
     );
@@ -171,21 +185,35 @@ const AssociatesProducts = () => {
     setAssociate(value);
   };
 
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+
+    if (isOpen) {
+      setSelectedProduct();
+    }
+  };
+
   useEffect(() => {
     getAssociateProducts();
     getAssociates();
   }, []);
+
+  useEffect(() => {
+    console.log("Selected Product", selectedProduct);
+  }, [selectedProduct]);
 
   return (
     <>
       {loading && <LoaderContainer />}
 
       <CommonWhiteBackground>
-        <FlexBox className="mb-4">
-          <div className="main-title ">{t("Associate Products")}</div>
-          <FlexBox>
-            <FormControl fullWidth sx={{minWidth: 150}}>
-              <InputLabel id="associate-select-label">{t("Select Associate")}</InputLabel>
+        <FlexBox className="mb-4 title-wrapper">
+          <div className="main-title">{t("Associate Products")}</div>
+          <FlexBox className="filters-wrapper">
+            <FormControl fullWidth sx={{ minWidth: 150 }}>
+              <InputLabel id="associate-select-label">
+                {t("Select Associate")}
+              </InputLabel>
               <Select
                 labelId="associate-select"
                 id="associate-select"
@@ -199,7 +227,9 @@ const AssociatesProducts = () => {
                   <em>{t("Show All")}</em>
                 </MenuItem>
                 {associatesList.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>{item.title}</MenuItem>
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.title}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -211,6 +241,40 @@ const AssociatesProducts = () => {
             />
           </FlexBox>
         </FlexBox>
+
+        <ModalComponent
+          title={t("Delete Product")}
+          size={"m"}
+          open={isOpen}
+          handleClose={handleToggle}
+        >
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{selectedProduct?.product_name}</span>
+            {`?`}
+          </p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete Product")}
+                type="button"
+                onClick={() => {
+                  handleDelete(selectedProduct);
+                }}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+
         <Tables
           body={
             isSearch

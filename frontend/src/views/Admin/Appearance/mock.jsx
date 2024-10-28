@@ -58,7 +58,7 @@ export const renderShopSliderHeader = [
           >
             <EditOutlinedIcon />
           </div>
-          <div role="button" onClick={() => row.handleDeleteShopSlider(row.id)}>
+          <div role="button" onClick={() => row.toggleDeleteModal(row)}>
             <DeleteOutlinedIcon />
           </div>
         </div>
@@ -121,10 +121,7 @@ export const renderAboutSliderHeader = [
           >
             <EditOutlinedIcon />
           </div>
-          <div
-            role="button"
-            onClick={() => row.handleDeleteAboutSlider(row.id)}
-          >
+          <div role="button" onClick={() => row.toggleDeleteModal(row)}>
             <DeleteOutlinedIcon />
           </div>
         </div>
@@ -187,7 +184,7 @@ export const renderBlogSliderHeader = [
           >
             <EditOutlinedIcon />
           </div>
-          <div role="button" onClick={() => row.handleDeleteBlogSlider(row.id)}>
+          <div role="button" onClick={() => row.toggleDeleteModal(row)}>
             <DeleteOutlinedIcon />
           </div>
         </div>

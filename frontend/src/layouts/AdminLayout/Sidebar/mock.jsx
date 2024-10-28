@@ -69,7 +69,7 @@ export const SidebarTabList = [
   },
   {
     icon: <AssignmentIndOutlinedIcon />,
-    name: "About Product",
+    name: "About Product Data",
     path: ROUTE_ADMIN_ABOUT_PRODUCT,
   },
   {

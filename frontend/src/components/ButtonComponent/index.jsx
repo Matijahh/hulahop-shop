@@ -47,6 +47,7 @@ const ButtonComponent = ({
         width: width || (fullWidth ? "100%" : ""),
         ...styled,
         fontSize: `${fontSize || "14px"} `,
+        cursor: "pointer",
       }}
       className={cx(className, "brand-btn")}
       onClick={onClick}

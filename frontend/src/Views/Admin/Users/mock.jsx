@@ -7,8 +7,9 @@ import { Button } from "@mui/material";
 
 export const renderHeader = (
   toggleModal,
-  handleOpenToggle,
-  handleSendPasswordForgetLink
+  handleToggle,
+  handleSendPasswordForgetLink,
+  resetButtonLabel
 ) => {
   return [
     {
@@ -78,7 +79,7 @@ export const renderHeader = (
           />
           <DeleteOutlineOutlinedIcon
             className="mx-2 cursor-pointer"
-            onClick={() => handleOpenToggle(params?.row?.id)}
+            onClick={() => handleToggle(params?.row)}
           />
         </>
       ),
@@ -93,7 +94,7 @@ export const renderHeader = (
           <Button
             onClick={() => handleSendPasswordForgetLink(params?.row?.email)}
           >
-            Send
+            {resetButtonLabel}
           </Button>
         </>
       ),

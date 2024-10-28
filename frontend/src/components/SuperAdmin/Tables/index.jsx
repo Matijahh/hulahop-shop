@@ -78,10 +78,7 @@ const TableWrapper = styled.div`
   }
 
   .MuiDataGrid-virtualScroller {
-    overflow-y: scroll !important;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    overflow-y: auto !important;
   }
 
   .MuiDataGrid-cell {

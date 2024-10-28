@@ -41,8 +41,14 @@ export const renderHeader = [
     sortable: false,
   },
   {
+    field: "product_name",
+    headerName: "Product Name",
+    width: 300,
+    align: "left",
+  },
+  {
     field: "product_description",
-    headerName: "Product description",
+    headerName: "Product Description",
     width: 300,
     align: "left",
   },
@@ -81,14 +87,15 @@ export const renderHeader = [
     field: "best selling product",
     headerName: "Best Selling",
     width: 150,
-    align: "left",
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-cente">
           <Switch
             checked={row.isBestSelling}
             onChange={() =>
-              row.handelBestSellingImage(row.isBestSelling, row.id)
+              row.handleBestSellingImage(row.isBestSelling, row.id)
             }
           />
         </div>
@@ -99,8 +106,9 @@ export const renderHeader = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
+    width: 100,
     align: "left",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-cente">
@@ -111,7 +119,7 @@ export const renderHeader = [
           >
             <RemoveRedEyeOutlinedIcon />
           </div>
-          <div role="button" onClick={() => row.handleDelete(row.id)}>
+          <div role="button" onClick={() => row.handleOpenToggle(row)}>
             <DeleteOutlinedIcon />
           </div>
         </div>

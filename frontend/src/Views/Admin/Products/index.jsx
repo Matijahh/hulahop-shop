@@ -21,6 +21,7 @@ import ModalComponent from "../../../components/ModalComponent";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+import { CreateProductContainer } from "./styled";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
@@ -42,10 +43,10 @@ const Products = () => {
     }
   };
 
-  const handleOpenToggle = (id) => {
-    if (id) {
+  const handleOpenToggle = (item) => {
+    if (item) {
       setIsOpen(true);
-      setSelectedProduct(id);
+      setSelectedProduct(item);
     }
   };
 
@@ -69,10 +70,12 @@ const Products = () => {
       no: `${index + 1}`,
       product_image: item.image_id,
       product_description: get(item, "description", ""),
+      product_name: get(item, "name", ""),
+      product_id: get(item, "id", ""),
       id: get(item, "id", ""),
-      price: get(item, "price", ""),
+      price: `${get(item, "price", "") || 0} RSD`,
       colors: "Red, Yellow, Green",
-      status: "Active",
+      status: t("Active"),
       handleOpenToggle,
       EditProduct,
     }));
@@ -80,11 +83,11 @@ const Products = () => {
     return renderData;
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (item) => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/products/${id}`,
+      `/products/${item.id}`,
       null,
       "DELETE"
     );
@@ -138,69 +141,79 @@ const Products = () => {
   }, []);
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4">
-        <div className="main-title">{t("Products")}</div>
-        <FlexBox>
-          <InputComponent
-            type="search"
-            label={t("Search Products")}
-            value={searchText}
-            onChange={handleChange}
-          />
-          <ButtonComponent
-            variant="contained"
-            startIcon={<AddIcon />}
-            text={t("Add Product")}
-            onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
-          />
-        </FlexBox>
-      </FlexBox>
-      {loading && <LoaderContainer />}
-      <Tables
-        body={
-          isSearch
-            ? size(searchFilterData) > 0
-              ? setTableRenderData(searchFilterData)
-              : []
-            : size(productList) > 0
-            ? setTableRenderData(productList)
-            : []
-        }
-        header={renderHeader.map((item) => ({
-          ...item,
-          headerName: item.headerName,
-        }))}
-      />
-      <ModalComponent
-        title={t("Delete Product")}
-        size={"m"}
-        open={isOpen}
-        handleClose={handleToggle}
-      >
-        <p>{`${t("Are you sure you want to delete")}?`}</p>
-        <>
-          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
-            <ButtonComponent
-              className=""
-              variant="outlined"
-              fullWidth
-              text={t("Cancel")}
-              onClick={handleToggle}
+    <CreateProductContainer>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4 title-wrapper">
+          <div className="main-title">{t("Products")}</div>
+          <FlexBox className="filters-wrapper">
+            <InputComponent
+              type="search"
+              label={t("Search Products")}
+              value={searchText}
+              onChange={handleChange}
             />
             <ButtonComponent
               variant="contained"
-              fullWidth
-              text={t("Delete Product")}
-              type="button"
-              onClick={() => {
-                handleDelete(selectedProduct);
-              }}
+              startIcon={<AddIcon />}
+              text={t("Add Product")}
+              onClick={() => navigation(ROUTE_ADMIN_PRODUCTS_ADD)}
             />
           </FlexBox>
-        </>
-      </ModalComponent>
-    </CommonWhiteBackground>
+        </FlexBox>
+
+        {loading && <LoaderContainer />}
+
+        <Tables
+          className="products-table"
+          body={
+            isSearch
+              ? size(searchFilterData) > 0
+                ? setTableRenderData(searchFilterData)
+                : []
+              : size(productList) > 0
+              ? setTableRenderData(productList)
+              : []
+          }
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
+        />
+
+        <ModalComponent
+          title={t("Delete Product")}
+          size={"m"}
+          open={isOpen}
+          handleClose={handleToggle}
+        >
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{selectedProduct?.product_name}</span>
+            {`?`}
+          </p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete Product")}
+                type="button"
+                onClick={() => {
+                  handleDelete(selectedProduct);
+                }}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+      </CommonWhiteBackground>
+    </CreateProductContainer>
   );
 };
 

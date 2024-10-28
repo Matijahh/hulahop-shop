@@ -435,7 +435,11 @@
   "Add Announcements": "Add Announcements",
   "Image is required!": "Image is required!",
   "Add Shop Slider Slides": "Add Shop Slider Slides",
+  "Edit Shop Slider Slides": "Edit Shop Slider Slides",
   "Add Blog Slider Slides": "Add Blog Slider Slides",
+  "Edit Blog Slider Slides": "Edit Blog Slider Slides",
+  "Add About Us Slider Slides": "Add About Us Slider Slides",
+  "Edit About Us Slider Slides": "Edit About Us Slider Slides",
   "Shop Slider": "Shop Slider",
   "About Page Slider": "About Page Slider",
   "Blog Page Slider": "Blog Page Slider",
@@ -683,5 +687,9 @@
   "Edit Color": "Edit Color",
   "Global Category": "Global Category",
   "Delete Blog": "Delete Blog",
-  "Select Language": "Select Language"
+  "Select Language": "Select Language",
+  "Delete User": "Delete User",
+  "Send": "Send",
+  "Delete Slider Slide": "Delete Slider Slide",
+  "Delete Associate": "Delete Associate"
 }

@@ -18,6 +18,7 @@ import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SelectComponent from "../../../components/SelectComponent";
 import ImageUploadBox from "../../../components/ImageUploadBox";
+import GobackButton from "../../../components/GoBackButton";
 
 export const ColorsFormWrapper = styled.div``;
 
@@ -48,7 +49,7 @@ const BlogSliderForm = () => {
     initialValues: {
       image_id: "",
       description: "",
-      status: "true,Active",
+      status: `true,${t("Active")}`,
     },
     validationSchema: validation,
     onSubmit: async (values) => {
@@ -81,7 +82,10 @@ const BlogSliderForm = () => {
       const { image_id, description, status } = data;
       formik.setFieldValue("image_id", image_id);
       formik.setFieldValue("description", description);
-      formik.setFieldValue("status", status ? "true,Active" : "false,Inactive");
+      formik.setFieldValue(
+        "status",
+        status ? `true,${t("Active")}` : `false,${t("Inactive")}`
+      );
       setLoading(false);
     }
 
@@ -99,7 +103,11 @@ const BlogSliderForm = () => {
     <ColorsFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">{t("Add Blog Slider Slides")}</div>
+          <div className="main-title title-wrapper">
+            {get(params, "id")
+              ? t("Edit Blog Slider Slides")
+              : t("Add Blog Slider Slides")}
+          </div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -151,6 +159,7 @@ const BlogSliderForm = () => {
                     </div>
                     <div className="col-12">
                       <FlexBox justifyContent="end" className="mt-3">
+                        <GobackButton />
                         <ButtonComponent
                           variant="contained"
                           text={t("Save")}
