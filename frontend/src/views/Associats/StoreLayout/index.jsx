@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import {
+  axiosInstance,
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
@@ -23,7 +24,7 @@ import { Col, Row } from "react-bootstrap";
 import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
 
-const StoreLayout = ({ userData, saveUserData }) => {
+const StoreLayout = () => {
   const [fileLoading, setFileLoading] = useState({
     loading: false,
     for: "logo",
@@ -159,9 +160,14 @@ const StoreLayout = ({ userData, saveUserData }) => {
   const getStoreData = async () => {
     setLoading(true);
 
-    const response = await commonGetQuery(
-      `/store_layout_details/${decoded.id}`
-    );
+    const response = await axiosInstance({
+      method: "GET",
+      url: `/store_layout_details/${decoded.id}`,
+    }).catch((err) => console.log(err));
+
+    // const response = await commonGetQuery(
+    //   `/store_layout_details/${decoded.id}`
+    // ).catch((err) => console.log(err));
 
     setLoading(false);
 
@@ -300,7 +306,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
             />
           </Col>
           <Col md={2} lg={2} sm={6}>
-            <label className="mb-2">{t("Slider Images")}</label>
+            <label className="mb-2">{t("Slider Image")}</label>
             <BoxFileInput
               onFileSelect={(data) => onLogoSelect(data, "sliderImage")}
               previewURL={
@@ -319,7 +325,7 @@ const StoreLayout = ({ userData, saveUserData }) => {
           <ButtonComponent
             onClick={formik.handleSubmit}
             variant="contained"
-            text={t("Submit")}
+            text={t("Save")}
             loading={loading}
           />
         </FlexBox>

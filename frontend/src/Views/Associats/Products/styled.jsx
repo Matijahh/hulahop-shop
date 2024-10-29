@@ -37,7 +37,7 @@ export const ProductCardBox = styled.div`
 
     .product-title {
       font: 600 18px Nunito Sans;
-      margin-bottom: 5px;
+      margin: 5px 0;
     }
 
     .product-caregory {
@@ -70,6 +70,10 @@ export const ProductCardBox = styled.div`
       cursor: pointer;
       box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 1px -2px,
         rgba(0, 0, 0, 0.05) 0px 2px 2px 0px, rgba(0, 0, 0, 0.05) 0px 1px 5px 0px;
+    }
+
+    @media screen and (max-width: 768px) {
+      right: 10px;
     }
   }
 

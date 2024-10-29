@@ -28,10 +28,13 @@ import SelectComponent from "../../../components/SelectComponent";
 import InputComponent from "../../../components/InputComponent";
 import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import ImageLibrary from "../ImageLibrary";
+import ModalComponent from "../../../components/ModalComponent";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [productsList, setProductsList] = useState([]);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
   const [categories, setCategories] = useState([]);
   const [searchVal, setSearchVal] = useState([]);
   const [isOpenImageLibrary, setIsOpenImageLibrary] = useState();
@@ -44,6 +47,10 @@ const Products = () => {
 
   const handleToggle = () => {
     setIsOpenImageLibrary(!isOpenImageLibrary);
+  };
+
+  const handleDeleteToggle = () => {
+    setIsDeleteOpen(!isDeleteOpen);
   };
 
   const getAllProduct = async (searchString, categoryId, subCategoryId) => {
@@ -84,20 +91,22 @@ const Products = () => {
     );
   };
 
-  const deleteProduct = async (id) => {
+  const deleteProduct = async () => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/associate_products/${id}`,
+      `/associate_products/${productToDelete.id}`,
       null,
       "DELETE"
     );
 
-    setLoading(false);
-
     if (response) {
       getAllProduct();
     }
+
+    setLoading(false);
+
+    handleDeleteToggle();
   };
 
   const getAllCategory = async () => {
@@ -120,13 +129,16 @@ const Products = () => {
   };
 
   const onSelectCategory = (e) => {
-    const selectedId = e.target && e.target.value.split(",")[0];
+    const selectedId =
+      e.target && e.target.value && e.target.value.split(",")[0];
 
     const selectedItem = categories.find(
       (item) => item.id === parseFloat(selectedId)
     );
 
-    getAllProduct(searchVal, selectedItem?.id);
+    selectedItem
+      ? getAllProduct(searchVal, selectedItem?.id)
+      : getAllProduct(searchVal);
 
     setSubCategories(
       selectedItem?.sub_category?.map((item) => {
@@ -142,9 +154,12 @@ const Products = () => {
   };
 
   const handleSelectSubCategory = (e) => {
-    const selectedId = e.target && e.target.value.split(",")[0];
+    const selectedId =
+      e.target && e.target.value && e.target.value.split(",")[0];
 
-    getAllProduct(searchVal, selectedCategory.split(",")[0], selectedId);
+    selectedId
+      ? getAllProduct(searchVal, selectedCategory.split(",")[0], selectedId)
+      : getAllProduct(searchVal, selectedCategory.split(",")[0]);
     setSelectedSubCategory(e.target && e.target.value);
   };
 
@@ -152,6 +167,11 @@ const Products = () => {
     const value = e.target && e.target.value;
     getAllProduct(value);
     setSearchVal(value);
+  };
+
+  const handleOpenDeleteModal = (id, title) => {
+    setProductToDelete({ id, title });
+    handleDeleteToggle();
   };
 
   useEffect(() => {
@@ -177,6 +197,7 @@ const Products = () => {
             optionList={categories}
             isShowValue
             value={selectedCategory}
+            showAll
           />
 
           <SelectComponent
@@ -189,6 +210,7 @@ const Products = () => {
             isShowValue
             value={selectedSubCategory}
             onChange={handleSelectSubCategory}
+            showAll
           />
 
           <InputComponent
@@ -212,6 +234,37 @@ const Products = () => {
           />
         </FlexBox>
       </FlexBox>
+
+      <ModalComponent
+        title={t("Delete Product")}
+        size={"m"}
+        open={isDeleteOpen}
+        handleClose={handleDeleteToggle}
+      >
+        <p>
+          {`${t("Are you sure you want to delete")} `}
+          <span className="bold">{productToDelete?.title}</span>
+          {`?`}
+        </p>
+        <>
+          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+            <ButtonComponent
+              className=""
+              variant="outlined"
+              fullWidth
+              text={t("Cancel")}
+              onClick={handleDeleteToggle}
+            />
+            <ButtonComponent
+              variant="contained"
+              fullWidth
+              text={t("Delete")}
+              type="button"
+              onClick={deleteProduct}
+            />
+          </FlexBox>
+        </>
+      </ModalComponent>
 
       <ProductsListContainer>
         {loading ? (
@@ -249,7 +302,12 @@ const Products = () => {
                           <div className="overlay-icon">
                             <Tooltip title={t("Delete")} placement="bottom">
                               <DeleteOutlineOutlinedIcon
-                                onClick={() => deleteProduct(item.id)}
+                                onClick={() =>
+                                  handleOpenDeleteModal(
+                                    item.id,
+                                    item.product?.name
+                                  )
+                                }
                               />
                             </Tooltip>
                           </div>

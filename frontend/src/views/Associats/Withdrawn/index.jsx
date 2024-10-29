@@ -87,9 +87,9 @@ const Withdrawn = ({ userData }) => {
         <title>{t("Withdrawal - Associate")}</title>
       </Helmet>
       <RequestWithdrawalContainer>
-        <FlexBox className="mb-4" isWrap>
+        <FlexBox className="mb-4 assoc-title-wrapper" isWrap>
           <div className="main-title ">{t("Withdrawal")}</div>
-          <FlexBox>
+          <FlexBox className="filters-wrapper">
             <div className="withdrawal-value">{`${wallet}`} RSD</div>
             <ButtonComponent
               variant="contained"

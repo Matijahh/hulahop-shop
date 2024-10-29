@@ -74,7 +74,7 @@ export const SidebarTabList = [
   },
   {
     icon: <ArticleOutlinedIcon />,
-    name: "Blog",
+    name: "Blogs",
     path: ROUTE_ADMIN_BLOG,
   },
   {

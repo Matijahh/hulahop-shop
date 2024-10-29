@@ -47,12 +47,12 @@ export const SidebarTabList = [
   },
   {
     icon: <CampaignIcon />,
-    name: "Announcement",
+    name: "Announcements",
     path: ROUTE_ASSOCIATE_ANNOUNCEMENTS,
   },
   {
     icon: <ArticleOutlinedIcon />,
-    name: "Blog",
+    name: "Blogs",
     path: ROUTE_ASSOCIATE_BLOG,
   },
   {

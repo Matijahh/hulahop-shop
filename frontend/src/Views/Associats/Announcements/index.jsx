@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
+import { debounce } from "lodash";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import InputComponent from "../../../components/InputComponent";
@@ -12,6 +13,9 @@ import { Helmet } from "react-helmet";
 const Announcements = () => {
   const [loading, setLoading] = useState(false);
   const [tableList, setTableList] = useState([]);
+  const [searchFilterData, setSearchFilterData] = useState([]);
+  const [isSearch, setIsSearch] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   const { t } = useTranslation();
 
@@ -42,6 +46,34 @@ const Announcements = () => {
     }
   };
 
+  const filterItems = (query) => {
+    return tableList.filter(
+      (item) => item.title.toLowerCase().includes(query.toLowerCase()) // Search by Title
+    );
+  };
+
+  // Debounced version of handleSearch
+  const debouncedHandleSearch = useCallback(
+    debounce((query) => {
+      if (query) {
+        setIsSearch(true);
+      } else {
+        setIsSearch(false);
+      }
+
+      const filteredItems = filterItems(query);
+      setSearchFilterData(filteredItems);
+    }, 1000),
+    [searchText]
+  );
+
+  // Event handler for input change
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setSearchText(value);
+    debouncedHandleSearch(value);
+  };
+
   useEffect(() => {
     getAnnouncementDat();
   }, []);
@@ -53,12 +85,20 @@ const Announcements = () => {
       </Helmet>
       <FlexBox className="mb-4" isWrap>
         <div className="main-title">{t("Announcements")}</div>
-        <InputComponent type="search" label={t("Search Announcements")} />
+        <InputComponent
+          type="search"
+          label={t("Search Announcements")}
+          value={searchText}
+          onChange={handleChange}
+        />
       </FlexBox>
       {loading ? (
         <Loader />
       ) : (
-        <Tables header={tableHeaderTitle} body={tableList} />
+        <Tables
+          header={tableHeaderTitle}
+          body={isSearch ? searchFilterData : tableList}
+        />
       )}
     </CommonWhiteBackground>
   );

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import i18next from "i18next";
 import { size as lodashSize } from "lodash";
 import { map } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import {
   InputLabel,
@@ -60,7 +61,10 @@ const SelectComponent = ({
   disabled,
   isCustumeChangeFunction,
   isShowValue,
+  showAll = false,
 }) => {
+  const { t } = useTranslation();
+
   const onValueChange = (e) => {
     if (formik) {
       const value = e.target && e.target.value;
@@ -96,6 +100,11 @@ const SelectComponent = ({
           size={size}
           name={name}
         >
+          {showAll && (
+            <MenuItem value={0}>
+              <ListItemText primary={t("Show All")} />
+            </MenuItem>
+          )}
           {optionList &&
             lodashSize(optionList) > 0 &&
             map(optionList, (item, i) => (

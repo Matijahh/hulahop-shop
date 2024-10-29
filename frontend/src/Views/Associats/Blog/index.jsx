@@ -22,6 +22,7 @@ import InputComponent from "../../../components/InputComponent";
 import Tables from "../../../components/SuperAdmin/Tables";
 import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
+import ModalComponent from "../../../components/ModalComponent";
 
 const AssociateBlog = () => {
   const [loading, setLoading] = useState(false);
@@ -30,11 +31,17 @@ const AssociateBlog = () => {
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const [storeId, setStoreId] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null);
 
   const navigation = useNavigate();
   const { t } = useTranslation();
 
   const decoded = jwtDecode(ACCESS_TOKEN);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   const getBlogList = async () => {
     setLoading(true);
@@ -59,18 +66,18 @@ const AssociateBlog = () => {
       image_id: get(item, "image_id", ""),
       category_name: get(item, "category_name", ""),
       content: get(item, "content", ""),
-      handleDelete,
+      handleOpenDeleteModal,
       EditColor,
     }));
 
     return renderData;
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     setLoading(true);
 
     const response = await commonAddUpdateQuery(
-      `/associate_blogs/${id}`,
+      `/associate_blogs/${blogToDelete.id}`,
       null,
       "DELETE"
     );
@@ -80,6 +87,13 @@ const AssociateBlog = () => {
     }
 
     setLoading(false);
+
+    handleToggle();
+  };
+
+  const handleOpenDeleteModal = (id, title) => {
+    setBlogToDelete({ id, title });
+    handleToggle();
   };
 
   const EditColor = (id) => {
@@ -140,9 +154,9 @@ const AssociateBlog = () => {
 
   return (
     <CommonWhiteBackground>
-      <FlexBox className="mb-4">
+      <FlexBox className="mb-4 assoc-title-wrapper">
         <div className="main-title ">{t("Blogs")}</div>
-        <FlexBox>
+        <FlexBox className="filters-wrapper">
           <InputComponent
             type="search"
             label={t("Search Blogs")}
@@ -157,7 +171,40 @@ const AssociateBlog = () => {
           />
         </FlexBox>
       </FlexBox>
+
       {loading && <LoaderContainer />}
+
+      <ModalComponent
+        title={t("Delete Blog")}
+        size={"m"}
+        open={isOpen}
+        handleClose={handleToggle}
+      >
+        <p>
+          {`${t("Are you sure you want to delete")} `}
+          <span className="bold">{blogToDelete?.title}</span>
+          {`?`}
+        </p>
+        <>
+          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+            <ButtonComponent
+              className=""
+              variant="outlined"
+              fullWidth
+              text={t("Cancel")}
+              onClick={handleToggle}
+            />
+            <ButtonComponent
+              variant="contained"
+              fullWidth
+              text={t("Delete")}
+              type="button"
+              onClick={handleDelete}
+            />
+          </FlexBox>
+        </>
+      </ModalComponent>
+
       <Tables
         body={
           isSearch

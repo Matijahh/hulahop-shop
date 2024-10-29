@@ -23,6 +23,18 @@ export const CommonWhiteBackground = styled.div`
     }
   }
 
+  .assoc-title-wrapper {
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      align-items: start;
+
+      .filters-wrapper {
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+  }
+
   .main-title {
     font: 700 24px "Nunito Sans";
     color: ${Colors.blackColor};

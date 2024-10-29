@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
-import { ROUTE_ADMIN_BLOG } from "../../../routes/routes";
+import { ROUTE_ASSOCIATE_BLOG } from "../../../routes/routes";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
@@ -18,6 +18,7 @@ import ReactQuillEditor from "../../../components/ReactQuillEditor";
 import InputComponent from "../../../components/InputComponent";
 import ImageUploadBox from "../../../components/ImageUploadBox";
 import ButtonComponent from "../../../components/ButtonComponent";
+import GobackButton from "../../../components/GoBackButton";
 
 const BlogFormWrapper = styled.div``;
 
@@ -35,7 +36,7 @@ const AssociateBlogForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      image_id: "",
+      image_id: null,
       heading: "",
       category_name: "",
       content: "",
@@ -60,7 +61,7 @@ const AssociateBlogForm = () => {
       await commonAddUpdateQuery(URL, reqBody, id ? "PATCH" : "POST");
 
       setLoading(false);
-      navigation(ROUTE_ADMIN_BLOG);
+      navigation(ROUTE_ASSOCIATE_BLOG);
     },
   });
 
@@ -100,7 +101,9 @@ const AssociateBlogForm = () => {
     <BlogFormWrapper>
       <CommonWhiteBackground>
         <FlexBox>
-          <div className="main-title ">{t("Add Blog")}</div>
+          <div className="main-title ">
+            {get(params, "id") ? t("Edit Blog") : t("Add Blog")}
+          </div>
         </FlexBox>
         <hr />
         <div className="commomn-form-wrapper">
@@ -166,6 +169,7 @@ const AssociateBlogForm = () => {
 
                 <div className="col-12">
                   <FlexBox justifyContent="end" className="mt-3">
+                    <GobackButton />
                     <ButtonComponent
                       variant="contained"
                       text={t("Save")}

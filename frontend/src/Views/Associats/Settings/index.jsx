@@ -264,6 +264,7 @@ const Settings = () => {
           <Col md={7} lg={7} sm={7} className="mt-4"></Col>
           <Col md={5} lg={5} sm={5} className="mt-4">
             <Row className="g-3">
+              <Col md={6} lg={6} sm={6}></Col>
               <Col md={6} lg={6} sm={6}>
                 <ButtonComponent
                   variant="contained"

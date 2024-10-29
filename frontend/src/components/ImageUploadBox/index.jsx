@@ -76,10 +76,10 @@ const ImageUploadBox = (props) => {
   };
 
   const onCancel = () => {
-    setImageId("");
+    setImageId(null);
 
     if (formik) {
-      formik.setFieldValue(name, "");
+      formik.setFieldValue(name, null);
     }
 
     onDelete();
@@ -89,7 +89,7 @@ const ImageUploadBox = (props) => {
     if (id) {
       setImageId(id);
     } else {
-      setImageId("");
+      setImageId(null);
     }
   }, [id]);
 
