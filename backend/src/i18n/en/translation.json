@@ -370,7 +370,7 @@
   "Don't have an account?": "Don't have an account?",
   "Sign Up": "Sign Up",
   "Please create your account to explore AI image repository.": "Please create your account to explore AI image repository.",
-  "Please enter a valid password.": "Please enter a valid password.",
+  "Please enter a valid password.": "Password must be at least 8 characters long and include at least one uppercase letter, one number, and one special character.",
   "Please confirm your password.": "Please confirm your password.",
   "Enter First Name": "Enter First Name",
   "Enter Last Name": "Enter Last Name",

@@ -37,7 +37,7 @@ const SignUp = ({ maxWidth }) => {
     password: Yup.string()
       .required(t("Password is required."))
       .matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$/,
         t("Please enter a valid password.")
       ),
     first_name: Yup.string().required(t("First name is required.")),
