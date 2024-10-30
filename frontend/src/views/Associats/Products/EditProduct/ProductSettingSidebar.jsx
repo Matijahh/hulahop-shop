@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { get } from "lodash";
 
 import { ColorBox, ProductSettingSidebarContainer } from "./styled";
@@ -8,6 +9,7 @@ import { Col, Row } from "react-bootstrap";
 import ButtonComponent from "../../../../components/ButtonComponent";
 import InputComponent from "../../../../components/InputComponent";
 import SelectComponent from "../../../../components/SelectComponent";
+import NumericComponent from "../../../../components/NumericComponent";
 
 const ProductSettingSidebar = ({
   handleAddDesign,
@@ -18,6 +20,7 @@ const ProductSettingSidebar = ({
   setShowFrame,
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const onColorChange = (data) => {
     if (formik.values.selectedColorIds.includes(data.id)) {
@@ -61,15 +64,9 @@ const ProductSettingSidebar = ({
         <ButtonComponent
           text={t("Add Your Design")}
           variant="outlined"
-          width="50%"
+          width="100%"
           onClick={handleAddDesign}
           fontSize="12px"
-        />
-        <ButtonComponent
-          fontSize="12px"
-          text={t("Add Information")}
-          variant="outlined"
-          width="50%"
         />
       </div>
       <Divider />
@@ -139,9 +136,9 @@ const ProductSettingSidebar = ({
           <div className="error-msg">{formik.errors.coverImageColor}</div>
         )}
         <Row>
-          <Col>
+          <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Selling Price")}</label>
-            <InputComponent
+            <NumericComponent
               helperText={`${t("Selling Price")} (RSD)`}
               InnerPlaceholder={`${t("Selling Price")} (RSD)`}
               fullWidth
@@ -149,9 +146,9 @@ const ProductSettingSidebar = ({
               formik={formik}
             />
           </Col>
-          <Col>
+          <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Base Price")}</label>
-            <InputComponent
+            <NumericComponent
               helperText={`${t("Base Price")} (RSD)`}
               InnerPlaceholder={`${t("Base Price")} (RSD)`}
               fullWidth
@@ -159,9 +156,9 @@ const ProductSettingSidebar = ({
               disabled
             />
           </Col>
-          <Col>
+          <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Earning")}</label>
-            <InputComponent
+            <NumericComponent
               helperText={`${t("Earning")} (RSD)`}
               InnerPlaceholder={`${t("Earning")} (RSD)`}
               fullWidth
@@ -177,6 +174,7 @@ const ProductSettingSidebar = ({
             variant="contained"
             width="50%"
             loading={loading}
+            onClick={() => navigate(-1)}
           />
           <ButtonComponent
             onClick={() => {
@@ -186,7 +184,11 @@ const ProductSettingSidebar = ({
                 formik.handleSubmit();
               }, 100);
             }}
-            text={t("Add Product")}
+            text={
+              new URLSearchParams(window.location.search).get("edit")
+                ? t("Edit Product")
+                : t("Add Product")
+            }
             variant="contained"
             width="50%"
             loading={loading}

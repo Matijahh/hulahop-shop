@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { CreateProductContainer, ProductCardBox } from "./styled";
-import { ROUTE_ASSOCIATE_EDIT_PRODUCT } from "../../../../routes/routes";
+import {
+  ROUTE_ASSOCIATE_EDIT_PRODUCT,
+  ROUTE_ASSOCIATE_MAIN_PRODUCTS,
+} from "../../../../routes/routes";
 import { commonGetQuery } from "../../../../utils/axiosInstance";
 import { REST_URL_SERVER } from "../../../../utils/constant";
 import { connect } from "react-redux";
@@ -13,7 +16,8 @@ import { Loader } from "../../../../components/Loader";
 import { Helmet } from "react-helmet";
 
 import CategorySidebar from "../../../../components/SuperAdmin/CategorySidebar";
-import GobackButton from "../../../../components/GoBackButton";
+import ButtonComponent from "../../../../components/ButtonComponent";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
 const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
@@ -62,7 +66,13 @@ const CreateProduct = () => {
         <title>{t("Create Products - Associate")}</title>
       </Helmet>
       <CommonWhiteBackground>
-        <GobackButton />
+        <ButtonComponent
+          text={t("Back")}
+          className="mb-3"
+          startIcon={<ArrowBackOutlinedIcon />}
+          variant="outlined"
+          onClick={() => navigate(ROUTE_ASSOCIATE_MAIN_PRODUCTS)}
+        />
         <div className="main-title">{t("Create Product")}</div>
         <Row>
           <Col md={12} lg={3} sm={12} className="mt-4">

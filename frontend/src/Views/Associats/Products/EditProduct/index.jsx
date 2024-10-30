@@ -18,7 +18,6 @@ import { Loader } from "../../../../components/Loader";
 import { SuccessTaster } from "../../../../components/Toast";
 import { Helmet } from "react-helmet";
 
-import GobackButton from "../../../../components/GoBackButton";
 import ProductSettingSidebar from "./ProductSettingSidebar";
 import ImageLibrary from "../../ImageLibrary";
 import NewImageEditor from "./NewImageEditer";
@@ -36,7 +35,7 @@ const EditProduct = () => {
   const { productId } = useParams();
   const generatedImageRef = useRef();
   const { t } = useTranslation();
-  const Navigator = useNavigate();
+  const navigate = useNavigate();
 
   const hasColors =
     size(product?.product_variants || []) > 0 &&
@@ -110,7 +109,7 @@ const EditProduct = () => {
     if (response) {
       const { message } = response.data;
       localStorage.removeItem("canvasState");
-      Navigator(ROUTE_ASSOCIATE_MAIN_PRODUCTS);
+      navigate(ROUTE_ASSOCIATE_MAIN_PRODUCTS);
       SuccessTaster(message);
     }
   };
@@ -179,7 +178,7 @@ const EditProduct = () => {
       <Helmet>
         <title>{t("Edit Products - Associate")}</title>
       </Helmet>
-      <GobackButton />
+
       <CommonWhiteBackground padding="0px">
         {loading ? (
           <Loader height="200px" />
@@ -187,7 +186,11 @@ const EditProduct = () => {
           <>
             <Row>
               <Col md={8} lg={8} sm={6} className="left-col">
-                <div className="main-title">{t("Edit Product")}</div>
+                <div className="main-title">
+                  {new URLSearchParams(window.location.search).get("edit")
+                    ? t("Edit Product")
+                    : t("Add Product")}
+                </div>
                 <NewImageEditor
                   imgURL={`${REST_URL_SERVER}/images/${activeProductId}`}
                   pickImageUrl={selectedImage}

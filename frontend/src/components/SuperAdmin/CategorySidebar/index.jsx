@@ -89,6 +89,10 @@ const CategorySidebarContainer = styled.div`
     margin-left: 20px;
     cursor: pointer;
 
+    &.active {
+      color: rgba(241, 103, 109, 1);
+    }
+
     @media screen and (max-width: 768px) {
       font-size: 16px;
     }
@@ -152,7 +156,7 @@ const CategorySidebar = ({ className, saveShopCategoryList }) => {
           {categories.map((item, i) => (
             <Accordion
               key={i}
-              expanded={item.id === selectedId}
+              // expanded={item.id === selectedId}
               onClick={() => toggle(item.id)}
               className={className}
             >

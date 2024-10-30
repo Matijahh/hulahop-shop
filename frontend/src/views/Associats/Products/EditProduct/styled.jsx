@@ -66,6 +66,14 @@ export const ProductSettingSidebarContainer = styled.div`
     border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
 
+  .price-wrapper {
+    @media screen and (max-width: 768px) {
+      justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
   .color-row {
     gap: 15px 0px;
 
@@ -129,6 +137,10 @@ export const ImageContainer = styled.div`
   .image-action-buttons {
     position: absolute;
     top: 20px;
+
+    @media screen and (max-width: 768px) {
+      z-index: 2;
+    }
   }
 
   .button-list {
@@ -170,6 +182,22 @@ export const ImageContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: 30px;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+
+      div {
+        width: 100%;
+
+        .konvajs-content {
+          width: 100% !important;
+
+          canvas {
+            width: 100% !important;
+          }
+        }
+      }
+    }
   }
 `;
 
