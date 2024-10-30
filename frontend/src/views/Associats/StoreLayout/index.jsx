@@ -6,7 +6,6 @@ import { jwtDecode } from "jwt-decode";
 import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import {
-  axiosInstance,
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
@@ -40,7 +39,6 @@ const StoreLayout = () => {
     logo_image: Yup.string().required(t("Store logo is required!")),
     description: Yup.string().required(t("Store description is required!")),
     sliderName: Yup.string().required(t("Slider name is required!")),
-    sliderDesc: Yup.string().required(t("Slider description is required!")),
     sliderImage: Yup.string().required(t("Slider image is required!")),
   });
 
@@ -160,14 +158,9 @@ const StoreLayout = () => {
   const getStoreData = async () => {
     setLoading(true);
 
-    const response = await axiosInstance({
-      method: "GET",
-      url: `/store_layout_details/${decoded.id}`,
-    }).catch((err) => console.log(err));
-
-    // const response = await commonGetQuery(
-    //   `/store_layout_details/${decoded.id}`
-    // ).catch((err) => console.log(err));
+    const response = await commonGetQuery(
+      `/store_layout_details/${decoded.id}`
+    );
 
     setLoading(false);
 

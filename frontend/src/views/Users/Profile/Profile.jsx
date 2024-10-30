@@ -16,9 +16,10 @@ import ProfileComponent from ".";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
+import NoImage from "../../../assets/images/no-image-placeholder.png";
 
 import { Loader } from "../../../components/Loader";
-import { SuccessTaster } from "../../../components/Toast";
+import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
 
 const Profile = () => {
@@ -157,9 +158,13 @@ const Profile = () => {
               <Loader />
             ) : (
               <div className="profile-pic-image">
-                <img
-                  src={`${REST_URL_SERVER}/images/${formik.values.image_id}`}
-                />
+                {formik.values.image_id ? (
+                  <img
+                    src={`${REST_URL_SERVER}/images/${formik.values.image_id}`}
+                  />
+                ) : (
+                  <img src={NoImage} />
+                )}
                 <input
                   type="file"
                   className="hidden-input"

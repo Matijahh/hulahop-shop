@@ -9,7 +9,7 @@ import {
   ROUTE_MAIN_SHOP,
   ROUTE_SIGN_UP,
 } from "../../../routes/routes";
-import { getImageUrlById } from "../../../utils/commonFunctions";
+import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
 import _size from "lodash/size";
 import _map from "lodash/map";
 import createStore from "../../../assets/images/createStore.png";
@@ -147,6 +147,83 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <div className="home-slider-section">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="hero-section">
+                <h3 className="banner-head">{t("How Does It Work?")}</h3>
+                <p className="banner-paragraph">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo,
+                  veniam eos id nam incidunt et esse consequatur consectetur
+                  accusantium impedit sit ex at temporibus, non facere
+                  reiciendis nulla. Enim, qui.
+                </p>
+              </div>
+            </div>
+            <div className="col-12">
+              <div className="slider-container">
+                <SliderSection />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {size(bestSellingProducts) > 0 && (
+        <div className="product-list-section">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="hero-section">
+                  <h3 className="banner-head m-0">
+                    {t("Best Selling Products")}
+                  </h3>
+                </div>
+              </div>
+              <div className="col-12">
+                {loading ? (
+                  <div className="d-flex justify-content-center aline-items-center">
+                    <Loader />
+                  </div>
+                ) : (
+                  <div className="product-listing">
+                    <TabContext value={value}>
+                      <div className="product-listing-tabs">
+                        <TabList
+                          onChange={handleChange}
+                          aria-label="lab API tabs example"
+                          centered
+                        >
+                          {_size(categories) > 0 &&
+                            _map(categories, (item, key) => (
+                              <Tab
+                                className="product-tab"
+                                label={t(item?.name)}
+                                value={item?.id}
+                                key={key}
+                                onClick={() => getBestSellingProduct(item?.id)}
+                              />
+                            ))}
+                        </TabList>
+                      </div>
+                      <div className="products-list-container">
+                        <div className="row g-3">
+                          {size(bestSellingProducts) > 0 &&
+                            bestSellingProducts.map((item, key) => (
+                              <div className="col-md-6 col-lg-3" key={key}>
+                                <Product productData={item} />
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    </TabContext>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="associates-listing-section">
         <div className="container">
           <div className="row">
@@ -169,10 +246,17 @@ const HomePage = () => {
                                 window.location.replace(
                                   ROUTE_ASSOCIATE_BRAND_STORE.replace(
                                     ":id",
-                                    get(
-                                      item,
-                                      "store_layout_details.0.user_id",
-                                      null
+                                    slugify(
+                                      get(
+                                        item,
+                                        "store_layout_details.0.name",
+                                        null
+                                      ),
+                                      get(
+                                        item,
+                                        "store_layout_details.0.user_id",
+                                        null
+                                      )
                                     )
                                   )
                                 )
@@ -199,28 +283,6 @@ const HomePage = () => {
                       );
                     })}
                 </SliderComponent>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="home-slider-section">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="hero-section">
-                <h3 className="banner-head">{t("How Does It Work?")}</h3>
-                <p className="banner-paragraph">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo,
-                  veniam eos id nam incidunt et esse consequatur consectetur
-                  accusantium impedit sit ex at temporibus, non facere
-                  reiciendis nulla. Enim, qui.
-                </p>
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="slider-container">
-                <SliderSection />
               </div>
             </div>
           </div>
@@ -328,61 +390,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      {size(bestSellingProducts) > 0 && (
-        <div className="product-list-section">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="hero-section">
-                  <h3 className="banner-head m-0">
-                    {t("Best Selling Products")}
-                  </h3>
-                </div>
-              </div>
-              <div className="col-12">
-                {loading ? (
-                  <div className="d-flex justify-content-center aline-items-center">
-                    <Loader />
-                  </div>
-                ) : (
-                  <div className="product-listing">
-                    <TabContext value={value}>
-                      <div className="product-listing-tabs">
-                        <TabList
-                          onChange={handleChange}
-                          aria-label="lab API tabs example"
-                          centered
-                        >
-                          {_size(categories) > 0 &&
-                            _map(categories, (item, key) => (
-                              <Tab
-                                className="product-tab"
-                                label={t(item?.name)}
-                                value={item?.id}
-                                key={key}
-                                onClick={() => getBestSellingProduct(item?.id)}
-                              />
-                            ))}
-                        </TabList>
-                      </div>
-                      <div className="products-list-container">
-                        <div className="row g-3">
-                          {size(bestSellingProducts) > 0 &&
-                            bestSellingProducts.map((item, key) => (
-                              <div className="col-md-6 col-lg-3" key={key}>
-                                <Product productData={item} />
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    </TabContext>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
       <CommonCategorySidebar
         renderHeader={() => {
           return (

@@ -153,7 +153,10 @@ const Product = ({
                 onClick={() => {
                   window.location = ROUTE_ASSOCIATE_BRAND_STORE.replace(
                     ":id",
-                    productData?.user_id
+                    slugify(
+                      get(productData, "user.store_layout_details[0].name"),
+                      productData?.user_id
+                    )
                   );
                 }}
                 className="associate-store"

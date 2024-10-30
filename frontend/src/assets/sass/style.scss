@@ -572,6 +572,11 @@ p {
   padding: 50px 0 0;
 
   .associates-slider {
+    .slick-track {
+      height: 200px;
+      overflow: hidden;
+    }
+
     .slick-prev:before,
     .slick-next:before {
       color: #f1676d;

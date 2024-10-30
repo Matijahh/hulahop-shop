@@ -15,6 +15,11 @@ export const HeaderContainer = styled.div`
 
   .left {
     .logo-container {
+      padding: 10px 0;
+
+      a:hover {
+        border-bottom: none;
+      }
       img {
         max-width: 100%;
         width: 130px;

@@ -62,7 +62,6 @@ const Header = () => {
 
   const getUserData = async () => {
     const decoded = jwtDecode(ACCESS_TOKEN);
-
     const response = await commonGetQuery(`/users/${decoded.id}`);
 
     if (response) {

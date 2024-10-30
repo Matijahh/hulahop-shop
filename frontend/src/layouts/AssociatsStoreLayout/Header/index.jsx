@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { get } from "lodash";
 import { connect } from "react-redux";
 import { Link, useLocation, useParams, NavLink } from "react-router-dom";
-import { getImageUrlById } from "../../../utils/commonFunctions";
+import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS,
@@ -23,12 +23,17 @@ import Slider from "react-slick";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import { HeaderContainer, HeaderMainContainer } from "./styled";
 import { FlexBox } from "../../../components/Sections";
 
 const Header = ({ storeData }) => {
+  console.log(storeData);
+
   const [userData, setUserData] = useState(null);
 
   const location = useLocation();
@@ -45,6 +50,13 @@ const Header = ({ storeData }) => {
     autoplay: true,
     slidesToShow: 1,
     slidesToScroll: 1,
+  };
+
+  const getSocialUrl = (name) => {
+    if (storeData && get(storeData, "social_links")) {
+      const obj = JSON.parse(get(storeData, "social_links"));
+      return obj[name];
+    }
   };
 
   const getUserData = async () => {
@@ -90,24 +102,29 @@ const Header = ({ storeData }) => {
         </div>
         <div className="top-area-end order-3">
           <div className="flex-box-header">
-            {/* For now comment it out */}
-            {/* <div className="social-tab d-none d-sm-flex">
-              <div className="social-icon">
-                <Link href="#">
-                  <FacebookIcon />
-                </Link>
-              </div>
-              <div className="social-icon">
-                <Link href="#">
-                  <InstagramIcon />
-                </Link>
-              </div>
-              <div className="social-icon">
-                <Link href="#">
-                  <YouTubeIcon />
-                </Link>
-              </div>
-            </div> */}
+            <div className="social-tab d-none d-sm-flex">
+              {getSocialUrl("fb_url") && (
+                <div className="social-icon">
+                  <Link to={getSocialUrl("fb_url")} target="_blank">
+                    <FacebookIcon />
+                  </Link>
+                </div>
+              )}
+              {getSocialUrl("ig_url") && (
+                <div className="social-icon">
+                  <Link to={getSocialUrl("ig_url")} target="_blank">
+                    <InstagramIcon />
+                  </Link>
+                </div>
+              )}
+              {getSocialUrl("yt_url") && (
+                <div className="social-icon">
+                  <Link to={getSocialUrl("yt_url")} target="_blank">
+                    <YouTubeIcon />
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <div className="d-flex d-lg-none middle-area-end order-4">
@@ -137,38 +154,74 @@ const Header = ({ storeData }) => {
         <FlexBox className="header-container container">
           <FlexBox className="left">
             <div className="logo-container">
-              {storeData && <img src={getImageUrlById(storeData.logo_image)} />}
+              {storeData && (
+                <Link
+                  to={ROUTE_ASSOCIATE_BRAND_STORE.replace(
+                    ":id",
+                    slugify(
+                      get(storeData, "name", null),
+                      get(storeData, "user_id", null)
+                    )
+                  )}
+                >
+                  <img src={getImageUrlById(storeData.logo_image)} />
+                </Link>
+              )}
             </div>
           </FlexBox>
           <FlexBox className="mx-3">
             <Link
-              to={ROUTE_ASSOCIATE_BRAND_STORE.replace(":id", id)}
+              to={ROUTE_ASSOCIATE_BRAND_STORE.replace(
+                ":id",
+                slugify(
+                  get(storeData, "name", null),
+                  get(storeData, "user_id", null)
+                )
+              )}
               className={
-                !PageName.includes("shop") &&
-                !PageName.includes("cart") &&
-                !PageName.includes("blogs") &&
-                !PageName.includes("product") &&
-                !PageName.includes("contact") &&
+                !PageName.includes("/shop") &&
+                !PageName.includes("/cart") &&
+                !PageName.includes("/blogs") &&
+                !PageName.includes("/product") &&
+                !PageName.includes("/contact") &&
                 "active"
               }
             >
               {t("Home")}
             </Link>
             <Link
-              className={PageName.includes("shop") && "active"}
-              to={ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":id", id)}
+              className={PageName.includes("/shop") && "active"}
+              to={ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
+                ":id",
+                slugify(
+                  get(storeData, "name", null),
+                  get(storeData, "user_id", null)
+                )
+              )}
             >
               {t("Shop")}
             </Link>
             <Link
-              className={PageName.includes("blogs") && "active"}
-              to={ROUTE_ASSOCIATE_BRAND_STORE_BLOGS.replace(":id", id)}
+              className={PageName.includes("/blogs") && "active"}
+              to={ROUTE_ASSOCIATE_BRAND_STORE_BLOGS.replace(
+                ":id",
+                slugify(
+                  get(storeData, "name", null),
+                  get(storeData, "user_id", null)
+                )
+              )}
             >
               {t("Blogs")}
             </Link>
             <Link
-              className={PageName.includes("contact") && "active"}
-              to={ROUTE_ASSOCIATE_BRAND_STORE_CONTACT.replace(":id", id)}
+              className={PageName.includes("/contact") && "active"}
+              to={ROUTE_ASSOCIATE_BRAND_STORE_CONTACT.replace(
+                ":id",
+                slugify(
+                  get(storeData, "name", null),
+                  get(storeData, "user_id", null)
+                )
+              )}
             >
               {t("Contact")}
             </Link>
