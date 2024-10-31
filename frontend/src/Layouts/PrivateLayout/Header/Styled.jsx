@@ -15,6 +15,9 @@ const HeaderWrapperStyled = styled.div`
 
     &.open {
       display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
     }
   }
 
@@ -36,6 +39,7 @@ const HeaderWrapperStyled = styled.div`
       flex-wrap: wrap;
     }
   }
+
   .header-top-area {
     background: #f8f8f8;
     padding: 10px 20px;
@@ -120,9 +124,16 @@ const HeaderWrapperStyled = styled.div`
         }
       }
     }
+
     .open-menu-box {
       display: none;
       width: 100%;
+
+      .logo-box {
+        img {
+          width: 150px;
+        }
+      }
 
       .open-menu {
         display: flex;
@@ -131,19 +142,21 @@ const HeaderWrapperStyled = styled.div`
         cursor: pointer;
         width: 30px;
         height: 30px;
-        background-color: #f1676d;
 
         svg {
-          fill: #fff;
+          fill: #f1676d;
         }
       }
     }
+
     @media (max-width: 825px) {
       .open-menu-box {
-        display: block;
+        display: flex;
+        justify-content: space-between;
       }
     }
   }
+
   .header-middle-area {
     border-top: 1px solid #e5eaee;
     background: #fff;
@@ -151,6 +164,10 @@ const HeaderWrapperStyled = styled.div`
 
     .logo-box {
       width: 200px;
+
+      @media screen and (max-width: 825px) {
+        display: none;
+      }
 
       img {
         width: 180px;
@@ -166,10 +183,11 @@ const HeaderWrapperStyled = styled.div`
 
     @media (max-width: 825px) {
       .search-box {
-        width: fit-content;
+        width: 100%;
       }
     }
   }
+
   .middle-area-end {
     display: flex;
     align-items: center;
@@ -208,6 +226,7 @@ const HeaderWrapperStyled = styled.div`
       }
     }
   }
+
   .header-bottom-area {
     background: #fff;
     padding: 10px 5px;
@@ -297,6 +316,8 @@ const HeaderWrapperStyled = styled.div`
 
           .close-menu-box {
             display: none;
+            padding-right: 20px;
+            padding-top: 20px;
             width: 100%;
 
             .close-menu {
@@ -306,10 +327,9 @@ const HeaderWrapperStyled = styled.div`
               cursor: pointer;
               width: 30px;
               height: 30px;
-              background-color: #f1676d;
 
               svg {
-                fill: #fff;
+                fill: #f1676d;
               }
             }
           }
@@ -317,19 +337,20 @@ const HeaderWrapperStyled = styled.div`
       }
     }
 
-    @media (max-width: 825px) {
+    @media screen and (max-width: 825px) {
       padding: 0;
+
       .header-main-user {
         .header-menu-user {
           width: 100%;
 
           .nav-user {
-            position: absolute;
+            position: fixed;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
             overflow-y: auto;
-            background-color: #fff;
-            width: min(50%, 250px);
+            background-color: #f8f8f8;
+            width: 100%;
             top: 0;
             left: -100%;
             z-index: 9999;
@@ -340,7 +361,7 @@ const HeaderWrapperStyled = styled.div`
               li {
                 height: 48px;
                 padding: 5px 10px;
-                background-color: #e5eaee;
+                background-color: #f8f8f8;
                 margin-bottom: 4px;
                 margin-top: 4px;
               }

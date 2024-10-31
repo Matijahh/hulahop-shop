@@ -105,6 +105,14 @@ const Header = () => {
             <div className="flex-box-header">
               <div className="open-menu-box">
                 <div
+                  className="logo-box cursor-pointer"
+                  onClick={() => {
+                    navigate(ROUTE_MAIN);
+                  }}
+                >
+                  <img src={logo} alt="" />
+                </div>
+                <div
                   className="open-menu"
                   onClick={() => {
                     toggleMenu(true);

@@ -242,7 +242,7 @@ const CategorySidebarUser = ({
         <Loader />
       ) : (
         <>
-          {filteredCategories.map((item, i) => (
+          {categories.map((item, i) => (
             <Accordion
               disabled={mainLoading || categoryLoading}
               key={i}

@@ -26,6 +26,7 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import { HeaderContainer, HeaderMainContainer } from "./styled";
@@ -33,6 +34,7 @@ import { FlexBox } from "../../../components/Sections";
 
 const Header = ({ storeData }) => {
   const [userData, setUserData] = useState(null);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const location = useLocation();
   const { id } = useParams();
@@ -68,15 +70,27 @@ const Header = ({ storeData }) => {
     }
   };
 
+  const toggleMenu = (state = !menuIsOpen) => {
+    setMenuIsOpen(state);
+  };
+
   useEffect(() => {
     getUserData();
   }, []);
 
   return (
     <HeaderMainContainer>
-      <div className="flex-box-header container">
+      <div className={"flex-box-header container"}>
         <div className="open-menu-box">
-          <div className="open-menu">
+          <Link to={ROUTE_MAIN} className="hulaHop-icon-cover">
+            <img src={logo} alt="logo" />
+          </Link>
+          <div
+            className="open-menu"
+            onClick={() => {
+              toggleMenu(true);
+            }}
+          >
             <MenuOutlinedIcon />
           </div>
         </div>
@@ -125,7 +139,7 @@ const Header = ({ storeData }) => {
             </div>
           </div>
         </div>
-        <div className="d-flex d-lg-none middle-area-end order-4">
+        <div className="d-flex d-none middle-area-end order-4">
           <div>
             <p>
               {userData ? (
@@ -167,7 +181,17 @@ const Header = ({ storeData }) => {
               )}
             </div>
           </FlexBox>
-          <FlexBox className="mx-3">
+          <FlexBox className={`mx-3 links-container ${menuIsOpen && "open"}`}>
+            <div className="close-menu-box">
+              <div
+                className="close-menu"
+                onClick={() => {
+                  toggleMenu(false);
+                }}
+              >
+                <CloseIcon />
+              </div>
+            </div>
             <Link
               to={ROUTE_ASSOCIATE_BRAND_STORE.replace(
                 ":id",

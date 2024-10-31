@@ -54,6 +54,10 @@ p {
   font-size: 36px;
   line-height: 44px;
   text-align: center;
+
+  @media screen and (max-width: 768px) {
+    font-size: 24px;
+  }
 }
 
 .banner-paragraph {
@@ -115,6 +119,10 @@ p {
   .banner-section {
     padding: 50px 0;
 
+    @media screen and (max-width: 768px) {
+      padding: 0;
+    }
+
     .banner-about-section {
       h4 {
         max-width: 520px;
@@ -124,6 +132,11 @@ p {
         font-size: 42px;
         line-height: 48px;
         margin-bottom: 20px;
+
+        @media screen and (max-width: 768px) {
+          font-size: 32px;
+          text-align: center;
+        }
       }
 
       .banner-description {
@@ -157,6 +170,11 @@ p {
 
 .home-slider-section {
   padding: 30px 0 50px;
+
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    margin: 0 auto;
+  }
 
   .slider-container {
     .slick-prev:before,
@@ -262,6 +280,10 @@ p {
       margin-bottom: 30px;
       line-height: 42px;
       max-width: 480px;
+
+      @media screen and (max-width: 768px) {
+        text-align: center;
+      }
     }
 
     p {
@@ -284,6 +306,10 @@ p {
       font-weight: 600;
       margin-top: 20px;
 
+      @media screen and (max-width: 768px) {
+        margin: 0 auto;
+      }
+
       &:hover {
         background: transparent;
         color: #fff;
@@ -294,6 +320,10 @@ p {
 
 .delivery-info-section {
   padding: 50px 0;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
 
   .delivery-box-wrapper {
     display: flex;
@@ -309,6 +339,10 @@ p {
     border-radius: 10px;
     height: 100%;
     max-width: 340px;
+
+    @media screen and (max-width: 768px) {
+      text-align: center;
+    }
 
     .icon-box {
       margin-bottom: 20px;
@@ -347,6 +381,10 @@ p {
 
 .product-list-section {
   padding: 50px 0 30px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
 
   .product-listing-tabs {
     .MuiTabs-indicator {
@@ -685,6 +723,14 @@ p {
 .shop-product-section {
   padding: 50px 0;
 
+  @media screen and (max-width: 768px) {
+    padding: 20px 0;
+
+    .hero-section {
+      margin: 0;
+    }
+  }
+
   .open-menu-box {
     width: 100%;
     display: none;
@@ -710,10 +756,11 @@ p {
       }
     }
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 768px) {
       display: block;
     }
   }
+
   .shop-products-box {
     display: flex;
     align-items: flex-start;
@@ -732,7 +779,7 @@ p {
         background: transparent;
       }
 
-      @media screen and (max-width: 992px) {
+      @media screen and (max-width: 768px) {
         width: 260px;
       }
     }
@@ -748,14 +795,14 @@ p {
       }
     }
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 768px) {
       position: relative;
 
       .shop-category-sidebar {
         position: absolute;
-        background: #00000050;
+        background: transparent;
         width: calc(100% + 20px);
-        height: 100%;
+        height: max-content;
         padding: 0;
         z-index: 888;
         left: 100%;
@@ -763,8 +810,12 @@ p {
 
         .category-sidebar-wrapper {
           background: #fff;
+          box-shadow: 3px 1px 15px #d4d2d2;
+          border-radius: 10px;
           padding: 20px;
-          height: 100%;
+          height: max-content;
+          margin-left: 20px;
+          margin-top: 5px;
           max-width: 75%;
           width: 280px;
         }
@@ -853,6 +904,10 @@ p {
 
   .about-decription-sectiopn {
     padding: 50px 0;
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+    }
   }
 
   .about-platform-decription {
@@ -862,6 +917,10 @@ p {
       font-size: 15px;
       line-height: 20px;
       padding-bottom: 10px;
+
+      @media screen and (max-width: 768px) {
+        text-align: center;
+      }
     }
 
     h5 {
@@ -871,6 +930,10 @@ p {
       font-weight: 700;
       padding-bottom: 20px;
       padding-top: 10px;
+
+      @media screen and (max-width: 768px) {
+        text-align: center;
+      }
     }
 
     ul {
@@ -1022,6 +1085,10 @@ p {
 
   .blog-listing-section {
     padding: 50px 0;
+
+    @media screen and (max-width: 768px) {
+      padding: 20px 0 0 0;
+    }
   }
 }
 
@@ -1146,6 +1213,10 @@ p {
   .about-product-section {
     padding: 50px 0;
 
+    @media screen and (max-width: 768px) {
+      padding: 20px 0;
+    }
+
     .hero-section {
       margin-bottom: 10px;
       .banner-head {
@@ -1257,6 +1328,16 @@ p {
 .single-product-page {
   .product-hero-section {
     padding: 20px 0 50px;
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    button:first-child {
+      margin-bottom: 20px;
+    }
   }
 
   .product-hr-line {
@@ -1539,6 +1620,11 @@ p {
       padding: 10px 0;
 
       .add-cart-flexbox {
+        @media screen and (max-width: 768px) {
+          display: flex;
+          justify-content: space-between;
+        }
+
         gap: 15px;
       }
 
@@ -1643,6 +1729,10 @@ p {
 
   .after-purchase-section {
     padding: 0px 0 50px 0;
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+    }
 
     .description-white-box {
       border-radius: 6px;

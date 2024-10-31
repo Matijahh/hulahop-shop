@@ -195,7 +195,7 @@ const Product = ({
           </div>
           <div className="product-buy-button">
             <ButtonComponent
-              text={t("BUY NOW")}
+              text={t("Buy Now")}
               variant="outlined"
               className="buy-btn"
               onClick={() =>

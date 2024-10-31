@@ -11,6 +11,62 @@ export const HeaderContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+
+    @media screen and (max-width: 768px) {
+      padding: 0 20px;
+    }
+
+    .links-container {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+
+      a {
+        margin-bottom: 20px;
+      }
+
+      &.open {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100%;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        z-index: 9999;
+        justify-content: start;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        @media (max-width: 768px) {
+          .close-menu-box {
+            display: block;
+          }
+        }
+      }
+
+      .close-menu-box {
+        display: none;
+        width: 100%;
+        padding-top: 20px;
+        padding-right: 20px;
+
+        .close-menu {
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          width: 30px;
+          height: 30px;
+
+          svg {
+            fill: #f1676d;
+          }
+        }
+      }
+    }
   }
 
   .left {
@@ -61,6 +117,14 @@ export const HeaderContainer = styled.div`
         color: #150e4b;
         font-size: 32px !important;
       }
+
+      @media screen and (max-width: 768px) {
+        padding-left: 0;
+
+        svg {
+          font-size: 27px !important;
+        }
+      }
     }
   }
 `;
@@ -92,6 +156,12 @@ export const HeaderMainContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
 
     .contact-box {
       width: 200px;
@@ -156,9 +226,11 @@ export const HeaderMainContainer = styled.div`
         }
       }
     }
+
     .open-menu-box {
       display: none;
       width: 100%;
+      padding: 0 20px;
 
       .open-menu {
         display: flex;
@@ -167,16 +239,18 @@ export const HeaderMainContainer = styled.div`
         cursor: pointer;
         width: 30px;
         height: 30px;
-        background-color: #fff;
 
         svg {
-          fill: #fff;
+          fill: #f1676d;
         }
       }
     }
-    @media (max-width: 825px) {
+
+    @media (max-width: 768px) {
       .open-menu-box {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
     }
   }
