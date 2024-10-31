@@ -32,8 +32,6 @@ import { HeaderContainer, HeaderMainContainer } from "./styled";
 import { FlexBox } from "../../../components/Sections";
 
 const Header = ({ storeData }) => {
-  console.log(storeData);
-
   const [userData, setUserData] = useState(null);
 
   const location = useLocation();

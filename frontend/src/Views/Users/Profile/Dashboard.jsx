@@ -73,26 +73,38 @@ const Dashboard = () => {
 
         {loading && <LoaderContainer />}
 
-        <div className="vendor-box">
-          <div className="vendor-flexbox">
-            <div className="vendor-desc">
-              <h6>{t("Become a Vendor")}</h6>
-              <p>
-                {t(
-                  "Vendors can sell products and manage a store with a vendor dashboard."
-                )}
-              </p>
-            </div>
-            <div className="vendor-btn-box">
-              <ButtonComponent
-                text={t("Go to Dashboard")}
-                variant="contained"
-                className="vendor-btn"
-                onClick={() => handleDashboard()}
-              />
+        {(get(userData, "type", "") === "ASSOCIATE" ||
+          get(userData, "type", "") === "ADMIN") && (
+          <ButtonComponent
+            text={t("Go to Dashboard")}
+            variant="contained"
+            className="vendor-btn"
+            onClick={() => handleDashboard()}
+          />
+        )}
+
+        {get(userData, "type", "") === "USER" && (
+          <div className="vendor-box">
+            <div className="vendor-flexbox">
+              <div className="vendor-desc">
+                <h6>{t("Become a Vendor")}</h6>
+                <p>
+                  {t(
+                    "Vendors can sell products and manage a store with a vendor dashboard."
+                  )}
+                </p>
+              </div>
+              <div className="vendor-btn-box">
+                <ButtonComponent
+                  text={t("Go to Dashboard")}
+                  variant="contained"
+                  className="vendor-btn"
+                  onClick={() => handleDashboard()}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </ProfileComponent>
   );

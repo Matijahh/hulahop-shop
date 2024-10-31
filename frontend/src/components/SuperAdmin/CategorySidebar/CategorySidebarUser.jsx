@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { connect } from "react-redux";
-import { isEmpty, size } from "lodash";
+import { get, isEmpty, size } from "lodash";
 import styled from "styled-components";
 import cx from "classnames";
 import _get from "lodash/get";
@@ -116,6 +116,7 @@ const CategorySidebarUser = ({
   const [subSelectedId, setSubSelectedId] = useState();
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
   const navigation = useNavigate();
   const params = useParams();
@@ -163,6 +164,56 @@ const CategorySidebarUser = ({
     navigation(url);
   };
 
+  const getProductData = async () => {
+    let url = "associate_products";
+    let categories = [];
+    url = `${url}?user_id=${get(params, "id")?.split("-")?.[1]}`;
+
+    const response = await commonGetQuery(url);
+
+    if (response) {
+      const { data } = response.data;
+
+      data.forEach((p) => {
+        const product = p.product;
+        if (
+          product &&
+          product.category &&
+          !categories.find((c) => c.id === product.category.id)
+        ) {
+          categories.push({ ...product.category, sub_categories: [] });
+        }
+      });
+
+      data.forEach((p) => {
+        const product = p.product;
+        if (product && product.sub_category) {
+          let index = categories.findIndex(
+            (c) => c.id === product.sub_category.category_id
+          );
+          if (index !== -1) {
+            categories[index].sub_categories = [
+              ...categories[index].sub_categories,
+              product.sub_category,
+            ];
+          }
+        }
+      });
+
+      setFilteredCategories([
+        {
+          id: "all",
+          name: "All",
+        },
+        ...categories,
+      ]);
+    }
+  };
+
+  useEffect(() => {
+    getProductData();
+  }, []);
+
   useEffect(() => {
     if (size(shopCategoryDataList) <= 0 && isEmpty(shopCategoryDataList)) {
       getAllCategory();
@@ -175,7 +226,7 @@ const CategorySidebarUser = ({
         ...shopCategoryDataList,
       ]);
     }
-  }, []);
+  }, [shopCategoryDataList]);
 
   useEffect(() => {
     let category = queryParams.get("categoryId");
@@ -191,7 +242,7 @@ const CategorySidebarUser = ({
         <Loader />
       ) : (
         <>
-          {categories.map((item, i) => (
+          {filteredCategories.map((item, i) => (
             <Accordion
               disabled={mainLoading || categoryLoading}
               key={i}
