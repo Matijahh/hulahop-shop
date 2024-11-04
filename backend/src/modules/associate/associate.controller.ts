@@ -23,10 +23,18 @@ export class AssociateController {
   @SkipAuth()
   @Get()
   async findAll(@Res() res: Response, @Req() req: Request) {
+    const isHighlighted = req.query.isHighlighted === 'true';
+
+    const conditions: any = { type: UserTypes.ASSOCIATE };
+    if (req.query.isHighlighted !== undefined) {
+      conditions.isHighlighted = isHighlighted;
+    }
+
     const result = await this.associateService.find({
-      where: { type: UserTypes.ASSOCIATE },
+      where: conditions,
       relations: { store_layout_details: true },
     });
+
     return baseController.getResult(
       res,
       HttpStatus.OK,

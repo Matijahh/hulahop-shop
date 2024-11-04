@@ -103,6 +103,10 @@ export class Users {
   })
   wallet: number | null;
 
+  @Column('boolean', { name: 'isHighlighted', default: false })
+  isHighlighted: boolean;
+
+
   @OneToMany(() => AssociateImages, (associate_images) => associate_images.user)
   associate_images: AssociateImages[];
 

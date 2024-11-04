@@ -31,6 +31,11 @@ export class CreateUsersInput {
   @IsOptional()
   image_id: string | null;
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  isHighlighted: boolean | null;
+
+
   created_at: string | null;
   updated_at: string | null;
 }

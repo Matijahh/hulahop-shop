@@ -15,6 +15,7 @@ import { UserTypes } from '../../commons/enum';
 
 @Injectable()
 export class UsersService extends AbstractService {
+  MAX_HIGHLIGHTED_USERS = 8;
   constructor() {
     super(usersRepository);
   }
@@ -37,6 +38,11 @@ export class UsersService extends AbstractService {
     if (!user) {
       throw new NotFoundException('This record does not exist!');
     }
+
+    if (data.isHighlighted && user.isHighlighted === false) {
+      await this.checkIfUserCanBeHighlighted();
+    }
+
     data.updated_at = Date.now().toString();
     const { password, ...rest } = data;
     const update = this.abstractUpdate(
@@ -45,6 +51,20 @@ export class UsersService extends AbstractService {
       relations,
     );
     return update;
+  }
+
+  async getHighlightedUsersCount() {
+    const count = await this.find({ where: { isHighlighted: true } });
+    return count.length;
+  }
+
+  async checkIfUserCanBeHighlighted() {
+    const highlightedUsersCount = await this.getHighlightedUsersCount();
+    if (highlightedUsersCount >= this.MAX_HIGHLIGHTED_USERS) {
+      throw new ConflictException(
+        `You can only highlight ${this.MAX_HIGHLIGHTED_USERS} users!`,
+      );
+    }
   }
 
   async remove(id: number) {
