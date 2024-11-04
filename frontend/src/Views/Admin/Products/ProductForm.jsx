@@ -83,9 +83,7 @@ export const ProductFormWrapper = styled.div`
 
   .positions-inputs {
     .col-12 {
-      @media screen and (max-width: 768px) {
-        margin-bottom: 10px;
-      }
+      margin-bottom: 10px;
     }
   }
 `;

@@ -4,7 +4,7 @@ import { renderHeader } from "./mock";
 import { filter } from "lodash";
 import { camelCase, getImageUrlById } from "../../../utils/commonFunctions";
 import { commonGetQuery } from "../../../utils/axiosInstance";
-import { Container } from "../Users/styled";
+import { AssociatesContainer } from "./styled";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Loader } from "../../../components/Loader";
@@ -73,7 +73,7 @@ const Associates = () => {
   }, []);
 
   return (
-    <Container>
+    <AssociatesContainer>
       <CommonWhiteBackground>
         <FlexBox className="mb-4 title-wrapper">
           <div className="main-title ">{t("Associate")}</div>
@@ -85,7 +85,7 @@ const Associates = () => {
           <Tables
             className="user-table"
             body={userData}
-            header={renderHeader(toggleModal, toggleDeleteModal).map(
+            header={renderHeader(toggleModal, toggleDeleteModal, () => {}).map(
               (item) => ({
                 ...item,
                 headerName: t(item.headerName),
@@ -134,7 +134,7 @@ const Associates = () => {
           />
         )}
       </CommonWhiteBackground>
-    </Container>
+    </AssociatesContainer>
   );
 };
 

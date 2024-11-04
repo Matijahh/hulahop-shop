@@ -21,6 +21,7 @@ import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../../../components/ModalComponent";
+import { ColorsContainer } from "./styled";
 
 const Colors = () => {
   const [loading, setLoading] = useState(false);
@@ -130,74 +131,77 @@ const Colors = () => {
   }, []);
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4 title-wrapper">
-        <div className="main-title ">{t("Colors")}</div>
-        <FlexBox className="filters-wrapper">
-          <InputComponent
-            type="search"
-            label={t("Search")}
-            value={searchText}
-            onChange={handleChange}
-          />
-          <ButtonComponent
-            variant="contained"
-            startIcon={<AddIcon />}
-            text={t("Add Colors")}
-            onClick={() => navigation(ROUTE_ADMIN_COLORS_ADD)}
-          />
-        </FlexBox>
-      </FlexBox>
-
-      {loading && <LoaderContainer />}
-
-      <ModalComponent
-        title={t("Delete Color")}
-        size={"m"}
-        open={isOpen}
-        handleClose={handleToggle}
-      >
-        <p>
-          {`${t("Are you sure you want to delete")} `}
-          <span className="bold">{colorToDelete?.title}</span>
-          {`?`}
-        </p>
-        <>
-          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
-            <ButtonComponent
-              className=""
-              variant="outlined"
-              fullWidth
-              text={t("Cancel")}
-              onClick={handleToggle}
+    <ColorsContainer>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4 title-wrapper">
+          <div className="main-title ">{t("Colors")}</div>
+          <FlexBox className="filters-wrapper">
+            <InputComponent
+              type="search"
+              label={t("Search")}
+              value={searchText}
+              onChange={handleChange}
             />
             <ButtonComponent
               variant="contained"
-              fullWidth
-              text={t("Delete")}
-              type="button"
-              onClick={handleDelete}
+              startIcon={<AddIcon />}
+              text={t("Add Colors")}
+              onClick={() => navigation(ROUTE_ADMIN_COLORS_ADD)}
             />
           </FlexBox>
-        </>
-      </ModalComponent>
+        </FlexBox>
 
-      <Tables
-        body={
-          isSearch
-            ? size(searchFilterData) > 0
-              ? setTableRenderData(searchFilterData)
+        {loading && <LoaderContainer />}
+
+        <ModalComponent
+          title={t("Delete Color")}
+          size={"m"}
+          open={isOpen}
+          handleClose={handleToggle}
+        >
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{colorToDelete?.title}</span>
+            {`?`}
+          </p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete")}
+                type="button"
+                onClick={handleDelete}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+
+        <Tables
+          className="colors-table"
+          body={
+            isSearch
+              ? size(searchFilterData) > 0
+                ? setTableRenderData(searchFilterData)
+                : []
+              : size(colorList) > 0
+              ? setTableRenderData(colorList)
               : []
-            : size(colorList) > 0
-            ? setTableRenderData(colorList)
-            : []
-        }
-        header={renderHeader.map((item) => ({
-          ...item,
-          headerName: t(item.headerName),
-        }))}
-      />
-    </CommonWhiteBackground>
+          }
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
+        />
+      </CommonWhiteBackground>
+    </ColorsContainer>
   );
 };
 

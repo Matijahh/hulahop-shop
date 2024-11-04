@@ -23,6 +23,7 @@ import {
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+import { AppearanceContainer } from "./styled";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import ButtonComponent from "../../../components/ButtonComponent";
@@ -219,7 +220,7 @@ const Appearance = () => {
   }, []);
 
   return (
-    <div>
+    <AppearanceContainer>
       <div className="w-100 mb-4">
         <CommonWhiteBackground>
           <FlexBox className="mb-4 title-wrapper">
@@ -236,6 +237,7 @@ const Appearance = () => {
             </FlexBox>
           </FlexBox>
           <Tables
+            className="banner-table"
             body={
               size(shopSliderList) > 0
                 ? setShopSliderTableRenderData(shopSliderList)
@@ -265,6 +267,7 @@ const Appearance = () => {
             </FlexBox>
           </FlexBox>
           <Tables
+            className="banner-table"
             body={
               size(aboutSliderList) > 0
                 ? setAboutSliderTableRenderData(aboutSliderList)
@@ -328,6 +331,7 @@ const Appearance = () => {
             </FlexBox>
           </FlexBox>
           <Tables
+            className="banner-table"
             body={
               size(blogSliderList) > 0
                 ? setBlogSliderTableRenderData(blogSliderList)
@@ -340,7 +344,7 @@ const Appearance = () => {
           />{" "}
         </CommonWhiteBackground>
       </div>
-    </div>
+    </AppearanceContainer>
   );
 };
 

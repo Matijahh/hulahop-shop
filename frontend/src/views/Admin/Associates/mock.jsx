@@ -1,9 +1,10 @@
 import { get } from "lodash";
 
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import { Switch } from "@mui/material";
 
-export const renderHeader = (toggleModal, deleteItem) => {
+export const renderHeader = (toggleModal, deleteItem, onCheck) => {
   return [
     {
       field: "no",
@@ -62,19 +63,35 @@ export const renderHeader = (toggleModal, deleteItem) => {
     {
       field: "status",
       headerName: "Status",
-      width: 180,
-      align: "left",
+      width: 150,
+      align: "center",
+    },
+
+    {
+      field: "isHighlighted",
+      headerName: "Highlighted",
+      width: 100,
+      align: "center",
+      renderCell: (params) => (
+        <>
+          <Switch
+            checked={params.row.isBestSelling}
+            onChange={() => onCheck(params.row.isBestSelling)}
+          />
+        </>
+      ),
     },
 
     {
       field: "action",
       headerName: "Action",
-      width: 150,
-      align: "left",
+      width: 100,
+      align: "center",
+      sortable: false,
       renderCell: (params) => (
         <>
-          <EditOutlinedIcon
-            className=" cursor-pointer"
+          <RemoveRedEyeOutlinedIcon
+            className="cursor-pointer"
             onClick={() => toggleModal(params)}
           />
           <DeleteOutlineOutlinedIcon

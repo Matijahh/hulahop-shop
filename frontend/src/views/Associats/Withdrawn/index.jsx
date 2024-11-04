@@ -99,7 +99,15 @@ const Withdrawn = ({ userData }) => {
             />
           </FlexBox>
         </FlexBox>
-        {loading ? <Loader /> : <Tables body={tableList} header={header} />}
+        {loading ? (
+          <Loader />
+        ) : (
+          <Tables
+            className="withdrawn-table"
+            body={tableList}
+            header={header}
+          />
+        )}
         {isOpen && (
           <RequestWithdrawal
             userData={userData}

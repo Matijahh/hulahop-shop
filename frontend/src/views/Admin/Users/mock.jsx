@@ -63,14 +63,31 @@ export const renderHeader = (
     {
       field: "status",
       headerName: "Status",
-      width: 180,
-      align: "left",
+      width: 150,
+      align: "center",
+    },
+    {
+      field: "password reset link",
+      headerName: "Password Reset Link",
+      width: 200,
+      align: "center",
+      sortable: false,
+      renderCell: (params) => (
+        <>
+          <Button
+            onClick={() => handleSendPasswordForgetLink(params?.row?.email)}
+          >
+            {resetButtonLabel}
+          </Button>
+        </>
+      ),
     },
     {
       field: "action",
       headerName: "Action",
       width: 150,
-      align: "left",
+      align: "center",
+      sortable: false,
       renderCell: (params) => (
         <>
           <EditOutlinedIcon
@@ -81,21 +98,6 @@ export const renderHeader = (
             className="mx-2 cursor-pointer"
             onClick={() => handleToggle(params?.row)}
           />
-        </>
-      ),
-    },
-    {
-      field: "password reset link",
-      headerName: "Password Reset Link",
-      width: 200,
-      align: "left",
-      renderCell: (params) => (
-        <>
-          <Button
-            onClick={() => handleSendPasswordForgetLink(params?.row?.email)}
-          >
-            {resetButtonLabel}
-          </Button>
         </>
       ),
     },

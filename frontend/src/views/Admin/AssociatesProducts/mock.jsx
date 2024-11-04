@@ -22,7 +22,7 @@ export const renderHeader = [
     field: "product_image",
     headerName: "Product Image",
     width: 200,
-    align: "left",
+    align: "center",
     renderCell: ({ row }) => (
       <>
         <div style={{ width: 200, height: "auto" }}>
@@ -43,7 +43,7 @@ export const renderHeader = [
   {
     field: "product_name",
     headerName: "Product Name",
-    width: 300,
+    width: 200,
     align: "left",
   },
   {
@@ -79,10 +79,9 @@ export const renderHeader = [
   {
     field: "status",
     headerName: "Status",
-    width: 180,
-    align: "left",
+    width: 150,
+    align: "center",
   },
-
   {
     field: "best selling product",
     headerName: "Best Selling",
@@ -107,11 +106,11 @@ export const renderHeader = [
     field: "action",
     headerName: "Action",
     width: 100,
-    align: "left",
+    align: "center",
     sortable: false,
     renderCell: ({ row }) => (
       <>
-        <div className="d-flex align-items-cente">
+        <div className="d-flex align-items-center">
           <div
             role="button"
             className="me-2"

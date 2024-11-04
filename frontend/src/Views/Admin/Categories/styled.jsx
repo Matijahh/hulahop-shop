@@ -20,6 +20,19 @@ export const Container = styled.div`
     border: 1px solid rgba(224, 224, 224, 1);
     border-radius: 4px;
 
+    .MuiTableHead-root {
+      .MuiTableRow-head {
+        .MuiTableCell-head:nth-child(4),
+        .MuiTableCell-head:last-child {
+          text-align: center;
+        }
+      }
+    }
+
+    .align-items-center {
+      text-align: center;
+    }
+
     @media screen and (max-width: 768px) {
       width: calc(100% - 400px) !important;
     }

@@ -20,6 +20,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { AssociatesProductsContainer } from "./styled";
 
 const AssociatesProducts = () => {
   const [loading, setLoading] = useState(false);
@@ -203,7 +204,7 @@ const AssociatesProducts = () => {
   }, [selectedProduct]);
 
   return (
-    <>
+    <AssociatesProductsContainer>
       {loading && <LoaderContainer />}
 
       <CommonWhiteBackground>
@@ -276,6 +277,7 @@ const AssociatesProducts = () => {
         </ModalComponent>
 
         <Tables
+          className="products-table"
           body={
             isSearch
               ? size(searchFilterData) > 0
@@ -291,7 +293,7 @@ const AssociatesProducts = () => {
           }))}
         />
       </CommonWhiteBackground>
-    </>
+    </AssociatesProductsContainer>
   );
 };
 

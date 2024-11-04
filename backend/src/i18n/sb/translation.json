@@ -501,7 +501,7 @@
   "Out of Stock": "Nema na zalihama",
   "Low of Stock": "Malo na zalihama",
   "Net Sales": "Neto prodaja",
-  "Products Sold": "Proizvodi artikli",
+  "Products Sold": "Prodati artikli",
   "Sales This Month": "Prodaja ovog meseca",
   "Orders This Month": "Narudžbine ovog meseca",
   "Top Categories - Items Sold": "Najbolje kategorije - Prodati artikli",
@@ -537,9 +537,9 @@
   "Price is required!": "Cena je obavezna!",
   "Add Products": "Dodaj artikle",
   "Product Name": "Ime artikla",
-  "Product Sub Variant": "Podvarijanta artikla",
-  "Add Sub Variant": "Dodaj podvarijantu",
-  "Sub Variant Value": "Vrednost podvarijante",
+  "Product Sub Variant": "Veličina artikla",
+  "Add Sub Variant": "Dodaj veličinu",
+  "Sub Variant Value": "Vrednost veličine",
   "Set Frame Position": "Postavi poziciju okvira",
   "Enter X Position": "Unesi X poziciju",
   "X Position": "X pozicija",
@@ -693,5 +693,6 @@
   "Delete User": "Obriši korisnika",
   "Send": "Pošalji",
   "Delete Slider Slide": "Obriši sliku banera",
-  "Delete Associate": "Obriši prodavca"
+  "Delete Associate": "Obriši prodavca",
+  "Highlighted": "Istaknuto"
 }

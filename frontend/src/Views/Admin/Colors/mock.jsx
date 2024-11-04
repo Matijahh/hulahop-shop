@@ -21,7 +21,7 @@ export const renderHeader = [
     field: "color",
     headerName: "Color",
     width: 100,
-    align: "left",
+    align: "center",
     sortable: false,
     renderCell: (params) => (
       <>
@@ -50,15 +50,16 @@ export const renderHeader = [
   {
     field: "status",
     headerName: "Status",
-    width: 180,
-    align: "left",
+    width: 150,
+    align: "center",
   },
 
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-cente">

@@ -9,6 +9,7 @@ import {
 import { debounce, size } from "lodash";
 import * as Yup from "yup";
 import map from "lodash/map";
+import styled from "styled-components";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
@@ -18,6 +19,22 @@ import InputComponent from "../../../components/InputComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../../../components/ModalComponent";
+
+const TABLE_OFFSET = "154px";
+
+export const Container = styled.div`
+  .translations-table {
+    height: calc(100vh - ${TABLE_OFFSET});
+
+    .css-yrdy0g-MuiDataGrid-columnHeaderRow {
+      .MuiDataGrid-withBorderColor:last-child {
+        .MuiDataGrid-columnHeaderTitleContainer {
+          justify-content: center;
+        }
+      }
+    }
+  }
+`;
 
 const Translation = () => {
   const [loading, setLoading] = useState(false);
@@ -171,7 +188,7 @@ const Translation = () => {
   }, []);
 
   return (
-    <>
+    <Container>
       <CommonWhiteBackground>
         <FlexBox className="mb-4 title-wrapper">
           <div className="main-title ">{t("Translations")}</div>
@@ -194,6 +211,7 @@ const Translation = () => {
         {loading && <LoaderContainer />}
 
         <Tables
+          className="translations-table"
           body={
             isSearch
               ? size(searchFilterData) > 0
@@ -255,7 +273,7 @@ const Translation = () => {
           </>
         </form>
       </ModalComponent>
-    </>
+    </Container>
   );
 };
 

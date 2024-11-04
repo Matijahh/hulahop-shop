@@ -21,7 +21,7 @@ export const renderHeader = [
     field: "blog_img",
     headerName: "Cover Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: (params) => (
       <>
         <img src={getImageUrlById(get(params, "row.image_id"))} />
@@ -45,8 +45,9 @@ export const renderHeader = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-cente">

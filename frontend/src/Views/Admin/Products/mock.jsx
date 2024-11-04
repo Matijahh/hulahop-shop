@@ -46,7 +46,7 @@ export const renderHeader = [
   {
     field: "product_name",
     headerName: "Product Name",
-    width: 300,
+    width: 200,
     align: "left",
   },
   {
@@ -64,7 +64,7 @@ export const renderHeader = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
+    width: 100,
     align: "center",
     sortable: false,
     renderCell: ({ row }) => (

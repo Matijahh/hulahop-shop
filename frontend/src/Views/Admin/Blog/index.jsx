@@ -11,11 +11,11 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import { get, size, debounce } from "lodash";
-import { Container } from "../Users/styled";
 import map from "lodash/map";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+import { BlogContainer } from "./styled";
 
 import InputComponent from "../../../components/InputComponent";
 import Tables from "../../../components/SuperAdmin/Tables";
@@ -130,7 +130,7 @@ const Blog = () => {
   };
 
   return (
-    <Container>
+    <BlogContainer>
       <CommonWhiteBackground>
         {loading && <LoaderContainer />}
 
@@ -184,7 +184,7 @@ const Blog = () => {
         </ModalComponent>
 
         <Tables
-          className="user-table"
+          className="blogs-table"
           body={
             isSearch
               ? size(searchFilterData) > 0
@@ -200,7 +200,7 @@ const Blog = () => {
           }))}
         />
       </CommonWhiteBackground>
-    </Container>
+    </BlogContainer>
   );
 };
 export default Blog;

@@ -9,6 +9,7 @@ import {
   ROUTE_ADMIN_ANNOUNCEMENTS_ADD,
   ROUTE_ADMIN_ANNOUNCEMENTS_EDIT,
 } from "../../../routes/routes";
+import styled from "styled-components";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,6 +21,22 @@ import ModalComponent from "../../../components/ModalComponent";
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
 
+const TABLE_OFFSET = "154px";
+
+const Container = styled.div`
+  .announcements-table {
+    height: calc(100vh - ${TABLE_OFFSET});
+
+    .css-yrdy0g-MuiDataGrid-columnHeaderRow {
+      .MuiDataGrid-withBorderColor:last-child {
+        .MuiDataGrid-columnHeaderTitleContainer {
+          justify-content: center;
+        }
+      }
+    }
+  }
+`;
+
 const Announcements = () => {
   const tableHeaderTitle = [
     { field: "id", headerName: "ID" },
@@ -28,8 +45,8 @@ const Announcements = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
-      align: "left",
+      width: 100,
+      align: "center",
       renderCell: ({ row }) => (
         <>
           <div className="d-flex align-items-cente">
@@ -120,60 +137,63 @@ const Announcements = () => {
   }, []);
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4 title-wrapper">
-        <div className="main-title ">{t("Announcements")}</div>
-        <FlexBox className="filters-wrapper">
-          <ButtonComponent
-            variant="contained"
-            startIcon={<AddIcon />}
-            text={t("Add Announcements")}
-            onClick={() => navigation(ROUTE_ADMIN_ANNOUNCEMENTS_ADD)}
-          />
-        </FlexBox>
-      </FlexBox>
-
-      {loading && <LoaderContainer />}
-
-      <ModalComponent
-        title={t("Delete Announcement")}
-        size={"m"}
-        open={isOpen}
-        handleClose={handleToggle}
-      >
-        <p>
-          {`${t("Are you sure you want to delete")} `}
-          <span className="bold">{announcementToDelete?.title}</span>
-          {`?`}
-        </p>
-        <>
-          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
-            <ButtonComponent
-              className=""
-              variant="outlined"
-              fullWidth
-              text={t("Cancel")}
-              onClick={handleToggle}
-            />
+    <Container>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4 title-wrapper">
+          <div className="main-title ">{t("Announcements")}</div>
+          <FlexBox className="filters-wrapper">
             <ButtonComponent
               variant="contained"
-              fullWidth
-              text={t("Delete")}
-              type="button"
-              onClick={handleDelete}
+              startIcon={<AddIcon />}
+              text={t("Add Announcements")}
+              onClick={() => navigation(ROUTE_ADMIN_ANNOUNCEMENTS_ADD)}
             />
           </FlexBox>
-        </>
-      </ModalComponent>
+        </FlexBox>
 
-      <Tables
-        header={tableHeaderTitle.map((item) => ({
-          ...item,
-          headerName: t(item.headerName),
-        }))}
-        body={tableList}
-      />
-    </CommonWhiteBackground>
+        {loading && <LoaderContainer />}
+
+        <ModalComponent
+          title={t("Delete Announcement")}
+          size={"m"}
+          open={isOpen}
+          handleClose={handleToggle}
+        >
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{announcementToDelete?.title}</span>
+            {`?`}
+          </p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete")}
+                type="button"
+                onClick={handleDelete}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+
+        <Tables
+          className="announcements-table"
+          header={tableHeaderTitle.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
+          body={tableList}
+        />
+      </CommonWhiteBackground>
+    </Container>
   );
 };
 export default Announcements;

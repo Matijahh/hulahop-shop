@@ -15,6 +15,7 @@ import {
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+import { AboutProductContainer } from "./styled";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import InputComponent from "../../../components/InputComponent";
@@ -132,76 +133,79 @@ const AboutProduct = () => {
   }, []);
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4 title-wrapper">
-        <div className="main-title ">{t("About Product Data")}</div>
-        <FlexBox className="filters-wrapper">
-          <InputComponent
-            type="search"
-            label={t("Search About Product Data")}
-            value={searchText}
-            onChange={handleChange}
-          />
-          <ButtonComponent
-            variant="contained"
-            startIcon={<AddIcon />}
-            text={t("Add Product Data")}
-            onClick={() => navigation(ROUTE_ADMIN_ABOUT_PRODUCT_ADD)}
-          />
-        </FlexBox>
-      </FlexBox>
-
-      {loading && <LoaderContainer />}
-
-      <Tables
-        body={
-          isSearch
-            ? size(searchFilterData) > 0
-              ? setTableRenderData(searchFilterData)
-              : []
-            : size(aboutProductData) > 0
-            ? setTableRenderData(aboutProductData)
-            : []
-        }
-        header={renderHeader.map((item) => ({
-          ...item,
-          headerName: t(item.headerName),
-        }))}
-      />
-
-      <ModalComponent
-        title={t("Delete About Product Data")}
-        size={"m"}
-        open={isOpen}
-        handleClose={handleToggle}
-      >
-        <p>
-          {`${t("Are you sure you want to delete")} `}
-          <span className="bold">{selectedProduct?.title}</span>
-          {`?`}
-        </p>
-        <>
-          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
-            <ButtonComponent
-              className=""
-              variant="outlined"
-              fullWidth
-              text={t("Cancel")}
-              onClick={handleToggle}
+    <AboutProductContainer>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4 title-wrapper">
+          <div className="main-title ">{t("About Product Data")}</div>
+          <FlexBox className="filters-wrapper">
+            <InputComponent
+              type="search"
+              label={t("Search About Product Data")}
+              value={searchText}
+              onChange={handleChange}
             />
             <ButtonComponent
               variant="contained"
-              fullWidth
-              text={t("Delete")}
-              type="button"
-              onClick={() => {
-                handleDelete(selectedProduct.id);
-              }}
+              startIcon={<AddIcon />}
+              text={t("Add Product Data")}
+              onClick={() => navigation(ROUTE_ADMIN_ABOUT_PRODUCT_ADD)}
             />
           </FlexBox>
-        </>
-      </ModalComponent>
-    </CommonWhiteBackground>
+        </FlexBox>
+
+        {loading && <LoaderContainer />}
+
+        <Tables
+          className="products-table"
+          body={
+            isSearch
+              ? size(searchFilterData) > 0
+                ? setTableRenderData(searchFilterData)
+                : []
+              : size(aboutProductData) > 0
+              ? setTableRenderData(aboutProductData)
+              : []
+          }
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
+        />
+
+        <ModalComponent
+          title={t("Delete About Product Data")}
+          size={"m"}
+          open={isOpen}
+          handleClose={handleToggle}
+        >
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{selectedProduct?.title}</span>
+            {`?`}
+          </p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete")}
+                type="button"
+                onClick={() => {
+                  handleDelete(selectedProduct.id);
+                }}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+      </CommonWhiteBackground>
+    </AboutProductContainer>
   );
 };
 

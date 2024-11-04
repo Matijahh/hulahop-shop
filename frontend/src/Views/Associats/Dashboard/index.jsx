@@ -45,11 +45,11 @@ const Dashboard = ({ userData, saveUserData }) => {
           <div className="top-todo-list">
             <div className="todo-list-item">
               <div className="title">{t("Total Sales")}</div>
-              <div className="value">0 Din</div>
+              <div className="value">0 RSD</div>
             </div>
             <div className="todo-list-item">
               <div className="title">{t("Net Sales")}</div>
-              <div className="value">0 Din</div>
+              <div className="value">0 RSD</div>
             </div>
             <div className="todo-list-item">
               <div className="title">{t("Orders")}</div>
@@ -61,13 +61,25 @@ const Dashboard = ({ userData, saveUserData }) => {
             </div>
           </div>
         </CommonWhiteBackground>
-        <CommonWhiteBackground className="mt-4">
-          <div className="main-title ">{t("Graphs")}</div>
-          <div className="chart-cover">
-            <LineChartView />
-          </div>
-        </CommonWhiteBackground>
-        <Row className="mt-4">
+        <Row>
+          <Col sm={12} md={6}>
+            <CommonWhiteBackground className="mt-4">
+              <div className="main-title ">{t("Sales This Month")}</div>
+              <div className="chart-cover">
+                <LineChartView />
+              </div>
+            </CommonWhiteBackground>
+          </Col>
+          <Col sm={12} md={6}>
+            <CommonWhiteBackground className="mt-4">
+              <div className="main-title ">{t("Orders This Month")}</div>
+              <div className="chart-cover">
+                <LineChartView />
+              </div>
+            </CommonWhiteBackground>
+          </Col>
+        </Row>
+        {/* <Row className="mt-4">
           <Col md={12} lg={6} sm={12}>
             <CommonWhiteBackground>
               <div className="main-title ">
@@ -204,8 +216,8 @@ const Dashboard = ({ userData, saveUserData }) => {
               </div>
             </CommonWhiteBackground>
           </Col>
-        </Row>
-        <Row className="mt-4">
+        </Row> */}
+        {/* <Row className="mt-4">
           <Col md={6} lg={6} sm={12}>
             <CommonWhiteBackground>
               <div className="main-title ">{t("Latest Announcement")}</div>
@@ -223,7 +235,7 @@ const Dashboard = ({ userData, saveUserData }) => {
               </div>
             </CommonWhiteBackground>
           </Col>
-        </Row>
+        </Row> */}
       </DashboardContainer>
     </>
   );

@@ -12,7 +12,7 @@ const Dashboard = () => {
   return (
     <>
       <DashboardContainer>
-        <CommonWhiteBackground>
+        {/* <CommonWhiteBackground>
           <div className="main-title">{t("To do")}</div>
           <div className="top-todo-list">
             <div className="todo-list-item">
@@ -32,7 +32,7 @@ const Dashboard = () => {
               <div className="value">0</div>
             </div>
           </div>
-        </CommonWhiteBackground>
+        </CommonWhiteBackground> */}
         <CommonWhiteBackground className="mt-4">
           <div className="main-title">{t("Performance")}</div>
           <div className="top-todo-list">
@@ -56,7 +56,7 @@ const Dashboard = () => {
         </CommonWhiteBackground>
 
         <Row>
-          <Col>
+          <Col sm={12} md={6}>
             <CommonWhiteBackground className="mt-4">
               <div className="main-title ">{t("Sales This Month")}</div>
               <div className="chart-cover">
@@ -64,7 +64,7 @@ const Dashboard = () => {
               </div>
             </CommonWhiteBackground>
           </Col>
-          <Col>
+          <Col sm={12} md={6}>
             <CommonWhiteBackground className="mt-4">
               <div className="main-title ">{t("Orders This Month")}</div>
               <div className="chart-cover">
@@ -73,7 +73,7 @@ const Dashboard = () => {
             </CommonWhiteBackground>
           </Col>
         </Row>
-        <Row className="mt-4">
+        {/* <Row className="mt-4">
           <Col>
             <CommonWhiteBackground>
               <div className="main-title ">
@@ -212,8 +212,8 @@ const Dashboard = () => {
               </div>
             </CommonWhiteBackground>
           </Col>
-        </Row>
-        <Row className="mt-4">
+        </Row> */}
+        {/* <Row className="mt-4">
           <Col md={6} lg={6} sm={12}>
             <CommonWhiteBackground>
               <div className="main-title ">{t("Latest Announcements")}</div>
@@ -231,7 +231,7 @@ const Dashboard = () => {
               </div>
             </CommonWhiteBackground>
           </Col>
-        </Row>
+        </Row> */}
       </DashboardContainer>
     </>
   );

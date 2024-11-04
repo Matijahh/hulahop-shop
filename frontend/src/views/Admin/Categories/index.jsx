@@ -313,10 +313,10 @@ const Categories = () => {
                       </div>
                     </TableCell>
                     <TableCell>{item.name}</TableCell>
-                    <TableCell>
+                    <TableCell className="align-items-center">
                       {item.active ? t("Active") : t("Inactive")}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="align-items-center">
                       <EditOutlinedIcon
                         onClick={() => handleEdit(item)}
                         className="cursor-pointer"
@@ -388,12 +388,12 @@ const Categories = () => {
                                     </div>
                                   </TableCell>
                                   <TableCell>{sub_category.name}</TableCell>
-                                  <TableCell>
+                                  <TableCell className="align-items-center">
                                     {sub_category.active
                                       ? t("Active")
                                       : t("Inactive")}
                                   </TableCell>
-                                  <TableCell>
+                                  <TableCell className="align-items-center">
                                     <EditOutlinedIcon
                                       onClick={() =>
                                         handleEdit(sub_category, true)

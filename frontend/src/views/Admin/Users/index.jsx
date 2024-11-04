@@ -5,7 +5,7 @@ import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { getImageUrlById } from "../../../utils/commonFunctions";
+import { camelCase, getImageUrlById } from "../../../utils/commonFunctions";
 import { Container } from "./styled";
 
 import Tables from "../../../components/SuperAdmin/Tables";
@@ -51,7 +51,7 @@ const Users = () => {
                 user_image: getImageUrlById(item.image_id),
                 user_name: `${item.first_name} ${item.last_name}`,
                 id: item.id,
-                user_type: item.type,
+                user_type: item.type && t(`${camelCase(item.type)}`),
                 email: item.email,
                 contact_no: item.mobile,
                 status: item.status ? t("Active") : t("Inactive"),

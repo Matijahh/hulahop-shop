@@ -9,10 +9,18 @@ export const DashboardContainer = styled.div`
     align-items: center;
     margin-top: 20px;
 
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+
     .todo-list-item {
       padding: 15px 20px;
       border-left: 1px solid rgba(0, 0, 0, 0.05);
       flex: 1;
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
 
       &:hover {
         background: rgba(0, 0, 0, 0.03);

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { debounce } from "lodash";
+import styled from "styled-components";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import InputComponent from "../../../components/InputComponent";
@@ -9,6 +10,14 @@ import InputComponent from "../../../components/InputComponent";
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Loader } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
+
+const TABLE_OFFSET = "154px";
+
+const Container = styled.div`
+  .announcements-table {
+    height: calc(100vh - ${TABLE_OFFSET});
+  }
+`;
 
 const Announcements = () => {
   const [loading, setLoading] = useState(false);
@@ -79,28 +88,31 @@ const Announcements = () => {
   }, []);
 
   return (
-    <CommonWhiteBackground>
-      <Helmet>
-        <title>{t("Announcements - Associate")}</title>
-      </Helmet>
-      <FlexBox className="mb-4" isWrap>
-        <div className="main-title">{t("Announcements")}</div>
-        <InputComponent
-          type="search"
-          label={t("Search Announcements")}
-          value={searchText}
-          onChange={handleChange}
-        />
-      </FlexBox>
-      {loading ? (
-        <Loader />
-      ) : (
-        <Tables
-          header={tableHeaderTitle}
-          body={isSearch ? searchFilterData : tableList}
-        />
-      )}
-    </CommonWhiteBackground>
+    <Container>
+      <CommonWhiteBackground>
+        <Helmet>
+          <title>{t("Announcements - Associate")}</title>
+        </Helmet>
+        <FlexBox className="mb-4" isWrap>
+          <div className="main-title">{t("Announcements")}</div>
+          <InputComponent
+            type="search"
+            label={t("Search Announcements")}
+            value={searchText}
+            onChange={handleChange}
+          />
+        </FlexBox>
+        {loading ? (
+          <Loader />
+        ) : (
+          <Tables
+            className="announcements-table"
+            header={tableHeaderTitle}
+            body={isSearch ? searchFilterData : tableList}
+          />
+        )}
+      </CommonWhiteBackground>
+    </Container>
   );
 };
 export default Announcements;

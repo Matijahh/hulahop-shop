@@ -14,6 +14,7 @@ import { ACCESS_TOKEN } from "../../../utils/constant";
 import { get, size, debounce } from "lodash";
 import { jwtDecode } from "jwt-decode";
 import map from "lodash/map";
+import styled from "styled-components";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
@@ -23,6 +24,23 @@ import Tables from "../../../components/SuperAdmin/Tables";
 import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../../../components/ModalComponent";
+
+const TABLE_OFFSET = "154px";
+
+const Container = styled.div`
+  .blogs-table {
+    height: calc(100vh - ${TABLE_OFFSET});
+
+    .css-yrdy0g-MuiDataGrid-columnHeaderRow {
+      .MuiDataGrid-withBorderColor:nth-child(2),
+      .MuiDataGrid-withBorderColor:last-child {
+        .MuiDataGrid-columnHeaderTitleContainer {
+          justify-content: center;
+        }
+      }
+    }
+  }
+`;
 
 const AssociateBlog = () => {
   const [loading, setLoading] = useState(false);
@@ -153,74 +171,77 @@ const AssociateBlog = () => {
   };
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4 assoc-title-wrapper">
-        <div className="main-title ">{t("Blogs")}</div>
-        <FlexBox className="filters-wrapper">
-          <InputComponent
-            type="search"
-            label={t("Search Blogs")}
-            value={searchText}
-            onChange={handleChange}
-          />
-          <ButtonComponent
-            variant="contained"
-            startIcon={<AddIcon />}
-            text={t("Add Blog")}
-            onClick={() => navigation(ROUTE_ADMIN_BLOG_ADD)}
-          />
-        </FlexBox>
-      </FlexBox>
-
-      {loading && <LoaderContainer />}
-
-      <ModalComponent
-        title={t("Delete Blog")}
-        size={"m"}
-        open={isOpen}
-        handleClose={handleToggle}
-      >
-        <p>
-          {`${t("Are you sure you want to delete")} `}
-          <span className="bold">{blogToDelete?.title}</span>
-          {`?`}
-        </p>
-        <>
-          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
-            <ButtonComponent
-              className=""
-              variant="outlined"
-              fullWidth
-              text={t("Cancel")}
-              onClick={handleToggle}
+    <Container>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4 assoc-title-wrapper">
+          <div className="main-title ">{t("Blogs")}</div>
+          <FlexBox className="filters-wrapper">
+            <InputComponent
+              type="search"
+              label={t("Search Blogs")}
+              value={searchText}
+              onChange={handleChange}
             />
             <ButtonComponent
               variant="contained"
-              fullWidth
-              text={t("Delete")}
-              type="button"
-              onClick={handleDelete}
+              startIcon={<AddIcon />}
+              text={t("Add Blog")}
+              onClick={() => navigation(ROUTE_ADMIN_BLOG_ADD)}
             />
           </FlexBox>
-        </>
-      </ModalComponent>
+        </FlexBox>
 
-      <Tables
-        body={
-          isSearch
-            ? size(searchFilterData) > 0
-              ? setTableRenderData(searchFilterData)
+        {loading && <LoaderContainer />}
+
+        <ModalComponent
+          title={t("Delete Blog")}
+          size={"m"}
+          open={isOpen}
+          handleClose={handleToggle}
+        >
+          <p>
+            {`${t("Are you sure you want to delete")} `}
+            <span className="bold">{blogToDelete?.title}</span>
+            {`?`}
+          </p>
+          <>
+            <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+              <ButtonComponent
+                className=""
+                variant="outlined"
+                fullWidth
+                text={t("Cancel")}
+                onClick={handleToggle}
+              />
+              <ButtonComponent
+                variant="contained"
+                fullWidth
+                text={t("Delete")}
+                type="button"
+                onClick={handleDelete}
+              />
+            </FlexBox>
+          </>
+        </ModalComponent>
+
+        <Tables
+          className="blogs-table"
+          body={
+            isSearch
+              ? size(searchFilterData) > 0
+                ? setTableRenderData(searchFilterData)
+                : []
+              : size(blogList) > 0
+              ? setTableRenderData(blogList)
               : []
-            : size(blogList) > 0
-            ? setTableRenderData(blogList)
-            : []
-        }
-        header={renderHeader.map((item) => ({
-          ...item,
-          headerName: t(item.headerName),
-        }))}
-      />
-    </CommonWhiteBackground>
+          }
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
+        />
+      </CommonWhiteBackground>
+    </Container>
   );
 };
 

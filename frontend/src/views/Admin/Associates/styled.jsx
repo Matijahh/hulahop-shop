@@ -2,17 +2,14 @@ import styled from "styled-components";
 
 const TABLE_OFFSET = "154px";
 
-export const CreateProductContainer = styled.div`
-  .btn-submit {
-    width: 100%;
-    margin-top: 31px;
-  }
-
-  .products-table {
+export const AssociatesContainer = styled.div`
+  .user-table {
     height: calc(100vh - ${TABLE_OFFSET});
 
     .css-yrdy0g-MuiDataGrid-columnHeaderRow {
       .MuiDataGrid-withBorderColor:nth-child(2),
+      .MuiDataGrid-withBorderColor:nth-child(7),
+      .MuiDataGrid-withBorderColor:nth-child(8),
       .MuiDataGrid-withBorderColor:last-child {
         .MuiDataGrid-columnHeaderTitleContainer {
           justify-content: center;
@@ -21,8 +18,8 @@ export const CreateProductContainer = styled.div`
     }
 
     img {
-      width: 100px;
-      height: 100px;
+      width: 50px;
+      height: 50px;
       object-fit: cover;
     }
   }

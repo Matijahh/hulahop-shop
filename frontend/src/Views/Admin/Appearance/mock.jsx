@@ -21,7 +21,7 @@ export const renderShopSliderHeader = [
     field: "image_id",
     headerName: "Slider Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: (params) => (
       <>
         <img src={getImageUrlById(get(params, "row.image_id"))} />
@@ -39,15 +39,16 @@ export const renderShopSliderHeader = [
   {
     field: "status",
     headerName: "Status",
-    width: 180,
-    align: "left",
+    width: 150,
+    align: "center",
   },
 
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-center">
@@ -84,7 +85,7 @@ export const renderAboutSliderHeader = [
     field: "image_id",
     headerName: "Slider Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: (params) => (
       <>
         <img src={getImageUrlById(get(params, "row.image_id"))} />
@@ -102,15 +103,16 @@ export const renderAboutSliderHeader = [
   {
     field: "status",
     headerName: "Status",
-    width: 180,
-    align: "left",
+    width: 150,
+    align: "center",
   },
 
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-center">
@@ -147,7 +149,7 @@ export const renderBlogSliderHeader = [
     field: "image_id",
     headerName: "Slider Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: (params) => (
       <>
         <img src={getImageUrlById(get(params, "row.image_id"))} />
@@ -165,15 +167,16 @@ export const renderBlogSliderHeader = [
   {
     field: "status",
     headerName: "Status",
-    width: 180,
-    align: "left",
+    width: 150,
+    align: "center",
   },
 
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-center">

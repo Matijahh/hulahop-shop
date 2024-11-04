@@ -34,7 +34,7 @@ export const renderHeader = [
     field: "action",
     headerName: "Action",
     width: 100,
-    align: "left",
+    align: "center",
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-center cursor-pointer">
