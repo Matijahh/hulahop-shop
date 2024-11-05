@@ -62,7 +62,7 @@ const UpdateUserStatus = ({ isOpen, toggle, refresh, data }) => {
 
       if (response) {
         const { message } = response.data;
-        SuccessTaster(message);
+        SuccessTaster(t(message));
         refresh();
         toggle();
       }

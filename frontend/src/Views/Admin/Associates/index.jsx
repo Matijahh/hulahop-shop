@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { renderHeader } from "./mock";
 import { filter } from "lodash";
 import { camelCase, getImageUrlById } from "../../../utils/commonFunctions";
+import { useNavigate } from "react-router-dom";
 import {
   commonAddUpdateQuery,
   commonGetQuery,
@@ -11,12 +12,13 @@ import { AssociatesContainer } from "./styled";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Loader } from "../../../components/Loader";
+import { SuccessTaster } from "../../../components/Toast";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import UpdateUserStatus from "../Users/updateUserStatus";
 import ModalComponent from "../../../components/ModalComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { SuccessTaster } from "../../../components/Toast";
+import { ROUTE_ADMIN_EDIT_ASSOCIATE_STORE } from "../../../routes/routes";
 
 const Associates = () => {
   const [userData, setUserData] = useState([]);
@@ -26,6 +28,7 @@ const Associates = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const getUsersData = async () => {
     setLoading(true);
@@ -62,6 +65,10 @@ const Associates = () => {
   const toggleModal = (item) => {
     setIsOpen(!isOpen);
     setSelectedItem(item || null);
+  };
+
+  const editStore = (item) => {
+    navigate(ROUTE_ADMIN_EDIT_ASSOCIATE_STORE.replace(":id", item.id));
   };
 
   const toggleDeleteModal = (item) => {
@@ -124,6 +131,7 @@ const Associates = () => {
             body={userData}
             header={renderHeader(
               toggleModal,
+              editStore,
               toggleDeleteModal,
               handleHighlight
             ).map((item) => ({

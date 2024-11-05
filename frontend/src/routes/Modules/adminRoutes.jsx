@@ -36,6 +36,7 @@ import {
   ROUTE_ADMIN_TRANSLATION,
   ROUTE_ADMIN_APPEARANCE_BLOG_SLIDER_ADD,
   ROUTE_ADMIN_APPEARANCE_BLOG_SLIDER_EDIT,
+  ROUTE_ADMIN_EDIT_ASSOCIATE_STORE,
 } from "../routes";
 
 import AdminLayout from "../../layouts/AdminLayout";
@@ -78,6 +79,7 @@ import AnnouncementsForm from "../../views/Admin/Announcements/AnnouncementsForm
 import Translation from "../../views/Admin/Translation";
 import EditProduct from "../../views/Admin/AssociatesProducts/EditProduct";
 import BlogSliderForm from "../../views/Admin/Appearance/BlogSliderForm";
+import EditAssociateStore from "../../views/Admin/Associates/EditAssociateStore";
 const routes = [
   {
     name: "Dashboard",
@@ -238,6 +240,15 @@ const routes = [
     component: (props) => (
       <AdminLayout {...props}>
         <AboutSliderForm {...props} />
+      </AdminLayout>
+    ),
+  },
+  {
+    name: "Edit Associate Store",
+    path: ROUTE_ADMIN_EDIT_ASSOCIATE_STORE,
+    component: (props) => (
+      <AdminLayout {...props}>
+        <EditAssociateStore {...props} />
       </AdminLayout>
     ),
   },

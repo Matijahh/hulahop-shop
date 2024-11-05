@@ -51,7 +51,7 @@ export const SidebarContainer = styled.div`
         width: 100%;
         top: 60px;
         height: calc(100vh - 60px);
-        z-index: 998;
+        z-index: 1000;
       }
     }
 

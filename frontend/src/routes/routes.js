@@ -83,6 +83,8 @@ export const ROUTE_ADMIN_APPEARANCE_BLOG_SLIDER_EDIT =
   "/admin/appearance/blog-slider/:id/edit";
 
 export const ROUTE_ADMIN_ASSOCIATES = "/admin/associates";
+export const ROUTE_ADMIN_EDIT_ASSOCIATE_STORE =
+  "/admin/associates/edit/store/:id";
 
 export const ROUTE_ADMIN_BLOG = "/admin/blog";
 export const ROUTE_ADMIN_BLOG_ADD = "/admin/blog/add";

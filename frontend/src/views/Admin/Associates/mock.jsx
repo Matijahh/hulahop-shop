@@ -1,10 +1,11 @@
 import { get } from "lodash";
 
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import StoreIcon from "@mui/icons-material/Store";
+import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import { Switch } from "@mui/material";
 
-export const renderHeader = (toggleModal, deleteItem, onCheck) => {
+export const renderHeader = (toggleModal, editStore, deleteItem, onCheck) => {
   return [
     {
       field: "no",
@@ -72,6 +73,7 @@ export const renderHeader = (toggleModal, deleteItem, onCheck) => {
       headerName: "Highlighted",
       width: 100,
       align: "center",
+      sortable: false,
       renderCell: (params) => {
         return (
           <>
@@ -87,17 +89,21 @@ export const renderHeader = (toggleModal, deleteItem, onCheck) => {
     {
       field: "action",
       headerName: "Action",
-      width: 100,
+      width: 150,
       align: "center",
       sortable: false,
       renderCell: (params) => (
         <>
-          <RemoveRedEyeOutlinedIcon
+          <SwitchAccountIcon
             className="cursor-pointer"
             onClick={() => toggleModal(params)}
           />
-          <DeleteOutlineOutlinedIcon
+          <StoreIcon
             className="mx-2 cursor-pointer"
+            onClick={() => editStore(params)}
+          />
+          <DeleteOutlineOutlinedIcon
+            className="cursor-pointer"
             onClick={() => deleteItem(params.row)}
           />
         </>

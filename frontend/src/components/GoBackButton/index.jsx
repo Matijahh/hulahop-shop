@@ -4,12 +4,13 @@ import { useTranslation } from "react-i18next";
 import ButtonComponent from "../ButtonComponent";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
-const GobackButton = () => {
+const GobackButton = ({ className }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
     <ButtonComponent
+      className={className}
       text={t("Back")}
       startIcon={<ArrowBackOutlinedIcon />}
       variant="outlined"

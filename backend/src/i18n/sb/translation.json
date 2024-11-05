@@ -695,5 +695,10 @@
   "Delete Slider Slide": "Obriši sliku banera",
   "Delete Associate": "Obriši prodavca",
   "Highlighted": "Istaknuto",
-  "You can only highlight 8 users!": "Možeš da istakneš samo 8 prodavaca!"
+  "You can only highlight 8 users!": "Možeš da istakneš samo 8 prodavaca!",
+  "Edit Associate Store": "Uredi prodavnicu saradnika",
+  "View Associate Store": "Pogledaj prodavnicu saradnika",
+  "Store layout details updated successfully": "Detalji izgleda prodavnice su uspešno ažurirani",
+  "This record does not exist!": "Ovaj zapis još uvek ne postoji",
+  "User updated successfully": "Korisnik uspešno ažuriran"
 }
