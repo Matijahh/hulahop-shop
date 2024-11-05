@@ -35,6 +35,7 @@ import { UsersModule } from './users/users.module';
 import { WishListModule } from './wish-list/wish-list.module';
 import { BlogPageSliderModule } from './blog_page_slider/blog_page_slider.module';
 import { AssociateBlogsModule } from './associate_blogs/associate-blogs.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 export const ApplicationModules = [
   AuthModule,
@@ -74,4 +75,5 @@ export const ApplicationModules = [
   MailerModule,
   BlogPageSliderModule,
   AssociateBlogsModule,
+  DashboardModule,
 ];

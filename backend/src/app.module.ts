@@ -8,6 +8,7 @@ import { dataSource as dataSourceObj } from './core/data-source';
 import { CoreModule } from './core/core.module';
 import { TranslationModule } from './providers/translation/translation.module';
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
