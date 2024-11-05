@@ -7,6 +7,7 @@ import { DataSource } from 'typeorm';
 import { dataSource as dataSourceObj } from './core/data-source';
 import { CoreModule } from './core/core.module';
 import { TranslationModule } from './providers/translation/translation.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TranslationModule } from './providers/translation/translation.module';
     CoreModule,
     TranslationModule,
     ...ApplicationModules,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [
