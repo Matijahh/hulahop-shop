@@ -87,8 +87,22 @@ const Associates = () => {
     }
   };
 
-  const deleteItem = () => {
-    console.log("selected item", selectedItem);
+  const deleteItem = async (user) => {
+    setLoading(true);
+
+    const response = await commonAddUpdateQuery(
+      `/users/${user.id}`,
+      null,
+      "DELETE"
+    );
+
+    if (response) {
+      getUsersData();
+    }
+
+    setLoading(false);
+
+    toggleDeleteModal();
   };
 
   useEffect(() => {
@@ -144,7 +158,7 @@ const Associates = () => {
                 fullWidth
                 text={t("Delete")}
                 type="button"
-                onClick={deleteItem}
+                onClick={() => deleteItem(selectedItem)}
               />
             </FlexBox>
           </>
