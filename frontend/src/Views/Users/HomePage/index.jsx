@@ -77,16 +77,12 @@ const HomePage = () => {
   const getAssociatesList = async () => {
     setLoading(true);
 
-    const response = await commonGetQuery("/associates");
+    const response = await commonGetQuery("/associates?isHighlighted=true");
 
     if (response) {
       const { data } = response.data;
 
-      const filteredData = data.filter(
-        (item) => size(item.store_layout_details) > 0
-      );
-
-      setAssociatesList(filteredData);
+      setAssociatesList(data);
       setLoading(false);
     }
 
@@ -273,7 +269,7 @@ const HomePage = () => {
                                       )
                                     : get(item, "image_id", "")
                                     ? get(item, "image_id", "")
-                                    : "ae7a4e77-e53c-488f-95c4-4af8390822db"
+                                    : undefined
                                 )}
                                 alt=""
                               />

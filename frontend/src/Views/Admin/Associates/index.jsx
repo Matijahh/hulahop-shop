@@ -3,7 +3,10 @@ import { useTranslation } from "react-i18next";
 import { renderHeader } from "./mock";
 import { filter } from "lodash";
 import { camelCase, getImageUrlById } from "../../../utils/commonFunctions";
-import { commonGetQuery } from "../../../utils/axiosInstance";
+import {
+  commonAddUpdateQuery,
+  commonGetQuery,
+} from "../../../utils/axiosInstance";
 import { AssociatesContainer } from "./styled";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
@@ -13,6 +16,7 @@ import Tables from "../../../components/SuperAdmin/Tables";
 import UpdateUserStatus from "../Users/updateUserStatus";
 import ModalComponent from "../../../components/ModalComponent";
 import ButtonComponent from "../../../components/ButtonComponent";
+import { SuccessTaster } from "../../../components/Toast";
 
 const Associates = () => {
   const [userData, setUserData] = useState([]);
@@ -46,6 +50,7 @@ const Associates = () => {
                 email: item.email,
                 contact_no: item.mobile,
                 status: item.status ? t("Active") : t("Inactive"),
+                isHighlighted: item.isHighlighted || false,
               };
             })
           : [];
@@ -62,6 +67,24 @@ const Associates = () => {
   const toggleDeleteModal = (item) => {
     setIsDeleteModalOpen(!isDeleteModalOpen);
     setSelectedItem(item || null);
+  };
+
+  const handleHighlight = async (checked, id) => {
+    setLoading(true);
+
+    const response = await commonAddUpdateQuery(
+      `/users/${id}`,
+      { isHighlighted: checked },
+      "PATCH"
+    );
+
+    setLoading(false);
+
+    if (response) {
+      const { message } = response.data;
+      SuccessTaster(message);
+      getUsersData();
+    }
   };
 
   const deleteItem = () => {
@@ -85,12 +108,14 @@ const Associates = () => {
           <Tables
             className="user-table"
             body={userData}
-            header={renderHeader(toggleModal, toggleDeleteModal, () => {}).map(
-              (item) => ({
-                ...item,
-                headerName: t(item.headerName),
-              })
-            )}
+            header={renderHeader(
+              toggleModal,
+              toggleDeleteModal,
+              handleHighlight
+            ).map((item) => ({
+              ...item,
+              headerName: t(item.headerName),
+            }))}
           />
         )}
 

@@ -6,6 +6,7 @@ import {
 import axios from "axios";
 import { get } from "lodash";
 import { REST_URL_SERVER, ACCESS_TOKEN } from "./constant";
+import i18next from "i18next";
 
 import { ErrorTaster } from "../components/Toast";
 
@@ -76,7 +77,9 @@ axiosInstance.interceptors.response.use(
           message: error.message,
         };
 
-    ErrorTaster(responseData?.message || error?.response || error?.message);
+    ErrorTaster(
+      i18next.t(responseData?.message || error?.response || error?.message)
+    );
     const statusData = error.response ? error.response.status : 500;
     if (statusData === 401) {
       setNewAccessToken();
@@ -110,7 +113,7 @@ export const getQuerySearch = async (url, searchParams) => {
       method: "GET",
       url: url,
       params: {
-        ...searchParams
+        ...searchParams,
       },
     });
 
@@ -137,13 +140,5 @@ export const commonAddUpdateQuery = async (url, data, type) => {
     } else {
       return null;
     }
-  } catch (error) {
-    if (error) {
-      const { message } = error.data;
-
-      if (message) {
-        return ErrorTaster(message);
-      }
-    }
-  }
+  } catch (error) {}
 };

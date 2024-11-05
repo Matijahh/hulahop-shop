@@ -72,14 +72,16 @@ export const renderHeader = (toggleModal, deleteItem, onCheck) => {
       headerName: "Highlighted",
       width: 100,
       align: "center",
-      renderCell: (params) => (
-        <>
-          <Switch
-            checked={params.row.isBestSelling}
-            onChange={() => onCheck(params.row.isBestSelling)}
-          />
-        </>
-      ),
+      renderCell: (params) => {
+        return (
+          <>
+            <Switch
+              checked={params.row.isHighlighted}
+              onChange={(e, checked) => onCheck(checked, params.row.id)}
+            />
+          </>
+        );
+      },
     },
 
     {
