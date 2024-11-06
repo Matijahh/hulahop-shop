@@ -31,6 +31,7 @@ const EditProduct = () => {
   const [selectedId, selectImage] = useState(null);
   const [showFrame, setShowFrame] = useState(true);
   const [activeProductId, setActiveProductId] = useState(null);
+  const [productPrice, setProductPrice] = useState(null);
 
   const { productId } = useParams();
   const generatedImageRef = useRef();
@@ -51,7 +52,6 @@ const EditProduct = () => {
           .required(t("Color is required!"))
           .min(1, t("Color is required!"))
       : Yup.array(),
-    productPrice: Yup.number().required(t("Product price is required!")),
   });
 
   const formik = useFormik({
@@ -88,7 +88,7 @@ const EditProduct = () => {
         imageObj: values.customizedJson?.imageObj,
       },
       selected_colors: hasColors ? values.selectedColorIds : null,
-      price: values.productPrice,
+      price: productPrice,
       base64: base64,
     };
 
@@ -158,7 +158,7 @@ const EditProduct = () => {
       });
 
       setActiveProductId(data?.product?.image_id);
-      setProduct(data.product);
+      setProduct({ ...data.product, productPrice: data.price });
     }
   };
 
@@ -230,6 +230,7 @@ const EditProduct = () => {
                   loading={formLoading}
                   selectImage={selectImage}
                   setShowFrame={setShowFrame}
+                  setProductPrice={setProductPrice}
                 />
               </Col>
             </Row>

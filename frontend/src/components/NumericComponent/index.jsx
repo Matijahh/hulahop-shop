@@ -4,7 +4,6 @@ import cx from "classnames";
 
 import { TextField, InputAdornment } from "@mui/material";
 
-import SearchIcon from "@mui/icons-material/Search";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 const InputComponentContainer = styled.div`
@@ -53,6 +52,7 @@ const NumericComponent = ({
   disabled,
   inputClassname,
   isUseCustomValue,
+  min,
 }) => {
   const { t } = useTranslation();
 
@@ -92,12 +92,12 @@ const NumericComponent = ({
           onBlur={formik && formik.handleBlur}
           fullWidth={fullWidth}
           placeholder={t(InnerPlaceholder)}
-          type={type || "text"}
+          type={"number"}
           multiline={type === "textarea"}
           rows={type === "textarea" && 4}
           title={t(helperText) || t(placeholder) || t(InnerPlaceholder)}
           disabled={disabled}
-          inputProps={{ inputMode: "number", pattern: "[0-9]*" }}
+          inputProps={{ min: min }}
           InputProps={{
             endAdornment: (
               <>

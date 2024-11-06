@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { get } from "lodash";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,7 @@ import { Col, Row } from "react-bootstrap";
 import ButtonComponent from "../../../../components/ButtonComponent";
 import InputComponent from "../../../../components/InputComponent";
 import SelectComponent from "../../../../components/SelectComponent";
+import NumericComponent from "../../../../components/NumericComponent";
 
 const ProductSettingSidebar = ({
   handleAddDesign,
@@ -17,7 +19,10 @@ const ProductSettingSidebar = ({
   loading,
   selectImage,
   setShowFrame,
+  setProductPrice,
 }) => {
+  const [priceProduct, setPriceProduct] = useState(null);
+
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -53,6 +58,17 @@ const ProductSettingSidebar = ({
       []
     );
   };
+
+  useEffect(() => {
+    setPriceProduct(
+      parseInt(get(product, "productPrice") || parseInt(get(product, "price")))
+    );
+  }, [product]);
+
+  useEffect(() => {
+    setProductPrice(priceProduct);
+  }, [priceProduct]);
+
   return (
     <ProductSettingSidebarContainer>
       <div className="title">{t("Product Settings")}</div>
@@ -65,12 +81,6 @@ const ProductSettingSidebar = ({
           onClick={handleAddDesign}
           fontSize="12px"
         />
-        {/* <ButtonComponent
-          fontSize="12px"
-          text={t("Add Information")}
-          variant="outlined"
-          width="50%"
-        /> */}
       </div>
       <Divider />
       <form className="info-form">
@@ -141,32 +151,35 @@ const ProductSettingSidebar = ({
         <Row>
           <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Selling Price")}</label>
-            <InputComponent
+            <NumericComponent
               helperText={`${t("Selling Price")} (RSD)`}
               InnerPlaceholder={`${t("Selling Price")} (RSD)`}
               fullWidth
+              isUseCustomValue={true}
+              onChange={(e) => setPriceProduct(parseInt(e.target.value))}
+              value={priceProduct}
+              min={parseInt(get(product, "price"))}
               name="productPrice"
-              formik={formik}
             />
           </Col>
           <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Base Price")}</label>
-            <InputComponent
+            <NumericComponent
               helperText={`${t("Best Price")} (RSD)`}
               InnerPlaceholder={`${t("Best Price")} (RSD)`}
               fullWidth
-              value={get(product, "price")}
+              value={parseInt(get(product, "price"))}
               disabled
             />
           </Col>
           <Col className={"price-wrapper"}>
             <label className="mt-3">{t("Earning")}</label>
-            <InputComponent
+            <NumericComponent
               helperText={`${t("Earning")} (RSD)`}
               InnerPlaceholder={`${t("Earning")} (RSD)`}
               fullWidth
               name="associateProfit"
-              value={formik.values["productPrice"] - get(product, "price")}
+              value={priceProduct - parseInt(get(product, "price"))}
               disabled
             />
           </Col>

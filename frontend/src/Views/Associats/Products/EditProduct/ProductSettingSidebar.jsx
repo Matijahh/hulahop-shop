@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { get } from "lodash";
@@ -18,7 +19,10 @@ const ProductSettingSidebar = ({
   loading,
   selectImage,
   setShowFrame,
+  setProductPrice,
 }) => {
+  const [priceProduct, setPriceProduct] = useState(null);
+
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -55,6 +59,16 @@ const ProductSettingSidebar = ({
       []
     );
   };
+
+  useEffect(() => {
+    setPriceProduct(
+      parseInt(get(product, "productPrice") || parseInt(get(product, "price")))
+    );
+  }, [product]);
+
+  useEffect(() => {
+    setProductPrice(priceProduct);
+  }, [priceProduct]);
 
   return (
     <ProductSettingSidebarContainer>
@@ -142,8 +156,11 @@ const ProductSettingSidebar = ({
               helperText={`${t("Selling Price")} (RSD)`}
               InnerPlaceholder={`${t("Selling Price")} (RSD)`}
               fullWidth
+              isUseCustomValue={true}
+              onChange={(e) => setPriceProduct(parseInt(e.target.value))}
+              value={priceProduct}
+              min={parseInt(get(product, "price"))}
               name="productPrice"
-              formik={formik}
             />
           </Col>
           <Col className={"price-wrapper"}>
@@ -152,7 +169,7 @@ const ProductSettingSidebar = ({
               helperText={`${t("Base Price")} (RSD)`}
               InnerPlaceholder={`${t("Base Price")} (RSD)`}
               fullWidth
-              value={get(product, "price")}
+              value={parseInt(get(product, "price"))}
               disabled
             />
           </Col>
@@ -163,7 +180,7 @@ const ProductSettingSidebar = ({
               InnerPlaceholder={`${t("Earning")} (RSD)`}
               fullWidth
               name="associateProfit"
-              value={formik.values["productPrice"] - get(product, "price")}
+              value={priceProduct - parseInt(get(product, "price"))}
               disabled
             />
           </Col>
