@@ -78,6 +78,7 @@ const Translation = () => {
 
       if (response) {
         getWordsList();
+        //isSearch && debouncedHandleSearch(searchText);
         handleClose();
       }
     },
@@ -110,12 +111,15 @@ const Translation = () => {
         }
 
         setWordsList(WordListArray);
+
+        if (isSearch && searchText) {
+          const filteredItems = filterItems(searchText, WordListArray);
+          setSearchFilterData(filteredItems);
+        }
       }
 
       setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleEdit = (item) => {
@@ -153,8 +157,8 @@ const Translation = () => {
     setIsOpen(false);
   };
 
-  const filterItems = (query) => {
-    return wordsList.filter(
+  const filterItems = (query, list) => {
+    return list.filter(
       (item) =>
         item.en.toLowerCase().includes(query.toLowerCase()) || // Search English
         item.sb.toLowerCase().includes(query.toLowerCase()) // Search Serbian
@@ -170,10 +174,10 @@ const Translation = () => {
         setIsSearch(false);
       }
 
-      const filteredItems = filterItems(query);
+      const filteredItems = filterItems(query, wordsList);
       setSearchFilterData(filteredItems);
     }, 1000),
-    [searchText]
+    [searchText, wordsList]
   );
 
   // Event handler for input change
