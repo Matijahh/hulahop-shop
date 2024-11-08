@@ -59,7 +59,28 @@ export const DashboardContainer = styled.div`
   .chart-cover {
     width: 100%;
     height: 350px;
-    margin-top: -60px;
+    padding-top: 20px;
+
+    .line-chart-legend {
+      li {
+        text-align: center;
+        list-style: none;
+        font-weight: bold;
+        color: #f1676d;
+      }
+    }
+
+    .custom-tooltip {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 5px;
+      border: 1px solid #f1676d;
+
+      .bolded {
+        font-weight: bold;
+        color: #f1676d;
+      }
+    }
   }
 
   .info-list {
