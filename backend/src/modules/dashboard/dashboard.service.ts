@@ -44,10 +44,6 @@ export class DashboardService extends AbstractService {
         const startOfLastMonth = set(startOfMonth(today), { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
         const endOfLastMonth = set(endOfMonth(today), { hours: 23, minutes: 59, seconds: 59, milliseconds: 999 });
 
-        // Log the start and end of last month to debug
-        console.log('Start of last month:', startOfLastMonth);
-        console.log('End of last month:', endOfLastMonth);
-
         // Create an array of all dates in the previous month
         const allDates = eachDayOfInterval({ start: startOfLastMonth, end: endOfLastMonth });
         
@@ -73,9 +69,6 @@ export class DashboardService extends AbstractService {
         // Prepare data for the chart
         const chartData = this.formatDataForChart(dailyOrders);
 
-        // Log the chart data to check
-        console.log('Chart Data:', chartData);
-
         return chartData; // Return the formatted chart data
     }
 
@@ -98,10 +91,6 @@ export class DashboardService extends AbstractService {
         // Normalize the start and end of last month to midnight UTC
         const startOfLastMonth = set(startOfMonth(today), { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
         const endOfLastMonth = set(endOfMonth(today), { hours: 23, minutes: 59, seconds: 59, milliseconds: 999 });
-
-        // Log the start and end of last month to debug
-        console.log('Start of last month:', startOfLastMonth);
-        console.log('End of last month:', endOfLastMonth);
 
         // Create an array of all dates in the previous month
         const allDates = eachDayOfInterval({ start: startOfLastMonth, end: endOfLastMonth });
@@ -132,9 +121,6 @@ export class DashboardService extends AbstractService {
 
         // Prepare data for the chart
         const chartData = this.formatEarningsDataForChart(dailyBrutoSum);
-
-        // Log the chart data to check
-        console.log('Chart Data:', chartData);
 
         return chartData; // Return the formatted chart data
     }
