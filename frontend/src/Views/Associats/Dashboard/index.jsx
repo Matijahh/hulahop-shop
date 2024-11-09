@@ -12,6 +12,7 @@ import { CommonWhiteBackground } from "../../../components/Sections";
 import { DashboardContainer } from "./styled";
 import { Col, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
+import { LoaderContainer } from "../../../components/Loader";
 
 const Dashboard = ({ userData, saveUserData }) => {
   const [loading, setLoading] = useState(false);
@@ -102,8 +103,15 @@ const Dashboard = ({ userData, saveUserData }) => {
               <div className="title">{t("Orders")}</div>
               <div className="value">{dashboardData?.totalOrders || 0}</div>
             </div>
+            <div className="todo-list-item">
+              <div className="title">{t("Total Products Sold")}</div>
+              <div className="value">{dashboardData?.totalSoldItems || 0}</div>
+            </div>
           </div>
         </CommonWhiteBackground>
+
+        {loading && <LoaderContainer />}
+
         <Row>
           <Col md={12}>
             <CommonWhiteBackground className="mt-4">
@@ -111,8 +119,7 @@ const Dashboard = ({ userData, saveUserData }) => {
               {!ordersLoading && (
                 <div className="chart-cover">
                   <LineChartView
-                    xAxis={monthlyEarnings?.xAxis}
-                    series={monthlyEarnings?.series}
+                    chartData={monthlyEarnings}
                     label={t("Sales")}
                     labelSuffix={"RSD"}
                   />
@@ -126,8 +133,7 @@ const Dashboard = ({ userData, saveUserData }) => {
               {!earningsLoading && (
                 <div className="chart-cover">
                   <LineChartView
-                    xAxis={monthlyOrders?.xAxis}
-                    series={monthlyOrders?.series}
+                    chartData={monthlyOrders}
                     label={t("Orders")}
                   />
                 </div>

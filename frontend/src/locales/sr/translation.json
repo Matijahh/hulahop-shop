@@ -496,14 +496,14 @@
   "Colors": "Boje",
   "Users Queries": "Upiti korisnika",
   "To do": "Zadatak",
-  "Pending Orders": "Narudžbine na čekanju",
+  "Pending Orders": "Porudžbine na čekanju",
   "Download Labels": "Preuzmi etikete",
   "Out of Stock": "Nema na zalihama",
   "Low of Stock": "Malo na zalihama",
   "Net Sales": "Neto prodaja",
   "Products Sold": "Proizvodi prodati",
   "Sales This Month": "Prodaja ovog meseca",
-  "Orders This Month": "Narudžbine ovog meseca",
+  "Orders This Month": "Porudžbine ovog meseca",
   "Top Categories - Items Sold": "Najbolje kategorije - Prodati artikli",
   "Top Products - Items Sold": "Najbolji proizvodi - Prodati artikli",
   "Latest Announcements": "Najnovija obaveštenja",
@@ -701,5 +701,6 @@
   "Store layout details updated successfully": "Detalji izgleda prodavnice su uspešno ažurirani",
   "This record does not exist!": "Ovaj zapis još uvek ne postoji",
   "User updated successfully": "Korisnik uspešno ažuriran",
-  "Sales": "Prodaja"
+  "Sales": "Prodaja",
+  "Total Products Sold": "Ukupno prodatih artikala"
 }

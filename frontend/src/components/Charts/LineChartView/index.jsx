@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Legend,
   Line,
@@ -9,9 +8,7 @@ import {
   YAxis,
 } from "recharts";
 
-export default function LineChartView({ xAxis, series, label, labelSuffix }) {
-  const [seriesState, setSeriesState] = useState([]);
-
+export default function LineChartView({ chartData, label, labelSuffix }) {
   const renderLegend = (props) => {
     const { payload } = props;
 
@@ -41,30 +38,15 @@ export default function LineChartView({ xAxis, series, label, labelSuffix }) {
     return null;
   };
 
-  useEffect(() => {
-    if (
-      xAxis &&
-      xAxis[0] &&
-      xAxis[0].data &&
-      series &&
-      series[0] &&
-      series[0].data
-    ) {
-      const seriesToSet = xAxis[0].data.map((date, index) => ({
-        dates: date,
-        Sales: !isNaN(series[0].data[index]) ? series[0].data[index] : 0,
-      }));
-
-      setSeriesState(seriesToSet);
-    }
-  }, [xAxis, series]);
-
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
         width={500}
         height={350}
-        data={seriesState}
+        data={chartData?.map(({ label, data }) => ({
+          dates: label,
+          Sales: data,
+        }))}
         margin={{
           top: 5,
           right: 30,
