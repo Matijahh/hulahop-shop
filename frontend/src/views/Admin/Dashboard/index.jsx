@@ -80,10 +80,6 @@ const Dashboard = () => {
               <div className="title">{t("Orders")}</div>
               <div className="value">{dashboardData?.totalOrders || 0}</div>
             </div>
-            <div className="todo-list-item">
-              <div className="title">{t("Total Products Sold")}</div>
-              <div className="value">{dashboardData?.totalSoldItems || 0}</div>
-            </div>
           </div>
         </CommonWhiteBackground>
 
@@ -96,7 +92,8 @@ const Dashboard = () => {
               {!ordersLoading && (
                 <div className="chart-cover">
                   <LineChartView
-                    chartData={monthlyEarnings}
+                    xAxis={monthlyEarnings?.xAxis}
+                    series={monthlyEarnings?.series}
                     label={t("Sales")}
                     labelSuffix={"RSD"}
                   />
@@ -110,7 +107,8 @@ const Dashboard = () => {
               {!earningsLoading && (
                 <div className="chart-cover">
                   <LineChartView
-                    chartData={monthlyOrders}
+                    xAxis={monthlyOrders?.xAxis}
+                    series={monthlyOrders?.series}
                     label={t("Orders")}
                   />
                 </div>
