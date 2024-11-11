@@ -235,4 +235,20 @@ export class AssociateProductsService extends AbstractService {
       },
     });
   }
+
+  public async getCategoryAndSubCategoryIds(userId: number){
+    const associateProducts = await this.find({
+      where: { user_id: userId },
+      relations: { product: true },
+    });
+    console.log({associateProducts});
+    
+    const categoryIds = [...new Set(associateProducts.map(
+      (associateProduct) => associateProduct.product.category_id,
+    ))];
+    const subCategoryIds = [...new Set(associateProducts.map(
+      (associateProduct) => associateProduct.product.subcategory_id,
+    ))];
+    return { categoryIds, subCategoryIds };
+  }
 }

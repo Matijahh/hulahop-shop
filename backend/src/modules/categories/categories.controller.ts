@@ -9,6 +9,7 @@ import {
   Res,
   HttpStatus,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoriesInput } from './dto/create-categories.input';
@@ -17,11 +18,13 @@ import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { baseController } from 'src/core/baseController';
 import { Response } from 'express';
 import { SkipAuth } from '../../core/guards/auth-guard';
+import { AssociateProductsService } from '../associate-products/associate-products.service';
+import { log } from 'console';
 @ApiTags('categories')
 @ApiBearerAuth()
 @Controller('categories')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(private readonly categoriesService: CategoriesService, private readonly associateProductsService: AssociateProductsService) {}
 
   @ApiBody({ type: CreateCategoriesInput })
   @Post()
@@ -40,8 +43,11 @@ export class CategoriesController {
 
   @SkipAuth()
   @Get()
-  async findAll(@Res() res: Response) {
-    const result = await this.categoriesService.find({
+  async findAll(@Res() res: Response, @Query("user_id") user_id: number) {
+    
+    // const categoryIds = [3, 4];
+    // const subCategoryIds = [4, 5];
+    let result = await this.categoriesService.find({
       relations: { sub_categories: true },
       order: {
         category_order: 'ASC',
@@ -50,6 +56,20 @@ export class CategoriesController {
         },
       },
     });
+    
+    if(user_id){
+      const { categoryIds, subCategoryIds } = await this.associateProductsService.getCategoryAndSubCategoryIds(user_id);
+      
+      result = result.filter((category) => {
+        if(categoryIds.includes(category.id)){
+          category.sub_categories = category.sub_categories.filter((subsCategory: { id: number}) => {
+            return subCategoryIds.includes(subsCategory.id);
+          });
+          return true;
+        }
+        return false;
+      });
+    }
 
     return baseController.getResult(
       res,
