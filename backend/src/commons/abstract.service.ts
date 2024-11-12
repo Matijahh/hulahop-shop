@@ -21,6 +21,31 @@ export abstract class AbstractService {
     return data[0];
   }
 
+  async findWithPagination(
+    options: FindManyOptions,
+    limit?: number,
+    page?: number,
+  ): Promise<{ data: any[]; total: number; totalPages: number; currentPage: number }> {
+    const take = limit ?? 20;   // Default limit
+    const skip = ((page ?? 1) - 1) * take;
+
+    const [data, total] = await this.repository.findAndCount({
+      ...options,
+      take,
+      skip,
+    });
+
+    const totalPages = Math.ceil(total / take);
+    const currentPage = page ?? 1;
+
+    return {
+      data,
+      total,
+      totalPages,
+      currentPage,
+    };
+  }
+
   async abstractCreate(data: any, relations: string[] = null): Promise<any> {
     const entity = this.repository.create(data);
     const errors = await validate(entity);
