@@ -56,6 +56,25 @@ export const setTokenAfterLogin = (response, isRememberChecked) => {
   }
 };
 
+export const setTokenAfterRegistration = (response) => {
+  localStorage.setItem(
+    ACCESS_TOKEN_NAME,
+    get(response, "data.data.access_token")
+  );
+
+  localStorage.setItem(
+    REFRESH_TOKEN_NAME,
+    get(response, "data.data.refresh_token")
+  );
+
+  localStorage.setItem("type", get(response, "data.data.user.type"));
+
+  Cookies.set(
+    COOKIE_ACCESS_TOKEN_NAME,
+    get(response, "data.data.access_token")
+  );
+};
+
 export const getAcessToken = () => {
   let token = localStorage.getItem(ACCESS_TOKEN_NAME);
   return token;

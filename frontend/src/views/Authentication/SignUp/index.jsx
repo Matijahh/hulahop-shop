@@ -22,6 +22,11 @@ import { Col, Row } from "react-bootstrap";
 import { FlexBox } from "../../../components/Sections";
 import { SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
+import {
+  handleRedirection,
+  setTokenAfterLogin,
+  setTokenAfterRegistration,
+} from "../../../utils/commonFunctions";
 
 const SignUp = ({ maxWidth }) => {
   const [loading, setLoading] = useState(false);
@@ -66,12 +71,14 @@ const SignUp = ({ maxWidth }) => {
     onSubmit: async (value) => {
       setLoading(true);
       const response = await commonAddUpdateQuery("/auth/sign-up", value);
-      setLoading(false);
+
       if (response) {
-        const { message } = response.data;
+        const { message, data } = response.data;
+        setTokenAfterRegistration(response);
+        handleRedirection(data.user.type);
         SuccessTaster(message);
-        navigation(ROUTE_SIGN_IN);
-        formik.resetForm();
+      } else {
+        setLoading(false);
       }
     },
   });
