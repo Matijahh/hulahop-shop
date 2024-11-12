@@ -4,6 +4,10 @@ const HeaderWrapperStyled = styled.div`
   top: 0;
   z-index: 999;
 
+  .search-menu-container {
+    width: 420px;
+  }
+
   .menu-wrapper {
     height: 100vh;
     width: 100%;
@@ -179,6 +183,14 @@ const HeaderWrapperStyled = styled.div`
     .search-box {
       width: 420px;
       max-width: 100%;
+
+      .search-btn {
+        cursor: pointer;
+        background: #f1676d;
+        color: white;
+        padding: 2px;
+        border-radius: 4px;
+      }
     }
 
     @media (max-width: 825px) {

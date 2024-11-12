@@ -414,6 +414,17 @@ p {
   }
 }
 
+.search-menu-container {
+  .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+    width: 420px;
+    max-height: 200px;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+  }
+}
+
 // Product Component
 .product-wrapper {
   display: flex;
@@ -433,8 +444,8 @@ p {
 
     .product-img {
       border-radius: 10px;
-      max-width: 280px;
-      height: 270px;
+      max-width: 260px;
+      height: 250px;
       margin: 5px auto 0 auto;
       overflow: hidden;
 
@@ -443,7 +454,7 @@ p {
         height: 100%;
         object-fit: cover;
         width: 100%;
-        border-radius: 10px 10px 0 0;
+        border-radius: 10px;
       }
     }
 

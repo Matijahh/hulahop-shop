@@ -1,15 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
   ROUTE_MAIN,
   ROUTE_MAIN_CART,
   ROUTE_MAIN_PROFILE,
+  ROUTE_MAIN_SHOP_PRODUCT,
   ROUTE_SIGN_IN,
 } from "../../../routes/routes";
 import { ACCESS_TOKEN } from "../../../utils/constant";
-import { get, map } from "lodash";
+import { debounce, get, map } from "lodash";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { jwtDecode } from "jwt-decode";
+import { slugify } from "../../../utils/commonFunctions";
 import cx from "classnames";
 import i18n from "../../../i18n";
 import languages from "../../../utils/languages";
@@ -19,13 +22,15 @@ import logo from "../../../assets/images/logo.png";
 import Slider from "react-slick";
 import SearchIcon from "@mui/icons-material/Search";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalMallIcon from "@mui/icons-material/ShoppingCart";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import BottomHeader from "./BottomHeader";
 import SelectComponent from "../../../components/SelectComponent";
 
-import { InputAdornment, TextField } from "@mui/material";
+import { InputAdornment, Menu, MenuItem, TextField } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import "slick-carousel/slick/slick.css";
@@ -37,10 +42,18 @@ const Header = () => {
   const [userData, setUserData] = useState(null);
   const [langOptions, setLangOptions] = useState([]);
   const [langValue, setLangValue] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [productsList, setProductList] = useState([]);
+  const [associatesList, setAssociatesList] = useState([]);
+  const [searchDataList, setSearchDataList] = useState([]);
+  const [filteredSearchData, setFilteredSearchData] = useState([]);
+  const [searchMode, setSearchMode] = useState(false);
+  const searchModal = Boolean(anchorEl);
 
   const { t } = useTranslation();
   const navigate = useNavigate();
   const popoverRef = useRef(null);
+  const targetSearchField = useRef(null);
 
   const toggleMenu = (state = !menuIsOpen) => {
     setMenuIsOpen(state);
@@ -48,6 +61,33 @@ const Header = () => {
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
+    debouncedHandleSearch(event.target.value);
+  };
+
+  const handleClick = () => {
+    setAnchorEl(targetSearchField.current);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleItemPick = (item) => {
+    setAnchorEl(null);
+    let url = item.productId
+      ? ROUTE_MAIN_SHOP_PRODUCT.replace(":sId", item.productId).replace(
+          ":id",
+          slugify(item.name, item.productId)
+        )
+      : ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":sId", item.userId).replace(
+          ":id",
+          slugify(item.name, item.userId)
+        );
+
+    if (url) {
+      navigate(url);
+      window.location.reload();
+    }
   };
 
   const settings = {
@@ -70,6 +110,44 @@ const Header = () => {
     }
   };
 
+  const getProductList = async () => {
+    const response = await commonGetQuery("/associate_products");
+
+    if (response) {
+      const { data } = response.data;
+      setProductList(data);
+    }
+  };
+
+  const getAssociatesList = async () => {
+    const response = await commonGetQuery("/associates");
+
+    if (response) {
+      const { data } = response.data;
+      setAssociatesList(data);
+    }
+  };
+
+  const initSearchData = () => {
+    let initData = [];
+
+    productsList?.forEach((p) =>
+      initData.push({ productId: p.id, name: p.name })
+    );
+    associatesList?.forEach((a) =>
+      initData.push({
+        userId: a.id,
+        name: `${a.first_name} ${a.last_name}`,
+        storeName:
+          a.store_layout_details &&
+          a.store_layout_details[0] &&
+          a.store_layout_details[0].name,
+      })
+    );
+
+    return initData;
+  };
+
   const handleLangChange = (e) => {
     const selectedId = e.target && e.target.value.split(",")[0];
     setLangValue(e.target.value);
@@ -78,9 +156,33 @@ const Header = () => {
     window.location.reload();
   };
 
+  const filterSearch = (query) => {
+    return searchDataList.filter(
+      (item) =>
+        item.name?.toLowerCase().includes(query.toLowerCase()) || // Search by Name
+        item.storeName?.toLowerCase().includes(query.toLowerCase()) // Search by Store Name
+    );
+  };
+
+  const debouncedHandleSearch = useCallback(
+    debounce((query) => {
+      if (query) {
+        setSearchMode(true);
+      } else {
+        setSearchMode(false);
+      }
+
+      const filteredItems = filterSearch(query);
+      setFilteredSearchData(filteredItems);
+    }, 1000),
+    [searchTerm]
+  );
+
   useEffect(() => {
     const currentLanguage = localStorage.getItem("I18N_LANGUAGE");
     getUserData();
+    getProductList();
+    getAssociatesList();
 
     let langs = [];
 
@@ -95,6 +197,11 @@ const Header = () => {
     const selLang = langs.find((l) => l.id === currentLanguage);
     setLangValue(`${selLang?.id},${selLang?.title}`);
   }, []);
+
+  useEffect(() => {
+    const dataSearch = initSearchData();
+    if (dataSearch) setSearchDataList(dataSearch);
+  }, [associatesList, productsList]);
 
   return (
     <>
@@ -215,6 +322,7 @@ const Header = () => {
               </div>
               <div className="search-box">
                 <TextField
+                  ref={targetSearchField}
                   id="search"
                   type="search"
                   label={t("Search")}
@@ -225,11 +333,64 @@ const Header = () => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <SearchIcon />
+                        <SearchIcon
+                          className="search-btn"
+                          id="basic-button"
+                          aria-controls={searchModal ? "basic-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={searchModal ? "true" : undefined}
+                          onClick={handleClick}
+                        />
                       </InputAdornment>
                     ),
                   }}
                 />
+                <Menu
+                  anchorEl={anchorEl}
+                  id="basic-menu"
+                  className="search-menu-container"
+                  open={searchModal}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  {searchMode
+                    ? filteredSearchData &&
+                      filteredSearchData.length > 0 &&
+                      filteredSearchData.map((l, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            onClick={() => handleItemPick(l)}
+                          >
+                            {l.productId ? (
+                              <ShoppingBagOutlinedIcon className="me-2" />
+                            ) : (
+                              <StoreOutlinedIcon className="me-2" />
+                            )}
+                            {l.storeName || l.name}
+                          </MenuItem>
+                        );
+                      })
+                    : searchDataList &&
+                      searchDataList.length > 0 &&
+                      searchDataList.map((l, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            onClick={() => handleItemPick(l)}
+                          >
+                            {l.productId ? (
+                              <ShoppingBagOutlinedIcon className="me-2" />
+                            ) : (
+                              <StoreOutlinedIcon className="me-2" />
+                            )}
+                            {l.storeName || l.name}
+                          </MenuItem>
+                        );
+                      })}
+                </Menu>
               </div>
 
               <div className="middle-area-end d-none d-lg-flex">
