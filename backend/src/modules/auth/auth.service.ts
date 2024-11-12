@@ -82,20 +82,37 @@ export class AuthService {
     const user = await this.usersService.findOne({
       where: [{ email: data.email.toLowerCase() }, { mobile: data.mobile }],
     });
-
+  
     if (user) {
       throw new Error('You are already registered! Please login.');
     }
+  
     if (data.email) {
       data.email = data.email.toLowerCase();
     }
-    if(data.image_id === '') {
+    if (!data.image_id || data.image_id === '') {
       data.image_id = null;
     }
+  
     data.password = await generatePassword(data.password);
     data.created_at = Date.now().toString();
-    return await this.usersService.create(data as CreateUsersInput);
+    
+    const createdUser = await this.usersService.create(data as CreateUsersInput);
+  
+    const tokens = await this.createTokens(createdUser.id, createdUser.type);
+
+    await this.userSessionService.create({
+      user_id: createdUser.id,
+      refresh_token: tokens.refresh_token,
+    });
+  
+    return {
+      user: createdUser,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+    };
   }
+  
 
   async resetMyPassword(userId: number, data: ResetPasswordInput) {
     const user = await this.updateUserPassword(userId, data.password);
