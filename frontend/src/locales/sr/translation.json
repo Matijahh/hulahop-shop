@@ -702,5 +702,7 @@
   "This record does not exist!": "Ovaj zapis još uvek ne postoji",
   "User updated successfully": "Korisnik uspešno ažuriran",
   "Sales": "Prodaja",
-  "Total Products Sold": "Ukupno prodatih artikala"
+  "Total Products Sold": "Ukupno prodatih artikala",
+  "Delete Order": "Obriši porudžbinu",
+  "order no.": "porudžbinu broj"
 }

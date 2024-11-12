@@ -14,6 +14,7 @@ import moment from "moment/moment";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+import { OrdersContainer } from "./styled";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import ModalComponent from "../../../components/ModalComponent";
@@ -29,6 +30,8 @@ const Orders = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
   const [orderStatus, setOrderStatus] = useState("");
+  const [orderToDelete, setOrderToDelete] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -65,6 +68,33 @@ const Orders = () => {
     },
   ];
 
+  const handleDeleteToggle = () => {
+    setIsDeleteModalOpen(!isDeleteModalOpen);
+  };
+
+  const handleOpenDeleteModal = (id, title) => {
+    setOrderToDelete({ id, title });
+    handleDeleteToggle();
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+
+    const response = await commonAddUpdateQuery(
+      `/orders/${orderToDelete.id}`,
+      null,
+      "DELETE"
+    );
+
+    if (response) {
+      getOrdersProducts();
+    }
+
+    setLoading(false);
+
+    handleDeleteToggle();
+  };
+
   const setTableRenderData = (data) => {
     const renderData = map(data, (item, index) => ({
       ...item,
@@ -76,6 +106,7 @@ const Orders = () => {
       status: get(item, "status", ""),
       image: get(item, "order_products.0.product_variant.image_id", ""),
       orderDetail: item,
+      handleOpenDeleteModal,
       openModel,
     }));
 
@@ -131,12 +162,13 @@ const Orders = () => {
   }, []);
 
   return (
-    <>
+    <OrdersContainer>
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
           <div className="main-title ">{t("Orders")}</div>
         </FlexBox>
         <Tables
+          className="orders-table"
           body={
             size(ordersProductsList) > 0
               ? setTableRenderData(ordersProductsList)
@@ -148,6 +180,38 @@ const Orders = () => {
           }))}
         />
       </CommonWhiteBackground>
+
+      <ModalComponent
+        title={t("Delete Order")}
+        size={"m"}
+        open={isDeleteModalOpen}
+        handleClose={handleDeleteToggle}
+      >
+        <p>
+          {`${t("Are you sure you want to delete")} `}
+          {`${t("order no.")} `}
+          <span className="bold">{orderToDelete?.title}</span>
+          {`?`}
+        </p>
+        <>
+          <FlexBox hasBorderTop={true} className="pt-3 mt-3">
+            <ButtonComponent
+              className=""
+              variant="outlined"
+              fullWidth
+              text={t("Cancel")}
+              onClick={handleDeleteToggle}
+            />
+            <ButtonComponent
+              variant="contained"
+              fullWidth
+              text={t("Delete")}
+              type="button"
+              onClick={handleDelete}
+            />
+          </FlexBox>
+        </>
+      </ModalComponent>
 
       <ModalComponent open={isOpen} title={t("Order")} handleClose={closeModel}>
         <div className="order-detail-body">
@@ -377,7 +441,7 @@ const Orders = () => {
           </div>
         </div>
       </ModalComponent>
-    </>
+    </OrdersContainer>
   );
 };
 

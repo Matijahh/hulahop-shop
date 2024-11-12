@@ -700,5 +700,7 @@
   "This record does not exist!": "This record does not exist!",
   "User updated successfully": "User updated successfully",
   "Sales": "Sales",
-  "Total Products Sold": "Total Products Sold"
+  "Total Products Sold": "Total Products Sold",
+  "Delete Order": "Delete Order",
+  "order no.": "order no."
 }

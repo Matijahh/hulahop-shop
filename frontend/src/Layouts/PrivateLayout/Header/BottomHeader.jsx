@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import { isEmpty, size } from "lodash";
+import { get, isEmpty, size } from "lodash";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { menuAboutProductData, menuItemsData } from "./mock";
 import {
@@ -15,7 +15,7 @@ import cx from "classnames";
 import * as Action from "../../../redux/actions";
 
 import { NestedDropdown } from "mui-nested-menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -27,9 +27,14 @@ const BottomHeader = ({
   popoverRef,
 }) => {
   const { t } = useTranslation();
+  const params = useParams();
 
   const getAllCategory = async () => {
-    const response = await commonGetQuery("/categories");
+    const userId = get(params, "id")?.split("-")?.[1];
+
+    const response = userId
+      ? await commonGetQuery(`/categories/?user_id=${userId}`)
+      : await commonGetQuery("/categories");
 
     if (response) {
       const { data } = response.data;

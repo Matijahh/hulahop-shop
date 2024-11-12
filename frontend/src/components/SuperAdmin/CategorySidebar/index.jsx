@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { ROUTE_ASSOCIATE_CREATE_PRODUCT } from "../../../routes/routes";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import cx from "classnames";
+import get from "lodash";
 import * as Action from "../../../redux/actions";
 
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
@@ -107,10 +108,17 @@ const CategorySidebar = ({ className, saveShopCategoryList }) => {
 
   const navigation = useNavigate();
   const { t } = useTranslation();
+  const params = useParams();
 
   const getAllCategory = async () => {
+    const userId = get(params, "id")?.split("-")?.[1];
+
     setCategoryLoading(true);
-    const response = await commonGetQuery("/categories");
+
+    const response = userId
+      ? await commonGetQuery(`/categories/?user_id=${userId}`)
+      : await commonGetQuery("/categories");
+
     setCategoryLoading(false);
 
     if (response) {

@@ -125,9 +125,15 @@ const CategorySidebarUser = ({
   const queryParams = new URLSearchParams(location.search);
 
   const getAllCategory = async () => {
+    const userId = get(params, "id")?.split("-")?.[1];
+
     setCategoryLoading(true);
     setMainLoading(true);
-    const response = await commonGetQuery("/categories");
+
+    const response = userId
+      ? await commonGetQuery(`/categories/?user_id=${userId}`)
+      : await commonGetQuery("/categories");
+
     setCategoryLoading(false);
 
     if (response) {

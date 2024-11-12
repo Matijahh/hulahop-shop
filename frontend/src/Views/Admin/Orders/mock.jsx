@@ -2,6 +2,7 @@ import { get } from "lodash";
 import { getImageUrlById } from "../../../utils/commonFunctions";
 
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 export const renderHeader = [
   {
@@ -20,7 +21,7 @@ export const renderHeader = [
     field: "product_image",
     headerName: "Product Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: ({ row }) => (
       <>
         <img src={getImageUrlById(row.image)} />
@@ -57,15 +58,29 @@ export const renderHeader = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    sortable: false,
+    align: "center",
     renderCell: ({ row }) => (
       <>
-        <VisibilityOutlinedIcon
-          onClick={() => {
-            row.openModel(row.orderDetail);
-          }}
-        />
+        <div className="d-flex align-items-center">
+          <div
+            role="button"
+            onClick={() => {
+              row.openModel(row.orderDetail);
+            }}
+          >
+            <VisibilityOutlinedIcon />
+          </div>
+          <div
+            role="button"
+            onClick={() => {
+              row.handleOpenDeleteModal(row.id, row.id);
+            }}
+          >
+            <DeleteOutlinedIcon />
+          </div>
+        </div>
       </>
     ),
   },

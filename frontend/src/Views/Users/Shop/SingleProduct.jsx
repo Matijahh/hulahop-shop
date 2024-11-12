@@ -7,7 +7,7 @@ import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { getImageUrlById } from "../../../utils/commonFunctions";
+import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
@@ -235,7 +235,7 @@ const SingleProduct = (props) => {
       </Helmet>
       <div className="product-hero-section">
         <div className="container single-product-container">
-          <GobackButton />
+          <GobackButton className="back-btn" />
           <div className="row">
             <div className="col-lg-5">
               <div className="product-img-section">
@@ -323,7 +323,13 @@ const SingleProduct = (props) => {
                                   window.location =
                                     ROUTE_ASSOCIATE_BRAND_STORE.replace(
                                       ":id",
-                                      productData?.user_id
+                                      slugify(
+                                        get(
+                                          productData,
+                                          "user.store_layout_details[0].name"
+                                        ),
+                                        productData?.user_id
+                                      )
                                     );
                                 }}
                                 className="associate-store"
