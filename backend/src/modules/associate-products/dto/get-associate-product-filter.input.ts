@@ -18,4 +18,10 @@ export class GetAssociateProductFilterInputDto {
 
   @ApiPropertyOptional()
   best_selling: string | null;
+
+  @ApiPropertyOptional()
+  limit?: number;
+
+  @ApiPropertyOptional()
+  page?: number;
 }

@@ -6,11 +6,12 @@ import { CreateAssociateProductsInput } from './dto/create-associate-products.in
 import { UpdateAssociateProductsInput } from './dto/update-associate-products.input';
 import { AssociateProductColorsService } from '../associate-product-colors/associate-product-colors.service';
 import { GetAssociateProductFilterInputDto } from './dto/get-associate-product-filter.input';
-import { In, Like } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { ImagesService } from '../images/images.service';
 import * as fs from 'fs';
 import { v4 as uuid } from 'uuid';
 import { masterFilterInputDto } from './dto/master-filter.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AssociateProductsService extends AbstractService {
@@ -23,17 +24,16 @@ export class AssociateProductsService extends AbstractService {
 
   async findAll(filterDto: GetAssociateProductFilterInputDto) {
     const categoryIds = Array.isArray(filterDto.category_ids)
-      ? filterDto?.category_ids?.map(Number)
-      : filterDto?.category_ids
-        ? [Number(filterDto?.category_ids)]
-        : null;
-    const subCategoryIds = Array.isArray(filterDto?.sub_category_ids)
-      ? filterDto.sub_category_ids?.map(Number)
-      : filterDto.sub_category_ids
-        ? [Number(filterDto?.sub_category_ids)]
-        : null;
+      ? filterDto.category_ids.map(Number)
+      : filterDto.category_ids ? [Number(filterDto.category_ids)] : null;
+
+    const subCategoryIds = Array.isArray(filterDto.sub_category_ids)
+      ? filterDto.sub_category_ids.map(Number)
+      : filterDto.sub_category_ids ? [Number(filterDto.sub_category_ids)] : null;
+
     let where = {};
     let order = {};
+
     if (categoryIds) {
       where = {
         ...where,
@@ -53,39 +53,68 @@ export class AssociateProductsService extends AbstractService {
     if (filterDto.search_string) {
       where = { ...where, name: Like(`%${filterDto.search_string}%`) };
     }
-
     if (filterDto.user_id) {
       where = { ...where, user_id: filterDto.user_id };
     }
-
-    if (filterDto.best_selling == 'true') {
+    if (filterDto.best_selling === 'true') {
       where = { ...where, best_selling: true };
     }
-    if (filterDto.price_low_to_high == 'true') {
+    if (filterDto.price_low_to_high === 'true') {
       order = { price: 'ASC' };
-    } else if (filterDto.price_low_to_high == 'false') {
+    } else if (filterDto.price_low_to_high === 'false') {
       order = { price: 'DESC' };
     } else {
       order = { id: 'ASC' };
     }
-    return await this.find({
-      where,
-      relations: {
-        product: {
-          category: true,
-          sub_category: true,
-          product_variants: {
-            color: true,
-            sub_variants: true,
+
+    if (filterDto.limit && filterDto.page) {
+      const limit = filterDto.limit;
+      const page = filterDto.page;
+
+      // Use the findWithPagination method for paginated results
+      return await this.findWithPagination(
+        {
+          where,
+          relations: {
+            product: {
+              category: true,
+              sub_category: true,
+              product_variants: {
+                color: true,
+                sub_variants: true,
+              },
+            },
+            user: { store_layout_details: true },
+            cover_image_color: true,
+            associate_product_colors: { color: true },
           },
+          order,
         },
-        user: { store_layout_details: true },
-        cover_image_color: true,
-        associate_product_colors: { color: true },
-      },
-      order,
-    });
+        limit,
+        page,
+      );
+    } else {
+      // If limit and page are not provided, return all results without pagination
+      return await this.find({
+        where,
+        relations: {
+          product: {
+            category: true,
+            sub_category: true,
+            product_variants: {
+              color: true,
+              sub_variants: true,
+            },
+          },
+          user: { store_layout_details: true },
+          cover_image_color: true,
+          associate_product_colors: { color: true },
+        },
+        order,
+      });
+    }
   }
+  
 
   async create(
     data: CreateAssociateProductsInput,
@@ -241,7 +270,6 @@ export class AssociateProductsService extends AbstractService {
       where: { user_id: userId },
       relations: { product: true },
     });
-    console.log({associateProducts});
     
     const categoryIds = [...new Set(associateProducts.map(
       (associateProduct) => associateProduct.product.category_id,
