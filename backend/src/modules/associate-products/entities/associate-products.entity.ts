@@ -89,6 +89,14 @@ export class AssociateProducts {
   })
   best_selling: boolean | null;
 
+  @ValidateIf((val) => val.associate_highlighted !== null)
+  @Column('boolean', {
+    name: 'associate_highlighted',
+    nullable: true,
+    default: () => false,
+  })
+  associate_highlighted: boolean | null;
+
   @ManyToOne(() => Products, (products) => products.associate_products, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { AbstractService } from '../../commons/abstract.service';
 import { associateProductsRepository } from './repository/associate-products.repository';
 import { AssociateProducts } from './entities/associate-products.entity';
@@ -11,10 +11,12 @@ import { ImagesService } from '../images/images.service';
 import * as fs from 'fs';
 import { v4 as uuid } from 'uuid';
 import { masterFilterInputDto } from './dto/master-filter.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AssociateProductsService extends AbstractService {
+  MAX_ASSOCIATE_HIGHLIGHTED = 8;
+  MAX_BEST_SELLING = 12;
+
   constructor(
     private associateProductColorsService: AssociateProductColorsService,
     private imagesService: ImagesService,
@@ -65,6 +67,12 @@ export class AssociateProductsService extends AbstractService {
       order = { price: 'DESC' };
     } else {
       order = { id: 'ASC' };
+    }
+
+    if (filterDto.associate_highlighted === 'true') {
+      where = { ...where, associate_highlighted: true };
+    }else if (filterDto.associate_highlighted === 'false') {
+      where = { ...where, associate_highlighted: false };
     }
 
     if (filterDto.limit && filterDto.page) {
@@ -182,6 +190,60 @@ export class AssociateProductsService extends AbstractService {
     const associateProductData = await this.findOne({ where: { id } });
     if (!associateProductData) {
       throw new NotFoundException('This record does not exist!');
+    }
+    const updatedProduct = await this.abstractUpdate(
+      id,
+      { ...data, id },
+      relations,
+    );
+    return updatedProduct;
+  }
+
+  async updateBestSellingStatus(
+    id: number,
+    data: any,
+    relations: string[] = null,
+  ): Promise<AssociateProducts | boolean> {
+    const associateProductData = await this.findOne({ where: { id } });
+    if (!associateProductData) {
+      throw new NotFoundException('This record does not exist!');
+    }
+    if (data.best_selling) {
+      const bestSellingProducts = await this.find({
+        where: { best_selling: true },
+      });
+      if (bestSellingProducts.length >= this.MAX_BEST_SELLING) {
+        throw new BadRequestException(
+          `You can only mark ${this.MAX_BEST_SELLING} products as best selling`,
+        );
+      }
+    }
+    const updatedProduct = await this.abstractUpdate(
+      id,
+      { ...data, id },
+      relations,
+    );
+    return updatedProduct;
+  }
+
+  async updateHighlightStatus(
+    id: number,
+    data: any,
+    relations: string[] = null,
+  ): Promise<AssociateProducts | boolean> {
+    const associateProductData = await this.findOne({ where: { id } });
+    if (!associateProductData) {
+      throw new NotFoundException('This record does not exist!');
+    }
+    if (data.associate_highlighted) {
+      const highlightedProducts = await this.find({
+        where: { associate_highlighted: true },
+      });
+      if (highlightedProducts.length >= this.MAX_ASSOCIATE_HIGHLIGHTED) {
+        throw new BadRequestException(
+          `You can only highlight ${this.MAX_ASSOCIATE_HIGHLIGHTED} products`,
+        );
+      }
     }
     const updatedProduct = await this.abstractUpdate(
       id,
