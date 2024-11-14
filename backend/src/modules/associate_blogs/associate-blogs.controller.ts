@@ -51,7 +51,7 @@ export class AssociateBlogsController {
   async findAllAssociateBlogs(@Res() res: Response) {
     const blogs = await this.associateBlogsService.find({
       where: { show_on_main: true },
-      relations: ['store'],
+      relations: ['store', "created_by2"],
     });
     return baseController.getResult(
       res,
@@ -69,6 +69,7 @@ export class AssociateBlogsController {
   ) {
     const result = await this.associateBlogsService.find({
       where: { store: { id: store_id } },
+      relations: ['store', 'created_by2'],
     });
 
     return baseController.getResult(
@@ -82,7 +83,8 @@ export class AssociateBlogsController {
   @SkipAuth()
   @Get(':id')
   async findOne(@Res() res: Response, @Param('id') id: string) {
-    const result = await this.associateBlogsService.findOne({ where: { id } });
+    const result = await this.associateBlogsService.findOne({ where: { id }, 
+      relations: ['store', 'created_by2'],},);
     if (!result) {
       return baseController.getResult(
         res,

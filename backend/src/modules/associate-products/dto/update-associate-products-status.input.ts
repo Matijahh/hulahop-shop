@@ -18,3 +18,9 @@ export class UpdateAssociateBestSellingInput {
   @IsBoolean()
   best_selling: boolean;
 }
+
+export class UpdateAssociateHighlightedInput {
+  @ApiProperty({ default: false })
+  @IsBoolean()
+  associate_highlighted: boolean;
+}

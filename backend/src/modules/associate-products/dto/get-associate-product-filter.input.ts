@@ -20,6 +20,9 @@ export class GetAssociateProductFilterInputDto {
   best_selling: string | null;
 
   @ApiPropertyOptional()
+  associate_highlighted: string | null;
+
+  @ApiPropertyOptional()
   limit?: number;
 
   @ApiPropertyOptional()

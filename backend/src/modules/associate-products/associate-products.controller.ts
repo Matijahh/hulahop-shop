@@ -19,6 +19,7 @@ import { Response } from 'express';
 import { baseController } from 'src/core/baseController';
 import {
   UpdateAssociateBestSellingInput,
+  UpdateAssociateHighlightedInput,
   UpdateAssociateIsApproveInput,
   UpdateAssociateIsVisibleOnSiteInput,
 } from './dto/update-associate-products-status.input';
@@ -180,8 +181,28 @@ export class AssociateProductsController {
     @Body()
     updateAssociateBestSellingInput: UpdateAssociateBestSellingInput,
   ) {
-    const result = await this.associateProductsService.updateStatus(id, {
+    const result = await this.associateProductsService.updateBestSellingStatus(id, {
       ...updateAssociateBestSellingInput,
+      id,
+    });
+    return baseController.getResult(
+      res,
+      HttpStatus.OK,
+      result,
+      'Associate product updated successfully',
+    );
+  }
+
+  @ApiBody({ type: UpdateAssociateHighlightedInput })
+  @Patch('associate_highlighted/:id')
+  async updateAssociateHighlighted(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response,
+    @Body()
+    UpdateAssociateHighlightedInput: UpdateAssociateHighlightedInput,
+  ) {
+    const result = await this.associateProductsService.updateHighlightStatus(id, {
+      ...UpdateAssociateHighlightedInput,
       id,
     });
     return baseController.getResult(
