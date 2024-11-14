@@ -46,7 +46,9 @@ const Blog = () => {
 
     if (response) {
       const { data } = response.data;
-      setBlogList((prev) => [...prev, ...data]);
+      setBlogList((prev) =>
+        [...prev, ...data].sort((a, b) => b.created_at - a.created_at)
+      );
       setLoading(false);
     }
 
@@ -129,7 +131,7 @@ const Blog = () => {
                             navigate(
                               ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID.replace(
                                 ":id",
-                                slugify(item?.store?.name, item?.store?.id)
+                                slugify(item?.store?.name, item?.store?.user_id)
                               ).replace(":blogId", item?.id)
                             );
                             return;
@@ -139,7 +141,7 @@ const Blog = () => {
                             ? navigate(
                                 ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID.replace(
                                   ":id",
-                                  get(params, "id", null)
+                                  get(params, "created_by", null)
                                 ).replace(":blogId", item.id)
                               )
                             : navigate(
@@ -163,7 +165,7 @@ const Blog = () => {
                             </p>
                           </div>
                           <div className="blog-card-footer">
-                            <p className="blog-auther-name">Velimir Stupar</p>
+                            <p className="blog-auther-name">{`${item.created_by2?.first_name} ${item.created_by2?.last_name}`}</p>
                             <p className="blog-post-date">
                               {moment(
                                 Number(get(item, "created_at", ""))

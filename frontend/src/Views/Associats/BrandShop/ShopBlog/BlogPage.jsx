@@ -24,8 +24,6 @@ const ShopBlogPage = () => {
   const { t } = useTranslation();
   const params = useParams();
 
-  const storeId = get(params, "id")?.split("-")[1];
-
   const getBlogData = async () => {
     setLoading(true);
 
@@ -36,13 +34,15 @@ const ShopBlogPage = () => {
       const { data } = response.data;
 
       setBlogData(data);
+
+      getBlogList(data.store_id);
       setLoading(false);
     }
 
     setLoading(false);
   };
 
-  const getBlogList = async () => {
+  const getBlogList = async (storeId) => {
     setLoading(true);
 
     const response = await commonGetQuery(`/associate_blogs/store/${storeId}`);
@@ -64,8 +64,6 @@ const ShopBlogPage = () => {
     } else {
       navigation(ROUTE_MAIN_BLOG);
     }
-
-    getBlogList();
   }, []);
 
   return (
@@ -92,9 +90,9 @@ const ShopBlogPage = () => {
                       {t(get(blogData, "heading", ""))}
                     </h5>
                     <div className="blog-head-footer">
-                      <p className="blog-author-text">{`${t(
-                        "by:"
-                      )} Velimir Stupar`}</p>
+                      <p className="blog-author-text">{`${t("by:")} ${
+                        blogData?.created_by2?.first_name
+                      } ${blogData?.created_by2?.last_name}`}</p>
                       <p className="blog-post-date">
                         {moment(Number(get(blogData, "created_at", ""))).format(
                           "MMMM, DD,YYYY"
@@ -164,7 +162,7 @@ const ShopBlogPage = () => {
                                 <div className="releted-blog-desc">
                                   <h4>{t(get(item, "heading"))}</h4>
                                   <p className="blog-auther-name">
-                                    Velimir Stupar
+                                    {`${item?.created_by2?.first_name} ${item?.created_by2?.last_name}`}
                                   </p>
                                   <p className="blog-post-date">
                                     {moment(

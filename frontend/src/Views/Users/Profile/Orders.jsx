@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { get, isEmpty, map, size } from "lodash";
 import { renderHeader } from "./mock";
 import { commonGetQuery } from "../../../utils/axiosInstance";
-import { getImageUrlById } from "../../../utils/commonFunctions";
+import { camelCase, getImageUrlById } from "../../../utils/commonFunctions";
 import moment from "moment";
 
 import ProfileComponent from ".";
@@ -46,7 +46,7 @@ const Orders = () => {
       price: `${get(item, "total_amount", "")} RSD`,
       date: moment(Number(get(item, "created_at", ""))).format("DD/MM/YYYY"),
       sku: get(item, "sku", ""),
-      status: t(get(item, "status", "")),
+      status: t(camelCase(get(item, "status", ""))),
       product_image: get(
         item,
         "order_products.0.associate_product.image_id",

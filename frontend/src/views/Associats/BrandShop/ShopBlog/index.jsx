@@ -35,7 +35,7 @@ const ShopBlog = ({ storeData }) => {
 
     if (response) {
       const { data } = response.data;
-      setBlogList(data);
+      setBlogList(data.sort((a, b) => b.created_at - a.created_at));
       setLoading(false);
     }
 
@@ -71,7 +71,7 @@ const ShopBlog = ({ storeData }) => {
           <div className="row g-4">
             <div className="col-12">
               <div className="hero-section m-0">
-                <h3 className="banner-head">{t("Latest Posts")}</h3>
+                <h3 className="banner-head mt-4">{t("Latest Posts")}</h3>
               </div>
             </div>
             {size(blogList) > 0 &&
@@ -110,7 +110,7 @@ const ShopBlog = ({ storeData }) => {
                             </p>
                           </div>
                           <div className="blog-card-footer">
-                            <p className="blog-auther-name">Velimir Stupar</p>
+                            <p className="blog-auther-name">{`${item?.created_by2?.first_name} ${item?.created_by2?.last_name}`}</p>
                             <p className="blog-post-date">
                               {moment(
                                 Number(get(item, "created_at", ""))

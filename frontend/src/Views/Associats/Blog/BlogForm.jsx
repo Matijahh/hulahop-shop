@@ -78,10 +78,11 @@ const AssociateBlogForm = () => {
 
     if (response) {
       const { data } = response.data;
-      const { image_id, heading, category_name, content } = data;
+      const { image_id, heading, category_name, content, show_on_main } = data;
       formik.setFieldValue("image_id", image_id);
       formik.setFieldValue("heading", heading);
       formik.setFieldValue("category_name", category_name);
+      formik.setFieldError("show_on_main", show_on_main);
       formik.setFieldValue("content", content);
       setLoading(false);
     }
@@ -159,6 +160,7 @@ const AssociateBlogForm = () => {
                   >
                     <Checkbox
                       value={formik.values.show_on_main}
+                      checked={formik.values.show_on_main}
                       onChange={(_, checked) =>
                         formik.setFieldValue("show_on_main", checked)
                       }

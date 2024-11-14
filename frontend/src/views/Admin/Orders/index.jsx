@@ -388,7 +388,8 @@ const Orders = () => {
                                         item,
                                         "associate_product.product.price",
                                         ""
-                                      )}
+                                      )}{" "}
+                                      RSD
                                     </p>
                                   </div>
                                   <div className="col-4">
@@ -396,7 +397,8 @@ const Orders = () => {
                                       {t("Assosiate Price")} :
                                     </p>
                                     <p>
-                                      {get(item, "associate_product.price", "")}
+                                      {get(item, "associate_product.price", "")}{" "}
+                                      RSD
                                     </p>
                                   </div>
                                   <div className="col-4">
@@ -413,7 +415,8 @@ const Orders = () => {
                                             "associate_product.product.price",
                                             ""
                                           )
-                                        )}
+                                        )}{" "}
+                                      RSD
                                     </p>
                                   </div>
                                   <div className="col-4">

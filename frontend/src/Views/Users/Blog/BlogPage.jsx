@@ -56,13 +56,11 @@ const BlogPage = () => {
 
   useEffect(() => {
     let id = get(params, "id");
-
     if (id) {
       getBlogData();
     } else {
       navigation(ROUTE_MAIN_BLOG);
     }
-
     getBlogList();
   }, []);
 
@@ -93,7 +91,8 @@ const BlogPage = () => {
                     </h5>
                     <div className="blog-head-footer">
                       <p className="blog-author-text">
-                        {t("by:")} Velimir Stupar
+                        {t("by:")}{" "}
+                        {`${blogData?.created_by2?.first_name} ${blogData?.created_by2?.last_name}`}
                       </p>
                       <p className="blog-post-date">
                         {moment(Number(get(blogData, "created_at", ""))).format(
@@ -164,7 +163,7 @@ const BlogPage = () => {
                                 <div className="releted-blog-desc">
                                   <h4>{t(get(item, "heading"))}</h4>
                                   <p className="blog-auther-name">
-                                    Velimir Stupar
+                                    {`${item?.created_by2?.first_name} ${item?.created_by2?.last_name}`}
                                   </p>
                                   <p className="blog-post-date">
                                     {moment(

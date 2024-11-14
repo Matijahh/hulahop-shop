@@ -89,19 +89,24 @@ export const SliderSectionContainer = styled.div`
     bottom: 120px;
     left: 120px;
 
-    @media screen and (max-width: 768px) {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
     .shop-title {
       width: max-content;
       font-size: 40px;
       font-weight: bold;
       margin-bottom: 40px;
       color: #fff;
+    }
+
+    @media screen and (max-width: 768px) {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      .shop-title {
+        width: auto;
+        font-size: 25px;
+      }
     }
   }
 `;
