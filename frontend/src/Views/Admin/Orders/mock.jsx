@@ -1,8 +1,8 @@
 import { get } from "lodash";
-import { getImageUrlById } from "../../../utils/commonFunctions";
 
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
 
 export const renderHeader = [
   {
@@ -24,7 +24,17 @@ export const renderHeader = [
     align: "center",
     renderCell: ({ row }) => (
       <>
-        <img src={getImageUrlById(row.image)} />
+        <div style={{ width: 200, height: "auto" }}>
+          <PreviewJsonImage
+            previewImageUrl={get(row, "previewImageUrl")}
+            json={
+              row?.productData?.image_json?.imageObj
+                ? JSON.parse(row?.productData?.image_json?.imageObj)
+                : null
+            }
+            productData={row?.productData}
+          />
+        </div>
       </>
     ),
     sortable: false,
@@ -52,7 +62,7 @@ export const renderHeader = [
     field: "status",
     headerName: "Status",
     width: 180,
-    align: "left",
+    align: "center",
   },
 
   {
@@ -66,6 +76,7 @@ export const renderHeader = [
         <div className="d-flex align-items-center">
           <div
             role="button"
+            className="me-2"
             onClick={() => {
               row.openModel(row.orderDetail);
             }}

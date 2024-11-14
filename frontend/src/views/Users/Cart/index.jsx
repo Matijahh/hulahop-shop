@@ -205,7 +205,7 @@ const Cart = () => {
                                   _get(item, "associate_product.price", 0) *
                                     _get(item, "quantity", null) || 1
                                 ).toFixed(2)}{" "}
-                                DIN
+                                RSD
                               </p>
                             </div>
                             <div className="product-remove-box">

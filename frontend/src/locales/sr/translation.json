@@ -8,7 +8,7 @@
   "Blog": "Blog",
   "Contact": "Kontakt",
   "Header": "Zaglavlje",
-  "Dashboard": "Komandna tabla",
+  "Dashboard": "Kontrolna tabla",
   "Instructions": "Uputstva",
   "Become Seller": "Postani prodavac",
   "Create your own store completely free": "Napravite sopstvenu prodavnicu potpuno besplatno",
@@ -356,7 +356,7 @@
   "Add to Wishlist": "Dodaj na listu želja",
   "Share": "Delite",
   "Related Categories": "Srodne kategorije",
-  "Go to Dashboard": "Go to Dashboard",
+  "Go to Dashboard": "Idite na kontrolnu tablu",
   "Sign In - HulaHop": "Prijavite se - HulaHop",
   "Sign Up - HulaHop": "Registrujte se - HulaHop",
   "Sign In": "Prijavite se",
@@ -704,5 +704,7 @@
   "Sales": "Prodaja",
   "Total Products Sold": "Ukupno prodatih artikala",
   "Delete Order": "Obriši porudžbinu",
-  "order no.": "porudžbinu broj"
+  "order no.": "porudžbinu broj",
+  "No Product Data": "Nema podataka o proizvodu",
+  "Order status updated sucessfully": "Status porudžbine je uspešno promenjen"
 }

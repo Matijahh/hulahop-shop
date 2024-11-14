@@ -251,7 +251,7 @@ p {
   .section-wrapper {
     padding: 25px;
     background: #f1676d;
-    border-radius: 15px;
+    border-radius: 10px;
   }
 
   .section-img {
@@ -336,6 +336,7 @@ p {
   .delivery-info-box {
     padding: 30px 15px;
     background: #fff;
+    box-shadow: 0px 0px 6px -3px #afaccb;
     border-radius: 10px;
     height: 100%;
     max-width: 340px;
@@ -435,15 +436,15 @@ p {
 
   .product-box {
     background: #fff;
+    box-shadow: 0px 0px 6px -3px #afaccb;
     border-radius: 10px;
-    width: 100%;
-    max-width: 290px;
+    width: 270px;
     margin: 0 auto;
     height: 100%;
     cursor: pointer;
 
     .product-img {
-      border-radius: 10px;
+      border-radius: 5px;
       max-width: 260px;
       height: 250px;
       margin: 5px auto 0 auto;
@@ -454,7 +455,7 @@ p {
         height: 100%;
         object-fit: cover;
         width: 100%;
-        border-radius: 10px;
+        border-radius: 5px;
       }
     }
 
@@ -533,6 +534,11 @@ p {
 
 .categories-section {
   padding: 50px 0;
+
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 .categories-slider {
@@ -618,7 +624,12 @@ p {
 }
 
 .associates-listing-section {
-  padding: 50px 0 0;
+  padding: 50px 0;
+
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    margin: 0 auto;
+  }
 
   .associates-slider {
     .slick-track {
@@ -637,9 +648,8 @@ p {
       justify-content: center;
 
       .associates-box {
-        width: 210px;
-        height: 185px;
-        padding: 20px;
+        width: 180px;
+        height: 180px;
         border-radius: 10px;
         cursor: pointer;
         display: flex;
@@ -651,8 +661,9 @@ p {
         }
 
         img {
-          width: 100%;
-          height: auto;
+          border-radius: 10px;
+          width: 80%;
+          height: 80%;
           object-fit: contain;
         }
       }
@@ -780,9 +791,11 @@ p {
     .shop-category-sidebar {
       width: 320px;
       background: #fff;
+      box-shadow: 0px 0px 6px -3px #afaccb;
       padding: 15px;
       margin-right: 30px;
       height: fit-content;
+      border-radius: 10px;
       position: sticky;
       top: 0;
 
@@ -814,6 +827,7 @@ p {
         background: transparent;
         width: calc(100% + 20px);
         height: max-content;
+        border-radius: 10px;
         padding: 0;
         z-index: 888;
         left: 100%;
@@ -821,7 +835,7 @@ p {
 
         .category-sidebar-wrapper {
           background: #fff;
-          box-shadow: 3px 1px 15px #d4d2d2;
+          box-shadow: 0px 0px 6px -3px #afaccb;
           border-radius: 10px;
           padding: 20px;
           height: max-content;
@@ -975,11 +989,14 @@ p {
     .assosiate-box {
       max-width: 450px;
       width: 100%;
+      max-height: 450px;
       margin: 0 auto;
       cursor: pointer;
-      border: 1px solid #f1676d;
       padding: 15px;
       height: 100%;
+      background-color: #fff;
+      box-shadow: 0px 0px 6px -3px #afaccb;
+      border-radius: 10px;
     }
 
     .assosiate-img-box {
@@ -990,6 +1007,7 @@ p {
 
       img {
         max-width: 100%;
+        border-radius: 10px;
         height: auto;
         height: 150px;
         width: 150px;
@@ -998,6 +1016,13 @@ p {
     }
 
     .assosiate-description {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: wrap;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 9;
+
       h5 {
         text-align: center;
         font-size: 24;
@@ -1070,6 +1095,8 @@ p {
         max-width: 100%;
         width: 100%;
         height: auto;
+        border-radius: 10px;
+        box-shadow: 0px 0px 6px -3px #afaccb;
       }
     }
   }
@@ -1112,6 +1139,7 @@ p {
 
   .blog-card {
     background: #fff;
+    box-shadow: 0px 0px 6px -3px #afaccb;
     border-radius: 10px;
     width: 100%;
     height: 100%;
@@ -1261,6 +1289,7 @@ p {
 
         &.white-box {
           background: #fff;
+          box-shadow: 0px 0px 6px -3px #afaccb;
           border-radius: 10px;
         }
       }
@@ -1752,6 +1781,7 @@ p {
     .description-white-box {
       border-radius: 6px;
       background-color: #fff;
+      box-shadow: 0px 0px 6px -3px #afaccb;
       padding: 12px 12px 12px 34px;
       margin-bottom: 20px;
 
@@ -1764,6 +1794,7 @@ p {
 
     .after-purchase-wrapper {
       background: #fff;
+      box-shadow: 0px 0px 6px -3px #afaccb;
       padding: 40px 30px;
       border-radius: 5px;
     }
@@ -1791,7 +1822,12 @@ p {
         column-gap: 20px;
       }
 
+      .after-purchase {
+        display: flex;
+      }
+
       .icon-box {
+        margin-right: 10px;
         svg {
           width: 40px;
           height: 40px;
@@ -2054,6 +2090,10 @@ p {
       justify-content: space-between;
       gap: 15px;
 
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+
       .product-image-box {
         width: 130px;
         height: 130px;
@@ -2073,6 +2113,10 @@ p {
           font-size: 18px;
           line-height: 22px;
           cursor: pointer;
+
+          @media screen and (max-width: 768px) {
+            text-align: center;
+          }
 
           &:hover {
             color: #f1676d;
@@ -2138,6 +2182,12 @@ p {
 
       .product-remove-box {
         width: 150px;
+
+        @media screen and (max-width: 768px) {
+          position: absolute;
+          top: 70px;
+          right: -40px;
+        }
 
         .remove-icon {
           display: flex;
@@ -2244,7 +2294,8 @@ p {
       display: block;
       padding: 5px 0;
       background: #fff;
-      border-radius: 15px;
+      box-shadow: 0px 0px 6px -3px #afaccb;
+      border-radius: 10px;
       max-width: 320px;
       margin: 0 auto;
 
@@ -2292,13 +2343,14 @@ p {
     .profile-main-item {
       padding: 30px;
       background: #fff;
-      border-radius: 15px;
+      box-shadow: 0px 0px 6px -3px #afaccb;
+      border-radius: 10px;
     }
   }
 
   .dashboard-box {
     .user-description {
-      margin-bottom: 50px;
+      margin-bottom: 20px;
 
       h6 {
         color: #150e4b;
@@ -2432,9 +2484,19 @@ p {
   }
 }
 
+.order-status-box {
+  button {
+    margin-bottom: 0 !important;
+  }
+}
+
 .checkout-page {
   .blling-order-section {
     padding: 50px 0;
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+    }
 
     .hero-section {
       margin: 0;
@@ -2448,6 +2510,10 @@ p {
     background-color: #fff;
     padding: 30px 20px 40px;
     border-radius: 10px;
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 20px;
+    }
   }
 
   .order-section {

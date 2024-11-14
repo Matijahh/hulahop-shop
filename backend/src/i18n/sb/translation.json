@@ -8,7 +8,7 @@
   "Blog": "Blog",
   "Contact": "Kontakt",
   "Header": "Zaglavlje",
-  "Dashboard": "Komandna tabla",
+  "Dashboard": "Kontrolna tabla",
   "Instructions": "Uputstva",
   "Become Seller": "Postani prodavac",
   "Create your own store completely free": "Napravite sopstvenu prodavnicu potpuno besplatno",
@@ -704,5 +704,7 @@
   "Sales": "Prodaja",
   "Total Products Sold": "Ukupno prodatih artikala",
   "Delete Order": "Obriši porudžbinu",
-  "order no.": "porudžbinu broj"
+  "order no.": "porudžbinu broj",
+  "No Product Data": "Nema podataka o proizvodu",
+  "Order status updated sucessfully": "Status porudžbine je uspešno promenjen"
 }

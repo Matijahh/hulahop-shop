@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { slugify } from "../../../utils/commonFunctions";
 import { get, map, size } from "lodash";
 import {
   commonAddUpdateQuery,
@@ -12,6 +13,7 @@ import { WishListHeader } from "./mock";
 import { FlexBox } from "../../../components/Sections";
 import { Helmet } from "react-helmet";
 import { LoaderContainer } from "../../../components/Loader";
+import { WishlistContainer } from "./styled";
 
 import ProfileComponent from ".";
 import Tables from "../../../components/SuperAdmin/Tables";
@@ -30,6 +32,8 @@ const Wishlist = () => {
 
     if (response) {
       const { data } = response.data;
+      console.log("data", data);
+
       setWishListData(data);
       setLoading(false);
     }
@@ -42,8 +46,9 @@ const Wishlist = () => {
       ...item,
       no: `${index + 1}`,
       id: get(item, "id", ""),
+      associate_product_name: get(item, "associate_product", "").name,
       associate_product_id: get(item, "associate_product_id", ""),
-      price: get(item, "associate_product.price", ""),
+      price: `${get(item, "associate_product.price", "")} RSD`,
       image: get(item, "associate_product.image_id", ""),
       ViewProduct,
       handleDelete,
@@ -52,8 +57,8 @@ const Wishlist = () => {
     return renderData;
   };
 
-  const ViewProduct = (id) => {
-    let url = ROUTE_MAIN_SHOP_PRODUCT.replace(":id", id);
+  const ViewProduct = (name, id) => {
+    let url = ROUTE_MAIN_SHOP_PRODUCT.replace(":id", slugify(name, id));
     navigate(url);
   };
 
@@ -92,10 +97,18 @@ const Wishlist = () => {
           </div>
         </FlexBox>
 
-        <Tables
-          body={size(wishListData) > 0 ? setTableRenderData(wishListData) : []}
-          header={WishListHeader}
-        />
+        <WishlistContainer>
+          <Tables
+            className="wishlist-table"
+            body={
+              size(wishListData) > 0 ? setTableRenderData(wishListData) : []
+            }
+            header={WishListHeader.map((item) => ({
+              ...item,
+              headerName: t(item.headerName),
+            }))}
+          />
+        </WishlistContainer>
       </div>
     </ProfileComponent>
   );

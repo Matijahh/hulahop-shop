@@ -14,6 +14,7 @@ import ModalComponent from "../../../components/ModalComponent";
 import { FlexBox } from "../../../components/Sections";
 import { Helmet } from "react-helmet";
 import { LoaderContainer } from "../../../components/Loader";
+import { OrdersContainer } from "./styled";
 
 const Orders = () => {
   const [loading, setLoading] = useState(false);
@@ -42,11 +43,32 @@ const Orders = () => {
       ...item,
       no: `${index + 1}`,
       id: get(item, "id", ""),
-      price: get(item, "total_amount", ""),
+      price: `${get(item, "total_amount", "")} RSD`,
       date: moment(Number(get(item, "created_at", ""))).format("DD/MM/YYYY"),
       sku: get(item, "sku", ""),
-      status: get(item, "status", ""),
-      image: get(item, "order_products.0.product_variant.image_id", ""),
+      status: t(get(item, "status", "")),
+      product_image: get(
+        item,
+        "order_products.0.associate_product.image_id",
+        ""
+      ),
+      productData: get(item, "order_products.0.associate_product", ""),
+      previewImageUrl: getImageUrlById(
+        get(item, "order_products.0.product_variant.image_id")
+      ),
+      json: get(
+        item,
+        "order_products.0.associate_product.image_json.imageObj",
+        ""
+      )
+        ? JSON.parse(
+            get(
+              item,
+              "order_products.0.associate_product.image_json.imageObj",
+              ""
+            )
+          )
+        : null,
       orderDetail: item,
       openModel,
     }));
@@ -83,20 +105,23 @@ const Orders = () => {
 
         {loading && <LoaderContainer />}
 
-        <Tables
-          body={
-            size(ordersProductsList) > 0
-              ? setTableRenderData(ordersProductsList)
-              : []
-          }
-          header={renderHeader.map((item) => ({
-            ...item,
-            headerName: t(item.headerName),
-          }))}
-        />
+        <OrdersContainer>
+          <Tables
+            className="orders-table"
+            body={
+              size(ordersProductsList) > 0
+                ? setTableRenderData(ordersProductsList)
+                : []
+            }
+            header={renderHeader.map((item) => ({
+              ...item,
+              headerName: t(item.headerName),
+            }))}
+          />
+        </OrdersContainer>
       </div>
 
-      <ModalComponent open={isOpen} title="Order" handleClose={closeModel}>
+      <ModalComponent open={isOpen} title={t("Order")} handleClose={closeModel}>
         <div className="order-detail-body">
           <div className="container">
             <div className="row">
@@ -123,7 +148,7 @@ const Orders = () => {
                             )
                           : null;
                         return (
-                          <div className="col-lg-6" key={index}>
+                          <div className="col-lg-12" key={index}>
                             <div className="order-detail-box">
                               <div className="row g-3">
                                 <div className="col-12">
@@ -159,7 +184,8 @@ const Orders = () => {
                                             item,
                                             "associate_product.price",
                                             ""
-                                          )}
+                                          )}{" "}
+                                          RSD
                                         </p>
                                       </div>
 
@@ -176,7 +202,7 @@ const Orders = () => {
                                               "product_variant.color.name"
                                             )} (${get(
                                               item,
-                                              "product_variant.color?.code"
+                                              "product_variant.color.code"
                                             )})`}
                                           </span>
 
@@ -185,7 +211,7 @@ const Orders = () => {
                                             style={{
                                               background: `${get(
                                                 item,
-                                                "product_variant.color?.code"
+                                                "product_variant.color.code"
                                               )}`,
                                             }}
                                           ></span>

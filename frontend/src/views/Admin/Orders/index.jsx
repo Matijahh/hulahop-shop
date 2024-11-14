@@ -7,6 +7,7 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import {
+  camelCase,
   getImageUrlById,
   getSelectobjectValue,
 } from "../../../utils/commonFunctions";
@@ -51,19 +52,19 @@ const Orders = () => {
 
   const StatusList = [
     {
-      id: "Pending",
+      id: "PENDING",
       title: t("Pending"),
     },
     {
-      id: "Dispatched",
+      id: "DISPATCHED",
       title: t("Dispatched"),
     },
     {
-      id: "Delivered",
+      id: "DELIVERED",
       title: t("Delivered"),
     },
     {
-      id: "Cancelled",
+      id: "CANCELLED",
       title: t("Cancelled"),
     },
   ];
@@ -100,11 +101,32 @@ const Orders = () => {
       ...item,
       no: `${index + 1}`,
       id: get(item, "id", ""),
-      price: get(item, "total_amount", ""),
+      price: `${get(item, "total_amount", "")} RSD`,
       date: moment(Number(get(item, "created_at", ""))).format("DD/MM/YYYY"),
       sku: get(item, "sku", ""),
-      status: get(item, "status", ""),
-      image: get(item, "order_products.0.product_variant.image_id", ""),
+      status: t(camelCase(get(item, "status", ""))),
+      product_image: get(
+        item,
+        "order_products.0.associate_product.image_id",
+        ""
+      ),
+      productData: get(item, "order_products.0.associate_product", ""),
+      previewImageUrl: getImageUrlById(
+        get(item, "order_products.0.product_variant.image_id")
+      ),
+      json: get(
+        item,
+        "order_products.0.associate_product.image_json.imageObj",
+        ""
+      )
+        ? JSON.parse(
+            get(
+              item,
+              "order_products.0.associate_product.image_json.imageObj",
+              ""
+            )
+          )
+        : null,
       orderDetail: item,
       handleOpenDeleteModal,
       openModel,
@@ -117,8 +139,8 @@ const Orders = () => {
     setIsOpen(true);
 
     let finalStatus = get(item, "status")
-      ? `${get(item, "status")},${get(item, "status")}`
-      : "PENDING,PENDING";
+      ? `${get(item, "status")},${t(camelCase(get(item, "status")))}`
+      : `PENDING,${t("Pending")}`;
 
     setOrderStatus(finalStatus);
     setSelectedOrder(item);
@@ -138,14 +160,14 @@ const Orders = () => {
 
     if (URL) {
       const reqBody = {
-        status: finalStatus ? finalStatus.id : "Pending",
+        status: finalStatus ? finalStatus.id : "PENDING",
       };
 
       try {
         const response = await commonAddUpdateQuery(URL, reqBody, "PATCH");
 
         if (response) {
-          SuccessTaster("Order status updated sucessfully");
+          SuccessTaster(t("Order status updated sucessfully"));
           closeModel();
           getOrdersProducts();
         }

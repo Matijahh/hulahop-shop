@@ -8,6 +8,7 @@ const Container = styled.div`
   canvas {
     border-radius: 6px 0 0px 0;
     width: 100% !important;
+    position: relative !important;
     height: auto !important;
   }
 
@@ -25,7 +26,7 @@ const Container = styled.div`
         `;
       } else {
         return css`
-          height: 250px !important;
+          height: auto !important;
         `;
       }
     }}/* height: 250px !important; */

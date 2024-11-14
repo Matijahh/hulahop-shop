@@ -1,10 +1,23 @@
 import styled from "styled-components";
 
-const TABLE_OFFSET = "154px";
+export const WishlistContainer = styled.div`
+  .wishlist-table {
+    height: 300px;
+
+    .css-yrdy0g-MuiDataGrid-columnHeaderRow {
+      .MuiDataGrid-withBorderColor:nth-child(2),
+      .MuiDataGrid-withBorderColor:last-child {
+        .MuiDataGrid-columnHeaderTitleContainer {
+          justify-content: center;
+        }
+      }
+    }
+  }
+`;
 
 export const OrdersContainer = styled.div`
   .orders-table {
-    height: calc(100vh - ${TABLE_OFFSET});
+    height: 300px;
 
     .css-yrdy0g-MuiDataGrid-columnHeaderRow {
       .MuiDataGrid-withBorderColor:nth-child(2),

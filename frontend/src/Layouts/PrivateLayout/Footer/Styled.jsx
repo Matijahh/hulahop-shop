@@ -6,7 +6,8 @@ export const FooterWrapperStyled = styled.div`
   footer {
     padding: 30px;
     background: #fff;
-    border-radius: 15px;
+    box-shadow: 0px 0px 6px -3px #afaccb;
+    border-radius: 10px;
   }
 
   .footer-section-header {

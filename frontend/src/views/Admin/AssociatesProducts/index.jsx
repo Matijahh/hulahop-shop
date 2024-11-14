@@ -91,7 +91,6 @@ const AssociatesProducts = () => {
         json: get(item, "image_json.imageObj", "")
           ? JSON.parse(get(item, "image_json.imageObj", ""))
           : null,
-
         productData: item,
         isBestSelling: get(item, "best_selling", false),
         status: item.is_approve ? t("Active") : t("Inactive"),

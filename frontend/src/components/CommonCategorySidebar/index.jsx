@@ -5,6 +5,7 @@ import { commonGetQuery } from "../../utils/axiosInstance";
 import { getImageUrlById } from "../../utils/commonFunctions";
 import _size from "lodash/size";
 import _get from "lodash/get";
+import get from "lodash/get";
 import _map from "lodash/map";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
@@ -29,10 +30,8 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
 
     if (isAssociate) {
       url =
-        ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
-          ":id",
-          _get(params, "id")?.split("-")?.[1]
-        ) + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
+        ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":id", _get(params, "id")) +
+        `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
     } else {
       url =
         ROUTE_MAIN_SHOP + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
@@ -42,8 +41,14 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
   };
 
   const getProductsList = async () => {
+    const userId = get(params, "id")?.split("-")?.[1];
     setLoading(true);
-    const response = await commonGetQuery(`/categories`);
+
+    const response =
+      isAssociate && userId
+        ? await commonGetQuery(`/categories/?user_id=${userId}`)
+        : await commonGetQuery("/categories");
+
     setLoading(false);
 
     if (response) {

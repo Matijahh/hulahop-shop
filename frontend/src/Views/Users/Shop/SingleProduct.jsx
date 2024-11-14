@@ -55,6 +55,8 @@ const SingleProduct = (props) => {
   const params = useParams();
   const { t } = useTranslation();
 
+  const lang = localStorage.getItem("I18N_LANGUAGE") || "en";
+
   const validation = Yup.object().shape({
     quantity: Yup.string().required(t("Quantity is required!")),
   });
@@ -108,8 +110,11 @@ const SingleProduct = (props) => {
 
       setLoading(true);
 
-      await commonAddUpdateQuery(URL, reqBody, "POST");
-      SuccessTaster(t("Added to cart sucessfully."));
+      const result = await commonAddUpdateQuery(URL, reqBody, "POST");
+
+      if (result) {
+        SuccessTaster(t("Added to cart sucessfully."));
+      }
       setLoading(false);
     },
   });
@@ -580,20 +585,42 @@ const SingleProduct = (props) => {
                   <div className="col-lg-6 align-self-center">
                     <div className="about-product-desciption">
                       <div className="description-white-box">
-                        {get(aboutProductsData, "0.product_description_1") &&
-                          parse(
-                            get(aboutProductsData, "0.product_description_1")
-                          )}
+                        {lang == "sr"
+                          ? get(
+                              aboutProductsData,
+                              "0.product_description_1_ab"
+                            ) &&
+                            parse(
+                              get(
+                                aboutProductsData,
+                                "0.product_description_1_ab"
+                              )
+                            )
+                          : get(aboutProductsData, "0.product_description_1") &&
+                            parse(
+                              get(aboutProductsData, "0.product_description_1")
+                            )}
                       </div>
                     </div>
                   </div>
                   <div className="col-lg-6 align-self-center">
                     <div className="about-product-desciption">
                       <div className="description-white-box white-box">
-                        {get(aboutProductsData, "0.product_description_2") &&
-                          parse(
-                            get(aboutProductsData, "0.product_description_2")
-                          )}
+                        {lang == "sr"
+                          ? get(
+                              aboutProductsData,
+                              "0.product_description_2_sb"
+                            ) &&
+                            parse(
+                              get(
+                                aboutProductsData,
+                                "0.product_description_2_sb"
+                              )
+                            )
+                          : get(aboutProductsData, "0.product_description_2") &&
+                            parse(
+                              get(aboutProductsData, "0.product_description_2")
+                            )}
                       </div>
                     </div>
                   </div>
@@ -607,20 +634,20 @@ const SingleProduct = (props) => {
                 <div className="row g-4">
                   <div className="col-lg-4">
                     <div className="after-purchase-box">
-                      <div className="after-purchase-flexbox">
+                      <div className="after-purchase">
                         <div className="icon-box">
                           <LocalShippingIcon />
                         </div>
                         <div className="after-purchase-description">
                           <h4>{t("Free Shipping")}</h4>
-                          <p>{t("Free shipping on orders over $99.")}.</p>
+                          <p>{t("Free shipping on orders over $99.")}</p>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="col-lg-4">
                     <div className="after-purchase-box">
-                      <div className="after-purchase-flexbox">
+                      <div className="after-purchase">
                         <div className="icon-box">
                           <GiReceiveMoney />
                         </div>
@@ -633,7 +660,7 @@ const SingleProduct = (props) => {
                   </div>
                   <div className="col-lg-4">
                     <div className="after-purchase-box">
-                      <div className="after-purchase-flexbox">
+                      <div className="after-purchase">
                         <div className="icon-box">
                           <SupportAgentIcon />
                         </div>

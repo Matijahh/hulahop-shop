@@ -6,7 +6,7 @@ import {
   ROUTE_MAIN_CART,
   ROUTE_MAIN_PROFILE,
   ROUTE_MAIN_SHOP_PRODUCT,
-  ROUTE_SIGN_IN,
+  ROUTE_SIGN_UP,
 } from "../../../routes/routes";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 import { debounce, get, map } from "lodash";
@@ -295,7 +295,7 @@ const Header = () => {
                 </div>
                 <div className="profile-box">
                   <NavLink
-                    to={ACCESS_TOKEN ? ROUTE_MAIN_PROFILE : ROUTE_SIGN_IN}
+                    to={ACCESS_TOKEN ? ROUTE_MAIN_PROFILE : ROUTE_SIGN_UP}
                   >
                     <PersonIcon />
                   </NavLink>
@@ -396,7 +396,7 @@ const Header = () => {
               <div className="middle-area-end d-none d-lg-flex">
                 <div className="profile-box">
                   <NavLink
-                    to={ACCESS_TOKEN ? ROUTE_MAIN_PROFILE : ROUTE_SIGN_IN}
+                    to={ACCESS_TOKEN ? ROUTE_MAIN_PROFILE : ROUTE_SIGN_UP}
                   >
                     <div className="d-flex justify-content-center align-items-center">
                       <p>

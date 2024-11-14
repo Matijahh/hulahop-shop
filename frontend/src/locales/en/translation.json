@@ -702,5 +702,7 @@
   "Sales": "Sales",
   "Total Products Sold": "Total Products Sold",
   "Delete Order": "Delete Order",
-  "order no.": "order no."
+  "order no.": "order no.",
+  "No Product Data": "No Product Data",
+  "Order status updated sucessfully": "Order status updated sucessfully"
 }

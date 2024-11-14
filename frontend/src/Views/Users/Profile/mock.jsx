@@ -4,6 +4,7 @@ import { getImageUrlById } from "../../../utils/commonFunctions";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
 
 export const renderHeader = [
   {
@@ -22,10 +23,20 @@ export const renderHeader = [
     field: "product_image",
     headerName: "Product Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: ({ row }) => (
       <>
-        <img src={getImageUrlById(row.image)} />
+        <div style={{ width: 200, height: "auto" }}>
+          <PreviewJsonImage
+            previewImageUrl={get(row, "previewImageUrl")}
+            json={
+              row?.productData?.image_json?.imageObj
+                ? JSON.parse(row?.productData?.image_json?.imageObj)
+                : null
+            }
+            productData={row?.productData}
+          />
+        </div>
       </>
     ),
     sortable: false,
@@ -34,7 +45,7 @@ export const renderHeader = [
   {
     field: "id",
     headerName: "Order ID",
-    width: 180,
+    width: 120,
     align: "left",
   },
   {
@@ -53,21 +64,24 @@ export const renderHeader = [
     field: "status",
     headerName: "Status",
     width: 180,
-    align: "left",
+    align: "center",
   },
 
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
-        <VisibilityOutlinedIcon
-          onClick={() => {
-            row.openModel(row.orderDetail);
-          }}
-        />
+        <div
+          role="button"
+          className="me-2"
+          onClick={() => row.openModel(row.orderDetail)}
+        >
+          <VisibilityOutlinedIcon />
+        </div>
       </>
     ),
   },
@@ -90,7 +104,7 @@ export const WishListHeader = [
     field: "product_image",
     headerName: "Product Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: ({ row }) => (
       <>
         <img src={getImageUrlById(row.image)} />
@@ -109,15 +123,21 @@ export const WishListHeader = [
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
         <div className="d-flex align-items-cente">
           <div
             role="button"
             className="me-2"
-            onClick={() => row.ViewProduct(row.associate_product_id)}
+            onClick={() =>
+              row.ViewProduct(
+                row.associate_product_name,
+                row.associate_product_id
+              )
+            }
           >
             <RemoveRedEyeOutlinedIcon />
           </div>
