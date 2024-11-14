@@ -65,6 +65,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
       if (values.parentCategory.split(",")[0] !== "0") {
         reqBody.category_id = parseInt(values.parentCategory.split(",")[0]);
         reqBody.sub_category_order = subCategories.length + 1;
+        reqBody.category_order = undefined;
       }
 
       const URL =

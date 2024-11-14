@@ -95,7 +95,6 @@ const Categories = () => {
 
   const updateCategory = async (category) => {
     const { ...rest } = category;
-
     return commonAddUpdateQuery(
       `categories/${category.id}`,
       { ...rest },
