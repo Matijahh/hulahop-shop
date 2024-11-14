@@ -41,4 +41,19 @@ export class BlogsService extends AbstractService {
     }
     return await this.abstractRemove(id);
   }
+
+  async find(options?: any): Promise<Blogs[]> {
+    return await super.find({ 
+      ...options, 
+      relations: ['created_by2'] 
+    });
+  }
+
+  async findOne(options: any): Promise<Blogs> {
+    return await super.findOne({
+      ...options,
+      relations: ['created_by2']
+    });
+  }
+
 }
