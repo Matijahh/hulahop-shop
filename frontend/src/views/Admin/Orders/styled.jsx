@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TABLE_OFFSET = "154px";
+const TABLE_OFFSET = "184px";
 
 export const OrdersContainer = styled.div`
   .orders-table {

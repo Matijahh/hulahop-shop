@@ -11,7 +11,7 @@ import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { Loader } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
 
-const TABLE_OFFSET = "154px";
+const TABLE_OFFSET = "184px";
 
 const Container = styled.div`
   .announcements-table {

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const TABLE_OFFSET = "154px";
+const TABLE_OFFSET = "184px";
 
 export const AssociatesProductsContainer = styled.div`
   .products-table {

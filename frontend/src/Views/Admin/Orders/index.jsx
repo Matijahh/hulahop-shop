@@ -429,7 +429,7 @@ const Orders = () => {
                                           "product_variant.color.name"
                                         )} (${get(
                                           item,
-                                          "product_variant.color?.code"
+                                          "product_variant.color.code"
                                         )})`}
                                       </span>
 
@@ -438,7 +438,7 @@ const Orders = () => {
                                         style={{
                                           background: `${get(
                                             item,
-                                            "product_variant.color?.code"
+                                            "product_variant.color.code"
                                           )}`,
                                         }}
                                       ></span>

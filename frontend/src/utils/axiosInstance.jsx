@@ -77,9 +77,12 @@ axiosInstance.interceptors.response.use(
           message: error.message,
         };
 
-    ErrorTaster(
-      i18next.t(responseData?.message || error?.response || error?.message)
-    );
+    if (responseData.statusCode !== 404) {
+      ErrorTaster(
+        i18next.t(responseData?.message || error?.response || error?.message)
+      );
+    }
+
     const statusData = error.response ? error.response.status : 500;
     if (statusData === 401) {
       setNewAccessToken();

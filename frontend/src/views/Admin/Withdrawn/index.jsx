@@ -12,6 +12,7 @@ import map from "lodash/map";
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
 import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
+import { WithdrawnContainer } from "./styled";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 import ModalComponent from "../../../components/ModalComponent";
@@ -134,7 +135,7 @@ const Withdrawn = () => {
   }, []);
 
   return (
-    <>
+    <WithdrawnContainer>
       <CommonWhiteBackground>
         <FlexBox className="mb-4 title-wrapper">
           <div className="main-title">{t("Associates Withdrawn Request")}</div>
@@ -143,6 +144,7 @@ const Withdrawn = () => {
         {loading && <LoaderContainer />}
 
         <Tables
+          className="withdrawn-table"
           body={
             size(withdrawnList) > 0 ? setTableRenderData(withdrawnList) : []
           }
@@ -152,6 +154,7 @@ const Withdrawn = () => {
           }))}
         />
       </CommonWhiteBackground>
+
       <ModalComponent
         open={isOpen}
         title={t("Update Status")}
@@ -195,7 +198,7 @@ const Withdrawn = () => {
           </div>
         </div>
       </ModalComponent>
-    </>
+    </WithdrawnContainer>
   );
 };
 export default Withdrawn;

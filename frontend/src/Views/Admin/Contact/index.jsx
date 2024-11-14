@@ -10,6 +10,7 @@ import map from "lodash/map";
 
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
+import { ContactContainer } from "./styled";
 
 import Tables from "../../../components/SuperAdmin/Tables";
 
@@ -70,21 +71,26 @@ const Contact = () => {
   }, []);
 
   return (
-    <CommonWhiteBackground>
-      <FlexBox className="mb-4 title-wrapper">
-        <div className="main-title ">{t("Users Queries")}</div>
-      </FlexBox>
+    <ContactContainer>
+      <CommonWhiteBackground>
+        <FlexBox className="mb-4 title-wrapper">
+          <div className="main-title ">{t("Users Queries")}</div>
+        </FlexBox>
 
-      {loading && <LoaderContainer />}
+        {loading && <LoaderContainer />}
 
-      <Tables
-        body={size(inquiriesList) > 0 ? setTableRenderData(inquiriesList) : []}
-        header={renderHeader.map((item) => ({
-          ...item,
-          headerName: t(item.headerName),
-        }))}
-      />
-    </CommonWhiteBackground>
+        <Tables
+          className="contact-table"
+          body={
+            size(inquiriesList) > 0 ? setTableRenderData(inquiriesList) : []
+          }
+          header={renderHeader.map((item) => ({
+            ...item,
+            headerName: t(item.headerName),
+          }))}
+        />
+      </CommonWhiteBackground>
+    </ContactContainer>
   );
 };
 export default Contact;

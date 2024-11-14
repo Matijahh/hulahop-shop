@@ -20,7 +20,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../../../components/ModalComponent";
 
-const TABLE_OFFSET = "154px";
+const TABLE_OFFSET = "184px";
 
 export const Container = styled.div`
   .translations-table {

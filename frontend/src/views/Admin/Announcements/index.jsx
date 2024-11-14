@@ -21,7 +21,7 @@ import ModalComponent from "../../../components/ModalComponent";
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { LoaderContainer } from "../../../components/Loader";
 
-const TABLE_OFFSET = "154px";
+const TABLE_OFFSET = "184px";
 
 const Container = styled.div`
   .announcements-table {

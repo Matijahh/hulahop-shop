@@ -7,6 +7,7 @@ export const SuperAdminLayoutContainer = styled.div`
   .main-container {
     margin-left: 250px;
     padding: 30px;
+    background-color: rgba(241, 103, 109, 0.05);
     min-height: 100vh;
 
     @media screen and (max-width: 1080px) {

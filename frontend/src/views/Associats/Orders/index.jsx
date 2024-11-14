@@ -7,10 +7,12 @@ import {
   commonGetQuery,
 } from "../../../utils/axiosInstance";
 import {
+  camelCase,
   getImageUrlById,
   getSelectobjectValue,
 } from "../../../utils/commonFunctions";
 import { jwtDecode } from "jwt-decode";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 import moment from "moment/moment";
 
 import Tables from "../../../components/SuperAdmin/Tables";
@@ -23,6 +25,7 @@ import DownloadFile from "../../../utils/FileDownload";
 import { CommonWhiteBackground, FlexBox } from "../../../components/Sections";
 import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
+import { OrdersContainer } from "../../Admin/Orders/styled";
 
 const Orders = () => {
   const [loading, setLoading] = useState(false);
@@ -54,11 +57,32 @@ const Orders = () => {
       ...item,
       no: `${index + 1}`,
       id: get(item, "id", ""),
-      price: get(item, "total_amount", ""),
+      price: `${get(item, "total_amount", "")} RSD`,
       date: moment(Number(get(item, "created_at", ""))).format("DD/MM/YYYY"),
       sku: get(item, "sku", ""),
-      status: get(item, "status", ""),
-      image: get(item, "order_products.0.product_variant.image_id", ""),
+      status: t(camelCase(get(item, "status", ""))),
+      product_image: get(
+        item,
+        "order_products.0.associate_product.image_id",
+        ""
+      ),
+      productData: get(item, "order_products.0.associate_product", ""),
+      previewImageUrl: getImageUrlById(
+        get(item, "order_products.0.product_variant.image_id")
+      ),
+      json: get(
+        item,
+        "order_products.0.associate_product.image_json.imageObj",
+        ""
+      )
+        ? JSON.parse(
+            get(
+              item,
+              "order_products.0.associate_product.image_json.imageObj",
+              ""
+            )
+          )
+        : null,
       orderDetail: item,
       openModel,
     }));
@@ -70,8 +94,8 @@ const Orders = () => {
     setIsOpen(true);
 
     let finalStatus = get(item, "status")
-      ? `${get(item, "status")},${get(item, "status")}`
-      : "PENDING,PENDING";
+      ? `${get(item, "status")},${t(camelCase(get(item, "status")))}`
+      : `PENDING,${t("Pending")}`;
 
     setOrderStatus(finalStatus);
     setSelectedOrder(item);
@@ -83,48 +107,22 @@ const Orders = () => {
     setOrderStatus("");
   };
 
-  const handleUpdateOrderStatus = async (id) => {
-    setLoading(true);
-
-    const URL = id ? `/orders/${id}/status` : "";
-    let finalStatus = orderStatus && getSelectobjectValue(orderStatus);
-
-    if (URL) {
-      const reqBody = {
-        status: finalStatus ? finalStatus.id : "Pending",
-      };
-
-      try {
-        const response = await commonAddUpdateQuery(URL, reqBody, "PATCH");
-
-        if (response) {
-          SuccessTaster("Order status updated sucessfully");
-          closeModel();
-          getOrdersProducts();
-        }
-
-        setLoading(false);
-      } catch (error) {
-        ErrorTaster(error.response.message);
-      }
-    }
-  };
-
   useEffect(() => {
     getOrdersProducts();
   }, []);
 
   return (
-    <>
+    <OrdersContainer>
       <Helmet>
         <title>{t("Orders - Associate")}</title>
       </Helmet>
       <CommonWhiteBackground>
         <FlexBox className="mb-4">
           <div className="main-title ">{t("Orders")}</div>
-          <InputComponent type="search" label="Search Orders" />
+          <InputComponent type="search" label={t("Search Orders")} />
         </FlexBox>
         <Tables
+          className="orders-table"
           body={
             size(ordersProductsList) > 0
               ? setTableRenderData(ordersProductsList)
@@ -140,39 +138,6 @@ const Orders = () => {
         <div className="order-detail-body">
           <div className="container">
             <div className="row">
-              {/* <div className="col-12">
-                <div className="order-status-box">
-                  
-                  <div className="d-flex gap-3 align-items-end justify-content-end">
-                    <div>
-                      <SelectComponent
-                        // label="Status"
-                        fullWidth
-                        name="status"
-                        optionList={StatusList}
-                        onChange={({ target }) => {
-                          setOrderStatus(target.value);
-                        }}
-                        isShowValue
-                        value={orderStatus}
-                        // formik={formik}
-                        title="Select Status"
-                        disabled={loading}
-                      />
-                    </div>
-                    <div>
-                      <ButtonComponent
-                        text="Update"
-                        variant="contained"
-                        className="mb-2"
-                        onClick={() => {
-                          handleUpdateOrderStatus(selectedOrder.id);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
               <div className="col-12">
                 <h5>{t("User Detail")}</h5>
               </div>
@@ -292,7 +257,8 @@ const Orders = () => {
                                         item,
                                         "associate_product.product.price",
                                         ""
-                                      )}
+                                      )}{" "}
+                                      RSD
                                     </p>
                                   </div>
                                   <div className="col-4">
@@ -300,7 +266,8 @@ const Orders = () => {
                                       {t("Assosiate Price")} :
                                     </p>
                                     <p>
-                                      {get(item, "associate_product.price", "")}
+                                      {get(item, "associate_product.price", "")}{" "}
+                                      RSD
                                     </p>
                                   </div>
                                   <div className="col-4">
@@ -317,7 +284,8 @@ const Orders = () => {
                                             "associate_product.product.price",
                                             ""
                                           )
-                                        )}
+                                        )}{" "}
+                                      RSD
                                     </p>
                                   </div>
                                   <div className="col-4">
@@ -333,7 +301,7 @@ const Orders = () => {
                                           "product_variant.color.name"
                                         )} (${get(
                                           item,
-                                          "product_variant.color?.code"
+                                          "product_variant.color.code"
                                         )})`}
                                       </span>
 
@@ -342,7 +310,7 @@ const Orders = () => {
                                         style={{
                                           background: `${get(
                                             item,
-                                            "product_variant.color?.code"
+                                            "product_variant.color.code"
                                           )}`,
                                         }}
                                       ></span>
@@ -367,7 +335,7 @@ const Orders = () => {
           </div>
         </div>
       </ModalComponent>
-    </>
+    </OrdersContainer>
   );
 };
 

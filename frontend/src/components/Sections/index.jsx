@@ -4,6 +4,8 @@ import Colors from "../../design/Colors";
 
 export const CommonWhiteBackground = styled.div`
   background-color: #fff;
+  box-shadow: 0px 0px 6px -3px #afaccb;
+  border-radius: 15px;
   padding: ${({ padding }) => padding || "30px"};
 
   @media screen and (max-width: 768px) {

@@ -21,7 +21,7 @@ export const renderHeader = [
     field: "associate_logo",
     headerName: "Store Logo",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: (params) => (
       <>
         <img src={getImageUrlById(get(params, "row.associate_logo"))} />
@@ -65,21 +65,26 @@ export const renderHeader = [
     field: "status",
     headerName: "Status",
     width: 180,
-    align: "left",
+    align: "center",
   },
 
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
-        <EditOutlinedIcon
+        <div
+          role="button"
+          className="align-items-center"
           onClick={() => {
             row.openModel(row.withdrawnDetail);
           }}
-        />
+        >
+          <EditOutlinedIcon />
+        </div>
       </>
     ),
   },

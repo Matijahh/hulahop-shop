@@ -1,7 +1,7 @@
 import { get } from "lodash";
-import { getImageUrlById } from "../../../utils/commonFunctions";
 
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import PreviewJsonImage from "../../../components/PreviewJsonImage";
 
 export const renderHeader = [
   {
@@ -20,26 +20,18 @@ export const renderHeader = [
     field: "product_image",
     headerName: "Product Image",
     width: 120,
-    align: "left",
+    align: "center",
     renderCell: ({ row }) => (
       <>
-        <img src={getImageUrlById(row.image)} />
-        {/* <PreviewJsonImage
-          previewImageUrl={getImageUrlById(row.image)}
+        <PreviewJsonImage
+          previewImageUrl={get(row, "previewImageUrl")}
           json={
-            get(row, "orderDetail.associate_product.image_json.imageObj", "")
-              ? JSON.parse(
-                  get(
-                    row,
-                    "orderDetail.associate_product.image_json.imageObj",
-                    ""
-                  )
-                )
+            row?.productData?.image_json?.imageObj
+              ? JSON.parse(row?.productData?.image_json?.imageObj)
               : null
           }
-          maxHeight="120px"
-          productData={get(row, "orderDetail.associate_product")}
-        /> */}
+          productData={row?.productData}
+        />
       </>
     ),
     sortable: false,
@@ -67,21 +59,26 @@ export const renderHeader = [
     field: "status",
     headerName: "Status",
     width: 180,
-    align: "left",
+    align: "center",
   },
 
   {
     field: "action",
     headerName: "Action",
-    width: 150,
-    align: "left",
+    width: 100,
+    align: "center",
+    sortable: false,
     renderCell: ({ row }) => (
       <>
-        <VisibilityOutlinedIcon
+        <div
+          role="button"
+          className="me-2"
           onClick={() => {
             row.openModel(row.orderDetail);
           }}
-        />
+        >
+          <VisibilityOutlinedIcon />
+        </div>
       </>
     ),
   },
