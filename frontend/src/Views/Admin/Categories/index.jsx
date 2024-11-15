@@ -93,11 +93,10 @@ const Categories = () => {
     }
   };
 
-  const updateCategory = async (category) => {
-    const { ...rest } = category;
+  const updateCategory = async (category, order) => {
     return commonAddUpdateQuery(
-      `categories/${category.id}`,
-      { ...rest },
+      `/categories/order/${category.id}`,
+      { category_order: order },
       "PATCH"
     );
   };
@@ -139,42 +138,32 @@ const Categories = () => {
     getCategoryData();
   }, []);
 
-  const handleMoveUp = (index) => {
+  const handleMoveUp = async (index) => {
     const data = cloneDeep(categoryData);
-
-    [data[index - 1], data[index]] = [data[index], data[index - 1]];
-
-    const updatedOrder = data?.map((item, index) => {
-      item.category_order = index + 1;
-      return item;
-    });
 
     setIsLoading(true);
 
-    Promise.all([updateCategory(data[index]), updateCategory(data[index - 1])]);
-
-    setIsLoading(false);
-
-    setCategoryData(updatedOrder);
+    Promise.all([
+      updateCategory(data[index], index - 1),
+      updateCategory(data[index - 1], index + 1),
+    ]).then(() => {
+      setIsLoading(false);
+      getCategoryData();
+    });
   };
 
   const handleMoveDown = (index) => {
     const data = cloneDeep(categoryData);
 
-    [data[index], data[index + 1]] = [data[index + 1], data[index]];
-
-    const updatedOrder = data?.map((item, index) => {
-      item.category_order = index + 1;
-      return item;
-    });
-
     setIsLoading(true);
 
-    Promise.all([updateCategory(data[index]), updateCategory(data[index + 1])]);
-
-    setIsLoading(false);
-
-    setCategoryData(updatedOrder);
+    Promise.all([
+      updateCategory(data[index], index + 1),
+      updateCategory(data[index + 1], index - 1),
+    ]).then(() => {
+      setIsLoading(false);
+      getCategoryData();
+    });
   };
 
   const handleMoveUpSubCategory = async (index, subCategories) => {
