@@ -121,8 +121,6 @@ const Product = ({
       setPrieviewProduct(findCoverImage[0]);
     }
 
-    console.log(productData);
-
     setProductUrl(ProductUrl);
     setCategoryUrl(CetegoryUrl);
     setSubCategoryUrl(SubCategoryUrl);

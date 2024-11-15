@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { get, map, size } from "lodash";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -36,6 +37,8 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [associatesList, setAssociatesList] = useState([]);
+  const [bestSellingCategories, setBestSellingCategories] = useState([]);
+  const [wishListData, setWishListData] = useState([]);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -51,12 +54,15 @@ const HomePage = () => {
 
     if (response) {
       const { data } = response.data;
-      setCategories([...data]);
+      setCategories(
+        [...data].filter((d) => bestSellingCategories.find((i) => i === d.id))
+      );
     }
   };
 
   const getBestSellingProduct = async (id) => {
     let url = "associate_products?best_selling=true";
+    let categoryIds = [];
 
     if (id) {
       url = `${url}&category_ids=${id}`;
@@ -70,7 +76,38 @@ const HomePage = () => {
 
     if (response) {
       const { data } = response.data;
+      data.forEach((d) => {
+        if (
+          d.product?.category_id &&
+          !categoryIds.find((c) => c === d.product?.category_id)
+        ) {
+          categoryIds.push(d.product?.category_id);
+        }
+      });
+
+      setBestSellingCategories(categoryIds);
       setBestSellingProducts(data);
+    }
+  };
+
+  const getWishListData = async () => {
+    setLoading(true);
+
+    const response = await commonGetQuery("/wishlist");
+
+    if (response) {
+      const { data } = response.data;
+
+      setWishListData(data);
+      setLoading(false);
+    }
+
+    setLoading(false);
+  };
+
+  const checkIsInWishList = (id) => {
+    if (wishListData.length > 0) {
+      return wishListData.find((item) => item.associate_product_id == id);
     }
   };
 
@@ -91,9 +128,17 @@ const HomePage = () => {
 
   useEffect(() => {
     getBestSellingProduct();
-    getAllCategory();
+
     getAssociatesList();
+
+    if (ACCESS_TOKEN) {
+      getWishListData();
+    }
   }, []);
+
+  useEffect(() => {
+    getAllCategory();
+  }, [bestSellingCategories]);
 
   return (
     <div className="page-wrapper home-page">
@@ -149,12 +194,12 @@ const HomePage = () => {
             <div className="col-12">
               <div className="hero-section">
                 <h3 className="banner-head">{t("How Does It Work?")}</h3>
-                <p className="banner-paragraph">
+                {/* <p className="banner-paragraph">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo,
                   veniam eos id nam incidunt et esse consequatur consectetur
                   accusantium impedit sit ex at temporibus, non facere
                   reiciendis nulla. Enim, qui.
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="col-12">
@@ -165,6 +210,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
       {size(bestSellingProducts) > 0 && (
         <div className="product-list-section">
           <div className="container">
@@ -183,11 +229,25 @@ const HomePage = () => {
                   </div>
                 ) : (
                   <div className="product-listing">
-                    <TabContext value={value}>
+                    <div className="products-list-container">
+                      <div className="row g-3">
+                        {size(bestSellingProducts) > 0 &&
+                          bestSellingProducts.map((item, key) => (
+                            <div className="col-md-6 col-lg-3" key={key}>
+                              <Product
+                                productData={item}
+                                isInWishList={checkIsInWishList(item.id)}
+                                getWishListData={getWishListData}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                    {/* <TabContext value={value}>
                       <div className="product-listing-tabs">
                         <TabList
                           onChange={handleChange}
-                          aria-label="lab API tabs example"
+                          aria-label="categories"
                           centered
                         >
                           {_size(categories) > 0 &&
@@ -207,12 +267,16 @@ const HomePage = () => {
                           {size(bestSellingProducts) > 0 &&
                             bestSellingProducts.map((item, key) => (
                               <div className="col-md-6 col-lg-3" key={key}>
-                                <Product productData={item} />
+                                <Product
+                                  productData={item}
+                                  isInWishList={checkIsInWishList(item.id)}
+                                  getWishListData={getWishListData}
+                                />
                               </div>
                             ))}
                         </div>
                       </div>
-                    </TabContext>
+                    </TabContext> */}
                   </div>
                 )}
               </div>
@@ -220,6 +284,7 @@ const HomePage = () => {
           </div>
         </div>
       )}
+
       <div className="associates-listing-section">
         <div className="container">
           <div className="row">
@@ -324,12 +389,12 @@ const HomePage = () => {
             <div className="col-12">
               <div className="hero-section">
                 <h3 className="banner-head">{t("We Deliver Happiness")}</h3>
-                <p className="banner-paragraph">
+                {/* <p className="banner-paragraph">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo,
                   veniam eos id nam incidunt et esse consequatur consectetur
                   accusantium impedit sit ex at temporibus, non facere
                   reiciendis nulla. Enim, qui.
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="col-12 col-sm-6 col-md-4">
