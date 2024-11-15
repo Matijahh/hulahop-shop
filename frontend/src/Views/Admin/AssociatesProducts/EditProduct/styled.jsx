@@ -27,11 +27,11 @@ export const EditProductContainer = styled.div`
 
     .konvajs-content {
       @media screen and (max-width: 768px) {
-        width: 400px !important;
+        width: 350px !important;
         height: auto;
 
         canvas {
-          width: 400px !important;
+          width: 350px !important;
         }
       }
     }

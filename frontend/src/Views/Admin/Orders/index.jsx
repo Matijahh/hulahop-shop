@@ -269,7 +269,7 @@ const Orders = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-12">
+              <div className="col-12 user-detail-title">
                 <h5>{t("User Detail")}</h5>
               </div>
               <div className="col-12">

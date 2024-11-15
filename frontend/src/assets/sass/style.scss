@@ -810,6 +810,7 @@ p {
       }
 
       @media screen and (max-width: 768px) {
+        box-shadow: none;
         width: 260px;
       }
     }
@@ -2653,6 +2654,12 @@ p {
     border-top: 2px solid #dcdcdc;
     padding-top: 20px;
     padding-bottom: 20px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .user-detail-title {
+      margin-top: 20px;
+    }
   }
 
   .order-detail-box {

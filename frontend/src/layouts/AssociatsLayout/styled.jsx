@@ -11,7 +11,7 @@ export const SuperAdminLayoutContainer = styled.div`
     min-height: 100vh;
 
     @media screen and (max-width: 768px) {
-      padding: 30px 10px;
+      padding: 10px;
     }
 
     @media screen and (max-width: 1080px) {

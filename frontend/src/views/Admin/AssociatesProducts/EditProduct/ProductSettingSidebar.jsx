@@ -75,7 +75,7 @@ const ProductSettingSidebar = ({
       <Divider />
       <div className="tab-list">
         <ButtonComponent
-          text={t("Add Your Design")}
+          text={t("Add Design")}
           variant="outlined"
           width="100%"
           onClick={handleAddDesign}

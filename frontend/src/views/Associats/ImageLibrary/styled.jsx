@@ -14,6 +14,11 @@ export const ImageLibraryContainer = styled.div`
   .header {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     padding-bottom: 10px;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .image-cover {
@@ -32,6 +37,7 @@ export const ImageLibraryContainer = styled.div`
   }
 
   .images-list {
+    min-height: 300px;
     max-height: 500px;
     overflow: auto;
 

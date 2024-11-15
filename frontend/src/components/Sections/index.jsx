@@ -10,13 +10,13 @@ export const CommonWhiteBackground = styled.div`
 
   @media screen and (max-width: 768px) {
     padding: 20px;
+    margin-top: 10px !important;
   }
 
   .title-wrapper {
     @media screen and (max-width: 768px) {
       flex-direction: column;
       align-items: start;
-      margin-top: 20px;
 
       .filters-wrapper {
         flex-direction: column;

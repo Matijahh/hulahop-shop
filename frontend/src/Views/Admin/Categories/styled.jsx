@@ -27,14 +27,28 @@ export const Container = styled.div`
           text-align: center;
         }
       }
+
+      @media screen and (max-width: 768px) {
+        .MuiTableRow-head {
+          .MuiTableCell-head:nth-child(2) {
+            display: none;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .MuiTableBody-root {
+        .MuiTableRow-root {
+          .MuiTableCell-root:nth-child(2) {
+            display: none;
+          }
+        }
+      }
     }
 
     .align-items-center {
       text-align: center;
-    }
-
-    @media screen and (max-width: 768px) {
-      width: calc(100% - 400px) !important;
     }
   }
 
