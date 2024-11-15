@@ -20,6 +20,8 @@ const ProductSettingSidebar = ({
   selectImage,
   setShowFrame,
   setProductPrice,
+  handleHighlight,
+  highlighted,
 }) => {
   const [priceProduct, setPriceProduct] = useState(null);
 
@@ -76,12 +78,21 @@ const ProductSettingSidebar = ({
       <Divider />
       <div className="tab-list">
         <ButtonComponent
-          text={t("Add Your Design")}
+          text={t("Add Design")}
           variant="outlined"
           width="100%"
           onClick={handleAddDesign}
           fontSize="12px"
         />
+        {new URLSearchParams(window.location.search).get("edit") && (
+          <ButtonComponent
+            text={t("Highlight Product")}
+            variant={`${highlighted ? "contained" : "outlined"}`}
+            width="100%"
+            onClick={handleHighlight}
+            fontSize="12px"
+          />
+        )}
       </div>
       <Divider />
       <form className="info-form">

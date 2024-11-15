@@ -312,7 +312,7 @@ const CheckOut = () => {
                                   get(item, "quantity") *
                                     Number(get(item, "associate_product.price"))
                                 )}{" "}
-                                DIN
+                                RSD
                               </h5>
                             </div>
                           </div>

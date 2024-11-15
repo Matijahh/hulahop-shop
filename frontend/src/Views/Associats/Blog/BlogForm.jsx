@@ -24,6 +24,7 @@ const BlogFormWrapper = styled.div``;
 
 const AssociateBlogForm = () => {
   const [loading, setLoading] = useState();
+  const [checked, setChecked] = useState(false);
 
   const navigation = useNavigate();
   const params = useParams();
@@ -53,7 +54,7 @@ const AssociateBlogForm = () => {
         category_name: values.category_name,
         content: values.content,
         image_id: values.image_id,
-        show_on_main: values.show_on_main ? 1 : 0,
+        show_on_main: checked ? 1 : 0,
       };
 
       setLoading(true);
@@ -82,8 +83,8 @@ const AssociateBlogForm = () => {
       formik.setFieldValue("image_id", image_id);
       formik.setFieldValue("heading", heading);
       formik.setFieldValue("category_name", category_name);
-      formik.setFieldError("show_on_main", show_on_main);
       formik.setFieldValue("content", content);
+      setChecked(show_on_main);
       setLoading(false);
     }
 
@@ -159,11 +160,8 @@ const AssociateBlogForm = () => {
                     }}
                   >
                     <Checkbox
-                      value={formik.values.show_on_main}
-                      checked={formik.values.show_on_main}
-                      onChange={(_, checked) =>
-                        formik.setFieldValue("show_on_main", checked)
-                      }
+                      checked={checked}
+                      onChange={(_, checked) => setChecked(checked)}
                     />
                     <label>{t("Show on Main Page")}</label>
                   </div>

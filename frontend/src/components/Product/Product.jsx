@@ -38,7 +38,7 @@ const Product = ({
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const addRemoveWishList = async (id) => {
+  const addWishList = async (id) => {
     if (!ACCESS_TOKEN) {
       ErrorTaster(t("Please login first."));
       return;
@@ -55,6 +55,28 @@ const Product = ({
     if (response) {
       getWishListData();
       SuccessTaster(t("Product added to wishList sucessfully."));
+    }
+
+    setLoading(false);
+  };
+
+  const removeWishList = async (id) => {
+    if (!ACCESS_TOKEN) {
+      ErrorTaster(t("Please login first."));
+      return;
+    }
+
+    setLoading(true);
+
+    const response = await commonAddUpdateQuery(
+      `/wishlist/${id}`,
+      {},
+      "DELETE"
+    );
+
+    if (response) {
+      getWishListData();
+      SuccessTaster(t("Product removed from wishList sucessfully."));
     }
 
     setLoading(false);
@@ -99,6 +121,8 @@ const Product = ({
       setPrieviewProduct(findCoverImage[0]);
     }
 
+    console.log(productData);
+
     setProductUrl(ProductUrl);
     setCategoryUrl(CetegoryUrl);
     setSubCategoryUrl(SubCategoryUrl);
@@ -132,8 +156,8 @@ const Product = ({
               className="whishlist-btn"
               onClick={() => {
                 loading || isInWishList
-                  ? {}
-                  : addRemoveWishList(get(productData, "id", ""));
+                  ? removeWishList(isInWishList?.id)
+                  : addWishList(get(productData, "id", ""));
               }}
             >
               {loading ? (

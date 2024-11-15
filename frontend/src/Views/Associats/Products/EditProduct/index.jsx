@@ -32,6 +32,7 @@ const EditProduct = () => {
   const [showFrame, setShowFrame] = useState(true);
   const [activeProductId, setActiveProductId] = useState(null);
   const [productPrice, setProductPrice] = useState(null);
+  const [highlighted, setHighlighted] = useState(false);
 
   const { productId } = useParams();
   const generatedImageRef = useRef();
@@ -72,6 +73,10 @@ const EditProduct = () => {
     },
   });
 
+  const handleHighlight = () => {
+    setHighlighted(!highlighted);
+  };
+
   const handleSubmit = async (base64) => {
     selectImage(null);
 
@@ -108,9 +113,16 @@ const EditProduct = () => {
 
     if (response) {
       const { message } = response.data;
+      if (pId) {
+        await commonAddUpdateQuery(
+          `/associate_products/associate_highlighted/${pId}`,
+          { associate_highlighted: highlighted },
+          "PATCH"
+        );
+      }
       localStorage.removeItem("canvasState");
       navigate(ROUTE_ASSOCIATE_MAIN_PRODUCTS);
-      SuccessTaster(message);
+      SuccessTaster(t(message));
     }
   };
 
@@ -143,6 +155,10 @@ const EditProduct = () => {
 
     if (response) {
       const { data } = response.data;
+
+      if (data?.associate_highlighted) {
+        setHighlighted(data?.associate_highlighted);
+      }
 
       formik.setValues({
         ...formik.values,
@@ -231,6 +247,8 @@ const EditProduct = () => {
                   selectImage={selectImage}
                   setShowFrame={setShowFrame}
                   setProductPrice={setProductPrice}
+                  handleHighlight={handleHighlight}
+                  highlighted={highlighted}
                 />
               </Col>
             </Row>
