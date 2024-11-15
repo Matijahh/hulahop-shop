@@ -20,6 +20,7 @@ import { Response } from 'express';
 import { SkipAuth } from '../../core/guards/auth-guard';
 import { AssociateProductsService } from '../associate-products/associate-products.service';
 import { log } from 'console';
+import { UpdateCategoriesOrder } from './dto/update-categories-order';
 @ApiTags('categories')
 @ApiBearerAuth()
 @Controller('categories')
@@ -104,12 +105,29 @@ export class CategoriesController {
     const result = await this.categoriesService.update(id, {
       ...updateCategoriesInput,
       id,
-    });
+    },
+  );
     return baseController.getResult(
       res,
       HttpStatus.OK,
       result,
       'Categories updated successfully',
+    );
+  }
+
+  @ApiBody({ type: UpdateCategoriesOrder })
+  @Patch('order/:id')
+  async updateOrder(
+    @Res() res: Response,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCategoriesOrder: UpdateCategoriesOrder,
+  ) {
+    const result = await this.categoriesService.updateOrder(id, updateCategoriesOrder);
+    return baseController.getResult(
+      res,
+      HttpStatus.OK,
+      result,
+      'Categories order updated successfully',
     );
   }
 

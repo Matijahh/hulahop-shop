@@ -34,6 +34,16 @@ export class CategoriesService extends AbstractService {
     return update;
   }
 
+  async updateOrder(id: number, data: UpdateCategoriesInput) {
+    const categoriesData = await this.findOne({ where: { id: id } });
+    if (!categoriesData) {
+      throw new NotFoundException('This record does not exist!');
+    }
+    const update = await this.abstractUpdate(id, {...data, id});
+    return update;
+  }
+
+
   async remove(id: number) {
     const categoriesData = await this.findOne({ where: { id } });
     if (!categoriesData) {
