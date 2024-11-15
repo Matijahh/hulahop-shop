@@ -19,6 +19,7 @@ import PreviewJsonImage from "../../../components/PreviewJsonImage";
 
 import { Loader } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
+import { SuccessTaster } from "../../../components/Toast";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -70,6 +71,18 @@ const Cart = () => {
 
     if (response) {
       getProductSummaryData();
+    }
+  };
+
+  const clearCart = async () => {
+    const response = await commonAddUpdateQuery(
+      "/carts/remove-cart",
+      {},
+      "DELETE"
+    );
+    if (response) {
+      getProductSummaryData();
+      SuccessTaster(t("Cart has been successfully emptied"));
     }
   };
 
@@ -246,6 +259,7 @@ const Cart = () => {
                   />
                   {_size(_get(cartProducts, "cart_products")) > 0 && (
                     <ButtonComponent
+                      onClick={clearCart}
                       text={t("Clear Cart")}
                       variant="contained"
                       className="clear-btn"

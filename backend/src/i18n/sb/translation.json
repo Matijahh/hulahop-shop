@@ -710,5 +710,6 @@
   "Order status updated sucessfully": "Status porudžbine je uspešno promenjen",
   "Highlight Product": "Istakni proizvod",
   "You can only highlight 8 products": "Možeš istaknuti samo 8 proizvoda",
-  "Associate product updated successfully": "Proizvod saradnika je uspešno ažuriran"
+  "Associate product updated successfully": "Proizvod saradnika je uspešno ažuriran",
+  "Cart has been successfully emptied": "Korpa je uspešno ispražnjena"
 }

@@ -63,7 +63,7 @@ export const HomeContainer = styled.div`
 
     h2 {
       font-size: 34px;
-      font-weight: 600;
+      font-weight: 700;
       color: #000;
       margin-bottom: 10px;
 
