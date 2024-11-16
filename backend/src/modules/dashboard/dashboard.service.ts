@@ -166,10 +166,15 @@ export class DashboardService extends AbstractService {
     const userId = currentUser.id;
     const userRole = currentUser.type;
     const whereClause: any = { status: 'DELIVERED' };
-
+  
     if (userRole === 'ASSOCIATE') {
-      whereClause.user_id = userId;
+      whereClause.order_products = {
+        associate_product: {
+          user_id: userId,
+        },
+      };
     }
+  
     return whereClause;
   }
 
