@@ -62,19 +62,19 @@ export class AssociateProductsService extends AbstractService {
       where = { ...where, best_selling: true };
     }
     if (filterDto.price_low_to_high === 'true') {
-      order = { price: 'ASC' };
+      order = { ...order, price: 'ASC' };
     } else if (filterDto.price_low_to_high === 'false') {
-      order = { price: 'DESC' };
-    } else {
-      order = { id: 'ASC' };
+      order = { ...order, price: 'DESC' };
     }
 
     if(filterDto.date_added === 'true') {
-      order = { created_at: 'ASC' };
+      order = { ...order, created_at: 'ASC' };
     } else if (filterDto.date_added === 'false') {
-      order = { created_at: 'DESC' };
-    } else {
-      order = { id: 'ASC' };
+      order = { ...order, created_at: 'DESC' };
+    }
+
+    if(Object.keys(order).length === 0) {
+      order = { id: 'DESC' };
     }
 
     if (filterDto.associate_highlighted === 'true') {
