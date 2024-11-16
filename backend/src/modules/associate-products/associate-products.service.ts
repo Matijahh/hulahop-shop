@@ -69,6 +69,14 @@ export class AssociateProductsService extends AbstractService {
       order = { id: 'ASC' };
     }
 
+    if(filterDto.date_added === 'true') {
+      order = { created_at: 'ASC' };
+    } else if (filterDto.date_added === 'false') {
+      order = { created_at: 'DESC' };
+    } else {
+      order = { id: 'ASC' };
+    }
+
     if (filterDto.associate_highlighted === 'true') {
       where = { ...where, associate_highlighted: true };
     }else if (filterDto.associate_highlighted === 'false') {
