@@ -711,5 +711,10 @@
   "Highlight Product": "Highlight Product",
   "You can only highlight 8 products": "You can only highlight 8 products",
   "Associate product updated successfully": "Associate product updated successfully",
-  "Cart has been successfully emptied": "Cart has been successfully emptied"
+  "Cart has been successfully emptied": "Cart has been successfully emptied",
+  "Sort By": "Sort By",
+  "Highest Price": "Highest Price",
+  "Lowest Price": "Lowest Price",
+  "Latest Added": "Latest Added",
+  "Oldest Added": "Oldest Added"
 }
