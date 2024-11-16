@@ -17,6 +17,9 @@ export class GetAssociateProductFilterInputDto {
   price_low_to_high: string | null;
 
   @ApiPropertyOptional()
+  date_added: string | null;
+
+  @ApiPropertyOptional()
   best_selling: string | null;
 
   @ApiPropertyOptional()
