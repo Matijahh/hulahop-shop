@@ -5,9 +5,10 @@ import { commonGetQuery } from "../../../utils/axiosInstance";
 import { size, get } from "lodash";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 
-import { Pagination } from "@mui/material";
+import { MenuItem, Pagination, Select } from "@mui/material";
 
 import Product from "../../../components/Product/Product";
+import SelectComponent from "../../../components/SelectComponent";
 
 const Main = (props) => {
   const { setMainLoading, mainLoading } = props;
@@ -17,10 +18,34 @@ const Main = (props) => {
   const [totalPages, setTotalPages] = useState(0);
   const [wishListData, setWishListData] = useState([]);
   const [page, setPage] = useState(1);
+  const [sortBy, setSortBy] = useState(null);
 
   const params = useParams();
   const { t } = useTranslation();
   const limit = 20;
+
+  const selectItems = [
+    // {
+    //   label: `${t("Popularity")}`,
+    //   value: 'popularity'
+    // },
+    {
+      title: `${t("Lowest Price")}`,
+      id: "price_low_to_high=true",
+    },
+    {
+      title: `${t("Highest Price")}`,
+      id: "price_low_to_high=false",
+    },
+    {
+      title: `${t("Oldest Added")}`,
+      id: "date_added=true",
+    },
+    {
+      title: `${t("Latest Added")}`,
+      id: "date_added=false",
+    },
+  ];
 
   const getWishListData = async () => {
     setLoading(true);
@@ -41,12 +66,15 @@ const Main = (props) => {
     categoryId,
     sub_categoryId,
     limit,
-    page
+    page,
+    sortBy
   ) => {
     setLoading(true);
     setMainLoading(true);
 
-    let url = `associate_products?limit=${limit}&page=${page}`;
+    const sort = sortBy.split(",")[0];
+
+    let url = `associate_products?limit=${limit}&page=${page}&${sort}`;
 
     if (categoryId && categoryId !== "all") {
       url = `${url}&category_ids=${categoryId}`;
@@ -96,19 +124,46 @@ const Main = (props) => {
     setPage(value);
   };
 
+  const handleSort = (event) => {
+    setSortBy(event.target.value);
+  };
+
   useEffect(() => {
     const url = new URL(window.location.href);
     const categoryId = url.searchParams.get("categoryId");
     const sub_categoryId = url.searchParams.get("sub_categoryId");
-    getAssociateProducts(categoryId, sub_categoryId, limit, page);
+    if (sortBy)
+      getAssociateProducts(categoryId, sub_categoryId, limit, page, sortBy);
 
     if (ACCESS_TOKEN) {
       getWishListData();
     }
-  }, [params, page]);
+  }, [params, page, sortBy]);
+
+  useEffect(() => {
+    setSortBy(`price_low_to_high=true,${t("Lowest Price")}`);
+  }, []);
 
   return (
     <div className="products-list-container">
+      <div className="row g-2">
+        <div className="col-md-2 mb-3">
+          {selectItems && sortBy && (
+            <SelectComponent
+              fullWidth
+              size="small"
+              name="title"
+              id="demo-multiple-name-label"
+              labelId="demo-multiple-name-label"
+              optionList={selectItems}
+              label={t("Sort By")}
+              value={sortBy}
+              onChange={handleSort}
+              isShowValue={true}
+            />
+          )}
+        </div>
+      </div>
       <div className="row g-3">
         {size(associateProductsList) > 0 ? (
           associateProductsList.map((item, i) => (

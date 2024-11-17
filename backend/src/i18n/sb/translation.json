@@ -711,5 +711,10 @@
   "Highlight Product": "Istakni proizvod",
   "You can only highlight 8 products": "Možeš istaknuti samo 8 proizvoda",
   "Associate product updated successfully": "Proizvod saradnika je uspešno ažuriran",
-  "Cart has been successfully emptied": "Korpa je uspešno ispražnjena"
+  "Cart has been successfully emptied": "Korpa je uspešno ispražnjena",
+  "Sort By": "Sortiraj prema",
+  "Highest Price": "Najvišoj ceni",
+  "Lowest Price": "Najnižoj ceni",
+  "Latest Added": "Poslednje dodato",
+  "Oldest Added": "Najstarije dodato"
 }

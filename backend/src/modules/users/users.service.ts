@@ -29,6 +29,11 @@ export class UsersService extends AbstractService {
     return result;
   }
 
+  async getAllAssociates() {
+    const associates = await this.find({ where: { type: UserTypes.ASSOCIATE } });
+    return associates;
+  }
+
   async update(
     id: number,
     data: UpdateUsersInput,
