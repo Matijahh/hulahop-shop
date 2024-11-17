@@ -29,6 +29,14 @@ export class UsersService extends AbstractService {
     return result;
   }
 
+  async findOneById(id: number, relations: string[] = null): Promise<Users> {
+    const user = await this.findOne({ where: { id }, relations });
+    if (!user) {
+      throw new NotFoundException('This record does not exist!');
+    }
+    return user;
+  }
+
   async getAllAssociates() {
     const associates = await this.find({ where: { type: UserTypes.ASSOCIATE } });
     return associates;
