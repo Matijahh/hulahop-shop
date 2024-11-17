@@ -231,7 +231,7 @@ export class DashboardService extends AbstractService {
     if(user.type === 'ASSOCIATE'){
       return {
         wallet: user.wallet,
-        netoEarnings: enrichedResult.netoEarnings.toFixed(2),
+        brutoEarnings: enrichedResult.brutoEarnings.toFixed(2),
         totalOrders: enrichedResult.totalOrders,
         totalSoldItems: enrichedResult.totalSoldItems,
       };

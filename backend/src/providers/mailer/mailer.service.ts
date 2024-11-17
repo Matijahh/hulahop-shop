@@ -6,7 +6,7 @@ import { layout, Template, templates } from './templates';
 import Handlebars from 'handlebars';
 
 type TemplateType = {
-  fileName: 'order-receipt' | 'announcement';
+  fileName: 'order-receipt' | 'announcement' | 'order-notification';
   context: any;
 };
 
@@ -84,6 +84,15 @@ export class MailerService {
       from: options.from,
       to: options.to,
       subject: 'HulaHop -  Order Receipt',
+      html: options.html,
+    });
+  }
+
+  async sendOrderNotification(options: { html: string; from: string; to: string; sku: string }) {
+    await this.transporter.sendMail({
+      from: options.from,
+      to: options.to,
+      subject: 'HulaHop -  Order Notification - ' + options.sku,
       html: options.html,
     });
   }

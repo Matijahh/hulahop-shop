@@ -37,6 +37,11 @@ export class UsersService extends AbstractService {
     return user;
   }
 
+  async getAllAdmins() {
+    const admins = await this.find({ where: { type: UserTypes.ADMIN } });
+    return admins;
+  }
+
   async getAllAssociates() {
     const associates = await this.find({ where: { type: UserTypes.ASSOCIATE } });
     return associates;
