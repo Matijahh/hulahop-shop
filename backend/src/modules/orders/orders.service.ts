@@ -24,6 +24,7 @@ import { UserTypes } from 'src/commons/enum';
 import { ORDER_STATUS } from 'src/commons/constant';
 import { Users } from '../users/entities/users.entity';
 import { MailerService } from 'src/providers/mailer/mailer.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class OrdersService extends AbstractService {
@@ -31,6 +32,7 @@ export class OrdersService extends AbstractService {
     private productSubVariantsService: ProductSubVariantsService,
     private readonly cartsService: CartsService,
     private readonly mailerService: MailerService,
+    private readonly usersService: UsersService,
   ) {
     super(ordersRepository);
   }
@@ -90,7 +92,7 @@ export class OrdersService extends AbstractService {
       const cart = await this.cartsService.findOne({
         where: { user_id: userId },
         relations: {
-          cart_products: { associate_product: true },
+          cart_products: { associate_product: { user: true } },
           user: true,
         },
       });
@@ -165,6 +167,33 @@ export class OrdersService extends AbstractService {
         });
       });
 
+      const orderNotificationHtml = this.mailerService.generateHtml({
+        fileName: 'order-notification',
+        context: {
+          sku: createOrder.sku,
+        },
+      });
+
+      const adminAndAssociateEmails = new Set<string>();
+      // get all admin emails
+      const admins = await this.usersService.getAllAdmins();
+      const adminEmails = admins.map((admin) => admin.email);
+      adminEmails.forEach((email) => adminAndAssociateEmails.add(email));
+      // get all the associate emails that are associated with the products in the order
+      const associateEmails = cart.cart_products.map(
+        (cartProduct) => cartProduct.associate_product.user.email,
+      );
+      associateEmails.forEach((email) => adminAndAssociateEmails.add(email));
+
+      Array.from(adminAndAssociateEmails).map((email: string) => {
+        this.mailerService.sendOrderNotification({
+          from: process.env.SMTP_SENDER,
+          to: email,
+          html: orderNotificationHtml,
+          sku: createOrder.sku,
+        });
+      });
+
       await queryRunner.commitTransaction();
       return this.findOne({ where: { id: createOrder.id } });
     } catch (err) {
@@ -213,7 +242,6 @@ export class OrdersService extends AbstractService {
       where: { id },
       relations,
     });
-    console.log('result.user_id', result);
     if (!result) {
       throw new NotFoundException('Order not found');
     }
@@ -244,8 +272,10 @@ export class OrdersService extends AbstractService {
         for (let i = 0; i < result.order_products.length; i++) {
           const orderProduct = result.order_products[i];
           const marginPrice =
-            Number(orderProduct.associate_product.price) -
-            Number(orderProduct.associate_product.product.price);
+            (Number(orderProduct.associate_product.price) -
+            Number(orderProduct.associate_product.product.price))
+            * Number(orderProduct.quantity)
+            ;
           await queryRunner.manager.increment(
             Users,
             { id: orderProduct.associate_product.user.id },

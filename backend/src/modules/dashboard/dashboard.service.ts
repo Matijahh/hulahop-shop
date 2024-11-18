@@ -11,10 +11,12 @@ import {
   eachDayOfInterval,
   format,
 } from 'date-fns';
+import { UsersService } from '../users/users.service';
+import { parse } from 'path';
 
 @Injectable()
 export class DashboardService extends AbstractService {
-  constructor() {
+  constructor(private readonly usersService: UsersService) {
     super(ordersRepository);
   }
 
@@ -29,7 +31,7 @@ export class DashboardService extends AbstractService {
         'user',
       ],
     });
-    return this.calculateEarnings(result);
+    return await this.calculateEarnings(result, currentUser);
   }
 
   async getMonthlyOrderNumberStats(currentUser: CurrentUserDto) {
@@ -136,10 +138,15 @@ export class DashboardService extends AbstractService {
         if (dailyBrutoSum[orderDateString] !== undefined) {
           const brutoEarnings = order.order_products.reduce(
             (sum, orderProduct) => {
-              return (
+              return currentUser.type === 'ADMIN' ? (
                 sum +
                 parseFloat(orderProduct.associate_product.price || '0') *
                   orderProduct.quantity
+              ) : (
+                sum +
+                ((parseFloat(orderProduct.associate_product.price || '0') *
+                  orderProduct.quantity) - parseFloat(orderProduct.associate_product.product.price || '0') *
+                  orderProduct.quantity)
               );
             },
             0,
@@ -166,14 +173,19 @@ export class DashboardService extends AbstractService {
     const userId = currentUser.id;
     const userRole = currentUser.type;
     const whereClause: any = { status: 'DELIVERED' };
-
+  
     if (userRole === 'ASSOCIATE') {
-      whereClause.user_id = userId;
+      whereClause.order_products = {
+        associate_product: {
+          user_id: userId,
+        },
+      };
     }
+  
     return whereClause;
   }
 
-  private calculateEarnings(orders: any[]) {
+  private async calculateEarnings(orders: any[], currentUser: CurrentUserDto) {
     const enrichedResult = orders.reduce(
       (acc, order) => {
         const brutoEarnings = order.order_products.reduce(
@@ -215,11 +227,21 @@ export class DashboardService extends AbstractService {
       { brutoEarnings: 0, netoEarnings: 0, totalOrders: 0, totalSoldItems: 0 },
     );
 
-    return {
-      brutoEarnings: enrichedResult.brutoEarnings.toFixed(2),
-      netoEarnings: enrichedResult.netoEarnings.toFixed(2),
-      totalOrders: enrichedResult.totalOrders,
-      totalSoldItems: enrichedResult.totalSoldItems,
-    };
+    const user = await this.usersService.findOneById(currentUser.id);
+    if(user.type === 'ASSOCIATE'){
+      return {
+        wallet: user.wallet,
+        brutoEarnings: enrichedResult.brutoEarnings.toFixed(2),
+        totalOrders: enrichedResult.totalOrders,
+        totalSoldItems: enrichedResult.totalSoldItems,
+      };
+    }else {
+      return {
+        brutoEarnings: enrichedResult.brutoEarnings.toFixed(2),
+        netoEarnings: enrichedResult.netoEarnings.toFixed(2),
+        totalOrders: enrichedResult.totalOrders,
+        totalSoldItems: enrichedResult.totalSoldItems,
+      };
+    }
   }
 }
