@@ -14,7 +14,7 @@ import { Col, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { LoaderContainer } from "../../../components/Loader";
 
-const Dashboard = ({ userData, saveUserData }) => {
+const Dashboard = ({ saveUserData }) => {
   const [loading, setLoading] = useState(false);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [earningsLoading, setEarningsLoading] = useState(false);
@@ -70,12 +70,10 @@ const Dashboard = ({ userData, saveUserData }) => {
   };
 
   useEffect(() => {
-    if (!userData) {
-      getUserData();
-      getDashboardData();
-      getMonthlyOrders();
-      getMonthlyEarnings();
-    }
+    getUserData();
+    getDashboardData();
+    getMonthlyOrders();
+    getMonthlyEarnings();
   }, []);
 
   return (
@@ -94,10 +92,8 @@ const Dashboard = ({ userData, saveUserData }) => {
               </div>
             </div>
             <div className="todo-list-item">
-              <div className="title">{t("Net Sales")}</div>
-              <div className="value">
-                {dashboardData?.netoEarnings || 0} RSD
-              </div>
+              <div className="title">{t("Wallet")}</div>
+              <div className="value">{dashboardData?.wallet || 0} RSD</div>
             </div>
             <div className="todo-list-item">
               <div className="title">{t("Orders")}</div>

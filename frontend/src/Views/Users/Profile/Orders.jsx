@@ -4,6 +4,8 @@ import { get, isEmpty, map, size } from "lodash";
 import { renderHeader } from "./mock";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { camelCase, getImageUrlById } from "../../../utils/commonFunctions";
+import { jwtDecode } from "jwt-decode";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 import moment from "moment";
 
 import ProfileComponent from ".";
@@ -25,9 +27,14 @@ const Orders = () => {
   const { t } = useTranslation();
 
   const getOrdersProducts = async () => {
+    const decoded = jwtDecode(ACCESS_TOKEN);
+    console.log(decoded);
+
     setLoading(true);
 
-    const response = await commonGetQuery("/orders");
+    const response = await commonGetQuery(
+      `/orders/${decoded.type === "ASSOCIATE" && `?associate_id=${decoded.id}`}`
+    );
 
     if (response) {
       const { data } = response.data;

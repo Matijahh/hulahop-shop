@@ -8,6 +8,7 @@ import { get } from "lodash";
 import {
   ROUTE_ADMIN_DASHBOARD,
   ROUTE_ASSOCIATE_MAIN_DASHBOARD,
+  ROUTE_SIGN_UP,
 } from "../../../routes/routes";
 
 import ProfileComponent from ".";
@@ -50,6 +51,10 @@ const Dashboard = () => {
 
     if (userData?.type === "ASSOCIATE") {
       navigate(ROUTE_ASSOCIATE_MAIN_DASHBOARD);
+    }
+
+    if (userData?.type === "USER") {
+      navigate(ROUTE_SIGN_UP);
     }
   };
 
@@ -96,7 +101,7 @@ const Dashboard = () => {
               </div>
               <div className="vendor-btn-box">
                 <ButtonComponent
-                  text={t("Go to Dashboard")}
+                  text={t("Register as Vendor")}
                   variant="contained"
                   className="vendor-btn"
                   onClick={() => handleDashboard()}
