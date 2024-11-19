@@ -27,15 +27,19 @@ export class AssociateProductsService extends AbstractService {
   async findAll(filterDto: GetAssociateProductFilterInputDto) {
     const categoryIds = Array.isArray(filterDto.category_ids)
       ? filterDto.category_ids.map(Number)
-      : filterDto.category_ids ? [Number(filterDto.category_ids)] : null;
-
+      : filterDto.category_ids
+      ? [Number(filterDto.category_ids)]
+      : null;
+  
     const subCategoryIds = Array.isArray(filterDto.sub_category_ids)
       ? filterDto.sub_category_ids.map(Number)
-      : filterDto.sub_category_ids ? [Number(filterDto.sub_category_ids)] : null;
-
+      : filterDto.sub_category_ids
+      ? [Number(filterDto.sub_category_ids)]
+      : null;
+  
     let where = {};
     let order = {};
-
+  
     if (categoryIds) {
       where = {
         ...where,
@@ -61,33 +65,37 @@ export class AssociateProductsService extends AbstractService {
     if (filterDto.best_selling === 'true') {
       where = { ...where, best_selling: true };
     }
+    if (filterDto.associate_highlighted === 'true') {
+      where = { ...where, associate_highlighted: true };
+    } else if (filterDto.associate_highlighted === 'false') {
+      where = { ...where, associate_highlighted: false };
+    }
+  
     if (filterDto.price_low_to_high === 'true') {
       order = { ...order, price: 'ASC' };
     } else if (filterDto.price_low_to_high === 'false') {
       order = { ...order, price: 'DESC' };
     }
-
-    if(filterDto.date_added === 'true') {
+  
+    if (filterDto.date_added === 'true') {
       order = { ...order, created_at: 'ASC' };
     } else if (filterDto.date_added === 'false') {
       order = { ...order, created_at: 'DESC' };
     }
-
-    if(Object.keys(order).length === 0) {
+  
+    if (filterDto.popularity === 'true') {
+      return this.getPopularitySortedData(filterDto, categoryIds, subCategoryIds);
+    }
+  
+    // Default ordering
+    if (Object.keys(order).length === 0) {
       order = { id: 'DESC' };
     }
-
-    if (filterDto.associate_highlighted === 'true') {
-      where = { ...where, associate_highlighted: true };
-    }else if (filterDto.associate_highlighted === 'false') {
-      where = { ...where, associate_highlighted: false };
-    }
-
+  
     if (filterDto.limit && filterDto.page) {
       const limit = filterDto.limit;
       const page = filterDto.page;
-
-      // Use the findWithPagination method for paginated results
+  
       return await this.findWithPagination(
         {
           where,
@@ -110,7 +118,6 @@ export class AssociateProductsService extends AbstractService {
         page,
       );
     } else {
-      // If limit and page are not provided, return all results without pagination
       return await this.find({
         where,
         relations: {
@@ -129,6 +136,97 @@ export class AssociateProductsService extends AbstractService {
         order,
       });
     }
+  }
+  
+  
+  private async getPopularitySortedData(
+    filterDto: GetAssociateProductFilterInputDto,
+    categoryIds: number[] | null,
+    subCategoryIds: number[] | null,
+  ) {
+    const qb = this.repository.createQueryBuilder('associate_products');
+  
+    qb.leftJoin('associate_products.order_products', 'order_products')
+      .select('associate_products.id', 'id')
+      .addSelect('COALESCE(SUM(order_products.quantity), 0)', 'popularity')
+      .groupBy('associate_products.id')
+      .orderBy('popularity', 'DESC');
+  
+    // Apply where conditions
+    if (categoryIds) {
+      qb.andWhere('associate_products.product.category_id IN (:...categoryIds)', {
+        categoryIds,
+      });
+    }
+    if (subCategoryIds) {
+      qb.andWhere(
+        'associate_products.product.subcategory_id IN (:...subCategoryIds)',
+        { subCategoryIds },
+      );
+    }
+    if (filterDto.search_string) {
+      qb.andWhere('associate_products.name LIKE :searchString', {
+        searchString: `%${filterDto.search_string}%`,
+      });
+    }
+    if (filterDto.user_id) {
+      qb.andWhere('associate_products.user_id = :userId', {
+        userId: filterDto.user_id,
+      });
+    }
+    if (filterDto.best_selling === 'true') {
+      qb.andWhere('associate_products.best_selling = true');
+    }
+    if (filterDto.associate_highlighted === 'true') {
+      qb.andWhere('associate_products.associate_highlighted = true');
+    } else if (filterDto.associate_highlighted === 'false') {
+      qb.andWhere('associate_products.associate_highlighted = false');
+    }
+  
+    // Execute query
+    const popularityData = await qb.getRawMany();
+    const popularityIds = popularityData.map((item) => item.id);
+  
+    // Fetch entities by popularity order
+    const data = await this.repository.find({
+      where: { id: In(popularityIds) },
+      relations: {
+        product: {
+          category: true,
+          sub_category: true,
+          product_variants: {
+            color: true,
+            sub_variants: true,
+          },
+        },
+        user: { store_layout_details: true },
+        cover_image_color: true,
+        associate_product_colors: { color: true },
+      },
+    });
+  
+    // Sort fetched entities by popularity order
+    const sortedData = popularityIds.map((id) =>
+      data.find((item) => item.id === id),
+    );
+  
+    // Handle pagination
+    if (filterDto.limit && filterDto.page) {
+      const limit = Number(filterDto.limit);
+      const page = Number(filterDto.page);
+      const total = sortedData.length;
+      const totalPages = Math.ceil(total / limit);
+  
+      return {
+        data: sortedData.slice((page - 1) * limit, page * limit),
+        total,
+        totalPages,
+        currentPage: page,
+      };
+    }
+  
+    // Return all data if no pagination
+    return sortedData;
   }
   
 
