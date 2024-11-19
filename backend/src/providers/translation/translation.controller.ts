@@ -37,8 +37,9 @@ export class TranslationController {
   @Get(':lang')
   getTranslations(@Param('lang') lang: string): Record<string, string> {
     try {
+      const fileToRead = process.env.NODE_ENV === 'prod' ? '.' : 'src';
       const translation = readFileSync(
-        `src/i18n/${lang}/translation.json`,
+        `${fileToRead}/i18n/${lang}/translation.json`,
         'utf8',
       );
       return JSON.parse(translation);
