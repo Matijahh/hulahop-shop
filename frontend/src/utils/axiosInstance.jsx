@@ -33,7 +33,7 @@ export const getNewAccessToken = async () => {
           }
         })
         .catch((error) => {
-          ErrorTaster(error);
+          ErrorTaster(t(error));
           commonSignOut();
         });
     });

@@ -67,7 +67,7 @@ const Profile = () => {
 
       if (response) {
         const { message } = response.data;
-        SuccessTaster(message);
+        SuccessTaster(t(message));
       }
     },
   });
@@ -100,7 +100,7 @@ const Profile = () => {
 
       if (error && error.data) {
         const { message } = error.data;
-        return ErrorTaster(message);
+        return ErrorTaster(t(message));
       }
     }
   };

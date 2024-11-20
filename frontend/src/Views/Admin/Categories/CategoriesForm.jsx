@@ -126,7 +126,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
 
       if (error && error.data) {
         const { message } = error.data;
-        return ErrorTaster(message);
+        return ErrorTaster(t(message));
       }
     }
   };

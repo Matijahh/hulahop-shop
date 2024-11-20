@@ -82,7 +82,7 @@ const SignIn = ({ maxWidth, RedirectUrl }) => {
         } else {
           handleRedirection(data.type);
         }
-        SuccessTaster(message);
+        SuccessTaster(t(message));
       } else {
         setLoading(false);
       }

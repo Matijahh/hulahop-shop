@@ -84,7 +84,7 @@ const CheckOut = () => {
 
       if (response) {
         const { message } = response.data;
-        SuccessTaster(message);
+        SuccessTaster(t(message));
         navigate(ROUTE_MAIN_ORDERS);
       }
     },

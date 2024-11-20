@@ -34,7 +34,7 @@ export const saveAssociateStoreData = (data) => {
 };
 
 export const handleForbiddenError = (error) => {
-  ErrorTaster("Network Error");
+  ErrorTaster(t("Network Error"));
 
   const statusData = get(error, "response.status");
 

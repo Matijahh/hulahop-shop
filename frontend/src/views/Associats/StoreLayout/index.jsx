@@ -86,7 +86,7 @@ const StoreLayout = () => {
 
       if (response) {
         const { message } = response.data;
-        SuccessTaster(message);
+        SuccessTaster(t(message));
       }
     },
   });
@@ -134,7 +134,7 @@ const StoreLayout = () => {
 
       if (error && error.data) {
         const { message } = error.data;
-        return ErrorTaster(message);
+        return ErrorTaster(t(message));
       }
     }
   };

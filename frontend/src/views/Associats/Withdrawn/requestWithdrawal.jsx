@@ -49,7 +49,7 @@ const RequestWithdrawal = ({ isOpen, toggle, refresh, wallet }) => {
 
       if (response) {
         const { message } = response.data;
-        SuccessTaster(message);
+        SuccessTaster(t(message));
         toggle();
         refresh();
         formik.resetForm();

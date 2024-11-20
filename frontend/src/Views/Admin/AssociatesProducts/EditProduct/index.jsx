@@ -108,7 +108,7 @@ const EditProduct = () => {
       const { message } = response.data;
       localStorage.removeItem("canvasState");
       Navigator(ROUTE_ADMIN_ASSOCIATE_PRODUCTS);
-      SuccessTaster(message);
+      SuccessTaster(t(message));
     }
   };
 

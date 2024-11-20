@@ -58,7 +58,7 @@ const SignIn = () => {
           setTokenAfterLogin(response);
           handleRedirection(data.type);
           if (message) {
-            SuccessTaster(message);
+            SuccessTaster(t(message));
           }
         }
       }

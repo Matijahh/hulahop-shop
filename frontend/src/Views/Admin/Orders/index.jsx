@@ -174,7 +174,7 @@ const Orders = () => {
 
         setLoading(false);
       } catch (error) {
-        ErrorTaster(error.response.message);
+        ErrorTaster(t(error.response.message));
       }
     }
   };

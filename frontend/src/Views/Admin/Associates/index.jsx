@@ -89,7 +89,7 @@ const Associates = () => {
 
     if (response) {
       const { message } = response.data;
-      SuccessTaster(message);
+      SuccessTaster(t(message));
       getUsersData();
     }
   };

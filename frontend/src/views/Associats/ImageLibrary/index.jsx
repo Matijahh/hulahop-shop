@@ -74,7 +74,7 @@ const ImageLibrary = ({ open, handleClose, onPickImage }) => {
 
       if (error && error.data) {
         const { message } = error.data;
-        return ErrorTaster(message);
+        return ErrorTaster(t(message));
       }
     }
   };

@@ -70,7 +70,7 @@ const ImageUploadBox = (props) => {
 
       if (error && error.data) {
         const { message } = error.data;
-        return ErrorTaster(message);
+        return ErrorTaster(t(message));
       }
     }
   };

@@ -118,14 +118,14 @@ const Withdrawn = () => {
         const response = await commonAddUpdateQuery(URL, reqBody, "PATCH");
 
         if (response) {
-          SuccessTaster("Withdrawn status updated sucessfully");
+          SuccessTaster(t("Withdrawn status updated sucessfully"));
           closeModel();
           getWithdrawnList();
         }
 
         setLoading(false);
       } catch (error) {
-        ErrorTaster(error.response.message);
+        ErrorTaster(t(error.response.message));
       }
     }
   };

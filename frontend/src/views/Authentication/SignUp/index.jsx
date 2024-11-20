@@ -76,7 +76,7 @@ const SignUp = ({ maxWidth }) => {
         const { message, data } = response.data;
         setTokenAfterRegistration(response);
         handleRedirection(data.user.type);
-        SuccessTaster(message);
+        SuccessTaster(t(message));
       } else {
         setLoading(false);
       }
