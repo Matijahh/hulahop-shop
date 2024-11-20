@@ -870,5 +870,6 @@
   "AlreadyUpdateStatus": "Already UpdateStatus",
   "AlreadyCancelled": "Already Cancelled",
   "User address not found": "User address not found",
-  "Your old password is wrong! make sure correct.": "Your old password is wrong! make sure correct."
+  "Your old password is wrong! make sure correct.": "Your old password is wrong! make sure correct.",
+  "Popularity": "Popularity"
 }

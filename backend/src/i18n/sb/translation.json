@@ -870,5 +870,6 @@
   "AlreadyUpdateStatus": "Status je već ažuriran",
   "AlreadyCancelled": "Već otkazano",
   "User address not found": "Adresa korisnika nije pronađena",
-  "Your old password is wrong! make sure correct.": "Vaša stara lozinka je pogrešna! Proverite ispravnost."
+  "Your old password is wrong! make sure correct.": "Vaša stara lozinka je pogrešna! Proverite ispravnost.",
+  "Popularity": "Popularnosti"
 }

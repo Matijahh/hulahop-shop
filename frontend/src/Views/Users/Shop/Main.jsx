@@ -25,10 +25,10 @@ const Main = (props) => {
   const limit = 20;
 
   const selectItems = [
-    // {
-    //   label: `${t("Popularity")}`,
-    //   value: 'popularity'
-    // },
+    {
+      title: `${t("Popularity")}`,
+      id: "popularity=true",
+    },
     {
       title: `${t("Lowest Price")}`,
       id: "price_low_to_high=true",
@@ -141,7 +141,7 @@ const Main = (props) => {
   }, [params, page, sortBy]);
 
   useEffect(() => {
-    setSortBy(`price_low_to_high=true,${t("Lowest Price")}`);
+    setSortBy(`popularity=true,${t("Popularity")}`);
   }, []);
 
   return (
