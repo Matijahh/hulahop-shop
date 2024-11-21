@@ -280,12 +280,18 @@ export class OrdersService extends AbstractService {
         },
       });
 
-      [cart?.user?.email, process.env.SMTP_SENDER].map((email) => {
-        this.mailerService.sendOrderReceipt({
-          from: process.env.SMTP_SENDER,
-          to: email,
-          html,
-        });
+      // [cart?.user?.email, process.env.SMTP_SENDER].map((email) => {
+      //   this.mailerService.sendOrderReceipt({
+      //     from: process.env.SMTP_SENDER,
+      //     to: email,
+      //     html,
+      //   });
+      // });
+      //send email to guest
+      this.mailerService.sendOrderReceipt({
+        from: process.env.SMTP_SENDER,
+        to: order_addresses.email,
+        html,
       });
 
       const orderNotificationHtml = this.mailerService.generateHtml({
