@@ -7,6 +7,7 @@ import {
 } from "../../../utils/axiosInstance";
 import { getImageUrlById } from "../../../utils/commonFunctions";
 import { ROUTE_MAIN_CHECKOUT, ROUTE_MAIN_SHOP } from "../../../routes/routes";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 import _size from "lodash/size";
 import _get from "lodash/get";
 import _map from "lodash/map";
@@ -20,7 +21,6 @@ import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import { Loader } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
 import { SuccessTaster } from "../../../components/Toast";
-import { ACCESS_TOKEN } from "../../../utils/constant";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -165,9 +165,15 @@ const Cart = () => {
 
     let localCart = JSON.parse(localStorage.getItem("cart_products"));
 
-    localCart = localCart.filter(
-      (p) => p.associate_product_id !== _get(item, "associate_product_id")
+    const index = localCart.findIndex(
+      (p) =>
+        p.associate_product_id === _get(item, "associate_product_id") &&
+        p.product_sub_variant_id === _get(item, "product_sub_variant_id")
     );
+
+    if (index !== -1) {
+      localCart = localCart.filter((p) => p !== localCart[index]);
+    }
 
     localStorage.setItem("cart_products", JSON.stringify(localCart));
 
@@ -243,6 +249,10 @@ const Cart = () => {
                               <h4 className="product-name">
                                 {_get(item, "associate_product.name", "-")}
                               </h4>
+                              <p>
+                                <b>{t("Size")}:</b>{" "}
+                                {_get(item, "product_sub_variant.value")}
+                              </p>
                             </div>
                             <div className="product-price-box">
                               <p className="product-price">

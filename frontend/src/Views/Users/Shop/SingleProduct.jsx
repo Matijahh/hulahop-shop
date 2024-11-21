@@ -106,18 +106,24 @@ const SingleProduct = (props) => {
         .then((res) => {
           const associateProduct = res[0].data.data;
           const variantData = res[1].data.data;
+          const subVariantData = res[2].data;
+
           let product = {
             associate_product: associateProduct,
             associate_product_id: productId,
-            // product_sub_variant: res[2] | null,
-            // product_sub_variant_id: subVariantId,
+            product_sub_variant: subVariantData,
+            product_sub_variant_id: subVariantId,
             product_variant: variantData,
             product_variant_id: variantId,
             quantity: quantity,
           };
+
           let found = localCart.findIndex(
-            (p) => p.associate_product_id === product.associate_product_id
+            (p) =>
+              p.associate_product_id === product.associate_product_id &&
+              p.product_sub_variant_id === product.product_sub_variant_id
           );
+
           if (found === -1) {
             localCart.push(product);
           } else {
@@ -126,6 +132,7 @@ const SingleProduct = (props) => {
               quantity: (localCart[found].quantity || 0) + product.quantity,
             };
           }
+
           localStorage.setItem("cart_products", JSON.stringify(localCart));
           SuccessTaster(t("Added to cart sucessfully."));
         })

@@ -204,6 +204,127 @@ export class OrdersService extends AbstractService {
     }
   }
 
+  async createGuest(
+    data: CreateOrdersInput,
+    cart: any,
+  ): Promise<Orders | boolean> {
+    data.created_at = Date.now().toString();
+    data.sku = generateSku();
+    const { order_addresses, ...rest } = data;
+
+    const emailProducts = [];
+
+    const queryRunner = dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      if (!cart) {
+        throw new NotFoundException('Cart not found');
+      }
+
+      const createOrder = await queryRunner.manager.save(Orders, {
+        ...rest,
+        // user_id: cart.user_id,
+        created_at: Date.now().toString(),
+      });
+
+      const order_products = cart.cart_products.map((cart_product) => {
+        const product = {
+          name: cart_product?.associate_product?.name,
+          quantity: cart_product?.quantity,
+          price: cart_product?.associate_product?.price,
+          totalPrice:
+            cart_product?.associate_product?.price * cart_product?.quantity,
+        };
+
+        emailProducts.push(product);
+
+        return {
+          associate_product_id: cart_product.associate_product_id,
+          product_variant_id: cart_product.product_variant_id,
+          product_sub_variant_id: cart_product.product_sub_variant_id,
+          quantity: cart_product.quantity,
+          price:
+            Number(cart_product.associate_product.price) *
+            Number(cart_product.quantity),
+        };
+      });
+
+      const totalAmount = order_products.reduce(
+        (acc: number, val: OrderProducts) => acc + val.price,
+        0,
+      );
+
+      await queryRunner.manager.update(Orders, createOrder.id, {
+        total_amount: totalAmount,
+        sub_total_amount: totalAmount,
+        tax: '0',
+      });
+      for (const order_product of order_products) {
+        order_product.order_id = createOrder.id;
+        await queryRunner.manager.save(OrderProducts, order_product);
+      }
+      order_addresses.order_id = createOrder.id;
+      await queryRunner.manager.save(OrderAddresses, {
+        ...order_addresses,
+        created_at: Date.now().toString(),
+      });
+      await queryRunner.manager.delete(Carts, { id: cart.id });
+      const html = this.mailerService.generateHtml({
+        fileName: 'order-receipt',
+        context: {
+          ...order_addresses,
+          customerName: `${cart?.user?.first_name} ${cart?.user?.last_name}`,
+          products: emailProducts,
+          orderTotal: totalAmount,
+        },
+      });
+
+      [cart?.user?.email, process.env.SMTP_SENDER].map((email) => {
+        this.mailerService.sendOrderReceipt({
+          from: process.env.SMTP_SENDER,
+          to: email,
+          html,
+        });
+      });
+
+      const orderNotificationHtml = this.mailerService.generateHtml({
+        fileName: 'order-notification',
+        context: {
+          sku: createOrder.sku,
+        },
+      });
+
+      const adminAndAssociateEmails = new Set<string>();
+      // get all admin emails
+      const admins = await this.usersService.getAllAdmins();
+      const adminEmails = admins.map((admin) => admin.email);
+      adminEmails.forEach((email) => adminAndAssociateEmails.add(email));
+      // get all the associate emails that are associated with the products in the order
+      const associateEmails = cart.cart_products.map(
+        (cartProduct) => cartProduct.associate_product.user.email,
+      );
+      associateEmails.forEach((email) => adminAndAssociateEmails.add(email));
+
+      Array.from(adminAndAssociateEmails).map((email: string) => {
+        this.mailerService.sendOrderNotification({
+          from: process.env.SMTP_SENDER,
+          to: email,
+          html: orderNotificationHtml,
+          sku: createOrder.sku,
+        });
+      });
+
+      await queryRunner.commitTransaction();
+      return this.findOne({ where: { id: createOrder.id } });
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
   async update(
     id: number,
     data: UpdateOrdersInput,
@@ -273,9 +394,8 @@ export class OrdersService extends AbstractService {
           const orderProduct = result.order_products[i];
           const marginPrice =
             (Number(orderProduct.associate_product.price) -
-            Number(orderProduct.associate_product.product.price))
-            * Number(orderProduct.quantity)
-            ;
+              Number(orderProduct.associate_product.product.price)) *
+            Number(orderProduct.quantity);
           await queryRunner.manager.increment(
             Users,
             { id: orderProduct.associate_product.user.id },

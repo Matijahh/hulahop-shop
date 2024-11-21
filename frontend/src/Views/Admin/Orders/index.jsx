@@ -302,7 +302,7 @@ const Orders = () => {
                     </div>
                     <div className="col-4">
                       <p>{t("State")}</p>
-                      <p>{get(selectedOrder, "order_addresses.0.state")}</p>
+                      <p>{get(selectedOrder, "order_addresses.0.country")}</p>
                     </div>
                     <div className="col-4">
                       <p>{t("Pincode")}</p>

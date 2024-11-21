@@ -31,7 +31,6 @@ import { SkipAuth } from 'src/core/guards/auth-guard';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @SkipAuth()
   @ApiBody({ type: CreateOrdersInput })
   @Post('order-place')
   async create(
@@ -40,6 +39,21 @@ export class OrdersController {
     @CurrentUser() user: CurrentUserDto,
   ) {
     const result = await this.ordersService.create(createOrdersInput, user.id);
+    return baseController.getResult(
+      res,
+      HttpStatus.OK,
+      result,
+      'Order created successfully',
+    );
+  }
+
+  @SkipAuth()
+  @Post('order-place-guest')
+  async createGuest(@Res() res: Response, @Body() data: any) {
+    const result = await this.ordersService.createGuest(
+      data.createOrdersInput,
+      data.cart,
+    );
     return baseController.getResult(
       res,
       HttpStatus.OK,

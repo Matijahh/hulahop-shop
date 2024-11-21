@@ -7,7 +7,8 @@ import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { ROUTE_MAIN_ORDERS } from "../../../routes/routes";
+import { ROUTE_MAIN, ROUTE_MAIN_ORDERS } from "../../../routes/routes";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 import { get, size } from "lodash";
 import * as Yup from "yup";
 
@@ -18,7 +19,6 @@ import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import { SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
 import { LoaderContainer } from "../../../components/Loader";
-import { ACCESS_TOKEN } from "../../../utils/constant";
 
 const CheckOut = () => {
   const [loading, setLoading] = useState(false);
@@ -71,22 +71,38 @@ const CheckOut = () => {
         pincode: values.pincode,
       };
 
-      const response = await commonAddUpdateQuery(
-        "/orders/order-place",
-        {
-          instructions: values.instructions,
-          order_addresses,
-          status: "Pending",
-        },
-        "POST"
-      );
+      const response = ACCESS_TOKEN
+        ? await commonAddUpdateQuery(
+            "/orders/order-place",
+            {
+              instructions: values.instructions,
+              order_addresses,
+              status: "PENDING",
+            },
+            "POST"
+          )
+        : await commonAddUpdateQuery(
+            "/orders/order-place-guest",
+            {
+              createOrdersInput: {
+                instructions: values.instructions,
+                order_addresses,
+                status: "PENDING",
+              },
+              cart: cartList,
+            },
+            "POST"
+          );
 
       setLoading(false);
 
       if (response) {
         const { message } = response.data;
         SuccessTaster(t(message));
-        navigate(ROUTE_MAIN_ORDERS);
+        ACCESS_TOKEN ? navigate(ROUTE_MAIN_ORDERS) : navigate(ROUTE_MAIN);
+        if (!ACCESS_TOKEN) {
+          localStorage.setItem("cart_products", null);
+        }
       }
     },
   });
