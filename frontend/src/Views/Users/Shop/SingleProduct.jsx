@@ -90,6 +90,56 @@ const SingleProduct = (props) => {
     }
   };
 
+  const setLocalCart = async (productId, variantId, subVariantId, quantity) => {
+    let localCart = JSON.parse(localStorage.getItem("cart_products"));
+    if (!localCart) localCart = [];
+    if (productId && variantId && subVariantId) {
+      Promise.all([
+        commonAddUpdateQuery(`/associate_products/${productId}`, {}, "GET"),
+        commonAddUpdateQuery(`/product_variants/${variantId}`, {}, "GET"),
+        commonAddUpdateQuery(
+          `/product_sub_variants/${subVariantId}`,
+          {},
+          "GET"
+        ),
+      ])
+        .then((res) => {
+          const associateProduct = res[0].data.data;
+          const variantData = res[1].data.data;
+          let product = {
+            associate_product: associateProduct,
+            associate_product_id: productId,
+            // product_sub_variant: res[2] | null,
+            // product_sub_variant_id: subVariantId,
+            product_variant: variantData,
+            product_variant_id: variantId,
+            quantity: quantity,
+          };
+          let found = localCart.findIndex(
+            (p) => p.associate_product_id === product.associate_product_id
+          );
+          if (found === -1) {
+            localCart.push(product);
+          } else {
+            localCart[found] = {
+              ...localCart[found],
+              quantity: (localCart[found].quantity || 0) + product.quantity,
+            };
+          }
+          localStorage.setItem("cart_products", JSON.stringify(localCart));
+          SuccessTaster(t("Added to cart sucessfully."));
+        })
+        .catch((error) => {
+          if (error && error.data) {
+            const { message } = error.data;
+            ErrorTaster(t(message));
+          }
+        });
+    } else {
+      ErrorTaster(t("Network Error"));
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       product_variant_id: "",
@@ -108,14 +158,27 @@ const SingleProduct = (props) => {
 
       const URL = "/cart_products/add-to-cart";
 
-      setLoading(true);
+      if (ACCESS_TOKEN) {
+        setLoading(true);
 
-      const result = await commonAddUpdateQuery(URL, reqBody, "POST");
+        const result = await commonAddUpdateQuery(URL, reqBody, "POST");
 
-      if (result) {
-        SuccessTaster(t("Added to cart sucessfully."));
+        if (result) {
+          SuccessTaster(t("Added to cart sucessfully."));
+        }
+        setLoading(false);
+      } else {
+        setLoading(true);
+
+        setLocalCart(
+          reqBody.associate_product_id,
+          reqBody.product_variant_id,
+          reqBody.product_sub_variant_id,
+          reqBody.quantity
+        );
+
+        setLoading(false);
       }
-      setLoading(false);
     },
   });
 
@@ -473,22 +536,6 @@ const SingleProduct = (props) => {
                       <div className="add-cart-flexbox">
                         <div className="quantity-box">
                           <div
-                            className="cart-plus-minus cart-minus"
-                            onClick={() => {
-                              formik.setFieldValue(
-                                "quantity",
-                                formik.values.quantity
-                                  ? formik.values.quantity + 1
-                                  : 1
-                              );
-                            }}
-                          >
-                            <AddIcon />
-                          </div>
-                          <div className="cart-plus-minus  quantity">
-                            {formik && formik.values.quantity}
-                          </div>
-                          <div
                             className="cart-plus-minus cart-plus"
                             onClick={() => {
                               formik.setFieldValue(
@@ -500,6 +547,22 @@ const SingleProduct = (props) => {
                             }}
                           >
                             <RemoveIcon />
+                          </div>
+                          <div className="cart-plus-minus  quantity">
+                            {formik && formik.values.quantity}
+                          </div>
+                          <div
+                            className="cart-plus-minus cart-minus"
+                            onClick={() => {
+                              formik.setFieldValue(
+                                "quantity",
+                                formik.values.quantity
+                                  ? formik.values.quantity + 1
+                                  : 1
+                              );
+                            }}
+                          >
+                            <AddIcon />
                           </div>
                           {formik.errors.quantity && (
                             <p className="input-error">
@@ -513,11 +576,7 @@ const SingleProduct = (props) => {
                             startIcon={<ShoppingCartIcon />}
                             variant="contained"
                             className="add-btn"
-                            onClick={() =>
-                              ACCESS_TOKEN
-                                ? formik.submitForm()
-                                : setAuthenticationModal(!authenticationModal)
-                            }
+                            onClick={() => formik.submitForm()}
                           />
                         </div>
                       </div>

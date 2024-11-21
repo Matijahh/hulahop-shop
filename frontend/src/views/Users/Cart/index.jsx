@@ -20,6 +20,7 @@ import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import { Loader } from "../../../components/Loader";
 import { Helmet } from "react-helmet";
 import { SuccessTaster } from "../../../components/Toast";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -34,8 +35,6 @@ const Cart = () => {
     setLoading(true);
 
     const response = await commonGetQuery("/carts/get-cart-summary");
-
-    setLoading(false);
 
     if (response) {
       const { data } = response.data;
@@ -54,6 +53,34 @@ const Cart = () => {
       setCartTotal(cartTotalData);
       setCartProducts(data);
     }
+
+    setLoading(false);
+  };
+
+  const getLocalCart = () => {
+    setLoading(true);
+
+    const localCart = JSON.parse(localStorage.getItem("cart_products"));
+
+    if (localCart) {
+      let cartTotalData = 0;
+
+      // Calculate total cart value
+      if (_size(localCart) > 0) {
+        localCart.forEach((product) => {
+          const price = parseFloat(product.associate_product.price);
+          const quantity = Number(product.quantity);
+          cartTotalData += price * quantity;
+        });
+      }
+
+      setCartTotal(cartTotalData);
+      setCartProducts({ cart_products: localCart });
+    } else {
+      setCartProducts({ cartProducts: [] });
+    }
+
+    setLoading(false);
   };
 
   const updateCart = async (item, type, quantity) => {
@@ -74,6 +101,29 @@ const Cart = () => {
     }
   };
 
+  const updateLocalCart = (item, type, quantity) => {
+    setUpdateLoading(true);
+
+    let localCart = JSON.parse(localStorage.getItem("cart_products"));
+
+    let found = localCart.findIndex(
+      (p) => p.associate_product_id === item.associate_product_id
+    );
+
+    if (found !== -1) {
+      localCart[found] = {
+        ...localCart[found],
+        quantity: quantity,
+      };
+    }
+
+    localStorage.setItem("cart_products", JSON.stringify(localCart));
+
+    setUpdateLoading(false);
+
+    getLocalCart();
+  };
+
   const clearCart = async () => {
     const response = await commonAddUpdateQuery(
       "/carts/remove-cart",
@@ -84,6 +134,12 @@ const Cart = () => {
       getProductSummaryData();
       SuccessTaster(t("Cart has been successfully emptied"));
     }
+  };
+
+  const clearLocalCart = () => {
+    localStorage.setItem("cart_products", null);
+    getLocalCart();
+    SuccessTaster(t("Cart has been successfully emptied"));
   };
 
   const removeProduct = async (item) => {
@@ -104,8 +160,25 @@ const Cart = () => {
     }
   };
 
+  const removeLocalProduct = (item) => {
+    setLoading(true);
+
+    let localCart = JSON.parse(localStorage.getItem("cart_products"));
+
+    localCart = localCart.filter(
+      (p) => p.associate_product_id !== _get(item, "associate_product_id")
+    );
+
+    localStorage.setItem("cart_products", JSON.stringify(localCart));
+
+    getLocalCart();
+
+    setLoading(false);
+  };
+
   useEffect(() => {
-    getProductSummaryData();
+    if (ACCESS_TOKEN) getProductSummaryData();
+    else getLocalCart();
   }, []);
 
   return (
@@ -181,15 +254,29 @@ const Cart = () => {
                                 <div
                                   className="cart-plus-minus cart-plus"
                                   onClick={() =>
-                                    parseFloat(_get(item, "quantity", null)) > 1
-                                      ? updateCart(
+                                    ACCESS_TOKEN
+                                      ? parseFloat(
+                                          _get(item, "quantity", null)
+                                        ) > 1
+                                        ? updateCart(
+                                            item,
+                                            "decrement",
+                                            parseFloat(
+                                              _get(item, "quantity", null)
+                                            ) - 1
+                                          )
+                                        : removeProduct(item)
+                                      : parseFloat(
+                                          _get(item, "quantity", null)
+                                        ) > 1
+                                      ? updateLocalCart(
                                           item,
                                           "decrement",
                                           parseFloat(
                                             _get(item, "quantity", null)
                                           ) - 1
                                         )
-                                      : removeProduct(item)
+                                      : removeLocalProduct(item)
                                   }
                                 >
                                   <RemoveIcon />
@@ -200,12 +287,21 @@ const Cart = () => {
                                 <div
                                   className="cart-plus-minus cart-minus"
                                   onClick={() =>
-                                    updateCart(
-                                      item,
-                                      "increment",
-                                      parseFloat(_get(item, "quantity", null)) +
-                                        1
-                                    )
+                                    ACCESS_TOKEN
+                                      ? updateCart(
+                                          item,
+                                          "increment",
+                                          parseFloat(
+                                            _get(item, "quantity", null)
+                                          ) + 1
+                                        )
+                                      : updateLocalCart(
+                                          item,
+                                          "increment",
+                                          parseFloat(
+                                            _get(item, "quantity", null)
+                                          ) + 1
+                                        )
                                   }
                                 >
                                   <AddIcon />
@@ -224,7 +320,11 @@ const Cart = () => {
                             <div className="product-remove-box">
                               <div
                                 className="remove-icon"
-                                onClick={() => removeProduct(item)}
+                                onClick={() =>
+                                  ACCESS_TOKEN
+                                    ? removeProduct(item)
+                                    : removeLocalProduct(item)
+                                }
                               >
                                 <CloseIcon />
                               </div>
@@ -259,7 +359,7 @@ const Cart = () => {
                   />
                   {_size(_get(cartProducts, "cart_products")) > 0 && (
                     <ButtonComponent
-                      onClick={clearCart}
+                      onClick={ACCESS_TOKEN ? clearCart : clearLocalCart}
                       text={t("Clear Cart")}
                       variant="contained"
                       className="clear-btn"

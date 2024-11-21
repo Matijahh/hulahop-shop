@@ -23,6 +23,7 @@ import { Response } from 'express';
 import { CurrentUser } from '../../commons';
 import { CurrentUserDto } from '../auth/dto/current-user.dto';
 import { FilterInputDto } from './dto/filter-dto-input';
+import { SkipAuth } from 'src/core/guards/auth-guard';
 
 @ApiTags('orders')
 @ApiBearerAuth()
@@ -30,6 +31,7 @@ import { FilterInputDto } from './dto/filter-dto-input';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  @SkipAuth()
   @ApiBody({ type: CreateOrdersInput })
   @Post('order-place')
   async create(

@@ -16,6 +16,7 @@ import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { baseController } from 'src/core/baseController';
 import { Response } from 'express';
 import { ParseIntPipe } from '@nestjs/common/pipes';
+import { SkipAuth } from 'src/core/guards/auth-guard';
 
 @ApiTags('product_variants')
 @ApiBearerAuth()
@@ -55,6 +56,7 @@ export class ProductVariantsController {
     );
   }
 
+  @SkipAuth()
   @Get(':id')
   async findOne(@Res() res: Response, @Param('id', ParseIntPipe) id: number) {
     const result = await this.productVariantsService.findOne({ where: { id } });

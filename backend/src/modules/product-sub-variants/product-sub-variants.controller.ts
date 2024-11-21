@@ -12,6 +12,7 @@ import { ProductSubVariantsService } from './product-sub-variants.service';
 import { CreateProductSubVariantsInput } from './dto/create-product-sub-variants.input';
 import { UpdateProductSubVariantsInput } from './dto/update-product-sub-variants.input';
 import { ApiBasicAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { SkipAuth } from 'src/core/guards/auth-guard';
 
 @ApiTags('product_sub_variants')
 @ApiBasicAuth()
@@ -32,6 +33,7 @@ export class ProductSubVariantsController {
     return this.productSubVariantsService.find();
   }
 
+  @SkipAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productSubVariantsService.findOne({ where: { id } });

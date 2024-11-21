@@ -18,6 +18,7 @@ import PreviewJsonImage from "../../../components/PreviewJsonImage";
 import { SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
 import { LoaderContainer } from "../../../components/Loader";
+import { ACCESS_TOKEN } from "../../../utils/constant";
 
 const CheckOut = () => {
   const [loading, setLoading] = useState(false);
@@ -90,6 +91,32 @@ const CheckOut = () => {
     },
   });
 
+  const getLocalCart = () => {
+    setLoading(true);
+
+    const localCart = JSON.parse(localStorage.getItem("cart_products"));
+
+    if (localCart) {
+      let cartTotalData = 0;
+
+      // Calculate total cart value
+      if (size(localCart) > 0) {
+        localCart.forEach((product) => {
+          const price = parseFloat(product.associate_product.price);
+          const quantity = Number(product.quantity);
+          cartTotalData += price * quantity;
+        });
+      }
+
+      setCartTotal(cartTotalData);
+      setCartList({ cart_products: localCart });
+    } else {
+      setCartList({ cartProducts: [] });
+    }
+
+    setLoading(false);
+  };
+
   const getCartList = async () => {
     setLoading(true);
 
@@ -118,7 +145,8 @@ const CheckOut = () => {
   };
 
   useEffect(() => {
-    getCartList();
+    if (ACCESS_TOKEN) getCartList();
+    else getLocalCart();
   }, []);
 
   return (

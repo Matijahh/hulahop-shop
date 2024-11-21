@@ -854,6 +854,7 @@
   "About product bottom bar image not found": "Donja slika proizvoda stranice O nama nije pronađena",
   "Store not found": "Prodavnica nije pronađena",
   "Expired Token": "Token je istekao",
+  "Token expired": "Token je istekao",
   "User does not exist or inactive!": "Korisnik ne postoji ili je neaktivan!",
   "User email required!": "Potrebna je e-mail adresa korisnika!",
   "Password does not match": "Lozinka se ne poklapa",
