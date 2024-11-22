@@ -36,6 +36,9 @@ export class StoreLayoutDetails {
   @Column('simple-json', { name: 'social_links', nullable: true })
   social_links: any;
 
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string;
+
   @ManyToOne(() => Users, (users) => users.store_layout_details, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',

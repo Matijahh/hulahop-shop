@@ -5,6 +5,7 @@ import { StoreLayoutDetails } from './entities/store-layout-details.entity';
 import { CreateStoreLayoutDetailsInput } from './dto/create-store-layout-details.input';
 import { UpdateStoreLayoutDetailsInput } from './dto/update-store-layout-details.input';
 import { StoreLayoutSlidersService } from '../store-layout-sliders/store-layout-sliders.service';
+import slugify from 'slugify';
 
 @Injectable()
 export class StoreLayoutDetailsService extends AbstractService {
@@ -18,7 +19,27 @@ export class StoreLayoutDetailsService extends AbstractService {
   ): Promise<StoreLayoutDetails | boolean> {
     data.social_links = JSON.stringify(data.social_links);
     const { slider_name, slider_description, slider_image, ...rest } = data;
-    const create = await this.abstractCreate(rest, relations);
+
+    if (!this.validateStoreName(data.name)) {
+      throw new NotFoundException('Invalid store name! Store name should be alphanumeric.');
+    }
+
+    // check if a store with the same name exists
+    const storeLayoutDetailsData = await this.findOneByName(data.name);
+    if (storeLayoutDetailsData) {
+      throw new NotFoundException('A store with this name already exist!');
+    }
+
+    // use slugify to generate a slug from the store name
+    const slug = slugify(data.name);
+    const storeLayoutDetailsDataSlug = await this.findOneBySlug(slug);
+    if (storeLayoutDetailsDataSlug) {
+      throw new NotFoundException('A store with this name already exist!');
+    }
+
+    const finalSotreData = { ...rest, slug };
+
+    const create = await this.abstractCreate(finalSotreData, relations);
     if (create) {
       await this.storeLayoutSlidersService.create({
         name: slider_name,
@@ -28,6 +49,20 @@ export class StoreLayoutDetailsService extends AbstractService {
       });
     }
     return create;
+  }
+
+  private validateStoreName(name: string) {
+    // should not have "/" "\" or any special characters but can have spaces
+    const nameRegex = /^[a-zA-Z0-9 ]*$/; // alphanumeric and space
+    return nameRegex.test(name);
+  }
+
+  async findOneByName(name: string): Promise<StoreLayoutDetails> {
+    return await this.findOne({ where: { name }, relations: ['store_layout_sliders'] });
+  }
+
+  async findOneBySlug(slug: string): Promise<StoreLayoutDetails> {
+    return await this.findOne({ where: { slug }, relations: ['store_layout_sliders'] });
   }
 
   async update(
@@ -42,9 +77,28 @@ export class StoreLayoutDetailsService extends AbstractService {
     if (!storeLayoutDetailsData) {
       throw new NotFoundException('This record does not exist!');
     }
+
+    if (!this.validateStoreName(data.name)) {
+      throw new NotFoundException('Invalid store name! Store name should be alphanumeric.');
+    }
+
+    // check if a store with the same name exists
+    const storeLayoutDetailsDataCheck = await this.findOneByName(data.name);
+
+    if (storeLayoutDetailsDataCheck && storeLayoutDetailsDataCheck.id !== id) {
+      throw new NotFoundException('A store with this name already exist!');
+    }
+
+    // use slugify to generate a slug from the store name
+    const slug = slugify(data.name);
+    const storeLayoutDetailsDataSlug = await this.findOneBySlug(slug);
+    if (storeLayoutDetailsDataSlug && storeLayoutDetailsDataSlug.id !== id) {
+      throw new NotFoundException('A store with this name already exist!');
+    }
+
     data.social_links = JSON.stringify(data.social_links);
     const { slider_name, slider_description, slider_image, ...rest } = data;
-    const update = await this.abstractUpdate(id, { ...rest, id }, relations);
+    const update = await this.abstractUpdate(id, { ...rest, id, slug }, relations);
     if (update) {
       const storeLayoutSliders = await this.storeLayoutSlidersService.findOne({
         where: { store_id: id },
