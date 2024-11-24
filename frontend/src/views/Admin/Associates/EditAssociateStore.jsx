@@ -37,7 +37,13 @@ const EditAssociateStore = () => {
   const navigate = useNavigate();
 
   const validation = Yup.object().shape({
-    name: Yup.string().required(t("Store name is required!")),
+    name: Yup.string()
+      .required(t("Store name is required!"))
+      .test(
+        "no-invalid-characters",
+        t("Store name can only contain letters and spaces!"),
+        (value) => value && /^[a-zA-Z\s]+$/.test(value)
+      ),
     logo_image: Yup.string().required(t("Store logo is required!")),
     description: Yup.string().required(t("Store description is required!")),
     sliderName: Yup.string().required(t("Slider name is required!")),
