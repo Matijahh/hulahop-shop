@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { AbstractService } from '../../commons/abstract.service';
 import { storeLayoutDetailsRepository } from './repository/store-layout-details.repository';
 import { StoreLayoutDetails } from './entities/store-layout-details.entity';
@@ -21,20 +21,20 @@ export class StoreLayoutDetailsService extends AbstractService {
     const { slider_name, slider_description, slider_image, ...rest } = data;
 
     if (!this.validateStoreName(data.name)) {
-      throw new NotFoundException('Invalid store name! Store name should be alphanumeric.');
+      throw new BadRequestException('Invalid store name! Store name should be alphanumeric.');
     }
 
     // check if a store with the same name exists
     const storeLayoutDetailsData = await this.findOneByName(data.name);
     if (storeLayoutDetailsData) {
-      throw new NotFoundException('A store with this name already exist!');
+      throw new BadRequestException('A store with this name already exist!');
     }
 
     // use slugify to generate a slug from the store name
     const slug = slugify(data.name);
     const storeLayoutDetailsDataSlug = await this.findOneBySlug(slug);
     if (storeLayoutDetailsDataSlug) {
-      throw new NotFoundException('A store with this name already exist!');
+      throw new BadRequestException('A store with this name already exist!');
     }
 
     const finalSotreData = { ...rest, slug };
@@ -79,21 +79,21 @@ export class StoreLayoutDetailsService extends AbstractService {
     }
 
     if (!this.validateStoreName(data.name)) {
-      throw new NotFoundException('Invalid store name! Store name should be alphanumeric.');
+      throw new BadRequestException('Invalid store name! Store name should be alphanumeric.');
     }
 
     // check if a store with the same name exists
     const storeLayoutDetailsDataCheck = await this.findOneByName(data.name);
 
     if (storeLayoutDetailsDataCheck && storeLayoutDetailsDataCheck.id !== id) {
-      throw new NotFoundException('A store with this name already exist!');
+      throw new BadRequestException('A store with this name already exist!');
     }
 
     // use slugify to generate a slug from the store name
     const slug = slugify(data.name);
     const storeLayoutDetailsDataSlug = await this.findOneBySlug(slug);
     if (storeLayoutDetailsDataSlug && storeLayoutDetailsDataSlug.id !== id) {
-      throw new NotFoundException('A store with this name already exist!');
+      throw new BadRequestException('A store with this name already exist!');
     }
 
     data.social_links = JSON.stringify(data.social_links);
