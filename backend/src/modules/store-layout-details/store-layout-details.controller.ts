@@ -10,6 +10,7 @@ import {
   Res,
   HttpStatus,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { StoreLayoutDetailsService } from './store-layout-details.service';
 import { CreateStoreLayoutDetailsInput } from './dto/create-store-layout-details.input';
@@ -43,12 +44,30 @@ export class StoreLayoutDetailsController {
       'Store layout details created successfully',
     );
   }
-
+  
   @Get()
   async findAll(@Res() res: Response) {
     const result = await this.storeLayoutDetailsService.find({
       relations: { store_layout_sliders: true },
     });
+    return baseController.getResult(
+      res,
+      HttpStatus.OK,
+      result,
+      'Store layout details fetched successfully',
+    );
+  }
+  
+  @SkipAuth()
+  @Get('search')
+  async findOneByName(@Res() res: Response, @Query('name') name: string) {
+    const trimmedName = name.trim();
+    console.log(trimmedName);
+    const result = await this.storeLayoutDetailsService.findOne({
+      where: { name: trimmedName },
+      relations: { store_layout_sliders: true },
+    });
+    
     return baseController.getResult(
       res,
       HttpStatus.OK,
@@ -62,6 +81,25 @@ export class StoreLayoutDetailsController {
   async findOne(@Res() res: Response, @Param('user_id') user_id: string) {
     const result = await this.storeLayoutDetailsService.findOne({
       where: { user_id },
+      relations: { store_layout_sliders: true },
+    });
+    if (!result) {
+      throw new NotFoundException('This record does not exist!');
+    }
+    return baseController.getResult(
+      res,
+      HttpStatus.OK,
+      result,
+      'Store layout details fetched successfully',
+    );
+  }
+
+
+  @SkipAuth()
+  @Get('slug/:slug')
+  async findOneBySlug(@Res() res: Response, @Param('slug') slug: string) {
+    const result = await this.storeLayoutDetailsService.findOne({
+      where: { slug },
       relations: { store_layout_sliders: true },
     });
     if (!result) {
