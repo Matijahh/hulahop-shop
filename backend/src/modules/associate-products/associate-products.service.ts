@@ -282,7 +282,7 @@ export class AssociateProductsService extends AbstractService {
         fs.rmSync(path, { recursive: true });
       }
     });
-    const saveImage = await this.imagesService.create({
+    const saveImage = await this.imagesService.basicCreate({
       id: uuid(),
       name: filename,
       original_name: filename,
