@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { slugify } from "../../../utils/commonFunctions";
+import { slugifyString } from "../../../utils/commonFunctions";
 import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
 import {
@@ -212,7 +212,7 @@ const EditAssociateStore = () => {
             onClick={() =>
               (window.location.href = ROUTE_ASSOCIATE_BRAND_STORE.replace(
                 ":id",
-                slugify(storeName, params.id)
+                slugifyString(storeName)
               ))
             }
           />

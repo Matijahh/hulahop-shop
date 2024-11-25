@@ -5,7 +5,7 @@ import { commonGetQuery } from "../../../utils/axiosInstance";
 import { size, get } from "lodash";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 
-import { MenuItem, Pagination, Select } from "@mui/material";
+import { Pagination } from "@mui/material";
 
 import Product from "../../../components/Product/Product";
 import SelectComponent from "../../../components/SelectComponent";
@@ -83,18 +83,18 @@ const Main = (props) => {
         url = `${url}&sub_category_ids=${sub_categoryId}`;
       }
 
-      if (get(params, "id")) {
-        url = `${url}&user_id=${get(params, "id")?.split("-")?.[1]}`;
+      if (props.storeData && props.storeData.user_id) {
+        url = `${url}&user_id=${props.storeData.user_id}`;
       }
     } else {
       if (sub_categoryId && sub_categoryId != 0) {
         url = `${url}&sub_categoryId=${sub_categoryId}`;
 
-        if (get(params, "id")) {
-          url = `${url}&user_id=${get(params, "id")?.split("-")?.[1]}`;
+        if (props.storeData && props.storeData.user_id) {
+          url = `${url}&user_id=${props.storeData.user_id}`;
         }
-      } else if (get(params, "id")) {
-        url = `${url}&user_id=${get(params, "id")?.split("-")?.[1]}`;
+      } else if (props.storeData && props.storeData.user_id) {
+        url = `${url}&user_id=${props.storeData.user_id}`;
       }
     }
 

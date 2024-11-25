@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { get, map, size } from "lodash";
-import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
+import { getImageUrlById, slugifyString } from "../../../utils/commonFunctions";
 import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
 
 import { Helmet } from "react-helmet";
@@ -76,7 +76,7 @@ const Associates = () => {
                           window.location.replace(
                             ROUTE_ASSOCIATE_BRAND_STORE.replace(
                               ":id",
-                              slugify(name, id)
+                              slugifyString(name)
                             )
                           );
                         }}

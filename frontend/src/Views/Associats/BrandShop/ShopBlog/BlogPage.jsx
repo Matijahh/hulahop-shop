@@ -8,7 +8,10 @@ import {
   ROUTE_MAIN_BLOG,
   ROUTE_MAIN_BLOG_SINGLE,
 } from "../../../../routes/routes";
-import { getImageUrlById } from "../../../../utils/commonFunctions";
+import {
+  getImageUrlById,
+  slugifyString,
+} from "../../../../utils/commonFunctions";
 import parse from "html-react-parser";
 import moment from "moment";
 
@@ -139,7 +142,7 @@ const ShopBlogPage = () => {
                                   ? window.location.replace(
                                       ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID.replace(
                                         ":id",
-                                        get(params, "id", null)
+                                        slugifyString(get(params, "id", null))
                                       ).replace(":blogId", item.id)
                                     )
                                   : window.location.replace(

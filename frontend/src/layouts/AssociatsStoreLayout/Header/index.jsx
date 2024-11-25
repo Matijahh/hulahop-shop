@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { get } from "lodash";
 import { connect } from "react-redux";
 import { Link, useLocation, useParams, NavLink } from "react-router-dom";
-import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
+import { getImageUrlById, slugifyString } from "../../../utils/commonFunctions";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS,
@@ -170,10 +170,7 @@ const Header = ({ storeData }) => {
                 <Link
                   to={ROUTE_ASSOCIATE_BRAND_STORE.replace(
                     ":id",
-                    slugify(
-                      get(storeData, "name", null),
-                      get(storeData, "user_id", null)
-                    )
+                    slugifyString(get(storeData, "name", null))
                   )}
                 >
                   <img src={getImageUrlById(storeData.logo_image)} />
@@ -192,61 +189,57 @@ const Header = ({ storeData }) => {
                 <CloseIcon />
               </div>
             </div>
-            <Link
-              to={ROUTE_ASSOCIATE_BRAND_STORE.replace(
-                ":id",
-                slugify(
-                  get(storeData, "name", null),
-                  get(storeData, "user_id", null)
-                )
-              )}
-              className={
-                !PageName.includes("/shop") &&
-                !PageName.includes("/cart") &&
-                !PageName.includes("/blogs") &&
-                !PageName.includes("/product") &&
-                !PageName.includes("/contact") &&
-                "active"
-              }
-            >
-              {t("Home")}
-            </Link>
-            <Link
-              className={PageName.includes("/shop") && "active"}
-              to={ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
-                ":id",
-                slugify(
-                  get(storeData, "name", null),
-                  get(storeData, "user_id", null)
-                )
-              )}
-            >
-              {t("Shop")}
-            </Link>
-            <Link
-              className={PageName.includes("/blogs") && "active"}
-              to={ROUTE_ASSOCIATE_BRAND_STORE_BLOGS.replace(
-                ":id",
-                slugify(
-                  get(storeData, "name", null),
-                  get(storeData, "user_id", null)
-                )
-              )}
-            >
-              {t("Blogs")}
-            </Link>
-            <Link
-              className={PageName.includes("/contact") && "active"}
-              to={ROUTE_ASSOCIATE_BRAND_STORE_CONTACT.replace(
-                ":id",
-                slugify(
-                  get(storeData, "name", null),
-                  get(storeData, "user_id", null)
-                )
-              )}
-            >
-              {t("Contact")}
-            </Link>
+            {storeData && (
+              <Link
+                to={ROUTE_ASSOCIATE_BRAND_STORE.replace(
+                  ":id",
+                  slugifyString(get(storeData, "name", null))
+                )}
+                className={
+                  !PageName.includes("/shop") &&
+                  !PageName.includes("/cart") &&
+                  !PageName.includes("/blogs") &&
+                  !PageName.includes("/product") &&
+                  !PageName.includes("/contact") &&
+                  "active"
+                }
+              >
+                {t("Home")}
+              </Link>
+            )}
+            {storeData && (
+              <Link
+                className={PageName.includes("/shop") && "active"}
+                to={ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
+                  ":id",
+                  slugifyString(get(storeData, "name", null))
+                )}
+              >
+                {t("Shop")}
+              </Link>
+            )}
+            {storeData && (
+              <Link
+                className={PageName.includes("/blogs") && "active"}
+                to={ROUTE_ASSOCIATE_BRAND_STORE_BLOGS.replace(
+                  ":id",
+                  slugifyString(get(storeData, "name", null))
+                )}
+              >
+                {t("Blogs")}
+              </Link>
+            )}
+            {storeData && (
+              <Link
+                className={PageName.includes("/contact") && "active"}
+                to={ROUTE_ASSOCIATE_BRAND_STORE_CONTACT.replace(
+                  ":id",
+                  slugifyString(get(storeData, "name", null))
+                )}
+              >
+                {t("Contact")}
+              </Link>
+            )}
           </FlexBox>
           <FlexBox className="right">
             <Link
@@ -255,10 +248,7 @@ const Header = ({ storeData }) => {
             >
               <PersonIcon />
             </Link>
-            <Link
-              to={ACCESS_TOKEN ? ROUTE_MAIN_CART : ROUTE_SIGN_IN}
-              className="cart-link"
-            >
+            <Link to={ROUTE_MAIN_CART} className="cart-link">
               <ShoppingCartOutlinedIcon />
             </Link>
           </FlexBox>

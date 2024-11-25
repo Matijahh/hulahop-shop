@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { get, size } from "lodash";
-import { getImageUrlById, slugify } from "../../utils/commonFunctions";
+import {
+  getImageUrlById,
+  slugify,
+  slugifyString,
+} from "../../utils/commonFunctions";
 import { commonAddUpdateQuery } from "../../utils/axiosInstance";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
@@ -90,14 +94,14 @@ const Product = ({
       ? ROUTE_MAIN_SHOP_PRODUCT.replace(":id", slugify(productName, productId))
       : ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW.replace(
           ":sId",
-          get(params, "id", null)
+          slugifyString(get(params, "id", null))
         ).replace(":id", slugify(productName, productId));
 
     let ShopUrl = !isAssociateProduct
       ? ROUTE_MAIN_SHOP
       : ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
           ":sId",
-          get(params, "id", null)
+          slugifyString(get(params, "id", null))
         );
 
     let CetegoryUrl = `${ShopUrl}?categoryId=${get(
@@ -175,9 +179,8 @@ const Product = ({
                 onClick={() => {
                   window.location = ROUTE_ASSOCIATE_BRAND_STORE.replace(
                     ":id",
-                    slugify(
-                      get(productData, "user.store_layout_details[0].name"),
-                      productData?.user_id
+                    slugifyString(
+                      get(productData, "user.store_layout_details[0].name")
                     )
                   );
                 }}
@@ -229,7 +232,7 @@ const Product = ({
                       )
                     : ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW.replace(
                         ":sId",
-                        get(params, "id", null)
+                        slugifyString(get(params, "id", null))
                       ).replace(":id", slugify(productName, productId))
                 )
               }

@@ -10,7 +10,7 @@ import { Loader } from "../../../../components/Loader";
 import Product from "../../../../components/Product/Product";
 import { ACCESS_TOKEN } from "../../../../utils/constant";
 
-const Products = () => {
+const Products = ({ storeData }) => {
   const [productsList, setProductsList] = useState([]);
   const [wishListData, setWishListData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const Products = () => {
     setLoading(true);
 
     const response = await commonGetQuery(
-      `/associate_products?user_id=${id?.split("-")?.[1]}`
+      `/associate_products?user_id=${storeData?.user_id}`
     );
 
     setLoading(false);

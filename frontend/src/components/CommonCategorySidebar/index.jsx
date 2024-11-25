@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../utils/axiosInstance";
-import { getImageUrlById } from "../../utils/commonFunctions";
+import { getImageUrlById, slugifyString } from "../../utils/commonFunctions";
 import _size from "lodash/size";
 import _get from "lodash/get";
 import get from "lodash/get";
@@ -17,7 +17,7 @@ import SliderComponent from "../SliderComponent/SliderComponent";
 
 import { Loader } from "../Loader";
 
-const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
+const CommonCategorySidebar = ({ renderHeader, isAssociate, storeData }) => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -30,8 +30,10 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
 
     if (isAssociate) {
       url =
-        ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":id", _get(params, "id")) +
-        `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
+        ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
+          ":id",
+          slugifyString(_get(params, "id"))
+        ) + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
     } else {
       url =
         ROUTE_MAIN_SHOP + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
@@ -41,12 +43,11 @@ const CommonCategorySidebar = ({ renderHeader, isAssociate }) => {
   };
 
   const getProductsList = async () => {
-    const userId = get(params, "id")?.split("-")?.[1];
     setLoading(true);
 
     const response =
-      isAssociate && userId
-        ? await commonGetQuery(`/categories/?user_id=${userId}`)
+      isAssociate && storeData?.user_id
+        ? await commonGetQuery(`/categories/?user_id=${storeData?.user_id}`)
         : await commonGetQuery("/categories");
 
     setLoading(false);

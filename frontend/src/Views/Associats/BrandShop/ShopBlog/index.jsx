@@ -7,7 +7,10 @@ import {
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID,
   ROUTE_MAIN_BLOG_SINGLE,
 } from "../../../../routes/routes";
-import { getImageUrlById } from "../../../../utils/commonFunctions";
+import {
+  getImageUrlById,
+  slugifyString,
+} from "../../../../utils/commonFunctions";
 import { commonGetQuery } from "../../../../utils/axiosInstance";
 import parse from "html-react-parser";
 import moment from "moment";
@@ -86,7 +89,7 @@ const ShopBlog = ({ storeData }) => {
                             ? navigate(
                                 ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID.replace(
                                   ":id",
-                                  get(params, "id", null)
+                                  slugifyString(get(params, "id", null))
                                 ).replace(":blogId", item.id)
                               )
                             : navigate(

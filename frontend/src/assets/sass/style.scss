@@ -1411,6 +1411,10 @@ p {
       .image-box-wrapper {
         margin: 0 auto;
 
+        .konvajs-content {
+          height: 100% !important;
+        }
+
         img {
           max-width: 100%;
           height: auto;

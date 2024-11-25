@@ -30,7 +30,7 @@ const BottomHeader = ({
   const params = useParams();
 
   const getAllCategory = async () => {
-    const userId = get(params, "id")?.split("-")?.[1];
+    const userId = get(params, "id");
 
     const response = userId
       ? await commonGetQuery(`/categories/?user_id=${userId}`)

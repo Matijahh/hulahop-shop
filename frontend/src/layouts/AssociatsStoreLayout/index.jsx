@@ -22,10 +22,9 @@ const AssociatsStoreLayout = ({
   const getStoreData = async () => {
     setLoading(true);
     const response = await commonGetQuery(
-      `/store_layout_details/${(sId || id)?.split("-")?.[1]}`
+      `/store_layout_details/slug/${sId || id}`
     );
     setLoading(false);
-
     if (response) {
       const { data } = response.data;
       saveAssociateStoreData(data);

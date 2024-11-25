@@ -55,11 +55,7 @@ export const menuAboutProductData = (data, name) => {
   let dropdownArray = [];
   if (size(data) > 0) {
     dropdownArray = data.map((category) => ({
-      label: (
-        <NavLink to="#" className="dropdown-link">
-          {i18next.t(category.name)}
-        </NavLink>
-      ),
+      label: <div className="dropdown-link">{i18next.t(category.name)}</div>,
       items: category.sub_categories.map((subcategory) => ({
         label: (
           <NavLink

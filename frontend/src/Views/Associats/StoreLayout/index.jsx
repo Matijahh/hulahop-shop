@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
-import { slugify } from "../../../utils/commonFunctions";
+import { slugifyString } from "../../../utils/commonFunctions";
 import { jwtDecode } from "jwt-decode";
 import { ROUTE_ASSOCIATE_BRAND_STORE } from "../../../routes/routes";
 import { ACCESS_TOKEN, REST_URL_SERVER } from "../../../utils/constant";
@@ -35,7 +35,13 @@ const StoreLayout = () => {
   const { t } = useTranslation();
 
   const validation = Yup.object().shape({
-    name: Yup.string().required(t("Store name is required!")),
+    name: Yup.string()
+      .required(t("Store name is required!"))
+      .test(
+        "no-invalid-characters",
+        t("Store name can only contain letters and spaces!"),
+        (value) => value && /^[a-zA-Z\s]+$/.test(value)
+      ),
     logo_image: Yup.string().required(t("Store logo is required!")),
     description: Yup.string().required(t("Store description is required!")),
     sliderName: Yup.string().required(t("Slider name is required!")),
@@ -203,7 +209,7 @@ const StoreLayout = () => {
             onClick={() =>
               (window.location.href = ROUTE_ASSOCIATE_BRAND_STORE.replace(
                 ":id",
-                slugify(storeName, decoded.id)
+                slugifyString(storeName)
               ))
             }
           />

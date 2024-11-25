@@ -249,6 +249,18 @@ export function slugify(name, id) {
   return `${formatName}-${id}`;
 }
 
+export function slugifyString(string) {
+  return string
+    .toString() // Convert to string
+    .normalize("NFD") // Normalize accents
+    .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+    .toLowerCase() // Convert to lowercase
+    .trim() // Remove leading and trailing spaces
+    .replace(/[^a-z0-9 -]/g, "") // Remove invalid characters
+    .replace(/\s+/g, "-") // Replace spaces with dashes
+    .replace(/-+/g, "-"); // Replace multiple dashes with a single dash
+}
+
 export function camelCase(str) {
   // Using replace method with regEx
   return str

@@ -116,6 +116,7 @@ const Shop = (props) => {
                   <div className="shop-category-sidebar">
                     <div className="category-sidebar-wrapper">
                       <CategorySidebarUser
+                        storeData={props.data}
                         {...props}
                         className="shop-categories"
                         setMainLoading={setMainLoading}
@@ -126,6 +127,7 @@ const Shop = (props) => {
                   <div className="shop-products-listing">
                     <Main
                       {...props}
+                      storeData={props.data}
                       setMainLoading={setMainLoading}
                       mainLoading={mainLoading}
                     />

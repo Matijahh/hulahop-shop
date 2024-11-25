@@ -49,19 +49,16 @@ export const ROUTE_ASSOCIATE_BLOG_ADD = "/admin/blog/add";
 export const ROUTE_ASSOCIATE_BLOG_EDIT = "/admin/blog/:id/edit";
 
 // Associates brand shop routes
-export const ROUTE_ASSOCIATE_BRAND_STORE = "/associate/store/:id";
-export const ROUTE_ASSOCIATE_BRAND_STORE_SHOP = "/associate/store/:id/shop";
-export const ROUTE_ASSOCIATE_BRAND_STORE_CONTACT =
-  "/associate/store/:id/contact";
+export const ROUTE_ASSOCIATE_BRAND_STORE = "/:id";
+export const ROUTE_ASSOCIATE_BRAND_STORE_SHOP = "/:id/shop";
+export const ROUTE_ASSOCIATE_BRAND_STORE_CONTACT = "/:id/contact";
 export const ROUTE_ASSOCIATE_BRAND_STORE_SHOP_SINGLE_VIEW =
-  "/associate/store/:sId/shop/product/:id";
+  "/:sId/shop/product/:id";
 export const ROUTE_ASSOCIATE_BRAND_STORE_SHOP_PRODUCTS =
-  "/associate/store/:id/shop/product/:productid";
-export const ROUTE_ASSOCIATE_BRAND_STORE_CART =
-  "/associate/store/:id/cart/:cartId";
-export const ROUTE_ASSOCIATE_BRAND_STORE_BLOGS = "/associate/store/:id/blogs";
-export const ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID =
-  "/associate/store/:id/blogs/:blogId";
+  "/:id/shop/product/:productid";
+export const ROUTE_ASSOCIATE_BRAND_STORE_CART = "/:id/cart/:cartId";
+export const ROUTE_ASSOCIATE_BRAND_STORE_BLOGS = "/:id/blogs";
+export const ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID = "/:id/blogs/:blogId";
 
 // Admin Routes
 export const ROUTE_ADMIN = "/admin";

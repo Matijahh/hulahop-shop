@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { commonGetQuery } from "../../../utils/axiosInstance";
-import { getImageUrlById } from "../../../utils/commonFunctions";
+import { getImageUrlById, slugifyString } from "../../../utils/commonFunctions";
 import { get, map, size } from "lodash";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID,
@@ -140,7 +140,7 @@ const BlogPage = () => {
                                   ? window.location.replace(
                                       ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID.replace(
                                         ":id",
-                                        get(params, "id", null)
+                                        slugifyString(get(params, "id", null))
                                       ).replace(":blogId", item.id)
                                     )
                                   : window.location.replace(

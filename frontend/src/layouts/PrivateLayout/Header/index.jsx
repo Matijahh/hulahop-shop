@@ -12,7 +12,7 @@ import { ACCESS_TOKEN } from "../../../utils/constant";
 import { debounce, get, map } from "lodash";
 import { commonGetQuery } from "../../../utils/axiosInstance";
 import { jwtDecode } from "jwt-decode";
-import { slugify } from "../../../utils/commonFunctions";
+import { slugify, slugifyString } from "../../../utils/commonFunctions";
 import cx from "classnames";
 import i18n from "../../../i18n";
 import languages from "../../../utils/languages";
@@ -79,9 +79,9 @@ const Header = () => {
           ":id",
           slugify(item.name, item.productId)
         )
-      : ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":sId", item.userId).replace(
+      : ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
           ":id",
-          slugify(item.name, item.userId)
+          slugifyString(item.storeName)
         );
 
     if (url) {

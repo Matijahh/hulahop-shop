@@ -7,6 +7,7 @@ import { get, isEmpty, size } from "lodash";
 import styled from "styled-components";
 import cx from "classnames";
 import _get from "lodash/get";
+import { slugifyString } from "../../../utils/commonFunctions";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_SHOP,
   ROUTE_MAIN_SHOP,
@@ -111,6 +112,7 @@ const CategorySidebarUser = ({
   saveShopCategoryList,
   mainLoading,
   setMainLoading,
+  storeData,
 }) => {
   const [selectedId, setSelectedId] = useState("all");
   const [subSelectedId, setSubSelectedId] = useState();
@@ -124,13 +126,11 @@ const CategorySidebarUser = ({
   const queryParams = new URLSearchParams(location.search);
 
   const getAllCategory = async () => {
-    const userId = get(params, "id")?.split("-")?.[1];
-
     setCategoryLoading(true);
     setMainLoading(true);
 
-    const response = userId
-      ? await commonGetQuery(`/categories/?user_id=${userId}`)
+    const response = storeData?.user_id
+      ? await commonGetQuery(`/categories/?user_id=${storeData?.user_id}`)
       : await commonGetQuery("/categories");
 
     setCategoryLoading(false);
@@ -159,8 +159,10 @@ const CategorySidebarUser = ({
 
     if (isAssociateProduct) {
       url =
-        ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":id", _get(params, "id")) +
-        `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
+        ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
+          ":id",
+          slugifyString(_get(params, "id"))
+        ) + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
     } else {
       url =
         ROUTE_MAIN_SHOP + `?categoryId=${id || 0}&sub_categoryId=${subId || 0}`;
@@ -170,18 +172,8 @@ const CategorySidebarUser = ({
   };
 
   useEffect(() => {
-    if (size(shopCategoryDataList) <= 0 && isEmpty(shopCategoryDataList)) {
-      getAllCategory();
-    } else {
-      setCategories([
-        {
-          id: "all",
-          name: "All",
-        },
-        ...shopCategoryDataList,
-      ]);
-    }
-  }, [shopCategoryDataList]);
+    getAllCategory();
+  }, []);
 
   useEffect(() => {
     let category = queryParams.get("categoryId");

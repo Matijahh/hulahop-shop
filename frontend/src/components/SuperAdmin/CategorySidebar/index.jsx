@@ -111,7 +111,7 @@ const CategorySidebar = ({ className, saveShopCategoryList }) => {
   const params = useParams();
 
   const getAllCategory = async () => {
-    const userId = get(params, "id")?.split("-")?.[1];
+    const userId = get(params, "id");
 
     setCategoryLoading(true);
 

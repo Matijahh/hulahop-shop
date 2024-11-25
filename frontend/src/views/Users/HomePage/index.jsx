@@ -10,18 +10,13 @@ import {
   ROUTE_MAIN_SHOP,
   ROUTE_SIGN_UP,
 } from "../../../routes/routes";
-import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
-import _size from "lodash/size";
-import _map from "lodash/map";
+import { getImageUrlById, slugifyString } from "../../../utils/commonFunctions";
 import createStore from "../../../assets/images/createStore.png";
 
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 import PhoneCallbackOutlinedIcon from "@mui/icons-material/PhoneCallbackOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SliderSection from "./SliderSection";
 import SliderComponent from "../../../components/SliderComponent/SliderComponent";
@@ -307,15 +302,10 @@ const HomePage = () => {
                                 window.location.replace(
                                   ROUTE_ASSOCIATE_BRAND_STORE.replace(
                                     ":id",
-                                    slugify(
+                                    slugifyString(
                                       get(
                                         item,
                                         "store_layout_details.0.name",
-                                        null
-                                      ),
-                                      get(
-                                        item,
-                                        "store_layout_details.0.user_id",
                                         null
                                       )
                                     )

@@ -14,6 +14,7 @@ const renderRoute = () => {
     switch (Role) {
       case "ADMIN":
         return [
+          ...AuthRoutes,
           ...AdminRoutes,
           ...AssociatesBrandShopRoute,
           ...UserRoutes,
@@ -21,6 +22,7 @@ const renderRoute = () => {
         ];
       case "ASSOCIATE":
         return [
+          ...AuthRoutes,
           ...AssociatesRoute,
           ...AssociatesBrandShopRoute,
           ...PublicRoutes,

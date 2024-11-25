@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
+import {
+  getImageUrlById,
+  slugify,
+  slugifyString,
+} from "../../../utils/commonFunctions";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID,
   ROUTE_MAIN_BLOG_SINGLE,
@@ -131,7 +135,7 @@ const Blog = () => {
                             navigate(
                               ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID.replace(
                                 ":id",
-                                slugify(item?.store?.name, item?.store?.user_id)
+                                slugifyString(item?.store?.name)
                               ).replace(":blogId", item?.id)
                             );
                             return;

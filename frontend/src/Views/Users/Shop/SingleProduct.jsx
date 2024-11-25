@@ -7,7 +7,7 @@ import {
   commonAddUpdateQuery,
   commonGetQuery,
 } from "../../../utils/axiosInstance";
-import { getImageUrlById, slugify } from "../../../utils/commonFunctions";
+import { getImageUrlById, slugifyString } from "../../../utils/commonFunctions";
 import { ACCESS_TOKEN } from "../../../utils/constant";
 import {
   ROUTE_ASSOCIATE_BRAND_STORE,
@@ -40,10 +40,9 @@ import { Loader } from "../../../components/Loader";
 import { ErrorTaster, SuccessTaster } from "../../../components/Toast";
 import { Helmet } from "react-helmet";
 import { FacebookShareButton } from "react-share";
+import { connect } from "react-redux";
 
-const SingleProduct = (props) => {
-  const { isAssociateProduct } = props;
-
+const SingleProduct = ({ isAssociateProduct, storeData }) => {
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState([]);
   const [prieviewProduct, setPrieviewProduct] = useState({});
@@ -244,7 +243,7 @@ const SingleProduct = (props) => {
 
   const addRemoveWishList = async (id) => {
     if (!ACCESS_TOKEN) {
-      ErrorTaster(t("Please login first"));
+      ErrorTaster(t("Please login first."));
       return;
     }
 
@@ -281,7 +280,10 @@ const SingleProduct = (props) => {
 
   let ShopUrl = !isAssociateProduct
     ? ROUTE_MAIN_SHOP
-    : ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(":sId", get(params, "id", null));
+    : ROUTE_ASSOCIATE_BRAND_STORE_SHOP.replace(
+        ":sId",
+        slugifyString(get(params, "id", null))
+      );
 
   let CetegoryUrl = `${ShopUrl}?categoryId=${get(
     productData,
@@ -398,12 +400,11 @@ const SingleProduct = (props) => {
                                   window.location =
                                     ROUTE_ASSOCIATE_BRAND_STORE.replace(
                                       ":id",
-                                      slugify(
+                                      slugifyString(
                                         get(
                                           productData,
                                           "user.store_layout_details[0].name"
-                                        ),
-                                        productData?.user_id
+                                        )
                                       )
                                     );
                                 }}
@@ -746,6 +747,8 @@ const SingleProduct = (props) => {
         </div>
       </div>
       <CommonCategorySidebar
+        isAssociate={isAssociateProduct}
+        storeData={storeData}
         renderHeader={() => {
           return (
             <div className="col-12">
@@ -766,4 +769,8 @@ const SingleProduct = (props) => {
   );
 };
 
-export default SingleProduct;
+const mapStateToProps = (state) => ({
+  storeData: state.user.storeData,
+});
+
+export default connect(mapStateToProps, null)(SingleProduct);

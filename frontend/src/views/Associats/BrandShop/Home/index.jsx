@@ -64,8 +64,8 @@ const Home = ({ storeData }) => {
           </div>
         )}
       </div>
-      <Products />
-      <CommonCategorySidebar isAssociate={true} />
+      <Products storeData={storeData} />
+      <CommonCategorySidebar isAssociate={true} storeData={storeData} />
     </HomeContainer>
   );
 };

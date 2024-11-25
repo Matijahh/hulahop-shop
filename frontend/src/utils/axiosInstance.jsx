@@ -78,9 +78,23 @@ axiosInstance.interceptors.response.use(
         };
 
     if (responseData.statusCode !== 404) {
-      ErrorTaster(
-        i18next.t(responseData?.message || error?.response || error?.message)
-      );
+      if (
+        responseData?.message?.message ||
+        error?.response?.message ||
+        error?.message?.message
+      ) {
+        ErrorTaster(
+          i18next.t(
+            responseData?.message.message ||
+              error?.response.message ||
+              error?.message.message
+          )
+        );
+      } else {
+        ErrorTaster(
+          i18next.t(responseData?.message || error?.response || error?.message)
+        );
+      }
     }
 
     const statusData = error.response ? error.response.status : 500;
@@ -106,7 +120,7 @@ export const commonGetQuery = async (url) => {
   } catch (error) {
     const { message } = error.data;
 
-    return console.warn(message);
+    return console.warn(message.error);
   }
 };
 
