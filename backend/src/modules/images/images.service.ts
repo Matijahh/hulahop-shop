@@ -23,7 +23,7 @@ export class ImagesService extends AbstractService {
 
   // Compress the image using Sharp
   await sharp(originalImagePath)
-    .webp({ quality: 60 }) // Adjust quality as needed
+    .webp({ quality: 75 }) // Adjust quality as needed
     .toFile(compressedImagePath);
 
     const newData = {
@@ -48,7 +48,7 @@ export class ImagesService extends AbstractService {
   
     // Compress the image using Sharp
     await sharp(originalImagePath)
-      .webp({ quality: 60 }) // Adjust compression quality as needed
+      .webp({ quality: 75 }) // Adjust compression quality as needed
       .toFile(compressedImagePath);
   
     // Update the data object to use the compressed name for both fields
