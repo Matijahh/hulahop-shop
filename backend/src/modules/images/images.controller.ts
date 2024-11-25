@@ -70,6 +70,51 @@ export class ImagesController {
     );
   }
 
+  @ApiConsumes('multipart/form-data')
+@ApiBody({
+  schema: {
+    type: 'object',
+    properties: {
+      image: {
+        type: 'string',
+        format: 'binary',
+      },
+    },
+  },
+})
+@Post('upload-compressed')
+@UseInterceptors(
+  FileInterceptor('image', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        const randomName = Array(32)
+          .fill(null)
+          .map(() => Math.round(Math.random() * 16).toString(16))
+          .join('');
+        cb(null, `${randomName}${extname(file.originalname)}`);
+      },
+    }),
+  }),
+)
+async uploadCompressedImage(@Res() res: Response, @UploadedFile() file) {
+  const result = await this.imagesService.createCompressedImage({
+    id: uuid(),
+    original_name: file.originalname,
+    name: file.filename,
+    created_at: Date.now().toString(),
+  });
+
+  return baseController.getResult(
+    res,
+    HttpStatus.OK,
+    result,
+    'Compressed image uploaded successfully',
+  );
+}
+
+
+
   @SkipAuth()
   @Get(':id')
   async getImage(
@@ -93,4 +138,29 @@ export class ImagesController {
         throw new BadRequestException('Image not found');
       });
   }
+
+  @SkipAuth()
+@Get('compressed/:id')
+async getCompressedImage(
+  @Param('id') id: string,
+  @Res({ passthrough: true }) res: Response,
+) {
+  return await this.imagesService
+    .getPathDetails(id, true)
+    .then((file) => {
+      if (fs.existsSync(file.path)) {
+        const readStream = fs.createReadStream(
+          file.path + '/' + file.compressedFileName,
+        );
+        res.set({
+          'Content-Type': `image/webp`,
+        });
+        return new StreamableFile(readStream);
+      }
+    })
+    .catch(() => {
+      throw new BadRequestException('Compressed image not found');
+    });
+}
+
 }

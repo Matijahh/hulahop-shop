@@ -23,6 +23,10 @@ export class Images {
   @Column('varchar', { name: 'name', nullable: true, length: 256 })
   name: string | null;
 
+  @Column('varchar', { name: 'compressed_name', nullable: true, length: 256 })
+  compressed_name: string | null;
+
+
   @MaxLength(256)
   @Column('varchar', { name: 'original_name', nullable: true, length: 256 })
   original_name: string | null;
