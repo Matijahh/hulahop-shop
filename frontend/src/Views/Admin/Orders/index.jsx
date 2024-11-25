@@ -143,6 +143,37 @@ const Orders = () => {
       : `PENDING,${t("Pending")}`;
 
     setOrderStatus(finalStatus);
+
+    let selectedOrderProducts = [];
+    item.order_products?.forEach((product) => {
+      let found = selectedOrderProducts.findIndex(
+        (p) =>
+          p.associate_product_id === product.associate_product_id &&
+          p.product_variant_id === product.product_variant_id
+      );
+      if (found !== -1) {
+        selectedOrderProducts[found] = {
+          ...selectedOrderProducts[found],
+          product_sub_variants: [
+            selectedOrderProducts[found].product_sub_variant,
+            product.product_sub_variant,
+          ],
+          product_variants: [
+            selectedOrderProducts[found].product_variant,
+            product.product_variant,
+          ],
+          quantities: [selectedOrderProducts[found].quantity, product.quantity],
+        };
+      } else {
+        selectedOrderProducts.push({
+          ...product,
+          product_sub_variants: [product.product_sub_variant],
+          product_variants: [product.product_variant],
+          quantities: [product.quantity],
+        });
+      }
+    });
+    item.order_products = selectedOrderProducts;
     setSelectedOrder(item);
   };
 
@@ -419,40 +450,35 @@ const Orders = () => {
                                       RSD
                                     </p>
                                   </div>
-                                  <div className="col-4">
-                                    <p>{t("Quantity")} :</p>
-                                    <p>{get(item, "quantity")}</p>
-                                  </div>
-                                  <div className="col-4">
-                                    <p>{t("Selected Color")} :</p>
-                                    <p className="color-data">
-                                      <span>
-                                        {`${get(
-                                          item,
-                                          "product_variant.color.name"
-                                        )} (${get(
-                                          item,
-                                          "product_variant.color.code"
-                                        )})`}
-                                      </span>
+                                  {item.quantities.map((q, key) => (
+                                    <div className="row g-3" key={key}>
+                                      <div className="col-4">
+                                        <p>{t("Quantity")} :</p>
+                                        <p>{q}</p>
+                                      </div>
+                                      <div className="col-4">
+                                        <p>{t("Selected Color")} :</p>
+                                        <p className="color-data">
+                                          <span>
+                                            {`${item.product_variants[key].color.name} (${item.product_variants[key].color.code})`}
+                                          </span>
 
-                                      <span
-                                        className="color-circle"
-                                        style={{
-                                          background: `${get(
-                                            item,
-                                            "product_variant.color.code"
-                                          )}`,
-                                        }}
-                                      ></span>
-                                    </p>
-                                  </div>
-                                  <div className="col-4">
-                                    <p>{t("Varriant Value")}</p>
-                                    <p>
-                                      {get(item, "product_sub_variant.value")}
-                                    </p>
-                                  </div>
+                                          <span
+                                            className="color-circle"
+                                            style={{
+                                              background: `${item.product_variants[key].color.code}`,
+                                            }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                      <div className="col-4">
+                                        <p>{t("Varriant Value")}</p>
+                                        <p>
+                                          {item.product_sub_variants[key].value}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
                               </div>
                             </div>
