@@ -112,7 +112,7 @@ const Orders = () => {
       ),
       productData: get(item, "order_products.0.associate_product", ""),
       previewImageUrl: getImageUrlById(
-        get(item, "order_products.0.product_variant.image_id")
+        get(item, "order_products.0.associate_product.product.image_id")
       ),
       json: get(
         item,

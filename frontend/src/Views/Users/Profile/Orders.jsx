@@ -28,7 +28,6 @@ const Orders = () => {
 
   const getOrdersProducts = async () => {
     const decoded = jwtDecode(ACCESS_TOKEN);
-    console.log(decoded);
 
     setLoading(true);
 

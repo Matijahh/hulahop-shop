@@ -282,12 +282,13 @@ const Products = () => {
                     <ProductCardBox>
                       <div className="image-cover">
                         <PreviewJsonImage
-                          previewImageUrl={`${REST_URL_SERVER}/images/${item?.image_id}`}
+                          previewImageUrl={`${REST_URL_SERVER}/images/${item?.product?.image_id}`}
                           json={
                             item?.image_json?.imageObj
                               ? JSON.parse(item?.image_json?.imageObj)
                               : null
                           }
+                          productData={item}
                         />
                         <div className="overlay">
                           <div className="overlay-icon">

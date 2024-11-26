@@ -187,7 +187,7 @@ const EditProduct = () => {
                   {t("Edit Product")}
                 </div>
                 <NewImageEditor
-                  imgURL={`${REST_URL_SERVER}/images/${activeProductId}`}
+                  imgURL={`${REST_URL_SERVER}/images/compressed/${activeProductId}`}
                   pickImageUrl={selectedImage}
                   productData={product}
                   formik={formik}

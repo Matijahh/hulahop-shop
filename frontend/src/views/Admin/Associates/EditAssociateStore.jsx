@@ -112,7 +112,7 @@ const EditAssociateStore = () => {
       });
 
       const response = await axios.post(
-        `${REST_URL_SERVER}/images/upload`,
+        `${REST_URL_SERVER}/images/upload-compressed`,
         formData,
         {
           headers: {
@@ -227,7 +227,7 @@ const EditAssociateStore = () => {
               onFileSelect={(e) => onLogoSelect(e, "store_logo")}
               previewURL={
                 formik.values.logo_image &&
-                `${REST_URL_SERVER}/images/${formik.values.logo_image}`
+                `${REST_URL_SERVER}/images/compressed/${formik.values.logo_image}`
               }
               onCancel={(e) => handleCancel("store_logo")}
               loading={fileLoading.for === "store_logo" && fileLoading.loading}
@@ -313,7 +313,7 @@ const EditAssociateStore = () => {
               onFileSelect={(data) => onLogoSelect(data, "sliderImage")}
               previewURL={
                 formik.values.sliderImage &&
-                `${REST_URL_SERVER}/images/${formik.values.sliderImage}`
+                `${REST_URL_SERVER}/images/compressed/${formik.values.sliderImage}`
               }
               onCancel={(image) => handleCancel(image, "sliderImage")}
               loading={fileLoading.for === "sliderImage" && fileLoading.loading}

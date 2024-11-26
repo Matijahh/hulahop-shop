@@ -105,7 +105,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
       setFileLoading(true);
 
       const response = await axios.post(
-        `${REST_URL_SERVER}/images/upload`,
+        `${REST_URL_SERVER}/images/upload-compressed`,
         formData,
         {
           headers: {
@@ -243,7 +243,7 @@ const CategoriesForm = ({ isOpen, toggle, refresh, data, length }) => {
           <BoxFileInput
             previewURL={
               formik.values.imageId &&
-              `${REST_URL_SERVER}/images/${formik.values.imageId}`
+              `${REST_URL_SERVER}/images/compressed/${formik.values.imageId}`
             }
             onFileSelect={onFileSelect}
             onCancel={onDeselect}

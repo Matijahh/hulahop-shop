@@ -91,7 +91,7 @@ const Settings = () => {
       setLoading(true);
 
       const response = await axios.post(
-        `${REST_URL_SERVER}/images/upload`,
+        `${REST_URL_SERVER}/images/upload-compressed`,
         formData,
         {
           headers: {
@@ -166,7 +166,7 @@ const Settings = () => {
             ) : (
               <div className="profile-pic-image">
                 <img
-                  src={`${REST_URL_SERVER}/images/${formik.values.image_id}`}
+                  src={`${REST_URL_SERVER}/images/compressed/${formik.values.image_id}`}
                 />
                 <input
                   type="file"

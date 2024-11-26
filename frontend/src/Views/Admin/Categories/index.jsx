@@ -203,7 +203,6 @@ const Categories = () => {
   };
 
   const filterCategories = (query) => {
-    console.log(categoryData);
     return categoryData.filter(
       (item) =>
         item.name.toLowerCase().includes(query.toLowerCase()) || // Search by Category Name
@@ -293,7 +292,7 @@ const Categories = () => {
                       <div className="image-cover">
                         {item.image_id ? (
                           <img
-                            src={`${REST_URL_SERVER}/images/${item.image_id}`}
+                            src={`${REST_URL_SERVER}/images/compressed/${item.image_id}`}
                           />
                         ) : (
                           <img src={NoImage} />
@@ -368,7 +367,7 @@ const Categories = () => {
                                     <div className="image-cover ">
                                       {sub_category.image_id ? (
                                         <img
-                                          src={`${REST_URL_SERVER}/images/${sub_category.image_id}`}
+                                          src={`${REST_URL_SERVER}/images/compressed/${sub_category.image_id}`}
                                         />
                                       ) : (
                                         <img src={NoImage} />

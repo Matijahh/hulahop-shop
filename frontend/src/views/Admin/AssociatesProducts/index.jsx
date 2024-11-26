@@ -198,10 +198,6 @@ const AssociatesProducts = () => {
     getAssociates();
   }, []);
 
-  useEffect(() => {
-    console.log("Selected Product", selectedProduct);
-  }, [selectedProduct]);
-
   return (
     <AssociatesProductsContainer>
       {loading && <LoaderContainer />}

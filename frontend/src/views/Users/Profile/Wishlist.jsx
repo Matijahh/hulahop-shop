@@ -32,7 +32,6 @@ const Wishlist = () => {
 
     if (response) {
       const { data } = response.data;
-      console.log("data", data);
 
       setWishListData(data);
       setLoading(false);

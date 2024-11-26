@@ -41,14 +41,11 @@ const PreviewJsonImage = ({
   productData,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const MainImage = useMemo(() => {
     return () => {
-      const [mainProductImage] = useImage(
-        previewImageUrl,
-        "anonymous",
-        "origin"
-      );
+      const [mainProductImage] = useImage(previewUrl, "anonymous", "origin");
 
       return (
         <Image
@@ -59,7 +56,7 @@ const PreviewJsonImage = ({
         />
       );
     };
-  }, [previewImageUrl]);
+  }, [previewUrl]);
 
   useEffect(() => {
     const mainProductImage = new window.Image();
@@ -71,6 +68,29 @@ const PreviewJsonImage = ({
       mainProductImage.onload = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (previewImageUrl) {
+      const previewIndex = previewImageUrl.indexOf("images");
+      const previewUrl =
+        previewImageUrl.slice(0, previewIndex + 6) +
+        "/compressed" +
+        previewImageUrl.slice(previewIndex + 6);
+      setPreviewUrl(previewUrl);
+    }
+  }, [previewImageUrl]);
+
+  useEffect(() => {
+    if (json) {
+      const preview = json[0].image;
+      const previewIndex = preview.indexOf("images");
+      const previewUrl =
+        preview.slice(0, previewIndex + 6) +
+        "/compressed" +
+        preview.slice(previewIndex + 6);
+      json[0].image = previewUrl;
+    }
+  }, [json]);
 
   return (
     <Container autoHeight={autoHeight} maxHeight={maxHeight}>

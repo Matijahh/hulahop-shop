@@ -43,7 +43,7 @@ const ImageUploadBox = (props) => {
       setLoading(true);
 
       const response = await axios.post(
-        `${REST_URL_SERVER}/images/upload`,
+        `${REST_URL_SERVER}/images/upload-compressed`,
         formData,
         {
           headers: {

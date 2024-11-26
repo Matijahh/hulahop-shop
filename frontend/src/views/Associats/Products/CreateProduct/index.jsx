@@ -100,7 +100,7 @@ const CreateProduct = () => {
                           <div className="image-cover">
                             {item.image_id && (
                               <img
-                                src={`${REST_URL_SERVER}/images/${item.image_id}`}
+                                src={`${REST_URL_SERVER}/images/compressed/${item.image_id}`}
                               />
                             )}
                           </div>
