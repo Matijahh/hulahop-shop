@@ -136,7 +136,7 @@ const BlogPage = () => {
                               key={key}
                               role="button"
                               onClick={() => {
-                                get(params, "id", null)
+                                get(params, "blogId", null)
                                   ? window.location.replace(
                                       ROUTE_ASSOCIATE_BRAND_STORE_BLOGS_ID.replace(
                                         ":id",

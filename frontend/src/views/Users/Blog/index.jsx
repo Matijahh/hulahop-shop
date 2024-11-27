@@ -36,23 +36,15 @@ const Blog = () => {
 
     if (response) {
       const { data } = response.data;
-      setBlogList(data);
-      setLoading(false);
-    }
+      let list = data;
 
-    setLoading(false);
-  };
+      const associateResponse = await commonGetQuery("/associate_blogs");
+      if (associateResponse) {
+        const { data } = associateResponse.data;
+        list = [...list, ...data].sort((a, b) => b.created_at - a.created_at);
+      }
 
-  const getAssociateBlogList = async () => {
-    setLoading(true);
-
-    const response = await commonGetQuery("/associate_blogs");
-
-    if (response) {
-      const { data } = response.data;
-      setBlogList((prev) =>
-        [...prev, ...data].sort((a, b) => b.created_at - a.created_at)
-      );
+      setBlogList(list);
       setLoading(false);
     }
 
@@ -76,7 +68,6 @@ const Blog = () => {
   useEffect(() => {
     getBlogSliderList();
     getBlogList();
-    getAssociateBlogList();
   }, []);
 
   return (
